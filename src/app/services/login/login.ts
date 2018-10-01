@@ -135,19 +135,31 @@ export class DataService {
 
 
     aboutus(): Observable<any> {
-        return this.getInputParams('customer/aboutus');
+        var inData = {
+            "lang": "en"
+        }
+        return this.postInputParams(inData, 'customer/aboutus');
     }
 
     faqs(): Observable<any> {
-        return this.getInputParams('customer/faq');
+        var inData = {
+            "lang": "en"
+        }
+        return this.postInputParams(inData, 'customer/faq');
     }
 
     terms(): Observable<any> {
-        return this.getInputParams('customer/aboutus/terms_condition');
+        var inData = {
+            "lang": "en"
+        }
+        return this.postInputParams(inData, 'customer/aboutus');
     }
 
     privacypolicy(): Observable<any> {
-        return this.getInputParams('customer/aboutus/privacy_policy');
+        var inData = {
+            "lang": "en"
+        }
+        return this.postInputParams(inData, 'customer/aboutus');
     }
 
 }
