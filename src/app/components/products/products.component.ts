@@ -42,7 +42,6 @@ export class ProductsComponent implements OnInit {
   }
 
 
-
   showCategories = false;
   showSubCategories = false;
   showInput = false;

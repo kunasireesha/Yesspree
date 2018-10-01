@@ -8,14 +8,14 @@ import { DataService } from '../../services/login/login';
   styleUrls: ['./static.component.css']
 })
 export class StaticComponent implements OnInit {
-
+    
   constructor(
     public router: Router,
     public loginSer: DataService,
     private route: ActivatedRoute) {
     this.pageNav = this.route.snapshot.data[0]['page'];
     if (this.pageNav === 'about') {
-      this.showabout = true;
+      this.showabout = true;     
       this.loginSer.aboutus().subscribe(response => {
         this.responseData = response.json().result.aboutus[0];
       });

@@ -93,6 +93,9 @@ export class DataService {
     deleteAdd(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'customer/address')
     }
+    wish(params):Observable<any>{
+        return this.postAuthorizationInputParams(params,'wishlist')
+        }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
     }
