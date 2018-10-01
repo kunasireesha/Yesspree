@@ -5,10 +5,4 @@ export class AppSettings {
     // public static localUrl = 'http://192.168.0.136:3000/';
     // public static baseUrl = 'http://192.168.0.130:3000/';
 
-
-
-
-
-
-
 }
