@@ -445,4 +445,21 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
+  searchProducts(){
+    var inData = {
+        _id: this.id,
+        _session: localStorage.session,
+        count:"20",
+        id_warehouse:"2",
+        lang:"eng",
+        parent_warehouseid:"1",
+        search:"cream",
+        start:"0"
+    }
+    this.loginService.searchProducts(inData).subscribe(response => {
+    //  console.log(response.json());
+    }, err => {
+      console.log(err)
+    })
+  }
 }

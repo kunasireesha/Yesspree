@@ -149,5 +149,11 @@ export class DataService {
     privacypolicy(): Observable<any> {
         return this.getInputParams('customer/aboutus/privacy_policy');
     }
+    productDetails(params):Observable<any>{
+        return this.postInputParams(params, 'item/specific');
+    }
+    searchProducts(params):Observable<any>{
+        return this.postInputParams(params, 'item/search')
+    }
 
 }
