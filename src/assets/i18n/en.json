@@ -1,0 +1,18 @@
+{
+  "common.address": "123 Manama Road, Manama, Bahrain",
+  "common.myAccount": "My Account",
+  "common.myCart": "My Cart",
+  "common.items": "Items",
+  "common.myOrder": "My Orders",
+  "common.wishlist": "Wishlist",
+  "common.notifications": "Notifications",
+  "common.logout": "Logout",
+  "common.intro": "Mahali Market?",
+  "common.loreum": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
+  "common.loreum1": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+  "common.login": "Login",
+  "common.signup": "Sign Up",
+  "common.email": "Email ID",
+  "common.forgotPswrd": "Forgot Password",
+  "common.orderplaced": "Thank You Your Order Placed Successfully"
+}

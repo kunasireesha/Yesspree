@@ -1,0 +1,57 @@
+<section *ngIf="showabout">
+  <div class="container">
+    <div class="row">
+      <div class="my-4">
+        <h1>{{responseData.type}}</h1>
+        <a href="http://13.251.141.190/yespree/uploads/about/15357054800about_us_yesspree_(1).pdf" target="_blank">Click
+          Here</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<section *ngIf="showFaq">
+  <div class="container">
+    <div class="row">
+      <div class="cust-faq my-4">
+        <h1>Faq's :</h1>
+        <br />
+        <div *ngFor="let data of responseData">
+          <h3> {{data.category}} : </h3>
+          <br />
+          <div *ngFor="let queData of data.faq">
+            <h4>{{queData.question}}</h4>
+            <p>{{queData.answer}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="showPrivacy">
+  <div class="container">
+    <div class="row">
+      <div class="my-4">
+        <h1>{{responseData.type}}</h1>
+        <br />
+        <a href="http://13.251.141.190/yespree/uploads/about/15357049620yesspree_privacy_policy_final.pdf" target="_blank">Click
+          Here</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section *ngIf="showTerms">
+  <div class="container">
+    <div class="row">
+      <div class="my-4">
+        <h1>{{responseData.type}}</h1>
+        <br />
+        <a href="http://13.251.141.190/yespree/uploads/about/15357049870yesspree_terms_and_condition_final.pdf" target="_blank">Click
+          Here</a>
+      </div>
+    </div>
+  </div>
+</section>

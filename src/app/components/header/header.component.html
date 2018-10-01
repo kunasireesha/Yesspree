@@ -1,0 +1,650 @@
+<div class="container-fluid top-header">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+
+        <ul>
+          <li *ngIf="showProfile">
+            <img src="/assets/images/phone.png" alt="phone"> {{userMobile}}
+          </li>
+          <li *ngIf="showLogin">
+            <a (click)="openSingin()">
+              <img src="/assets/images/signin.png" alt="sign in">Sing In
+            </a>
+          </li>
+          <li *ngIf="showLogin">
+            <a (click)="openRegistration()">
+              <img src="/assets/images/signup.png" alt="sign out">Sign Up
+            </a>
+          </li>
+          <li>
+            <div class="dropdown show" *ngIf="showProfile">
+              <a class=" dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
+                aria-expanded="false">
+                {{userName}}
+              </a>
+
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <a class="dropdown-item" routerLink="/myaccount">
+                  <i class="fa fa-user-o"></i>&nbsp; My Account</a>
+                <a class="dropdown-item" routerLink="deliveryaddress">
+                  <i class="fa fa-image"></i>&nbsp; Addresses</a>
+                <a class="dropdown-item" routerLink="/ordersfirst">
+                  <i class="fa fa-first-order"></i>&nbsp; My Orders</a>
+                <a class="dropdown-item" routerLink="/mycart">
+                  <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                  My Cart
+                </a>
+                <a class="dropdown-item" routerLink="/mysubscription">
+                  <i class="fa fa-hand-pointer-o" aria-hidden="true"></i>&nbsp; My Subscription</a>
+                <a class="dropdown-item" routerLink="/myoffers">
+                  <i class="fa fa-percent" aria-hidden="true"></i>&nbsp; Offers
+                </a>
+                <a class="dropdown-item" routerLink="/myrateus">
+                  <i class="fa fa-star-o" aria-hidden="true"></i>&nbsp; Rate Us</a>
+                <a class="dropdown-item" routerLink="/share">
+                  <i class="fa fa-share-alt" aria-hidden="true"></i>&nbsp; Share</a>
+                <a class="dropdown-item" routerLink="/mynotifiactions">
+                  <i class="fa fa-bell-o" aria-hidden="true"></i>
+                  &nbsp; Notifications</a>
+                <a class="dropdown-item" (click)="logout()">
+                  <i class="fa fa-sign-out" aria-hidden="true"></i>
+                  &nbsp; Logout</a>
+              </div>
+            </div>
+
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- main menu -->
+<div class="container-fluid  main-menu">
+  <nav class="navbar sticky-top navbar-expand-lg navbar-light  ">
+    <a class="navbar-brand" routerLink="/">
+      <img src="/assets/images/logo.png" alt="logo">
+    </a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse  menu-list" id="navbarSupportedContent">
+      <div class="container navbar-nav pt-3">
+        <div class="input-group  search-menu mb-3">
+          <div class="input-group-prepend dropdown-append">
+            <select class="form-control location" id="exampleFormControlSelect1">
+              <option selected>
+                Madiwala, Banglore</option>
+              <option>hyderabad</option>
+              <option>Madiwala, Banglore</option>
+              <option>Madiwala, Banglore</option>
+              <option>Madiwala, Banglore</option>
+            </select>
+          </div>
+          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <div class="input-group-append search-append">
+            <button class="btn " type="button" id="button-addon2">Search</button>
+          </div>
+        </div>
+      </div>
+      <form class="form-inline my-2 my-lg-0 cart-btn">
+        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart">
+          <i class="fas fa-shopping-cart"></i> My Cart (0)</button>
+      </form>
+    </div>
+  </nav>
+</div>
+<!-- carousel new -->
+<div class="container-fluid">
+  <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
+    <div class="carousel-inner row w-100 mx-auto" role="listbox">
+      <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i =index"
+        [ngClass]="{'active':i == 0}">
+        <div class="panel panel-default">
+          <div class="panel-thumbnail">
+            <a class="thumb" (click)="showSubcategorie(item._id)">
+              <img class="img-fluid mx-auto d-block catImg" [src]="url + item.pic" alt="{{item.name}}">
+            </a>
+            <p>{{item.name}}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+    <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
+      <span class="carousel-control-prev-icon leftIcon" aria-hidden="true"></span>
+      <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next text-faded" href="#carouselExample" role="button" data-slide="next">
+      <span class="carousel-control-next-icon rightIcon" aria-hidden="true"></span>
+      <span class="sr-only">Next</span>
+    </a>
+  </div>
+</div>
+
+
+<br />
+<hr class="horizantal">
+
+<!-- main menu -->
+
+
+
+
+<!-- popups -->
+<div class="container">
+  <!-- The Modal -->
+  <div *ngIf="showModal">
+    <div class="row">
+      <div class="login-popup ">
+        <!-- login & registration -->
+
+        <!-- login-tab -->
+        <div class="container modal-box login-tab" *ngIf="showSignin">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
+              </div>
+              <h3 class="text-center">SIGN IN</h3>
+              <form class="login-form">
+                <div class="row justify-content-md-center">
+                  <div class="form-group col-md-8">
+                    <input type="text" class="form-control input-field" aria-describedby="emailHelp" [(ngModel)]="formData.email"
+                      placeholder="Email Id/Mobile Number" name="email" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <input type="password" class="form-control input-field" placeholder="Password" [(ngModel)]="formData.password"
+                      name="password" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn  submit-button" (click)="login()">Signin</button>
+                  </div>
+                  <div class="col-md-8 text-center">
+                    <a (click)="openForgotpassword()">Forgot Password?</a>
+                  </div>
+                </div>
+                <div class="col-lg-12">
+                  <div class="hr-sect">
+                    <span>OR</span>
+                  </div>
+                </div>
+                <div class="row text-center social-login justify-content-md-center">
+                  <div class="col-lg-8 mb-3">
+                    <button type="submit" class="btn  submit-button google">
+                      <i class="fab fa-google"></i> SIGN IN WITH GOOGLE</button>
+                  </div>
+                  <div class="col-lg-8">
+                    <button type="submit" class="btn  submit-button facebook">
+                      <i class="fab fa-facebook"></i> SIGN IN WITH FACEBOOK</button>
+                  </div>
+                </div>
+              </form>
+              <div class="row account">
+                <p>You Don't have an account?
+                  <a (click)="openRegistration()">Sign Up</a>
+                </p>
+              </div>
+
+
+
+            </div>
+            <div class="col-md-6 background-image">
+              <div class="row  align-items-center">
+                <div class="col-md-12 text-center popup-logo">
+                  <img src="/assets/images/logo.png" alt="logo">
+                </div>
+              </div>
+              <p>Download our App. Enjoy Your Shippings</p>
+              <div class="row apps">
+
+                <div class="col-md-6">
+                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- login-tab -->
+        <!-- registration tab -->
+        <div class="container login-tab modal-box" *ngIf="showRegistration">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
+              </div>
+              <h3 class="text-center">SIGN UP</h3>
+              <form class="login-form">
+                <ul class="title-list">
+                  <li>
+                    <div>
+                      <input id="radio-1" class="radio-custom" name="radio-group" type="radio" checked>
+                      <label for="radio-1" class="radio-custom-label">Mr.</label>
+                    </div>
+
+
+                  </li>
+                  <li>
+                    <div>
+                      <input id="radio-2" class="radio-custom" name="radio-group" type="radio">
+                      <label for="radio-2" class="radio-custom-label">Mrs.</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input id="radio-3" class="radio-custom" name="radio-group" type="radio">
+                      <label for="radio-3" class="radio-custom-label">Miss</label>
+                    </div>
+                  </li>
+                  <li>
+                    <div>
+                      <input id="radio-4" class="radio-custom" name="radio-group" type="radio">
+                      <label for="radio-4" class="radio-custom-label">M/S</label>
+                    </div>
+                  </li>
+                </ul>
+                <div class="row justify-content-md-center">
+                  <div class="form-group mt-3 col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="First Name *" [(ngModel)]="formData.firstName"
+                      name="firstName" required>
+                  </div>
+                  <div class="form-group  col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Last Name *" [(ngModel)]="formData.lastName"
+                      name="last-name" required>
+                  </div>
+                  <div class="form-group  col-md-8">
+                    <input type="email" class="form-control input-field" placeholder="email *" [(ngModel)]="formData.email"
+                      name="email" required>
+                  </div>
+                  <div class="form-group  col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Mobile Number *" [(ngModel)]="formData.phone"
+                      name="Mobile-number" required>
+                  </div>
+                  <div class="form-group  col-md-8">
+                    <input type="password" class="form-control input-field" placeholder="Password *" [(ngModel)]="formData.password"
+                      name="password" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <input type="password" class="form-control input-field" placeholder="Confirm Password *"
+                      [(ngModel)]="formData.conpassword" name="confirm-password" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Referal Code(optional)"
+                      [(ngModel)]="formData.referalCode" name="referal-code" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn  submit-button" (click)="openOtpScreen()">Sign IN</button>
+                  </div>
+                </div>
+              </form>
+              <div class="row account">
+                <p>You Don't have an account?
+                  <a (click)="openSingin()">Sign In</a>
+                </p>
+              </div>
+
+
+            </div>
+            <div class="col-md-6 background-image">
+              <div class="row  align-items-center">
+                <div class="col-md-12 text-center popup-logo">
+                  <img src="/assets/images/logo.png" alt="logo">
+                </div>
+              </div>
+              <p>Download our App. Enjoy Your Shippings</p>
+              <div class="row apps">
+
+                <div class="col-md-6">
+                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- registration tab -->
+
+        <!-- login & registration -->
+
+        <!-- opt screen -->
+        <div class="container password-popup modal-box" *ngIf="showOtp">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
+              </div>
+              <h3 class="text-center">OTP VERIFICATION</h3>
+              <h5>We have sent an OTP to Your registered Mobile Number.</h5>
+              <h5>Please Enter OTP</h5>
+              <form class="login-form">
+                <div class="row justify-content-md-center">
+                  <div class="form-group mt-3 col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Enter Otp" name="otp" [(ngModel)]="formData.otp"
+                      required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn submit-button" (click)="checkOtp()">Continue</button>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <h5>
+                      <a (click)="resendOtp()">Resend OTP</a>
+                    </h5>
+                  </div>
+
+                </div>
+              </form>
+
+
+            </div>
+            <div class="col-md-6 background-image">
+              <div class="row  align-items-center">
+                <div class="col-md-12 text-center popup-logo">
+                  <img src="/assets/images/logo.png" alt="logo">
+                </div>
+              </div>
+              <p>Download our App. Enjoy Your Shippings</p>
+              <div class="row apps">
+
+                <div class="col-md-6">
+                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!-- otp screen-->
+        <!-- forgot password -->
+        <div class="container password-popup modal-box" *ngIf="showForgotPassword">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
+              </div>
+              <h3 class="text-center">FORGOT PASSWORD</h3>
+              <form class="login-form">
+                <div class="row justify-content-md-center">
+                  <div class="form-group mt-3 col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Enter Your Mobile" [(ngModel)]="formData.forMobile"
+                      name="forMobile" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn  submit-button" (click)="forgot()">Submit</button>
+                  </div>
+
+                </div>
+              </form>
+
+
+            </div>
+            <div class="col-md-6 background-image">
+              <div class="row  align-items-center">
+                <div class="col-md-12 text-center popup-logo">
+                  <img src="/assets/images/logo.png" alt="logo">
+                </div>
+              </div>
+              <p>Download our App. Enjoy Your Shippings</p>
+              <div class="row apps">
+
+                <div class="col-md-6">
+                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <!--change pw-->
+        <div class="container password-popup modal-box" *ngIf="changepw">
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
+              </div>
+              <h3 class="text-center">CHANGE password-popup</h3>
+              <form class="login-form">
+                <div class="row justify-content-md-center">
+                  <div class="form-group mt-3 col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Enter Your New Password"
+                      [(ngModel)]="formData.newPw" name="forPassword" required>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn  submit-button" (click)="updatePw()">Submit</button>
+                  </div>
+
+                </div>
+              </form>
+
+
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-6 background-image">
+          <div class="row  align-items-center">
+            <div class="col-md-12 text-center popup-logo">
+              <img src="/assets/images/logo.png" alt="logo">
+            </div>
+          </div>
+          <p>Download our App. Enjoy Your Shippings</p>
+          <div class="row apps">
+
+            <div class="col-md-6">
+              <img src="/assets/images/google-play.png" class="text-center img-fluid">
+            </div>
+            <div class="col-md-6">
+              <img src="/assets/images/app-store.png" class="text-center img-fluid">
+            </div>
+          </div>
+
+        </div>
+        <!--change pw-->
+
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal-backdrop show" *ngIf="showOpacity"></div>
+<!-- popups -->
+
+
+<div class="modal fade right" id="cust_mycart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-side modal-top-right" role="document">
+    <div class="modal-content cust-mheader">
+      <div class="modal-header mcart">
+        <h5 class="modal-title" id="exampleModalLabel">My cart (3 items)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-8">
+            <div class="t-mrp">
+              <p>Total MRP</p>
+              <p>Your Total Savings</p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="rup">
+              <p>
+                <strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i> 2000</strong>
+              </p>
+              <p class="green-text">
+                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p>
+            </div>
+          </div>
+        </div>
+        <hr class="dtd-line">
+        <div class="row">
+          <div class="col-8">
+            <div class="totalpay">
+              <p>
+                <strong>Total to Pay</strong>
+              </p>
+              <p>(Inclusive all taxes)</p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="rup">
+              <p>
+                <strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i> 1500</strong>
+              </p>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row bac-shadw">
+          <div class="col-lg-3">
+            <div class="ashirvadimg">
+              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="atta">
+
+              <p>
+                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
+              </p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p>10kg</p>
+                </div>
+                <div class="col-md-2">
+                  <p class="green-text">
+                    <i class="fa fa-inr" aria-hidden="true">359</i>
+                  </p>
+
+                </div>
+                <div class="col-md-2">
+                  <p class="red-text">
+                    <i class=" fa fa-inr" aria-hidden="true">
+                      <strike>420</strike>
+                    </i>
+                  </p>
+
+                </div>
+                <div class="col-md-5">
+                  <p class="save">You save 14%</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <p>Subscribe</p>
+                </div>
+                <div class="col-md-8">
+                  <div class="num-bac">
+                    <p>
+                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus"></i>
+                      &nbsp;
+                      <span _ngcontent-c5="">| &nbsp;2&nbsp; |</span>&nbsp;
+                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus"></i>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+
+        <div class="row bac-shadw">
+          <div class="col-lg-3">
+            <div class="ashirvadimg">
+              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="atta">
+
+              <p>
+                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
+              </p>
+              <div class="row">
+                <div class="col-md-3">
+                  <p>10kg</p>
+                </div>
+                <div class="col-md-2">
+                  <p class="green-text">
+                    <i class="fa fa-inr" aria-hidden="true">359</i>
+                  </p>
+
+                </div>
+                <div class="col-md-2">
+                  <p class="red-text">
+                    <i class="fa fa-inr" aria-hidden="true">
+                      <strike>420</strike>
+                    </i>
+                  </p>
+
+                </div>
+                <div class="col-md-5">
+                  <p class="save">You save 14%</p>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-4">
+                  <p>Subscribe</p>
+                </div>
+                <div class="col-md-8">
+                  <div class="num-bac">
+                    <p>
+                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus"></i>
+                      &nbsp;
+                      <span _ngcontent-c5="">| &nbsp;2&nbsp; |</span>&nbsp;
+                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus"></i>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+        </div>
+
+      </div>
+
+      <div class="modal-footer cust-modalfooter">
+        <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
+      </div>
+    </div>
+
+  </div>
+</div>

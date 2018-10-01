@@ -1,0 +1,62 @@
+@import '~bootstrap/dist/css/bootstrap.css';
+@import '~bootstrap/dist/css/bootstrap.min.css';
+@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
+
+@font-face {
+  font-family: Cooper-Black-Regular;
+  src: url(assets/font/Cooper-Black-Regular.ttf)
+}
+
+@font-face {
+  font-family: OpenSans-Bold;
+  src: url(assets/font/OpenSans-Bold.ttf)
+}
+
+@font-face {
+  font-family: OpenSans-Light;
+  src: url(assets/font/OpenSans-Light.ttf)
+}
+
+@font-face {
+  font-family: OpenSans-Regular;
+  src: url(assets/font/OpenSans-Regular.ttf)
+}
+
+body {
+  font-family: OpenSans-Regular;
+}
+
+.mb-5 {
+  margin-bottom: 1rem !important;
+  margin-top: 1rem !important;
+}
+
+.circle {
+  display: inline-block;
+  vertical-align: middle;
+  width: 10px;
+  height: 10px;
+  background-color: white;
+  border: solid 1px black;
+  border-radius: 50%;
+  position: absolute;
+  top: -6px;
+  left: calc(50% - 5px);
+}
+
+.horizantal {
+  margin-top: -19px;
+  border: 1px solid gray;
+}
+
+
+.mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step.mdl-stepper-circle {
+  background-color: #fff212 !important;
+  cursor: pointer !important;
+}
+
+.headShake {
+  width: auto !important;
+  height: 200px !important;
+  margin: auto !important;
+}

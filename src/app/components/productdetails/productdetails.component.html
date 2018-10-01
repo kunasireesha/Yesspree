@@ -1,0 +1,195 @@
+<div class="container-fluid products">
+  <div class="row">
+    <div class="col-md-3">
+      <h5>Category</h5>
+      <br />
+      <div class="categories">
+        <p>
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+            &nbsp;&nbsp;Atta
+          </a>
+        </p>
+        <p>
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a> &nbsp;&nbsp;Besa & Sooji/Rava
+        </p>
+
+        <p (click)="collapse()" [ngClass]="{'active':showCategories}">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories"></i>
+            <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories"></i>
+          </a> &nbsp;&nbsp;Other Flours
+        </p>
+
+        <!-- categories -->
+        <p *ngIf="showCategories">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+
+          </a> &nbsp;&nbsp;
+          <span>Maida</span>
+        </p>
+        <p *ngIf="showCategories">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+
+          </a> &nbsp;&nbsp;
+          <span>Rice Flour</span>
+        </p>
+        <p (click)="showSub()" *ngIf="showCategories" [ngClass]="{'active':showSubCategories}">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories"></i>
+            <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories"></i>
+          </a> &nbsp;&nbsp;
+          <span>Corn Flour</span>
+        </p>
+        <!-- //sub categories -->
+        <p *ngIf="showSubCategories">
+          <span class="subCat">Corn flour/Maize Atta/Makka Atta</span>
+        </p>
+        <p *ngIf="showSubCategories">
+          <span class="subCat">Indian corn Flour Flour</span>
+        </p>
+        <!-- end sub cat -->
+
+        <p *ngIf="showCategories">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+
+          </a> &nbsp;&nbsp;
+          <span>Ragi Flour</span>
+        </p>
+
+
+        <p *ngIf="showCategories">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+
+          </a> &nbsp;&nbsp;
+          <span>Jawar Flour</span>
+        </p>
+
+        <p *ngIf="showCategories">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+
+          </a> &nbsp;&nbsp;
+          <span>Bajra Flour</span>
+        </p>
+        <p>
+          <a>
+            <i class="fa fa-plus" aria-hidden="true"></i>
+          </a> &nbsp;&nbsp;Organic Flours
+        </p>
+      </div>
+    </div>
+    <div class="col-md-9 items">
+      <p>
+        <a routerLink="/">Home</a>&nbsp;&nbsp;>&nbsp;
+        <a>Grocery</a>&nbsp;&nbsp;>&nbsp;
+        <a>Other Flours</a>&nbsp;&nbsp;>&nbsp;
+        <a>Corn Flours</a>&nbsp;&nbsp;>&nbsp;
+        <a>Corn Flour/Maize Atta/Makka Atta</a>
+
+      </p>
+      <br />
+      <div class="row">
+        <div class="col-md-3 itemdetails">
+          <img _ngcontent-c5="" alt="Aashirvad" class="img-fluid prod_img" src="/assets/images/product1.png">
+        </div>
+        <div class="col-md-9 itemdetails">
+          <h5>Aashirvaad Shudh Chakki Whole Wheat Atta</h5>
+          <p> More by
+            <strong> Aashirvaad</strong>
+          </p>
+          <p class="item_details_save"> You Save 14%</p>
+          <p>
+            <strong>Price</strong>
+            <span class="item_details_price">: Rs.329 </span>
+          </p>
+          <p>
+            <strong>Deducted</strong>
+            <span class="item_details_deduct">: Rs.70 </span>
+          </p>
+          <p> Available in </p>
+          <p>
+            <span class="item_details_quantity">1 kg </span>
+            <span class="item_details_quantity">5 kg </span>
+            <span class="item_details_quantity">10 kg </span>
+          </p>
+
+          <p>
+            <button type="button" class="btn btn-black">ADD TO WISHLIST</button>
+            <button type="button" class="btn btn-black" (click)="showSubscribeDetails()">SUBSCRIBE</button>
+
+            <button type="button" class="btn btn-yellow dec">-</button>
+            <button type="button" class="btn btn-yellow qty">1</button>
+            <button type="button" class="btn btn-yellow add">+</button>
+          </p>
+          <br />
+          <div class="cust-subscribe" *ngIf="showSubscriptionData">
+            <div class="row">
+              <div class="col-lg-12">
+                <p>Choose Days</p>
+                <ul class="chs-days">
+                  <li>Mon</li>
+                  <li>Tue</li>
+                  <li>Wed</li>
+                  <li>Thu</li>
+                  <li>Fri</li>
+                  <li>Sat</li>
+                  <li>Sun</li>
+                </ul>
+              </div>
+            </div>
+
+            <!-- <input type=text [(ngModel)]="data">
+              <input type=text [(ngModel)]="email" name="mail">
+              <button (click)="submit()">Submit</button> -->
+            <div class="row">
+              <div class="col-lg-12 evry-day">
+                <p>
+                  <i class="fa fa-check-circle" aria-hidden="true"></i> Every Day</p>
+                <p>
+                  <i class="fa fa-check-circle" aria-hidden="true"></i> Alternate days</p>
+                <p>
+                  <i class="fa fa-check-circle" aria-hidden="true"></i> Once a week</p>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-lg-12">
+                <h6>Starting Date</h6>
+                <div class="cust-calender">
+                  <i class="fa fa-calendar" aria-hidden="true"></i>
+                  <input type="datetime-local" value="2018-09-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00" />
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p>
+        <b>Prodct Details</b>
+      </p>
+      <p> Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy
+        text Lorem
+        ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem
+        ipsum
+        text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text </p>
+      <p>
+        <b>Key Features</b>
+      </p>
+      <p> Made with superior quality wheat</p>
+      <p> Made with superior quality wheat</p>
+      <p> Made with superior quality wheat</p>
+      <p> Made with superior quality wheat</p>
+      <h3>Similar Products</h3>
+      <app-product></app-product>
+    </div>
+  </div>
+</div>

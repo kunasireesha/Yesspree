@@ -1,0 +1,143 @@
+.cart-btn-empty {
+  background-color: #ffffff;
+  border-radius: none;
+  color: #000000;
+  box-shadow: none !important;
+  border-color: #c6c6c6;
+  padding: 6px 40px;
+}
+
+
+
+
+.cart-btn {
+  background-color: #ffffff;
+  border-radius: none;
+  color: #000000;
+  box-shadow: none !important;
+  border-color: #c6c6c6;
+}
+
+.cart-btn-empty:hover {
+  background-color: #4a4a4a;
+  color: #fff212;
+}
+
+.cart-btn:hover {
+  background-color: #4a4a4a;
+  color: #fff212;
+}
+
+.checkout-btn {
+  background-color: #4a4a4a;
+  color: #fff212;
+  padding: 4% 25%;
+  box-shadow: none;
+}
+
+.table-header {
+  background-color: #373435;
+  color: #ffffff;
+}
+
+.table-headings {
+  font-size: 18px;
+}
+
+.prod-image {
+  width: 30%;
+  height: 60%;
+  float: left;
+}
+
+.prod-table {
+  margin-top: 30px;
+  border: 1px solid #c6c6c6;
+}
+
+.multigrain-image {
+  width: 27%;
+  float: left;
+}
+
+.table-data p {
+  margin-top: 30px;
+  font-size: 20px;
+}
+
+.table-data span {
+  color: #4a4a4a;
+}
+
+.table-price p {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.table-quanities p {
+  margin-top: 30px;
+  font-size: 18px;
+  background-color: #fff212;
+}
+
+.table-quanities span {
+  margin-top: 30px;
+  font-size: 18px;
+  padding: 5px 40px;
+
+}
+
+.table-total p {
+  margin-top: 30px;
+  font-size: 18px;
+}
+
+.table-savings p {
+  margin-top: 30px;
+  font-size: 18px;
+  color: #0d9f67;
+  margin-bottom: 0rem;
+}
+
+.table-savings span {
+  font-size: 13px;
+}
+
+.table-border {
+  border-bottom: dashed;
+  border-color: #373435;
+}
+
+.mrp-rate {
+  color: #bebebe;
+  text-align: center;
+}
+
+.total-mrp {
+  text-align: center;
+  color: red;
+  margin-left: -12px;
+}
+
+.checkout-button {
+  background-color: #4a4a4a;
+  color: #fff212;
+  width: 50%;
+  float: right;
+  box-shadow: none;
+}
+
+.modal.fade:not(.in).left .modal-dialog {
+  -webkit-transform: translate3d(-25%, 0, 0);
+  transform: translate3d(-25%, 0, 0);
+}
+
+.modal.fade:not(.in).right .modal-dialog {
+  -webkit-transform: translate3d(125%, 0, 0);
+  transform: translate3d(125%, 0, 0);
+}
+
+.modal.fade:not(.in).bottom .modal-dialog {
+  -webkit-transform: translate3d(0, 125%, 0);
+  transform: translate3d(0, 125%, 0);
+}
