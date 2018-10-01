@@ -153,7 +153,22 @@ export class HomeComponent implements OnInit {
       console.log(err)
     })
   }
+  wish(id){
+    var inData = {
+      _session:localStorage.session,
+      _id:this.id,
+      id_product:5,
+      op:"create",
+      "parent_warehouseid":"",
+      "id_warehouse":"",
+      "lang":"en"
+    }
+    this.loginService.wish(inData).subscribe(response=> {
+    console.log(response);
+    },err=>{
 
+    })
+  }
 
 
 }
