@@ -126,8 +126,10 @@ export class ProductsComponent implements OnInit {
       _id: this.id,
       id_subcategory: id,
       _session: localStorage.session,
-      wh_pincode: "560078"
-
+      wh_pincode: "560078",
+      parent_warehouseid:"",
+      id_warehouse:"",
+      lang:"eng",
     }
     this.loginService.getProducts(inData).subscribe(response => {
       this.subSubCatData = response.json().result.sub_category;

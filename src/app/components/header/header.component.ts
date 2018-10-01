@@ -282,7 +282,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
           localStorage.setItem("userMobile",response.json().result[0].mobile);
           this.userName = JSON.parse(localStorage.userName);
-          this.formData.email = this.formData.password = ''
+          this.formData.email = this.formData.password = '';
           this.onCloseCancel();
           this.showProfile = true;
           this.showLogin = false;
@@ -415,5 +415,22 @@ export class HeaderComponent implements OnInit {
     var inData = {
       "wh_pincode": "560078",
     }
+  }
+  searchProducts(){
+    var inData = {
+        _id: this.id,
+        _session: localStorage.session,
+        count:"20",
+        id_warehouse:"2",
+        lang:"eng",
+        parent_warehouseid:"1",
+        search:"cream",
+        start:"0"
+    }
+    this.loginService.searchProducts(inData).subscribe(response => {
+    //  console.log(response.json());
+    }, err => {
+      console.log(err)
+    })
   }
 }

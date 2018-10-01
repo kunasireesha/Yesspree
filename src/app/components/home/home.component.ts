@@ -23,7 +23,6 @@ export class HomeComponent implements OnInit {
     }
   }
 
-
   dashboardData;
   // categoryData;
   sqareBaneer1;
@@ -67,6 +66,7 @@ export class HomeComponent implements OnInit {
   }
 
   productImage;
+  subSubCatData
   slidingbanner = [];
 
   ngOnInit() {
@@ -110,7 +110,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
-
   showSubData(id) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -141,23 +140,27 @@ export class HomeComponent implements OnInit {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      id_product: "11",
+      id_product: this.products[0].id_product,
       id_sku: "20",
       op: "modify",
       quantity: quantity,
       wh_pincode: "560078",
+      parent_warehouseid:"1",
+      id_warehouse:"2"
+
     }
     this.loginService.getCart(inData).subscribe(response => {
-      //   this.subSubCatData = response.json().result.sub_category;
+        this.subSubCatData = response.json();
     }, err => {
       console.log(err)
     })
   }
+
   wish(id){
     var inData = {
       _session:localStorage.session,
       _id:this.id,
-      id_product:5,
+      id_product:id,
       op:"create",
       "parent_warehouseid":"",
       "id_warehouse":"",
@@ -169,6 +172,5 @@ export class HomeComponent implements OnInit {
 
     })
   }
-
 
 }

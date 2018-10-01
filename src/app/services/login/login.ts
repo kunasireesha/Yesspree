@@ -147,5 +147,12 @@ export class DataService {
         return this.postInputParams(params,'customer/faq');
     }
     
+    productDetails(params):Observable<any>{
+        return this.postInputParams(params, 'item/specific');
+    }
+    searchProducts(params):Observable<any>{
+        return this.postInputParams(params, 'item/search')
+    }
+
 
 }
