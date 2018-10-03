@@ -64,8 +64,8 @@ export class ProductsComponent implements OnInit {
       id_category: subId,
       _session: localStorage.session,
       pincode: "560075",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
       "lang": "en"
     }
     this.loginService.getSubSubCatData(inData).subscribe(response => {
@@ -126,9 +126,9 @@ export class ProductsComponent implements OnInit {
       id_subcategory: id,
       _session: localStorage.session,
       wh_pincode: "560078",
-      parent_warehouseid:"1",
-      id_warehouse:"2",
-      lang:"eng",
+      parent_warehouseid: "1",
+      id_warehouse: "2",
+      lang: "eng",
     }
     this.loginService.getProducts(inData).subscribe(response => {
       this.subSubCatData = response.json().result.sub_category;

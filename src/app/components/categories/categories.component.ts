@@ -152,18 +152,16 @@ export class CategoriesComponent implements OnInit {
   }
 
 
-  getTopProducts() {
-    var inData = {
-      "_id": this.id,
-      "_session": localStorage.session,
-      "count": 4,
-      "id_subcategory": "2",
-      "id_warehouse": "2",
-      "lang": "en",
-      "parent_warehouseid": "1",
-      "start": 0,
-      "type": "top_products"
+  getTopProducts(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        action: action,
+        catId: this.catId
+      }
+
     }
+    this.router.navigate(["/recProducts"], navigationExtras);
+
   }
 
 

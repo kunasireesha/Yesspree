@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.geoLocation();
+    this.geoLocation()
     this.postVillageName();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {

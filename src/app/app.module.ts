@@ -27,6 +27,7 @@ import { MyAccountComponent } from './components/my-account/my-account.component
 import { ContactComponent } from './components/contact/contact.component';
 import { StaticComponent } from './components/static/static.component';
 import { CategoriesComponent } from './components/categories/categories.component';
+import { RecProductsComponent } from './components/rec-products/rec-products.component';
 
 
 //services need to mention in providers
@@ -62,7 +63,8 @@ export function getAuthServiceConfigs() {
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
-    CategoriesComponent
+    CategoriesComponent,
+    RecProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +104,10 @@ export function getAuthServiceConfigs() {
       {
         path: 'products',
         component: ProductsComponent
+      },
+      {
+        path: 'recProducts',
+        component: RecProductsComponent
       },
       {
         path: 'product_details',

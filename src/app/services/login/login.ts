@@ -168,4 +168,8 @@ export class DataService {
     postVillageName(params):Observable<any>{
         return this.postInputParams(params, 'customer/villagename');
     }
+    //view all 
+    recProducts(params):Observable<any>{
+        return this.postInputParams(params, 'item/viewall');
+    }
 }
