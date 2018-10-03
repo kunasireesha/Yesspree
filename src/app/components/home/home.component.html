@@ -117,7 +117,7 @@
 <br />
 <div class="container deals_section">
   <h3>RECOMMENDED PRODUCTS
-    <span class="viewAll" routerLink="/products">View All</span>
+    <span class="viewAll" (click)="viewProducts('recProducts')">View All</span>
   </h3>
   <br />
   <div class="products">
@@ -224,7 +224,7 @@
 
 <div class="container deals_section">
   <h3>RECOMMENDED PRODUCTS
-    <span class="viewAll" routerLink="/products">View All</span>
+    <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span>
   </h3>
   <br />
   <div class="products">
@@ -294,7 +294,7 @@
 
 <div class="container deals_section brands">
   <h3>SHOP BY BRANDS
-    <span class="viewAll" routerLink="">View All</span>
+    <span class="viewAll" (click)="viewProducts('brands')">View All</span>
   </h3>
   <div class="row">
     <div class=" col-md-3 mt-3" *ngFor="let item of brandsData;let i =index">

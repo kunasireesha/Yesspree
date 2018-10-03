@@ -3,6 +3,7 @@ import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -174,6 +175,15 @@ export class HomeComponent implements OnInit {
     },err=>{
      console.log(err)
     })
+  }
+  viewProducts(action){
+let navigationExtras: NavigationExtras = {
+  queryParams:{
+    action:action
+  }
+  
+}
+this.router.navigate(["/recProducts"], navigationExtras);
   }
 
 }

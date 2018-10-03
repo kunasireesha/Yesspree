@@ -1,0 +1,555 @@
+<div class="container-fluid products">
+  <div class="row">
+    <div class="col-md-3">
+      <h5>{{subName}}</h5>
+      <br />
+      <div class="categories" *ngFor="let cat of subcatdata;let i = index">
+        <p [ngClass]="{'active':showCategories}">
+          <a>
+            <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
+            <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories" (click)="closesubSubCat()"></i>
+          </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id)">{{cat.name}}</span>
+        </p>
+        <!-- categories -->
+        <div *ngFor="let subcat of subSubCatData;let ii = index">
+          <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories}">
+            <a>
+              <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
+              <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories" (click)="closeLastCat()"></i>
+            </a> &nbsp;&nbsp;
+            <span (click)="getSubcatProd(subcat._id)">{{subcat.name}}</span>
+          </p>
+          <!-- //sub categories -->
+          <div *ngFor="let lastcat of lastCatData">
+            <p *ngIf="selectedLastCat==i && showSubCategories" (click)="getLastProd(lastcat._id)">
+              <span class="subCat">{{lastcat.name}}</span>
+            </p>
+          </div>
+          <!-- end sub cat -->
+        </div>
+      </div>
+
+    </div>
+    <div class="col-md-9 items">
+
+   
+      <h6>Corn Flour/Maize Atta/Makka Atta
+        <span>
+          <button type="button" data-toggle="modal" data-target="#refineby">
+            Refine By
+          </button>
+          <select>
+            <option>
+              Sort By
+            </option>
+          </select>
+        </span>
+      </h6>
+      <br />
+      <div class="row cust-response">
+        <div class="col-md-6 col-lg-3 col-xs-12 item">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
+            <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+            <div class="card-block">
+              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
+              <p>10 Kg</p>
+              <div class="row  item-price">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    359</span>
+                  <strike>
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    420</strike>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="saveMney">you save 14%</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                  <span (click)="decrees()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 quantity">
+                  <span class="add text-center" *ngIf="!showInput">Add</span>
+                  <span *ngIf="showInput">{{count}}</span>
+                </div>
+                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
+                  <span (click)="showInputValue()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-3 col-xs-12 item">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
+
+            <div class="card-block">
+              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
+              <p>10 Kg</p>
+              <div class="row  item-price">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    359</span>
+                  <strike>
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    420</strike>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="saveMney">you save 14%</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-3">
+                  <span (click)="decrees2()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-6 quantity">
+                  <span class="add text-center" *ngIf="!showInput">Add</span>
+                  <span *ngIf="showInput">{{count1}}</span>
+                </div>
+                <div class="col-md-3">
+                  <span (click)="showInputValue2()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-3 col-xs-12 item">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
+
+            <div class="card-block">
+              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
+              <p>10 Kg</p>
+              <div class="row  item-price">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    359</span>
+                  <strike>
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    420</strike>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="saveMney">you save 14%</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-3">
+                  <span (click)="decrees3()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-6 quantity">
+                  <span class="add text-center" *ngIf="!showInput">Add</span>
+                  <span *ngIf="showInput">{{count2}}</span>
+                </div>
+                <div class="col-md-3">
+                  <span (click)="showInputValue3()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+
+        <div class="col-md-6 col-lg-3 col-xs-12 item">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
+
+            <div class="card-block">
+              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
+              <p>10 Kg</p>
+              <div class="row  item-price">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    359</span>
+                  <strike>
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    420</strike>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="saveMney">you save 14%</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-3">
+                  <span (click)="decrees4()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-6 quantity">
+                  <span class="add text-center" *ngIf="!showInput">Add</span>
+                  <span *ngIf="showInput">{{count3}}</span>
+                </div>
+                <div class="col-md-3">
+                  <span (click)="showInputValue4()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade right" id="refineby" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-side modal-top-right" role="document">
+    <div class="modal-content cust-mheader">
+      <div class="modal-header m-header">
+        <h5 class="modal-title" id="exampleModalLabel">Refine by</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <h5>120 Products Available</h5>
+
+        <div class="row">
+          <div class="col-2">
+            <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+              <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab"
+                aria-controls="v-pills-home" aria-selected="true">Brand</a>
+              <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab"
+                aria-controls="v-pills-profile" aria-selected="false">Price</a>
+              <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab"
+                aria-controls="v-pills-messages" aria-selected="false">Offer</a>
+
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="tab-content" id="v-pills-tabContent">
+              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
+                <div class="container">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+
+                      <tbody>
+                        <tr>
+                          <td>Brand 1</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                              <label class="form-check-label popup-label" for="defaultCheck1"></label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Brand 2</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="gridCheck1">
+                              <label class="form-check-label popup-label" for="gridCheck1">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>Brand 3</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="brand3">
+                              <label class="form-check-label popup-label" for="brand3">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Brand 4</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="brand4">
+                              <label class="form-check-label popup-label" for="brand4">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Brand 5</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="brand5">
+                              <label class="form-check-label popup-label" for="brand5">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>Brand 6</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="brand6">
+                              <label class="form-check-label popup-label" for="brand6">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
+                <div class="container">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+
+                      <tbody>
+                        <tr>
+                          <td>Less than 25 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="price1">
+                              <label class="form-check-label popup-label" for="price1"></label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>25 Rs to 50 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price2">
+                              <label class="form-check-label popup-label" for="price2">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>50 Rs to 100 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price3">
+                              <label class="form-check-label popup-label" for="price3">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>100 Rs to 150 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price4">
+                              <label class="form-check-label popup-label" for="price4">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>150 Rs to 200 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price5">
+                              <label class="form-check-label popup-label" for="price5">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>200 Rs to 300 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price6">
+                              <label class="form-check-label popup-label" for="price6">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>300 Rs to 400 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price7">
+                              <label class="form-check-label popup-label" for="price7">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>400 Rs to 500 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price8">
+                              <label class="form-check-label popup-label" for="price8">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>500 Rs to 700 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price9">
+                              <label class="form-check-label popup-label" for="price9">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>700 Rs to 1000 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price10">
+                              <label class="form-check-label popup-label" for="price10">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>More than 1000 Rs</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="price11">
+                              <label class="form-check-label popup-label" for="price11">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">
+                <div class="container">
+                  <div class="table-responsive">
+                    <table class="table table-condensed">
+
+                      <tbody>
+                        <tr>
+                          <td>Up to 5%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" value="" id="offer1">
+                              <label class="form-check-label popup-label" for="offer1"></label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>5% to 10%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="offer2">
+                              <label class="form-check-label popup-label" for="offer2">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>10% to 15%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="offer3">
+                              <label class="form-check-label popup-label" for="offer3">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>15% to 25%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="offer4">
+                              <label class="form-check-label popup-label" for="offer4">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>25% to 50%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="offer5">
+                              <label class="form-check-label popup-label" for="offer5">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                        <tr>
+                          <td>More than 50%</td>
+                          <td>
+                            <div class="form-check">
+                              <input class="form-check-input" type="checkbox" id="offer6">
+                              <label class="form-check-label popup-label" for="offer6">
+                              </label>
+                            </div>
+                          </td>
+                        </tr>
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer cust-modalfooter">
+        <input class="btn refinbtn1" type="reset" value="CLEAR ALL" flex-start>
+        <input class="btn refinbtn" type="submit" value="DONE" data-dismiss="modal">
+      </div>
+    </div>
+  </div>
+</div>

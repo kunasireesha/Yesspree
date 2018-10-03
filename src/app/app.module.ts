@@ -26,6 +26,7 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { StaticComponent } from './components/static/static.component';
+import { RecProductsComponent } from './components/rec-products/rec-products.component';
 
 
 //services need to mention in providers
@@ -60,7 +61,8 @@ export function getAuthServiceConfigs() {
     ProductdetailsComponent,
     MyAccountComponent,
     ContactComponent,
-    StaticComponent
+    StaticComponent,
+    RecProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -101,6 +103,10 @@ export function getAuthServiceConfigs() {
       {
         path: 'products',
         component: ProductsComponent
+      },
+      {
+        path: 'recProducts',
+        component: RecProductsComponent
       },
       {
         path: 'product_details',
