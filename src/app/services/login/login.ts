@@ -100,6 +100,12 @@ export class DataService {
         return this.postAuthorizationInputParams(params,'wishlist')
 
     }
+    getWishlist(params):Observable<any> {
+        return this.postAuthorizationInputParams(params,'wishlist')  
+    }
+    deleteWish(params):Observable<any> {
+        return this.postAuthorizationInputParams(params,'wishlist')  
+    }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
     }

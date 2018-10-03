@@ -4,7 +4,8 @@ import { DataService } from '../../services/login/login';
 import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
-import { CatListServices } from '../../services/catListService'; 
+import { CatListServices } from '../../services/catListService';
+
 import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6-social-login';
 
 @Component({
@@ -71,10 +72,14 @@ export class HeaderComponent implements OnInit {
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
-
+  
 
   ngOnInit() {
+<<<<<<< HEAD
+    this.geoLocation()
+=======
       this.postVillageName();
+>>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -213,6 +218,7 @@ export class HeaderComponent implements OnInit {
     }
   );
 }
+  
  
 
   // forgot password

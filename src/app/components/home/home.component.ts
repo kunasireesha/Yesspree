@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   pageNav;
   catId;
   mainBanner;
+  wishList;
   showchildCat = false;
   showInput = false;
   childCat = [];
@@ -166,9 +167,12 @@ export class HomeComponent implements OnInit {
       "lang":"en"
     }
     this.loginService.wish(inData).subscribe(response=> {
-    console.log(response);
-    },err=>{
+      // if(response.json().status === "failure"){
 
+      // }
+    this.wishList = response.json();
+    },err=>{
+     console.log(err)
     })
   }
 

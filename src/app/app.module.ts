@@ -175,6 +175,11 @@ export function getAuthServiceConfigs() {
         path: 'terms',
         component: StaticComponent,
         data: [{ page: 'termsandcond' }]
+      },
+      {
+        path: 'wishlist',
+        component: MyAccountComponent,
+        data: [{ page: 'wishlist' }]
       }
 
 
