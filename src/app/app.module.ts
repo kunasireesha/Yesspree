@@ -14,7 +14,6 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
 import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
 
-
 //components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -30,8 +29,6 @@ import { StaticComponent } from './components/static/static.component';
 
 
 //services need to mention in providers
-
-
 
 export function getAuthServiceConfigs() {
   let config = new AuthServiceConfig(
@@ -178,6 +175,11 @@ export function getAuthServiceConfigs() {
         path: 'terms',
         component: StaticComponent,
         data: [{ page: 'termsandcond' }]
+      },
+      {
+        path: 'wishlist',
+        component: MyAccountComponent,
+        data: [{ page: 'wishlist' }]
       }
 
 

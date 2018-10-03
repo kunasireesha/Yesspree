@@ -8,6 +8,7 @@ import { DataService } from '../../services/login/login';
   styleUrls: ['./static.component.css']
 })
 export class StaticComponent implements OnInit {
+
   abtPdf;
   constructor(
     public router: Router,

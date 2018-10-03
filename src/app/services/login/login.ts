@@ -8,6 +8,7 @@ import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { PARAMETERS } from '../../../../node_modules/@angular/core/src/util/decorators';
 
+
 @Injectable()
 export class DataService {
     constructor(private http: Http, private _router: Router) { }
@@ -95,8 +96,16 @@ export class DataService {
     deleteAdd(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'customer/address')
     }
-    wish(params): Observable<any> {
-        return this.postAuthorizationInputParams(params, 'wishlist')
+
+    wish(params):Observable<any>{
+        return this.postAuthorizationInputParams(params,'wishlist')
+
+    }
+    getWishlist(params):Observable<any> {
+        return this.postAuthorizationInputParams(params,'wishlist')  
+    }
+    deleteWish(params):Observable<any> {
+        return this.postAuthorizationInputParams(params,'wishlist')  
     }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
@@ -149,9 +158,14 @@ export class DataService {
     productDetails(params): Observable<any> {
         return this.postInputParams(params, 'item/specific');
     }
-    searchProducts(params): Observable<any> {
-        return this.postInputParams(params, 'item/search')
+
+    searchProducts(params):Observable<any>{
+        return this.postInputParams(params, 'item/search');
     }
-
-
+    postPromo(params):Observable<any>{
+        return this.postInputParams(params, 'cart/coupon');
+    }
+    postVillageName(params):Observable<any>{
+        return this.postInputParams(params, 'customer/villagename');
+    }
 }

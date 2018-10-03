@@ -41,6 +41,7 @@ export class HomeComponent implements OnInit {
   pageNav;
   catId;
   mainBanner;
+  wishList;
   showchildCat = false;
   showInput = false;
   childCat = [];
@@ -145,9 +146,8 @@ export class HomeComponent implements OnInit {
       op: "modify",
       quantity: quantity,
       wh_pincode: "560078",
-      parent_warehouseid:"1",
-      id_warehouse:"2"
-
+      parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse:JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
         this.subSubCatData = response.json();
@@ -167,9 +167,12 @@ export class HomeComponent implements OnInit {
       "lang":"en"
     }
     this.loginService.wish(inData).subscribe(response=> {
-    console.log(response);
-    },err=>{
+      // if(response.json().status === "failure"){
 
+      // }
+    this.wishList = response.json();
+    },err=>{
+     console.log(err)
     })
   }
 

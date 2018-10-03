@@ -42,7 +42,6 @@ export class ProductsComponent implements OnInit {
   }
 
 
-
   showCategories = false;
   showSubCategories = false;
   showInput = false;
@@ -127,8 +126,8 @@ export class ProductsComponent implements OnInit {
       id_subcategory: id,
       _session: localStorage.session,
       wh_pincode: "560078",
-      parent_warehouseid:"",
-      id_warehouse:"",
+      parent_warehouseid:"1",
+      id_warehouse:"2",
       lang:"eng",
     }
     this.loginService.getProducts(inData).subscribe(response => {

@@ -5,8 +5,7 @@ import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
-import * as jspdf from 'jspdf';  
-import html2canvas from 'html2canvas';
+
 import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6-social-login';
 
 @Component({
@@ -15,7 +14,7 @@ import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-
+    Village:string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -73,9 +72,14 @@ export class HeaderComponent implements OnInit {
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
-
+  
 
   ngOnInit() {
+<<<<<<< HEAD
+    this.geoLocation()
+=======
+      this.postVillageName();
+>>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -214,6 +218,7 @@ export class HeaderComponent implements OnInit {
     }
   );
 }
+  
  
 
   // forgot password
@@ -432,5 +437,18 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  postVillageName(){
+      var inData = {
+        wh_pincode:"560078"
+      }
+      this.loginService.postVillageName(inData).subscribe(response => {
+       this.Village = response.json().result;
+       localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
+       localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
+       console.log(this.Village);
+        }, err => {
+          console.log(err)
+        })
   }
 }
