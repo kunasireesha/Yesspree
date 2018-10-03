@@ -13,6 +13,7 @@
         <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
         <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
+        <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -917,60 +918,85 @@
 
 
 
-    <!-- share screen -->
+    <!-- wish list -->
+    <div class="col-lg-9 notification" *ngIf="wishlist">
+      <h4>
+        <strong>WISH LIST</strong>
+      </h4>
+      <div class="row notifications-bar"  *ngFor="let item of getWishList">
+        <div class="col-lg-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+          </div>
+          <div class="chakki-img" *ngFor="let image of item.pic">
+            <img [src]="url+ image.pic" alt="Chakki-img">
+          </div>
+        </div>
+        <div class="col-lg-9 notification-details">
+          <h6>
+            <strong>{{item.brand}}</strong>
+          </h6>
+          <p>{{item.description}}</p>
+          <span>an hour ago</span><br/>
+          <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="deleteWish(item._id)">DELETE</button>
+        </div>
+      </div>
+     
+    </div>
+     <!-- wish list -->
     <div class="col-lg-9" *ngIf="sharescreen">
 
-      <div class="row">
-        <div class="col-lg-12">
-          <div class="cust-share">
-            <h5>
-              <strong>SHARE</strong>
-            </h5>
-            <figure class="shareimg text-center">
-              <img src="../assets/images/share.png" alt="SHARE" />
-              <figcaption>
-                <p>Invite a Friend</p>
-                <p>Friend Signup</p>
-                <p>Get Cashback</p>
-              </figcaption>
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="cust-share">
               <h5>
-                <strong>Your Referral Code</strong>
+                <strong>SHARE</strong>
               </h5>
-              <h6>
-                <span class="dotborder">YES00012</span>
-              </h6>
-              <a href="">Get Referral Link</a>
-            </figure>
-
-            <h5>
-              <strong>SHARE VIA</strong>
-            </h5>
-            <br />
-            <ul class="share-via">
-              <li>
-                <!-- <i class="fa fa-whatsapp" aria-hidden="true"></i> -->
-                <img src="/assets/images/watsapp.png" width="50px" height="50px">
-
-                <p class="social">Whatsapp</p>
-              </li>
-              <li>
-
-                <img src="/assets/images/facebook.png" width="50px" height="50px">
-
-                <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
-                <p class="social">Facebook</p>
-              </li>
-              <li>
-
-                <img src="/assets/images/message.jpg" width="50px" height="50px">
-
-                <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> -->
-                <p class="social">Message</p>
-              </li>
-            </ul>
+              <figure class="shareimg text-center">
+                <img src="../assets/images/share.png" alt="SHARE" />
+                <figcaption>
+                  <p>Invite a Friend</p>
+                  <p>Friend Signup</p>
+                  <p>Get Cashback</p>
+                </figcaption>
+                <h5>
+                  <strong>Your Referral Code</strong>
+                </h5>
+                <h6>
+                  <span class="dotborder">YES00012</span>
+                </h6>
+                <a href="">Get Referral Link</a>
+              </figure>
+  
+              <h5>
+                <strong>SHARE VIA</strong>
+              </h5>
+              <br />
+              <ul class="share-via">
+                <li>
+                  <!-- <i class="fa fa-whatsapp" aria-hidden="true"></i> -->
+                  <img src="/assets/images/watsapp.png" width="50px" height="50px">
+  
+                  <p class="social">Whatsapp</p>
+                </li>
+                <li>
+  
+                  <img src="/assets/images/facebook.png" width="50px" height="50px">
+  
+                  <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
+                  <p class="social">Facebook</p>
+                </li>
+                <li>
+  
+                  <img src="/assets/images/message.jpg" width="50px" height="50px">
+  
+                  <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> -->
+                  <p class="social">Message</p>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
-    </div>
   </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
+import { AppSettings } from '../../config';
 
 @Component({
   selector: 'app-my-account',
@@ -9,9 +10,18 @@ import { DataService } from '../../services/login/login';
 })
 export class MyAccountComponent implements OnInit {
   id;
+  url;
+  productId;
   ngOnInit() {
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = 0;
+    }
     this.getAdd();
+    this.getWishlist()
     localStorage.getItem;
+    this.url = AppSettings.imageUrl;
   }
 
   public itemsList: Object[] = [
@@ -39,9 +49,11 @@ export class MyAccountComponent implements OnInit {
   rateUs = false;
   mynotifiactions = false;
   sharescreen = false;
+  wishlist = false;
   getAddress;
   editData;
   orders;
+  getWishList;
   notificationList;
   createdData = []
   mydata = {
@@ -87,7 +99,6 @@ export class MyAccountComponent implements OnInit {
     } else if (this.pageNav === "rateus") {
       this.rateUs = true;
     } else if (this.pageNav === "notifications") {
-      this.id = JSON.parse(localStorage.userId);
       this.mynotifiactions = true;
       var inData =  {
         "id_customer":this.id ,
@@ -104,6 +115,9 @@ export class MyAccountComponent implements OnInit {
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
     }
+    else if (this.pageNav === "wishlist") {
+      this.wishlist = true;
+    }
   }
 
   myaccount() {
@@ -118,6 +132,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/myaccount']);
   }
 
@@ -132,6 +147,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/deliveryaddress']);
   }
 
@@ -154,6 +170,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/ordersfirst']);
   }
 
@@ -168,6 +185,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/myAccountcart']);
   }
   mysubscriptionData() {
@@ -181,6 +199,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/mysubscription']);
   }
 
@@ -195,6 +214,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/myoffers']);
   }
 
@@ -209,6 +229,7 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = true;
     this.mynotifiactions = false;
     this.sharescreen = false;
+    this.wishlist = false;
     this.router.navigate(['/myrateus']);
 
   }
@@ -225,6 +246,7 @@ export class MyAccountComponent implements OnInit {
     this.mynotifiactions = true;
     this.router.navigate(['/mynotifiactions']);
     this.sharescreen = false;
+    this.wishlist = false;
   }
 
   showOrderItems() {
@@ -243,9 +265,23 @@ export class MyAccountComponent implements OnInit {
     this.rateUs = false;
     this.sharescreen = true;
     this.mynotifiactions = false;
+    this.wishlist = false;
     this.router.navigate(['/share']);
   }
-
+  showWishList(){
+    this.deliveryAddress = false;
+    this.myaccountData = false;
+    this.myOrders1 = false;
+    this.myOrders2 = false;
+    this.mycart = false;
+    this.mysubscription = false;
+    this.offers = false;
+    this.rateUs = false;
+    this.sharescreen = false;
+    this.mynotifiactions = false;
+    this.wishlist = true;
+    this.router.navigate(['/wishlist']);
+  }
   update() {
     var inData = {
       _id: JSON.parse(localStorage.userId),
@@ -255,7 +291,6 @@ export class MyAccountComponent implements OnInit {
       mobile: this.mydata.mobile
 
     }
-    console.log(JSON.parse(localStorage.userId))
     this.loginService.update(inData).subscribe(response => {
       swal("Updated successfully", '', "success");
       localStorage.removeItem("userName");
@@ -401,4 +436,39 @@ export class MyAccountComponent implements OnInit {
       swal(err.message, "", "error");
     })
   }
+  getWishlist(){
+    var inData = {
+      "_id":this.id,
+      "op":"get",
+      "parent_warehouseid":"",
+      "id_warehouse":"",
+      "lang":"en",
+      "_session":localStorage.session
+    
+    }
+    this.loginService.getWishlist(inData).subscribe(response=> {
+      this.getWishList = response.json().result;
+      console.log(this.getWishList);
+    },error=> {
+      console.log(error);
+    })
+  }
+  deleteWish(id){
+    var inData = {
+      "_session":localStorage.session,
+      "_id":this.id,
+      "id_product":id,
+      "op":"delete",
+      "parent_warehouseid":"",
+      "id_warehouse":"",
+      "lang":"en"
+    }
+    this.loginService.deleteWish(inData).subscribe(response=> {
+    console.log(response)
+    this.getWishList();
+    },error=> {
+
+    })
+  }
+  
 }
