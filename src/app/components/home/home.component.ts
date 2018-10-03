@@ -74,7 +74,7 @@ export class HomeComponent implements OnInit {
     }
     var inData = {
       _id: this.id,
-      device_type: "android",
+      device_type: "desktop",
       _session: "115313153802191_NAM",
       lang: "en",
       parent_warehouseid: "1",
@@ -157,8 +157,8 @@ export class HomeComponent implements OnInit {
       _id: this.id,
       id_product: id,
       op: "create",
-      "parent_warehouseid": "",
-      "id_warehouse": "",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.wish(inData).subscribe(response => {

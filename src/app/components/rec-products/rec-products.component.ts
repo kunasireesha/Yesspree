@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { AppSettings } from '../../config';
 
 @Component({
   selector: 'app-rec-products',
@@ -9,6 +10,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 })
 export class RecProductsComponent implements OnInit {
   type;
+  id;
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
       this.type = params.action;
@@ -18,23 +20,41 @@ export class RecProductsComponent implements OnInit {
   typeOfProduct;
   catId;
   subCatId;
+  products = [];
+  title;
+  url;
+  percentage;
   ngOnInit() {
-    if (this.type = 'recProducts') {
+    this.url = AppSettings.imageUrl;
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+
+      this.id = 0;
+    }
+    if (this.type === 'recProducts') {
       this.typeOfProduct = "specific_product1";
       this.subCatId = '';
-    } else if (this.type = 'recProducts1') {
-      this.typeOfProduct = "specific_product1";
+      this.title = "Recommended Products";
+    } else if (this.type === 'recProducts1') {
+      this.typeOfProduct = "specific_product2";
       this.subCatId = '';
-    } else if (this.type = 'topProducts') {
+      this.title = "Recommended Products";
+    } else if (this.type === 'topProducts') {
       this.typeOfProduct = "top_products";
       this.subCatId = this.catId;
-    } else if (this.type = 'allProducts') {
+      this.title = "Top Products";
+    } else if (this.type === 'allProducts') {
       this.typeOfProduct = "all_products";
       this.subCatId = this.catId;
+      this.title = "All Products";
+    } else {
+      this.typeOfProduct = "brands"
     }
 
+
     var inData = {
-      "_id": "45",
+      "_id": this.id,
       "_session": localStorage.session,
       "count": 20,
       "id_warehouse": JSON.parse(localStorage.id_warehouse),
@@ -42,16 +62,20 @@ export class RecProductsComponent implements OnInit {
       "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
       "start": 0,
       "type": this.typeOfProduct,
-      "id_subcategory": this.catId
+      "id_subcategory": this.subCatId
     }
     this.loginService.recProducts(inData).subscribe(response => {
-      console.log(response)
+      this.products = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+      }
     }, error => {
 
     })
   }
-
-
 
 
 

@@ -15,6 +15,8 @@ export class CategoriesComponent implements OnInit {
       this.catId = params.id;
       this.catName = params.name;
       this.getChildCat();
+      this.getTopProducts();
+      this.getAllProducts();
     });
 
   }
@@ -55,12 +57,15 @@ export class CategoriesComponent implements OnInit {
   products;
   products1;
   brandsData = [];
+  topProductsdata = [];
+  allProductsdata = [];
   id;
   pageNav;
   showInput = false;
   items = {
     quantity: 1
   }
+  percentage;
 
 
   productImage;
@@ -77,7 +82,7 @@ export class CategoriesComponent implements OnInit {
     }
     var inData = {
       _id: this.id,
-      device_type: "android",
+      device_type: "desktop",
       _session: "115313153802191_NAM",
       lang: "en",
       parent_warehouseid: "1",
@@ -104,7 +109,10 @@ export class CategoriesComponent implements OnInit {
       this.products1 = response.json().result.specific_product[1].product;
     }, err => {
       console.log(err)
-    })
+    });
+
+    this.getTopProducts();
+    this.getAllProducts();
   }
 
 
@@ -152,20 +160,59 @@ export class CategoriesComponent implements OnInit {
   }
 
 
-  getTopProducts(action) {
+  //get dashbrd top products
+  getTopProducts() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "start": 0,
+      "type": 'top_products',
+      "id_subcategory": this.catId
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.topProductsdata = response.json().product;
+    }, error => {
+
+    })
+  }
+
+  getAllProducts() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "start": 0,
+      "type": 'all_products',
+      "id_subcategory": this.catId
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.allProductsdata = response.json().product || 0;
+      for (var i = 0; i < this.allProductsdata.length; i++) {
+        if (this.allProductsdata[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].actual_price * 100
+          this.allProductsdata[i].sku[0].percentage = this.percentage;
+        }
+      }
+    }, error => {
+
+    })
+  }
+
+  getViewAllProducts(action) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         action: action,
         catId: this.catId
       }
-
     }
     this.router.navigate(["/recProducts"], navigationExtras);
 
   }
-
-
-
-
-
 }
