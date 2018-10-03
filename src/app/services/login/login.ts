@@ -7,6 +7,7 @@ import { AppSettings } from '../../config';
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { PARAMETERS } from '../../../../node_modules/@angular/core/src/util/decorators';
+import * as jspdf from 'jspdf'; 
 
 @Injectable()
 export class DataService {
@@ -66,7 +67,9 @@ export class DataService {
     checkOtp(params): Observable<any> {
         return this.postInputParams(params, 'customer/otp');
     }
-
+    notificationsData(params): Observable<any> {
+        return this.postInputParams(params, 'master/notificationlist');
+    }
 
     //KEY
     myaccount(): Observable<any> {
@@ -95,7 +98,8 @@ export class DataService {
     }
     wish(params):Observable<any>{
         return this.postAuthorizationInputParams(params,'wishlist')
-        }
+
+    }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
     }
@@ -136,27 +140,24 @@ export class DataService {
             });
     }
 
-
-    aboutus(): Observable<any> {
-        return this.getInputParams('customer/aboutus');
+   
+    aboutus(params): Observable<any> {
+        return this.postInputParams(params,'customer/aboutus');
     }
-
-    faqs(): Observable<any> {
-        return this.getInputParams('customer/faq');
+    faq(params): Observable<any> {
+        return this.postInputParams(params,'customer/faq');
     }
-
-    terms(): Observable<any> {
-        return this.getInputParams('customer/aboutus/terms_condition');
-    }
-
-    privacypolicy(): Observable<any> {
-        return this.getInputParams('customer/aboutus/privacy_policy');
-    }
+    
     productDetails(params):Observable<any>{
         return this.postInputParams(params, 'item/specific');
     }
     searchProducts(params):Observable<any>{
-        return this.postInputParams(params, 'item/search')
+        return this.postInputParams(params, 'item/search');
     }
-
+    postPromo(params):Observable<any>{
+        return this.postInputParams(params, 'cart/coupon');
+    }
+    postVillageName(params):Observable<any>{
+        return this.postInputParams(params, 'customer/villagename');
+    }
 }

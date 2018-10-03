@@ -4,8 +4,8 @@ import { DataService } from '../../services/login/login';
 import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
-import { CatListServices } from '../../services/catListService';
-
+import { CatListServices } from '../../services/catListService'; 
+import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6-social-login';
 
 @Component({
   selector: 'app-header',
@@ -13,9 +13,10 @@ import { CatListServices } from '../../services/catListService';
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-
+    Village:string;
   constructor(
     public loginService: DataService,
+    private socialAuthService: AuthService,
     public router: Router,
     public catSer: CatListServices
   ) {
@@ -73,6 +74,7 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
+      this.postVillageName();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -85,7 +87,7 @@ export class HeaderComponent implements OnInit {
       this.id = 0;
     }
     if (localStorage.userData !== undefined) {
-      this.userMobile = JSON.parse(localStorage.userData).mobile;
+      this.userMobile =  JSON.parse(localStorage.userMobile);
     }
     //for dashboard data
     var inData = {
@@ -116,6 +118,7 @@ export class HeaderComponent implements OnInit {
   showLogin = true;
   showReOtp = false;
   changepw = false;
+  showOtpForRegister = false
   openSingin() {
     this.showModal = true;
     this.showSignin = true;
@@ -123,6 +126,7 @@ export class HeaderComponent implements OnInit {
     this.showOpacity = true;
     this.showOtp = false;
     this.showForgotPassword = false;
+    this.showOtpForRegister = false;
   }
   //registration link
   openRegistration() {
@@ -132,6 +136,7 @@ export class HeaderComponent implements OnInit {
     this.showOpacity = true;
     this.showOtp = false;
     this.showForgotPassword = false;
+    this.showOtpForRegister = false;
   }
 
   //show otp screen
@@ -158,7 +163,7 @@ export class HeaderComponent implements OnInit {
         first_name: this.formData.firstName,
         last_name: this.formData.lastName,
         email: this.formData.email,
-        mobile: this.formData.phone,
+        mobile: this.formData.forMobile,
         password: this.formData.password,
         person_prefix: this.formData.password,
         referred_code: this.formData.referalCode
@@ -172,7 +177,8 @@ export class HeaderComponent implements OnInit {
         this.showRegistration = false
         this.showModal = true;
         this.showOpacity = true;
-        this.showOtp = true;
+        this.showOtp = false;
+        this.showOtpForRegister = true;
 
       }, err => {
         if (err.status === 400) {
@@ -188,24 +194,26 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  // facebooklogi
-  socialSignIn(socialPlatform: string) {
-    // let socialPlatformProvider;
-    // if (socialPlatform == "facebook") {
-    //   socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    // } else if (socialPlatform == "google") {
-    //   socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    // }
-
-    // this.socialAuthService.signIn(socialPlatformProvider).then(
-    //   (userData) => {
-    //     console.log(socialPlatform + "sign in data : ", userData);
-    //     // Now sign-in with userData
-    //     // ...
-
-    //   }
-    // );
+ //social login
+ public socialLogin(socialPlatform : string) {
+  let socialPlatformProvider;
+  if(socialPlatform == "facebook"){
+    socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+    
+  }else if(socialPlatform == "google"){
+    socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+    console.log(socialPlatformProvider);
   }
+  
+  this.socialAuthService.signIn(socialPlatformProvider).then(
+    (userData) => {
+      console.log(socialPlatform+" sign in data : " , userData);
+      
+          
+    }
+  );
+}
+ 
 
   // forgot password
   openForgotpassword() {
@@ -271,9 +279,9 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('userName', JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
           localStorage.setItem('authkey', response.json().key);
           localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
+          localStorage.setItem("userMobile",response.json().result[0].mobile);
           this.userName = JSON.parse(localStorage.userName);
-          this.userMobile = JSON.parse(localStorage.userData).mobile;
-          this.formData.email = this.formData.password = ''
+          this.formData.email = this.formData.password = '';
           this.onCloseCancel();
           this.showProfile = true;
           this.showLogin = false;
@@ -323,7 +331,7 @@ export class HeaderComponent implements OnInit {
         this.changepw = false;
         swal("Registered succeessfully", "", "success");
         this.onCloseCancel();
-        this.clearFields();
+        // this.clearFields();
         this.formData.otp = '';
       }
     }, err => {
@@ -359,44 +367,6 @@ export class HeaderComponent implements OnInit {
     this.showProfile = false;
     this.showLogin = true;
     this.router.navigate(["/"]);
-  }
-
-  //registration
-  registration() {
-    var validOtp = false;
-    if (this.formData.otp === '' || this.formData.otp === undefined || this.formData.otp === null || parseInt(this.formData.otp) !== this.otpData.otp) {
-      validOtp = false;
-    } else {
-      validOtp = true;
-    }
-
-    if (validOtp) {
-      var inData = {
-        first_name: this.formData.firstName,
-        last_name: this.formData.lastName,
-        email: this.formData.email,
-        mobile: this.formData.phone,
-        password: this.formData.password,
-        person_prefix: this.formData.password,
-        referred_code: this.formData.referalCode
-      }
-
-      this.loginService.registration(inData).subscribe(response => {
-        this.otpData = response.json();
-        swal("Thank you for registering with us Welcome to YESSPREE", " ", "success");
-        this.onCloseCancel();
-        this.router.navigate(["/"]);
-        this.showModal = false;
-        this.showOpacity = false;
-
-      }, err => {
-        if (err.status === 400) {
-          swal(err.message, " ", "error").then((value) => {
-
-          });
-        };
-      });
-    }
   }
 
 
@@ -461,5 +431,16 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  postVillageName(){
+      var inData = {
+        wh_pincode:"500032"
+      }
+      this.loginService.postVillageName(inData).subscribe(response => {
+       this.Village = response.json();
+       console.log(this.Village);
+        }, err => {
+          console.log(err)
+        })
   }
 }

@@ -8,7 +8,7 @@ import { DataService } from '../../services/login/login';
   styleUrls: ['./my-account.component.css']
 })
 export class MyAccountComponent implements OnInit {
-
+  id;
   ngOnInit() {
     this.getAdd();
     localStorage.getItem;
@@ -37,10 +37,12 @@ export class MyAccountComponent implements OnInit {
   mysubscription = false;
   offers = false;
   rateUs = false;
-  notifications = false;
+  mynotifiactions = false;
   sharescreen = false;
   getAddress;
   editData;
+  orders;
+  notificationList;
   createdData = []
   mydata = {
     first_name: '',
@@ -85,7 +87,20 @@ export class MyAccountComponent implements OnInit {
     } else if (this.pageNav === "rateus") {
       this.rateUs = true;
     } else if (this.pageNav === "notifications") {
-      this.notifications = true;
+      this.id = JSON.parse(localStorage.userId);
+      this.mynotifiactions = true;
+      var inData =  {
+        "id_customer":this.id ,
+        "parent_warehouseid":"1",
+        "id_warehouse":"2",
+        "lang":"en"
+      }
+      this.loginService.notificationsData(inData).subscribe(response=> {
+      this.notificationList = response.json();
+      console.log( this.notificationList)
+      },error=>{
+  
+      })
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
     }
@@ -101,7 +116,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/myaccount']);
   }
@@ -115,7 +130,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/deliveryaddress']);
   }
@@ -125,7 +140,7 @@ export class MyAccountComponent implements OnInit {
       type: 'Present'
     }
     this.loginService.myorders(inData).subscribe(response => {
-      console.log("mohan", response)
+      this.orders = response.json()
     }, err => {
       console.log(err)
     })
@@ -137,7 +152,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/ordersfirst']);
   }
@@ -151,7 +166,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/myAccountcart']);
   }
@@ -164,7 +179,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = true;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/mysubscription']);
   }
@@ -178,7 +193,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = true;
     this.rateUs = false;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/myoffers']);
   }
@@ -192,7 +207,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = true;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.sharescreen = false;
     this.router.navigate(['/myrateus']);
 
@@ -207,7 +222,7 @@ export class MyAccountComponent implements OnInit {
     this.mysubscription = false;
     this.offers = false;
     this.rateUs = false;
-    this.notifications = true;
+    this.mynotifiactions = true;
     this.router.navigate(['/mynotifiactions']);
     this.sharescreen = false;
   }
@@ -227,7 +242,7 @@ export class MyAccountComponent implements OnInit {
     this.offers = false;
     this.rateUs = false;
     this.sharescreen = true;
-    this.notifications = false;
+    this.mynotifiactions = false;
     this.router.navigate(['/share']);
   }
 
@@ -245,6 +260,8 @@ export class MyAccountComponent implements OnInit {
       swal("Updated successfully", '', "success");
       localStorage.removeItem("userName");
       localStorage.setItem("userName", JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
+      localStorage.removeItem("userMobile");
+      localStorage.setItem("userMobile",response.json().result[0].mobile);
     }, err => {
       swal(err.msg, '', "error")
     })

@@ -12,7 +12,7 @@
         <li (click)="myoffers()" [ngClass]="{'active':offers}">Offers</li>
         <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
-        <li (click)="notificationsData()" [ngClass]="{'active':notifications}">Notifications</li>
+        <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -673,7 +673,7 @@
     </div>
 
     <!-- notifications -->
-    <div class="col-lg-9 notification" *ngIf="notifications">
+    <div class="col-lg-9 notification" *ngIf="mynotifiactions">
       <h4>
         <strong>NOTIFICATIONS</strong>
       </h4>
