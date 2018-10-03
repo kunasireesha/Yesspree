@@ -83,8 +83,8 @@ export class HomeComponent implements OnInit {
       device_type: "android",
       _session: "115313153802191_NAM",
       lang: "en",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -163,8 +163,8 @@ export class HomeComponent implements OnInit {
       _id:this.id,
       id_product:id,
       op:"create",
-      "parent_warehouseid":localStorage.parent_warehouseid,
-      "id_warehouse":localStorage.id_warehouse,
+      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse":JSON.parse(localStorage.id_warehouse),
       "lang":"en"
     }
     this.loginService.wish(inData).subscribe(response=> {
@@ -185,5 +185,16 @@ let navigationExtras: NavigationExtras = {
 }
 this.router.navigate(["/recProducts"], navigationExtras);
   }
+
+  showProductDetails(id){
+    let navigationExtras: NavigationExtras = {
+      queryParams:{
+        id:id
+      }
+      
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+      }
+  
 
 }

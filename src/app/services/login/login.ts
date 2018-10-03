@@ -156,8 +156,9 @@ export class DataService {
     }
 
     productDetails(params): Observable<any> {
-        return this.postInputParams(params, 'item/specific');
+        return this.postAuthorizationInputParams(params, 'item/specific');
     }
+    
 
     searchProducts(params):Observable<any>{
         return this.postInputParams(params, 'item/search');

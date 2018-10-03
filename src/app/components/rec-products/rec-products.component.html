@@ -1,38 +1,7 @@
 <div class="container-fluid products">
   <div class="row">
-    <div class="col-md-3">
-      <h5>{{subName}}</h5>
-      <br />
-      <div class="categories" *ngFor="let cat of subcatdata;let i = index">
-        <p [ngClass]="{'active':showCategories}">
-          <a>
-            <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
-            <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories" (click)="closesubSubCat()"></i>
-          </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id)">{{cat.name}}</span>
-        </p>
-        <!-- categories -->
-        <div *ngFor="let subcat of subSubCatData;let ii = index">
-          <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories}">
-            <a>
-              <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
-              <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories" (click)="closeLastCat()"></i>
-            </a> &nbsp;&nbsp;
-            <span (click)="getSubcatProd(subcat._id)">{{subcat.name}}</span>
-          </p>
-          <!-- //sub categories -->
-          <div *ngFor="let lastcat of lastCatData">
-            <p *ngIf="selectedLastCat==i && showSubCategories" (click)="getLastProd(lastcat._id)">
-              <span class="subCat">{{lastcat.name}}</span>
-            </p>
-          </div>
-          <!-- end sub cat -->
-        </div>
-      </div>
-
-    </div>
-    <div class="col-md-9 items">
-
-   
+    
+    <div class="col-md-9 items" *ngIf="showproducts">
       <h6>Corn Flour/Maize Atta/Makka Atta
         <span>
           <button type="button" data-toggle="modal" data-target="#refineby">
@@ -47,12 +16,12 @@
       </h6>
       <br />
       <div class="row cust-response">
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
+        <div class="col-md-6 col-lg-3 col-xs-12 item" *ngFor="let item of products">
           <div class="card" (click)="showProduxtDetails()">
             <a>
               <i class="fa fa-heart" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
+            <img class="img-fluid" [src]="url+item.pic" alt="Card image cap">
             <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
             <div class="card-block">
               <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
@@ -90,151 +59,28 @@
             </div>
           </div>
         </div>
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees2()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count1}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue2()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees3()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count2}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue3()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-        </div>
-
-
-
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees4()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count3}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue4()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-        </div>
+       
 
 
       </div>
     </div>
+    <div *ngIf="!showproducts&&!showbrands">
+     No products
+    </div>
+    <div class="container deals_section brands" *ngIf="showbrands">
+      <h3>SHOP BY BRANDS
+      </h3>
+      <div class="row">
+        <div class=" col-md-3 mt-3" *ngFor="let item of brands">
+          <div class="deals view zoom">
+            <img [src]="url + item.pic" class="img-fluid headShake " alt="{{item.brand}}">
+            <h5>{{item.brand_en}}</h5>
+          </div>
+        </div>
+      </div>
   </div>
 </div>
+
 
 <!-- Modal -->
 <div class="modal fade right" id="refineby" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
