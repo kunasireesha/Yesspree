@@ -82,7 +82,7 @@
               <option>Madiwala, Banglore</option>
             </select>
           </div>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button" (click)="searchProducts()">
           <div class="input-group-append search-append">
             <button class="btn " type="button" id="button-addon2">Search</button>
           </div>
@@ -174,11 +174,11 @@
                 </div>
                 <div class="row text-center social-login justify-content-md-center">
                   <div class="col-lg-8 mb-3">
-                    <button type="submit" class="btn  submit-button google">
+                    <button type="submit" class="btn  submit-button google" (click)="socialLogin('google')">
                       <i class="fab fa-google"></i> SIGN IN WITH GOOGLE</button>
                   </div>
                   <div class="col-lg-8">
-                    <button type="submit" class="btn  submit-button facebook">
+                    <button type="submit" class="btn  submit-button facebook" (click)="socialLogin('facebook')">
                       <i class="fab fa-facebook"></i> SIGN IN WITH FACEBOOK</button>
                   </div>
                 </div>
@@ -266,8 +266,8 @@
                       name="email" required>
                   </div>
                   <div class="form-group  col-md-8">
-                    <input type="text" class="form-control input-field" placeholder="Mobile Number *" [(ngModel)]="formData.phone"
-                      name="Mobile-number" required>
+                    <input type="text" class="form-control input-field" placeholder="Mobile Number *" [(ngModel)]="formData.forMobile"
+                      name="forMobile" required>
                   </div>
                   <div class="form-group  col-md-8">
                     <input type="password" class="form-control input-field" placeholder="Password *" [(ngModel)]="formData.password"
@@ -337,7 +337,7 @@
                       required>
                   </div>
                   <div class="form-group col-md-8">
-                    <button type="submit" class="btn submit-button" (click)="checkOtp()">Continue</button>
+                    <button type="submit" class="btn submit-button" (click)="checkOtp('forgotpswrd')">Continue</button>
                   </div>
                   <div class="form-group col-md-8">
                     <h5>
@@ -370,6 +370,58 @@
             </div>
           </div>
         </div>
+        <!-- otp screen registration -->
+        <div class="container password-popup modal-box" *ngIf="showOtpForRegister">
+            <div class="row">
+              <div class="col-md-6">
+                <div class="col-lg-2 p-0 ">
+                  <button class="btn button cross-btn" (click)="onCloseCancel()">
+                    x
+                  </button>
+                </div>
+                <h3 class="text-center">OTP VERIFICATION</h3>
+                <h5>We have sent an OTP to Your registered Mobile Number.</h5>
+                <h5>Please Enter OTP</h5>
+                <form class="login-form">
+                  <div class="row justify-content-md-center">
+                    <div class="form-group mt-3 col-md-8">
+                      <input type="text" class="form-control input-field" placeholder="Enter Otp" name="otp" [(ngModel)]="formData.otp"
+                        required>
+                    </div>
+                    <div class="form-group col-md-8">
+                      <button type="submit" class="btn submit-button"  (click)="checkOtp('registering')">Continue</button>
+                    </div>
+                    <div class="form-group col-md-8">
+                      <h5>
+                        <a (click)="resendOtp()">Resend OTP</a>
+                      </h5>
+                    </div>
+  
+                  </div>
+                </form>
+  
+  
+              </div>
+              <div class="col-md-6 background-image">
+                <div class="row  align-items-center">
+                  <div class="col-md-12 text-center popup-logo">
+                    <img src="/assets/images/logo.png" alt="logo">
+                  </div>
+                </div>
+                <p>Download our App. Enjoy Your Shippings</p>
+                <div class="row apps">
+  
+                  <div class="col-md-6">
+                    <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  </div>
+                  <div class="col-md-6">
+                    <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  </div>
+                </div>
+  
+              </div>
+            </div>
+          </div>
         <!-- otp screen-->
         <!-- forgot password -->
         <div class="container password-popup modal-box" *ngIf="showForgotPassword">

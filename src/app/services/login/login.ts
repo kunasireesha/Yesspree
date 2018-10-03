@@ -66,7 +66,9 @@ export class DataService {
     checkOtp(params): Observable<any> {
         return this.postInputParams(params, 'customer/otp');
     }
-
+    notificationsData(params): Observable<any> {
+        return this.postInputParams(params, 'master/notificationlist');
+    }
 
     //KEY
     myaccount(): Observable<any> {
@@ -92,6 +94,9 @@ export class DataService {
     }
     deleteAdd(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'customer/address')
+    }
+    wish(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'wishlist')
     }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
@@ -134,32 +139,19 @@ export class DataService {
     }
 
 
-    aboutus(): Observable<any> {
-        var inData = {
-            "lang": "en"
-        }
-        return this.postInputParams(inData, 'customer/aboutus');
+    aboutus(params): Observable<any> {
+        return this.postInputParams(params, 'customer/aboutus');
+    }
+    faq(params): Observable<any> {
+        return this.postInputParams(params, 'customer/faq');
     }
 
-    faqs(): Observable<any> {
-        var inData = {
-            "lang": "en"
-        }
-        return this.postInputParams(inData, 'customer/faq');
+    productDetails(params): Observable<any> {
+        return this.postInputParams(params, 'item/specific');
+    }
+    searchProducts(params): Observable<any> {
+        return this.postInputParams(params, 'item/search')
     }
 
-    terms(): Observable<any> {
-        var inData = {
-            "lang": "en"
-        }
-        return this.postInputParams(inData, 'customer/aboutus');
-    }
-
-    privacypolicy(): Observable<any> {
-        var inData = {
-            "lang": "en"
-        }
-        return this.postInputParams(inData, 'customer/aboutus');
-    }
 
 }
