@@ -46,7 +46,7 @@
   <div class="row">
     <br />
     <h4>ORDER SUMMARY</h4>
-    <table class="table prod-table">
+    <table class="table prod-table" *ngFor = "let summary of cartSummary">
       <thead class="table-header">
         <tr>
           <th scope="col" width="40%" class="table-headings">Item Description</th>
@@ -67,10 +67,10 @@
           </td>
           <td class="table-price">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;359.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.total_selling_price}}
               <br />
-              <i class="fa fa-strikethrought" aria-hidden="true"></i>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;420.00
+              <!-- <i class="fa fa-strikethrought" aria-hidden="true"></i> -->
+              <!-- <i class="fa fa-inr" aria-hidden="true"></i>&nbsp; -->
             </p>
           </td>
           <td class="table-quanity">
@@ -80,7 +80,7 @@
           </td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;718.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.grand_total}}
             </p>
           </td>
           <td class="table-savings">
@@ -92,40 +92,6 @@
             </span>
           </td>
         </tr>
-        <tr>
-          <td class="table-data">
-            <img src="assets/images/Annapurna.png" class="multigrain-image">
-            <p>
-              <strong>Ashirvaad Multigrain Atta - </strong>
-            </p>
-            <span>1kg</span>
-          </td>
-          <td class="table-price">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;49.00
-              <br />
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;56.00
-            </p>
-          </td>
-          <td class="table-quanity">
-            <div class="quantity">
-              <span>1</span>
-            </div>
-          </td>
-          <td class="table-total">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;49.00
-            </p>
-          </td>
-          <td class="table-savings">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;7.00
-            </p>
-            <span>
-              You Save 12%
-            </span>
-          </td>
-        </tr>
         <tr class="table-border">
           <td class="mrp-rate">
             <h5>Total MRP</h5>
@@ -134,7 +100,7 @@
           <td></td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>889.00</p>
+              <i class="fa fa-inr" aria-hidden="true"></i>{{summary.grand_total}}</p>
           </td>
           <td class="table-savings">
             <p>
@@ -152,7 +118,7 @@
     </div>
     <div class="col-lg-4 input-button">
       <form>
-        <input type="text" class="form-control input-field" placeholder="PROMO CODE">
+        <input type="text" class="form-control input-field" placeholder="PROMO CODE" (click)="postPromo()">
       </form>
     </div>
     <div class="col-lg-4 input-button">
@@ -300,7 +266,7 @@
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </div>
     </div>
-    <div class="row wallet-card">
+    <div class="row wallet">
       <div class="col-lg-6 credit-card">
         <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp; &nbsp;
         <span>
@@ -320,10 +286,14 @@
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </div>
     </div>
-    <div class="row wallet">
+    <div class="row  wallet-card">
       <div class="col-lg-6">
         <img src="assets/images/money.png" class="image"> &nbsp; &nbsp;
-        <span>Cash On Delivery</span>
+        <span>
+            <strong>
+                    On Delivery
+            </strong> 
+        </span>
       </div>
       <div class="col-lg-6 right-arrow">
         <i class="fa fa-angle-right" aria-hidden="true"></i>
@@ -334,7 +304,7 @@
     <div class="col-lg-6">
     </div>
     <div class="col-lg-6">
-      <button type="button" class="btn pay-btn">PROCEED AND PAY</button>
+      <button type="button" class="btn pay-btn" (click)="cartCheckout()">PROCEED AND PAY</button>
     </div>
   </div>
 </div>

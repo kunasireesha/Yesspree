@@ -24,6 +24,7 @@ export class HomeComponent implements OnInit {
   }
 
   dashboardData;
+  skuid:string;
   // categoryData;
   sqareBaneer1;
   sqareBaneer2;
@@ -79,7 +80,7 @@ export class HomeComponent implements OnInit {
     }
     var inData = {
       _id: this.id,
-      device_type: "android",
+      device_type: "Desktop",
       _session: "115313153802191_NAM",
       lang: "en",
       parent_warehouseid: "1",
@@ -88,6 +89,7 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
+      this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
       this.mainBanner = response.json().result.banner[0].bannerdata;
@@ -127,7 +129,7 @@ export class HomeComponent implements OnInit {
     let thisObj = this;
     this.showInput = true;
     thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, this.skuid);
   }
   itemDecrease() {
     let thisObj = this;
@@ -135,14 +137,14 @@ export class HomeComponent implements OnInit {
       return;
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, this.skuid);
   }
-  getCart(quantity) {
+  getCart(quantity,skuid) {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
       id_product: this.products[0].id_product,
-      id_sku: "20",
+      id_sku: skuid,
       op: "modify",
       quantity: quantity,
       wh_pincode: "560078",

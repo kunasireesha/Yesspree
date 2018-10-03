@@ -87,7 +87,7 @@
         </div>
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
-        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart">
+        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
           <i class="fas fa-shopping-cart"></i> My Cart (0)</button>
       </form>
     </div>
@@ -541,17 +541,17 @@
           <div class="col-8">
             <div class="t-mrp">
               <p>Total MRP</p>
-              <p>Your Total Savings</p>
+              <!-- <p>Your Total Savings</p> -->
             </div>
           </div>
           <div class="col-4">
             <div class="rup">
               <p>
                 <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i> 2000</strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{mrp}}</strong>
               </p>
-              <p class="green-text">
-                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p>
+              <!-- <p class="green-text">
+                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p> -->
             </div>
           </div>
         </div>
@@ -569,14 +569,13 @@
             <div class="rup">
               <p>
                 <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i> 1500</strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</strong>
               </p>
-
             </div>
           </div>
         </div>
 
-        <div class="row bac-shadw">
+        <div class="row bac-shadw" *ngFor="let cartItems of mycart">
           <div class="col-lg-3">
             <div class="ashirvadimg">
               <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
@@ -594,21 +593,21 @@
                 </div>
                 <div class="col-md-2">
                   <p class="green-text">
-                    <i class="fa fa-inr" aria-hidden="true">359</i>
+                    <i class="fa fa-inr" aria-hidden="true">{{cartItems.selling_price}}</i>
                   </p>
 
                 </div>
                 <div class="col-md-2">
                   <p class="red-text">
                     <i class=" fa fa-inr" aria-hidden="true">
-                      <strike>420</strike>
+                      <strike>{{cartItems.actual_price}}</strike>
                     </i>
                   </p>
 
                 </div>
-                <div class="col-md-5">
+                <!-- <div class="col-md-5">
                   <p class="save">You save 14%</p>
-                </div>
+                </div> -->
               </div>
 
               <div class="row">
@@ -627,70 +626,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-
-
-        <div class="row bac-shadw">
-          <div class="col-lg-3">
-            <div class="ashirvadimg">
-              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
-            </div>
-          </div>
-          <div class="col-lg-9">
-            <div class="atta">
-
-              <p>
-                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
-              </p>
-              <div class="row">
-                <div class="col-md-3">
-                  <p>10kg</p>
-                </div>
-                <div class="col-md-2">
-                  <p class="green-text">
-                    <i class="fa fa-inr" aria-hidden="true">359</i>
-                  </p>
-
-                </div>
-                <div class="col-md-2">
-                  <p class="red-text">
-                    <i class="fa fa-inr" aria-hidden="true">
-                      <strike>420</strike>
-                    </i>
-                  </p>
-
-                </div>
-                <div class="col-md-5">
-                  <p class="save">You save 14%</p>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <p>Subscribe</p>
-                </div>
-                <div class="col-md-8">
-                  <div class="num-bac">
-                    <p>
-                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus"></i>
-                      &nbsp;
-                      <span _ngcontent-c5="">| &nbsp;2&nbsp; |</span>&nbsp;
-                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus"></i>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-
       </div>
-
       <div class="modal-footer cust-modalfooter">
         <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
       </div>

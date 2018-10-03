@@ -15,6 +15,9 @@ import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6
 })
 export class HeaderComponent implements OnInit {
     Village:string;
+    mrp:string;
+    grandTotal:string;
+    mycart:string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -75,11 +78,8 @@ export class HeaderComponent implements OnInit {
   
 
   ngOnInit() {
-<<<<<<< HEAD
     this.geoLocation()
-=======
-      this.postVillageName();
->>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
+    this.postVillageName();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -97,7 +97,7 @@ export class HeaderComponent implements OnInit {
     //for dashboard data
     var inData = {
       _id: this.id,
-      device_type: "android",
+      device_type: "Desktop",
       _session: localStorage.session,
       lang: "en",
       parent_warehouseid: "1",
@@ -450,5 +450,24 @@ export class HeaderComponent implements OnInit {
         }, err => {
           console.log(err)
         })
+  }
+  getCart() {
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      op: "get",
+      parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse:JSON.parse(localStorage.id_warehouse),
+      lang:"en"
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+        this.mrp = response.json().summary.mrp;
+        this.grandTotal = response.json().summary.grand_total;
+        this.mycart = response.json().cart;
+        console.log(this.mycart);
+
+    }, err => {
+      console.log(err)
+    })
   }
 }
