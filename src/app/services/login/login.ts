@@ -96,6 +96,7 @@ export class DataService {
     deleteAdd(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'customer/address')
     }
+
     wish(params):Observable<any>{
         return this.postAuthorizationInputParams(params,'wishlist')
 
@@ -146,17 +147,18 @@ export class DataService {
             });
     }
 
-   
+
     aboutus(params): Observable<any> {
-        return this.postInputParams(params,'customer/aboutus');
+        return this.postInputParams(params, 'customer/aboutus');
     }
     faq(params): Observable<any> {
-        return this.postInputParams(params,'customer/faq');
+        return this.postInputParams(params, 'customer/faq');
     }
-    
-    productDetails(params):Observable<any>{
+
+    productDetails(params): Observable<any> {
         return this.postInputParams(params, 'item/specific');
     }
+
     searchProducts(params):Observable<any>{
         return this.postInputParams(params, 'item/search');
     }
@@ -171,5 +173,9 @@ export class DataService {
     }
     checkoutSummary(params):Observable<any>{
         return this.postAuthorizationInputParams(params,'cart/summary');
+    }
+    //view all 
+    recProducts(params):Observable<any>{
+        return this.postInputParams(params, 'item/viewall');
     }
 }

@@ -3,6 +3,7 @@ import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -164,8 +165,8 @@ export class HomeComponent implements OnInit {
       _id:this.id,
       id_product:id,
       op:"create",
-      "parent_warehouseid":"",
-      "id_warehouse":"",
+      "parent_warehouseid":localStorage.parent_warehouseid,
+      "id_warehouse":localStorage.id_warehouse,
       "lang":"en"
     }
     this.loginService.wish(inData).subscribe(response=> {
@@ -176,6 +177,15 @@ export class HomeComponent implements OnInit {
     },err=>{
      console.log(err)
     })
+  }
+  viewProducts(action){
+let navigationExtras: NavigationExtras = {
+  queryParams:{
+    action:action
+  }
+  
+}
+this.router.navigate(["/recProducts"], navigationExtras);
   }
 
 }
