@@ -1,4 +1,6 @@
+import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-order-summary',
@@ -10,7 +12,8 @@ export class OrderSummaryComponent implements OnInit {
   deliveryA: boolean = false;
   deliveryOp: boolean = false;
   paymentM: boolean = false;
-  constructor() { }
+  Promo:string;
+  constructor(public loginService: DataService) { }
   order() {
     this.orderSu = true;
     this.deliveryA = this.deliveryOp = this.paymentM = false
@@ -26,6 +29,19 @@ export class OrderSummaryComponent implements OnInit {
   paymentMethod() {
     this.paymentM = true;
     this.orderSu = this.deliveryOp = this.deliveryA = false
+  }
+  postPromo(){
+    var inData = {
+        _session: localStorage.session,
+        coupon_code:"yesspree30",
+        id_order:"49"
+      }
+      this.loginService.postPromo(inData).subscribe(response => {
+        this.Promo = response.json().result;
+        console.log(this.Promo);
+      }, err => {
+        swal(err.message, "", "error")
+      })
   }
   ngOnInit() {
   }

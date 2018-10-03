@@ -98,6 +98,7 @@ export class DataService {
     }
     wish(params):Observable<any>{
         return this.postAuthorizationInputParams(params,'wishlist')
+
     }
     getWishlist(params):Observable<any> {
         return this.postAuthorizationInputParams(params,'wishlist')  
@@ -157,8 +158,12 @@ export class DataService {
         return this.postInputParams(params, 'item/specific');
     }
     searchProducts(params):Observable<any>{
-        return this.postInputParams(params, 'item/search')
+        return this.postInputParams(params, 'item/search');
     }
-
-
+    postPromo(params):Observable<any>{
+        return this.postInputParams(params, 'cart/coupon');
+    }
+    postVillageName(params):Observable<any>{
+        return this.postInputParams(params, 'customer/villagename');
+    }
 }

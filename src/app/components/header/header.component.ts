@@ -5,6 +5,7 @@ import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
+
 import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6-social-login';
 
 @Component({
@@ -13,7 +14,7 @@ import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-
+    Village:string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -74,7 +75,11 @@ export class HeaderComponent implements OnInit {
   
 
   ngOnInit() {
+<<<<<<< HEAD
     this.geoLocation()
+=======
+      this.postVillageName();
+>>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -432,5 +437,16 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  postVillageName(){
+      var inData = {
+        wh_pincode:"500032"
+      }
+      this.loginService.postVillageName(inData).subscribe(response => {
+       this.Village = response.json();
+       console.log(this.Village);
+        }, err => {
+          console.log(err)
+        })
   }
 }

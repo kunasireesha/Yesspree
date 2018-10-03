@@ -58,7 +58,7 @@ export class ProductdetailsComponent implements OnInit {
 
   productDetails() {
       var inData = {
-        _id: this.id,
+        _id: "270",
         _session: localStorage.session,
         products:"12",
         parent_warehouseid:"1",
