@@ -163,8 +163,8 @@ export class HomeComponent implements OnInit {
       _id:this.id,
       id_product:id,
       op:"create",
-      "parent_warehouseid":"",
-      "id_warehouse":"",
+      "parent_warehouseid":localStorage.parent_warehouseid,
+      "id_warehouse":localStorage.id_warehouse,
       "lang":"en"
     }
     this.loginService.wish(inData).subscribe(response=> {

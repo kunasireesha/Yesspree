@@ -98,8 +98,8 @@ export class HeaderComponent implements OnInit {
       device_type: "android",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -424,9 +424,9 @@ export class HeaderComponent implements OnInit {
         _id: this.id,
         _session: localStorage.session,
         count:"20",
-        id_warehouse:"2",
+        id_warehouse:localStorage.id_warehouse,
         lang:"eng",
-        parent_warehouseid:"1",
+        parent_warehouseid:localStorage.parent_warehouseid,
         search:"cream",
         start:"0"
     }
