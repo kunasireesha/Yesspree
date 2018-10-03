@@ -1,47 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/login/login';
+import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/router';
 import { AppSettings } from '../../config';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { DataService } from '../../services/login/login';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less', '../product/product.component.less']
+  selector: 'app-categories',
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.less']
 })
-export class HomeComponent implements OnInit {
+export class CategoriesComponent implements OnInit {
 
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
-    this.pageNav = this.route.snapshot.data[0]['page'];
+  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
+      this.catName = params.name;
+      this.getChildCat();
     });
 
   }
 
-  dashboardData;
-  // categoryData;
-  sqareBaneer1;
-  sqareBaneer2;
-  BigSqur;
-  popProducts;
-  squrBanner;
-  offerBanner1;
-  offerBanner2;
-  offerBanner3;
-  products;
-  products1;
-  brandsData = [];
-  id;
-  url;
-  pageNav;
   catId;
-  mainBanner;
-  wishList;
-  showInput = false;
+  catName;
+  url;
   childCat = [];
-  items = {
-    quantity: 1
-  }
 
   getChildCat() {
     this.url = AppSettings.imageUrl;
@@ -60,11 +41,34 @@ export class HomeComponent implements OnInit {
     })
   }
 
+
+  dashboardData;
+  // categoryData;
+  sqareBaneer1;
+  sqareBaneer2;
+  BigSqur;
+  popProducts;
+  squrBanner;
+  offerBanner1;
+  offerBanner2;
+  offerBanner3;
+  products;
+  products1;
+  brandsData = [];
+  id;
+  pageNav;
+  showInput = false;
+  items = {
+    quantity: 1
+  }
+
+
   productImage;
-  subSubCatData
   slidingbanner = [];
 
   ngOnInit() {
+
+    this.getChildCat();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
@@ -84,7 +88,6 @@ export class HomeComponent implements OnInit {
       this.dashboardData = response.json().result;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
-      this.mainBanner = response.json().result.banner[0].bannerdata;
       this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0];
       this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1];
       this.BigSqur = response.json().result.banner[2].bannerdata;
@@ -95,7 +98,6 @@ export class HomeComponent implements OnInit {
       this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
       this.products = response.json().result.specific_product[0].product;
       this.slidingbanner = response.json().result.banner[5].bannerdata;
-      console.log(this.products);
       for (var i = 0; i < this.products.length; i++) {
         this.productImage = this.products[i].pic[0].pic;
       }
@@ -104,6 +106,7 @@ export class HomeComponent implements OnInit {
       console.log(err)
     })
   }
+
 
   showSubData(id) {
     let navigationExtras: NavigationExtras = {
@@ -135,39 +138,36 @@ export class HomeComponent implements OnInit {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      id_product: this.products[0].id_product,
+      id_product: "11",
       id_sku: "20",
       op: "modify",
       quantity: quantity,
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      this.subSubCatData = response.json();
+      //   this.subSubCatData = response.json().result.sub_category;
     }, err => {
       console.log(err)
     })
   }
 
-  wish(id) {
+
+  getTopProducts() {
     var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": "",
-      "id_warehouse": "",
-      "lang": "en"
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_subcategory": "2",
+      "id_warehouse": "2",
+      "lang": "en",
+      "parent_warehouseid": "1",
+      "start": 0,
+      "type": "top_products"
     }
-    this.loginService.wish(inData).subscribe(response => {
-      // if(response.json().status === "failure"){
-
-      // }
-      this.wishList = response.json();
-    }, err => {
-      console.log(err)
-    })
   }
+
+
+
+
 
 }

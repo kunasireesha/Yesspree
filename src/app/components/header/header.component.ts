@@ -6,7 +6,7 @@ import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 
-import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6-social-login';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
 
 @Component({
   selector: 'app-header',
@@ -14,7 +14,7 @@ import {AuthService, FacebookLoginProvider, GoogleLoginProvider} from 'angular-6
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-    Village:string;
+  Village: string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -72,14 +72,11 @@ export class HeaderComponent implements OnInit {
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
-  
+
 
   ngOnInit() {
-<<<<<<< HEAD
-    this.geoLocation()
-=======
-      this.postVillageName();
->>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
+    this.geoLocation();
+    this.postVillageName();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -92,7 +89,7 @@ export class HeaderComponent implements OnInit {
       this.id = 0;
     }
     if (localStorage.userData !== undefined) {
-      this.userMobile =  JSON.parse(localStorage.userMobile);
+      this.userMobile = JSON.parse(localStorage.userMobile);
     }
     //for dashboard data
     var inData = {
@@ -199,27 +196,27 @@ export class HeaderComponent implements OnInit {
   }
 
 
- //social login
- public socialLogin(socialPlatform : string) {
-  let socialPlatformProvider;
-  if(socialPlatform == "facebook"){
-    socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
-    
-  }else if(socialPlatform == "google"){
-    socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-    console.log(socialPlatformProvider);
-  }
-  
-  this.socialAuthService.signIn(socialPlatformProvider).then(
-    (userData) => {
-      console.log(socialPlatform+" sign in data : " , userData);
-      
-          
+  //social login
+  public socialLogin(socialPlatform: string) {
+    let socialPlatformProvider;
+    if (socialPlatform == "facebook") {
+      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+
+    } else if (socialPlatform == "google") {
+      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+      console.log(socialPlatformProvider);
     }
-  );
-}
-  
- 
+
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log(socialPlatform + " sign in data : ", userData);
+
+
+      }
+    );
+  }
+
+
 
   // forgot password
   openForgotpassword() {
@@ -285,7 +282,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('userName', JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
           localStorage.setItem('authkey', response.json().key);
           localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
-          localStorage.setItem("userMobile",response.json().result[0].mobile);
+          localStorage.setItem("userMobile", response.json().result[0].mobile);
           this.userName = JSON.parse(localStorage.userName);
           this.formData.email = this.formData.password = '';
           this.onCloseCancel();
@@ -388,10 +385,11 @@ export class HeaderComponent implements OnInit {
   }
 
   //show subcategorie
-  showSubcategorie(id) {
+  showSubcategorie(id, name) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        id: id
+        id: id,
+        name: name
       }
     }
     let categories: catList = {
@@ -421,34 +419,34 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts(){
+  searchProducts() {
     var inData = {
-        _id: this.id,
-        _session: localStorage.session,
-        count:"20",
-        id_warehouse:"2",
-        lang:"eng",
-        parent_warehouseid:"1",
-        search:"cream",
-        start:"0"
+      _id: this.id,
+      _session: localStorage.session,
+      count: "20",
+      id_warehouse: "2",
+      lang: "eng",
+      parent_warehouseid: "1",
+      search: "cream",
+      start: "0"
     }
     this.loginService.searchProducts(inData).subscribe(response => {
-    //  console.log(response.json());
+      //  console.log(response.json());
     }, err => {
       console.log(err)
     })
   }
-  postVillageName(){
-      var inData = {
-        wh_pincode:"560078"
-      }
-      this.loginService.postVillageName(inData).subscribe(response => {
-       this.Village = response.json().result;
-       localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
-       localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
-       console.log(this.Village);
-        }, err => {
-          console.log(err)
-        })
+  postVillageName() {
+    var inData = {
+      wh_pincode: "560078"
+    }
+    this.loginService.postVillageName(inData).subscribe(response => {
+      this.Village = response.json().result;
+      localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
+      localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
+      console.log(this.Village);
+    }, err => {
+      console.log(err)
+    })
   }
 }
