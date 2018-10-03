@@ -75,11 +75,9 @@ export class HeaderComponent implements OnInit {
   
 
   ngOnInit() {
-<<<<<<< HEAD
     this.geoLocation()
-=======
+
       this.postVillageName();
->>>>>>> 3085eb02c382f8329b154115354c6fd41cb31bd6
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
