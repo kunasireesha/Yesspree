@@ -7,7 +7,7 @@ import { AppSettings } from '../../config';
 import { Router } from '@angular/router';
 import swal from 'sweetalert';
 import { PARAMETERS } from '../../../../node_modules/@angular/core/src/util/decorators';
-import * as jspdf from 'jspdf'; 
+
 
 @Injectable()
 export class DataService {

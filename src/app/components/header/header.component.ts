@@ -434,10 +434,12 @@ export class HeaderComponent implements OnInit {
   }
   postVillageName(){
       var inData = {
-        wh_pincode:"500032"
+        wh_pincode:"560078"
       }
       this.loginService.postVillageName(inData).subscribe(response => {
-       this.Village = response.json();
+       this.Village = response.json().result;
+       localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
+       localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
        console.log(this.Village);
         }, err => {
           console.log(err)
