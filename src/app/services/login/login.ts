@@ -163,10 +163,16 @@ export class DataService {
         return this.postInputParams(params, 'item/search');
     }
     postPromo(params):Observable<any>{
-        return this.postInputParams(params, 'cart/coupon');
+        return this.postAuthorizationInputParams(params, 'cart/coupon');
     }
     postVillageName(params):Observable<any>{
         return this.postInputParams(params, 'customer/villagename');
+    }
+    checkOut(params):Observable<any>{
+        return this.postInputParams(params,'cart/checkout')
+    }
+    checkoutSummary(params):Observable<any>{
+        return this.postAuthorizationInputParams(params,'cart/summary');
     }
     //view all 
     recProducts(params):Observable<any>{

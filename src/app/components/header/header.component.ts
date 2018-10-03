@@ -14,7 +14,11 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
+
   Village: string;
+  mrp: string;
+  grandTotal: string;
+  mycart: string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -446,6 +450,25 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
       localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
       console.log(this.Village);
+    }, err => {
+      console.log(err)
+    })
+  }
+  getCart() {
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      op: "get",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      lang: "en"
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      this.mrp = response.json().summary.mrp;
+      this.grandTotal = response.json().summary.grand_total;
+      this.mycart = response.json().cart;
+      console.log(this.mycart);
+
     }, err => {
       console.log(err)
     })
