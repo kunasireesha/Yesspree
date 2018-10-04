@@ -80,9 +80,9 @@
               <option selected *ngFor="let villageName of Village">{{villageName.pincode}}</option>
             </select>
           </div>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button" (click)="searchProducts()">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)] ="search">
           <div class="input-group-append search-append">
-            <button class="btn " type="button" id="button-addon2">Search</button>
+            <button class="btn "type="button" id="button-addon2" (click)="searchProducts(search)">Search</button>
           </div>
         </div>
       </div>

@@ -228,16 +228,22 @@
     </div>
     <br />
     <div class="row">
-      <div class="col-lg-2">
-
+        <div class="col-lg-2"></div>
+      <div class="col-lg-4">
+        <span>Dates: 
+          <select>
+            <option *ngFor="let time of dateSlot">{{time.date}}</option>
+          </select></span>
       </div>
-      <div class="col-lg-8">
-        <p>
-          <strong>Tuesday 24 March 2018,</strong>10:00am to 12:00 pm</p>
+      <div class="col-lg-4">
+            <span>Times: 
+              <select>
+                <option *ngFor="let time of timeSlot">{{time.time}}</option>
+            </select></span>
       </div>
-      <div class="col-lg-2 edit-time">
+      <!-- <div class="col-lg-2 edit-time">
         <i class="fa fa-pencil" aria-hidden="true"></i>
-      </div>
+      </div> -->
     </div>
   </div>
   <div class="row">
@@ -291,7 +297,7 @@
         <img src="assets/images/money.png" class="image"> &nbsp; &nbsp;
         <span>
             <strong>
-                    On Delivery
+                   Cash On Delivery
             </strong> 
         </span>
       </div>

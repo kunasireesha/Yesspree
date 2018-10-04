@@ -231,6 +231,7 @@
   padding: 20px;
   margin-bottom: 10px;
   cursor: pointer;
+  /* border-left: 5px solid #fff212; */
 }
 
 .offer-zone span {
@@ -418,3 +419,4 @@
   right: 50%;
   margin-right: 20px;
 }
+

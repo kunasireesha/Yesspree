@@ -14,11 +14,12 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
+    Village:string;
+    mrp:string;
+    grandTotal:string;
+    mycart:string;
+    search:string;
 
-  Village: string;
-  mrp: string;
-  grandTotal: string;
-  mycart: string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -275,7 +276,7 @@ export class HeaderComponent implements OnInit {
         password: this.formData.password,
         device_id: "abcd12_123",
         device_token: "abcd12_123",
-        device_type: "Desktop"
+        device_type: "desktop"
       }
       this.loginService.login(inData).subscribe(response => {
         if (response.json().status === "failure") {
@@ -424,16 +425,17 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts() {
+  searchProducts(event){
     var inData = {
-      _id: this.id,
-      _session: localStorage.session,
-      count: "20",
-      id_warehouse: localStorage.id_warehouse,
-      lang: "eng",
-      parent_warehouseid: localStorage.parent_warehouseid,
-      search: "cream",
-      start: "0"
+        _id: this.id,
+        _session: localStorage.session,
+        count:event.length,
+        id_warehouse:JSON.parse(localStorage.id_warehouse),
+        lang:"eng",
+        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+        search:event,
+        start:0
+
     }
     this.loginService.searchProducts(inData).subscribe(response => {
       //  console.log(response.json());
@@ -464,11 +466,10 @@ export class HeaderComponent implements OnInit {
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
-      this.mrp = response.json().summary.mrp;
-      this.grandTotal = response.json().summary.grand_total;
-      this.mycart = response.json().cart;
-      console.log(this.mycart);
-
+        this.mrp = response.json().summary.mrp;
+        this.grandTotal = response.json().summary.grand_total;
+        this.mycart = response.json().cart;
+        console.log(this.mycart);
     }, err => {
       console.log(err)
     })

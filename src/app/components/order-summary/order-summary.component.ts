@@ -20,6 +20,8 @@ export class OrderSummaryComponent implements OnInit {
   checkout:string;
   userName:string;
   id:string;
+  timeSlot:string;
+  dateSlot:string;
   constructor(public loginService: DataService) { 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.userName = JSON.parse(localStorage.userName);
@@ -67,6 +69,8 @@ export class OrderSummaryComponent implements OnInit {
       this.loginService.checkoutSummary(inData).subscribe(response => {
         this.cartSummary = response.json().orders;
         this.orderId = response.json().orders[0].order_id;
+        this.dateSlot = response.json().orders[0].deliveryslot;
+        this.timeSlot = response.json().orders[0].deliveryslot[0].times;
         console.log(this.orderId);
       }, err => {
         swal(err.message, "", "error")
@@ -95,8 +99,7 @@ export class OrderSummaryComponent implements OnInit {
     }, err => {
       console.log(err)
     }) 
-}
-
+  }
   ngOnInit() {
       this.checkoutSummary();
   }
