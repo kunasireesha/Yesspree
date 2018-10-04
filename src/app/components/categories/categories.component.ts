@@ -1,49 +1,30 @@
 import { Component, OnInit } from '@angular/core';
-import { DataService } from '../../services/login/login';
+import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/router';
 import { AppSettings } from '../../config';
-import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
-
+import { DataService } from '../../services/login/login';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less', '../product/product.component.less']
+  selector: 'app-categories',
+  templateUrl: './categories.component.html',
+  styleUrls: ['./categories.component.less']
 })
-export class HomeComponent implements OnInit {
+export class CategoriesComponent implements OnInit {
 
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
-    this.pageNav = this.route.snapshot.data[0]['page'];
+  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
+      this.catName = params.name;
+      this.getChildCat();
+      this.getTopProducts();
+      this.getAllProducts();
     });
 
   }
 
-  dashboardData;
-  skuid: string;
-  // categoryData;
-  sqareBaneer1;
-  sqareBaneer2;
-  BigSqur;
-  popProducts;
-  squrBanner;
-  offerBanner1;
-  offerBanner2;
-  offerBanner3;
-  products;
-  products1;
-  brandsData = [];
-  id;
-  url;
-  pageNav;
   catId;
-  mainBanner;
-  wishList;
-  showInput = false;
+  catName;
+  url;
   childCat = [];
-  items = {
-    quantity: 0
-  }
 
   getChildCat() {
     this.url = AppSettings.imageUrl;
@@ -62,13 +43,37 @@ export class HomeComponent implements OnInit {
     })
   }
 
-  productImage;
-  subSubCatData
-  slidingbanner = [];
+
+  dashboardData;
+  // categoryData;
+  sqareBaneer1;
+  sqareBaneer2;
+  BigSqur;
+  popProducts;
+  squrBanner;
+  offerBanner1;
+  offerBanner2;
+  offerBanner3;
+  products;
+  products1;
+  brandsData = [];
+  topProductsdata = [];
+  allProductsdata = [];
+  id;
+  pageNav;
+  showInput = false;
+  items = {
+    quantity: 1
+  }
   percentage;
-  percentage1;
+
+
+  productImage;
+  slidingbanner = [];
 
   ngOnInit() {
+
+    this.getChildCat();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
@@ -86,10 +91,8 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
-      this.mainBanner = response.json().result.banner[0].bannerdata;
       this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0];
       this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1];
       this.BigSqur = response.json().result.banner[2].bannerdata;
@@ -99,28 +102,19 @@ export class HomeComponent implements OnInit {
       this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
       this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
       this.products = response.json().result.specific_product[0].product;
-      for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].actual_price !== undefined) {
-          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
-          this.products[i].sku[0].percentage = this.percentage;
-        }
-      }
       this.slidingbanner = response.json().result.banner[5].bannerdata;
-      console.log(this.products);
       for (var i = 0; i < this.products.length; i++) {
         this.productImage = this.products[i].pic[0].pic;
       }
       this.products1 = response.json().result.specific_product[1].product;
-      for (var i = 0; i < this.products1.length; i++) {
-        if (this.products1[i].sku[0].actual_price !== undefined) {
-          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].actual_price * 100
-          this.products1[i].sku[0].percentage = this.percentage1;
-        }
-      }
     }, err => {
       console.log(err)
-    })
+    });
+
+    this.getTopProducts();
+    this.getAllProducts();
   }
+
 
   showSubData(id) {
     let navigationExtras: NavigationExtras = {
@@ -134,66 +128,91 @@ export class HomeComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(id, skuId) {
+  itemIncrease() {
     let thisObj = this;
     this.showInput = true;
     thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
+    this.getCart(thisObj.items.quantity);
   }
-  itemDecrease(id, skuId) {
+  itemDecrease() {
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
       return;
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
+    this.getCart(thisObj.items.quantity);
   }
-  getCart(quantity, id, skuId) {
+  getCart(quantity) {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      id_product: id,
-      id_sku: skuId,
+      id_product: "11",
+      id_sku: "20",
       op: "modify",
-      quantity: JSON.stringify(quantity),
+      quantity: quantity,
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      this.subSubCatData = response.json();
+      //   this.subSubCatData = response.json().result.sub_category;
     }, err => {
       console.log(err)
     })
   }
 
-  wish(id) {
+
+  //get dashbrd top products
+  getTopProducts() {
     var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en"
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "start": 0,
+      "type": 'top_products',
+      "id_subcategory": this.catId
     }
-    this.loginService.wish(inData).subscribe(response => {
-      // if(response.json().status === "failure"){
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.topProductsdata = response.json().product;
+    }, error => {
 
-      // }
-      this.wishList = response.json();
-    }, err => {
-      console.log(err)
     })
   }
-  viewProducts(action) {
+
+  getAllProducts() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "start": 0,
+      "type": 'all_products',
+      "id_subcategory": this.catId
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.allProductsdata = response.json().product || 0;
+      for (var i = 0; i < this.allProductsdata.length; i++) {
+        if (this.allProductsdata[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].actual_price * 100
+          this.allProductsdata[i].sku[0].percentage = this.percentage;
+        }
+      }
+    }, error => {
+
+    })
+  }
+
+  getViewAllProducts(action) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        action: action
+        action: action,
+        catId: this.catId
       }
-
     }
     this.router.navigate(["/recProducts"], navigationExtras);
-  }
 
+  }
 }

@@ -1,52 +1,82 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { AppSettings } from '../../config';
 
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
-  styleUrls: ['./rec-products.component.css','../products/products.component.less']
+  styleUrls: ['./rec-products.component.css', '../products/products.component.less']
 })
 export class RecProductsComponent implements OnInit {
   type;
   id;
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
-    this.route.queryParams.subscribe(params=>{
-      this.type = params.action
+    this.route.queryParams.subscribe(params => {
+      this.type = params.action;
+      this.catId = params.catId
     })
-   }
-   typeOfProduct;
+  }
+  typeOfProduct;
+  catId;
+  subCatId;
+  products = [];
+  title;
+  url;
+  percentage;
   ngOnInit() {
+    this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
-      
+
       this.id = 0;
     }
-   if(this.type = 'recProducts'){
-     this.typeOfProduct="specific_product1"
-   }else if(this.type = 'recProducts1'){
-    this.typeOfProduct="specific_product2"
-   } else {
-    this.typeOfProduct="brands"
-   }
-     var inData = {
-      "_id":this.id,
-      "_session":localStorage.session,
-      "count":20,
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "start":0,
-      "type":this.typeOfProduct
+    if (this.type === 'recProducts') {
+      this.typeOfProduct = "specific_product1";
+      this.subCatId = '';
+      this.title = "Recommended Products";
+    } else if (this.type === 'recProducts1') {
+      this.typeOfProduct = "specific_product2";
+      this.subCatId = '';
+      this.title = "Recommended Products";
+    } else if (this.type === 'topProducts') {
+      this.typeOfProduct = "top_products";
+      this.subCatId = this.catId;
+      this.title = "Top Products";
+    } else if (this.type === 'allProducts') {
+      this.typeOfProduct = "all_products";
+      this.subCatId = this.catId;
+      this.title = "All Products";
+    } else {
+      this.typeOfProduct = "brands"
     }
-    this.loginService.recProducts(inData).subscribe(response=> {
-console.log(response)
-    },error=> {
+
+
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 20,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "start": 0,
+      "type": this.typeOfProduct,
+      "id_subcategory": this.subCatId
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.products = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+      }
+    }, error => {
 
     })
-     }
-   
-  
+  }
+
+
 
 }
