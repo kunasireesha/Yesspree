@@ -19,7 +19,7 @@ export class MyAccountComponent implements OnInit {
       this.id = 0;
     }
     this.getAdd();
-    this.getWishlist()
+    this.getWishlist();
     localStorage.getItem;
     this.url = AppSettings.imageUrl;
   }
@@ -102,8 +102,8 @@ export class MyAccountComponent implements OnInit {
       this.mynotifiactions = true;
       var inData =  {
         "id_customer":this.id ,
-        "parent_warehouseid":"1",
-        "id_warehouse":"2",
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse":JSON.parse(localStorage.id_warehouse),
         "lang":"en"
       }
       this.loginService.notificationsData(inData).subscribe(response=> {
@@ -378,8 +378,8 @@ export class MyAccountComponent implements OnInit {
 
       if (value === true) {
         this.loginService.deleteAdd(inData).subscribe(response => {
-          swal("Deleted successfully", "", "success");
           this.getAdd();
+          swal("Deleted successfully", "", "success");
         }, err => {
           swal(err.message, "", "error")
         })
@@ -440,8 +440,8 @@ export class MyAccountComponent implements OnInit {
     var inData = {
       "_id":this.id,
       "op":"get",
-      "parent_warehouseid":"",
-      "id_warehouse":"",
+      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse":JSON.parse(localStorage.id_warehouse),
       "lang":"en",
       "_session":localStorage.session
     
@@ -459,8 +459,8 @@ export class MyAccountComponent implements OnInit {
       "_id":this.id,
       "id_product":id,
       "op":"delete",
-      "parent_warehouseid":"",
-      "id_warehouse":"",
+      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse":JSON.parse(localStorage.id_warehouse),
       "lang":"en"
     }
     this.loginService.deleteWish(inData).subscribe(response=> {

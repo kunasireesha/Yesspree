@@ -68,6 +68,7 @@ export function getAuthServiceConfigs() {
     SearchProductComponent,
     CategoriesComponent,
     RecProductsComponent
+
   ],
   imports: [
     BrowserModule,

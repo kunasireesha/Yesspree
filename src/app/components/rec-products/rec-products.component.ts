@@ -6,11 +6,17 @@ import { AppSettings } from '../../config';
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
-  styleUrls: ['./rec-products.component.css', '../products/products.component.less']
+  styleUrls: ['./rec-products.component.css','../products/products.component.less','../home/home.component.less']
+
 })
 export class RecProductsComponent implements OnInit {
   type;
   id;
+  products = []
+  brands = []
+  showbrands = false;
+  showproducts =false;
+  noData=false;
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
       this.type = params.action;
@@ -20,7 +26,6 @@ export class RecProductsComponent implements OnInit {
   typeOfProduct;
   catId;
   subCatId;
-  products = [];
   title;
   url;
   percentage;
@@ -41,20 +46,27 @@ export class RecProductsComponent implements OnInit {
       this.typeOfProduct = "specific_product1";
       this.subCatId = '';
       this.title = "Recommended Products";
+      this.showbrands = false;
     } else if (this.type === 'recProducts1') {
       this.typeOfProduct = "specific_product2";
       this.subCatId = '';
       this.title = "Recommended Products";
+      this.showbrands = false;
     } else if (this.type === 'topProducts') {
       this.typeOfProduct = "top_products";
       this.subCatId = this.catId;
       this.title = "Top Products";
+      this.showbrands = false;
     } else if (this.type === 'allProducts') {
       this.typeOfProduct = "all_products";
       this.subCatId = this.catId;
       this.title = "All Products";
-    } else {
-      this.typeOfProduct = "brands"
+      this.showbrands = false;
+    } else if(this.type === 'brands') {
+      this.typeOfProduct = "brands";
+      this.title = "All Brands";
+      this.subCatId = '';
+      this.showbrands = true;
     }
 
 
@@ -71,6 +83,7 @@ export class RecProductsComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.products = response.json().product;
+      this.brands = response.json().brands;
       for (var i = 0; i < this.products.length; i++) {
         if (this.products[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
