@@ -39,11 +39,13 @@ export class HomeComponent implements OnInit {
   catId;
   mainBanner;
   wishList;
-  showInput = false;
+  showInput = true;
   childCat = [];
   items = {
-    quantity: 0
+    quantity: 1
   }
+  selected;
+  quantity;
 
   getChildCat() {
     this.url = AppSettings.imageUrl;
@@ -100,11 +102,12 @@ export class HomeComponent implements OnInit {
       this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
       this.products = response.json().result.specific_product[0].product;
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].actual_price !== undefined) {
-          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
           this.products[i].sku[0].percentage = this.percentage;
         }
       }
+
       this.slidingbanner = response.json().result.banner[5].bannerdata;
       //for product image
       for (var i = 0; i < this.products.length; i++) {
@@ -113,8 +116,8 @@ export class HomeComponent implements OnInit {
 
       this.products1 = response.json().result.specific_product[1].product;
       for (var i = 0; i < this.products1.length; i++) {
-        if (this.products1[i].sku[0].actual_price !== undefined) {
-          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].actual_price * 100
+        if (this.products1[i].sku[0].mrp !== undefined) {
+          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
           this.products1[i].sku[0].percentage = this.percentage1;
         }
       }
@@ -136,13 +139,22 @@ export class HomeComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(id, skuId) {
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
     let thisObj = this;
-    this.showInput = true;
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
+    if (localStorage.name !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
   }
-  itemDecrease(id, skuId) {
+
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
       return;
@@ -151,13 +163,18 @@ export class HomeComponent implements OnInit {
     this.getCart(thisObj.items.quantity, id, skuId);
   }
   getCart(quantity, id, skuId) {
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
     var inData = {
       _id: this.id,
       _session: localStorage.session,
       id_product: id,
       id_sku: skuId,
       op: "modify",
-      quantity: JSON.stringify(quantity),
+      quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse)
@@ -172,23 +189,23 @@ export class HomeComponent implements OnInit {
 
   wish(id) {
     var inData = {
-      _session:localStorage.session,
-      _id:this.id,
-      id_product:id,
-      op:"create",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en"
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
 
     }
     this.loginService.wish(inData).subscribe(response => {
-      if(response.json().status === "failure"){
-        swal("Wishlist already added. Please try again.","", "error")
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
       } else {
         this.wishList = response.json();
-        swal("Added to wish list","", "success")
+        swal("Added to wish list", "", "success")
       }
-      
+
     }, err => {
       console.log(err)
     })
@@ -202,15 +219,15 @@ export class HomeComponent implements OnInit {
     }
     this.router.navigate(["/recProducts"], navigationExtras);
   }
-  showProductDetails(proId){
-    let navigationExtras: NavigationExtras = {
-      queryParams:{
-        proId:proId
+  showProductDetails(proId) {
+   let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
       }
-      
+
     }
     this.router.navigate(["/product_details"], navigationExtras);
-      }
-  
+  }
+
 
 }

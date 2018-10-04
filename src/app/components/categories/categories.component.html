@@ -61,7 +61,7 @@
   <br />
   <div class="products">
     <div class="row items">
-      <div class="col-md-3 item" *ngFor="let topProd of topProductsdata">
+      <div class="col-md-3 item" *ngFor="let topProd of topProductsdata;let i = index">
         <div *ngFor="let sku of topProd.sku">
           <div class="card" (click)="showProduxtDetails()">
             <a>
@@ -77,28 +77,28 @@
                   <span class="price">
                     <i class="fa fa-rupee" aria-hidden="true"></i>
                     {{sku.selling_price}}</span>
-                  <strike *ngIf="sku.actual_price!==undefined">
+                  <strike *ngIf="sku.mrp!==undefined">
                     <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.actual_price}}
+                    {{sku.mrp}}
                   </strike>
                 </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
                   <span class="saveMney">you save {{sku.percentage}} %</span>
                 </div>
               </div>
               <br />
               <div class="row prdct-length">
                 <div class="col-md-4">
-                  <span *ngIf="showInput" (click)="itemDecrease(topProd._id,sku._id,i)">
+                  <span *ngIf="showInput && i == selected" (click)="itemDecrease(topProd._id,sku._id,i)">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </span>
                 </div>
                 <div class="col-md-4 quantity">
-                  <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity,topProd._id,sku._id)">Add</span>
-                  <span *ngIf="showInput">{{items.quantity}}</span>
+                  <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,topProd._id,sku._id)">Add</span>
+                  <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
                 </div>
                 <div class="col-md-4">
-                  <span class="plus" (click)="itemIncrease(topProd._id,sku._id,i)">
+                  <span class="plus" (click)="itemIncrease(topProd,topProd.name,topProd._id,sku._id,i)">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </span>
                 </div>
@@ -150,7 +150,7 @@
   <br />
   <div class="products">
     <div class="row items">
-      <div class="col-md-3 item" *ngFor="let allPro of allProductsdata">
+      <div class="col-md-3 item" *ngFor="let allPro of allProductsdata;let i = index">
         <div *ngFor="let sku of allPro.sku">
           <div class="card" (click)="showProduxtDetails()">
             <a>
@@ -166,28 +166,28 @@
                   <span class="price">
                     <i class="fa fa-rupee" aria-hidden="true"></i>
                     {{sku.selling_price}}</span>
-                  <strike *ngIf="sku.actual_price!==undefined">
+                  <strike *ngIf="sku.mrp!==undefined">
                     <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.actual_price}}
+                    {{sku.mrp}}
                   </strike>
                 </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
                   <span class="saveMney">you save {{sku.percentage}} %</span>
                 </div>
               </div>
               <br />
               <div class="row prdct-length">
                 <div class="col-md-4">
-                  <span *ngIf="showInput" (click)="itemDecrease()">
+                  <span *ngIf="showInput && i == selected" (click)="itemDecrease(allPro._id,sku._id,i)">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </span>
                 </div>
                 <div class="col-md-4 quantity">
-                  <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity)">Add</span>
-                  <span *ngIf="showInput">{{items.quantity}}</span>
+                  <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity)">Add</span>
+                  <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
                 </div>
                 <div class="col-md-4">
-                  <span class="plus" (click)="itemIncrease()">
+                  <span class="plus" (click)="itemIncrease(allPro,allPro.name,allPro._id,sku._id,i)">
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </span>
                 </div>

@@ -65,9 +65,11 @@ export function getAuthServiceConfigs() {
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
-    CategoriesComponent,
     RecProductsComponent,
-    SearchProductComponent
+    SearchProductComponent,
+    CategoriesComponent,
+    RecProductsComponent
+
 
   ],
   imports: [
