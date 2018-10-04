@@ -62,47 +62,45 @@
   <div class="products">
     <div class="row items">
       <div class="col-md-3 item" *ngFor="let topProd of topProductsdata">
-        <div *ngFor="let item of topProd.pic; let i = index">
-          <div *ngFor="let sku of topProd.sku">
-            <div class="card" (click)="showProduxtDetails()">
-              <a>
-                <i class="fa fa-heart" aria-hidden="true"></i>
-              </a>
-              <img class="img-fluid product-img" [src]="url + item.pic" alt="Card image cap">
-              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
-              <div class="card-block">
-                <h5>{{topProd.name}}</h5>
-                <p>{{sku.size}}</p>
-                <div class="row  item-price">
-                  <div class="col-md-6 col-sm-12 col-xs-12">
-                    <span class="price">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.selling_price}}</span>
-                    <strike *ngIf="sku.actual_price!==undefined">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.actual_price}}
-                    </strike>
-                  </div>
-                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
-                    <span class="saveMney">you save {{sku.percentage}} %</span>
-                  </div>
+        <div *ngFor="let sku of topProd.sku">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid product-img" [src]="topProd.image" alt="Card image cap">
+            <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+            <div class="card-block">
+              <h5>{{topProd.name}}</h5>
+              <p>{{sku.size}}</p>
+              <div class="row  item-price">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.selling_price}}</span>
+                  <strike *ngIf="sku.actual_price!==undefined">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.actual_price}}
+                  </strike>
                 </div>
-                <br />
-                <div class="row prdct-length">
-                  <div class="col-md-4">
-                    <span *ngIf="showInput" (click)="itemDecrease()">
-                      <i class="fa fa-minus" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                  <div class="col-md-4 quantity">
-                    <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity)">Add</span>
-                    <span *ngIf="showInput">{{items.quantity}}</span>
-                  </div>
-                  <div class="col-md-4">
-                    <span class="plus" (click)="itemIncrease()">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </span>
-                  </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                  <span class="saveMney">you save {{sku.percentage}} %</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-4">
+                  <span *ngIf="showInput" (click)="itemDecrease(topProd._id,sku._id,i)">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-4 quantity">
+                  <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity,topProd._id,sku._id)">Add</span>
+                  <span *ngIf="showInput">{{items.quantity}}</span>
+                </div>
+                <div class="col-md-4">
+                  <span class="plus" (click)="itemIncrease(topProd._id,sku._id,i)">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -112,15 +110,11 @@
       <div class="col-md-12" *ngIf="topProductsdata.length==0">
         <h3 class="text-center nodata">No Data Found</h3>
       </div>
-
     </div>
   </div>
-
 </div>
 <br />
-
 <div class="container deals_section recmmended">
-
   <div class="row ">
 
     <div class="col-md-12 recom-after">
@@ -135,15 +129,11 @@
 <br />
 <div class="container">
   <div class="row">
-
     <div class="offers" [style.backgroundImage]="'url('+ url + offerBanner1.pic +')'">
       <h3>10% OFFER</h3>
       <p>QUALITY FURNITURES</p>
       <button class="order-btn">Order Now</button>
-
-
     </div>
-
     <div class="offers1" [style.backgroundImage]="'url('+ url + offerBanner2.pic +')'">
       <h3>FLAT 30% OFF</h3>
       <p>HOUSE HOLD PRODUCTS</p>
@@ -161,47 +151,45 @@
   <div class="products">
     <div class="row items">
       <div class="col-md-3 item" *ngFor="let allPro of allProductsdata">
-        <div *ngFor="let item of allPro.pic; let i = index">
-          <div *ngFor="let sku of allPro.sku">
-            <div *ngIf="i<1" class="card" (click)="showProduxtDetails()">
-              <a>
-                <i class="fa fa-heart" aria-hidden="true"></i>
-              </a>
-              <img class="img-fluid product-img" [src]="url + item.pic" alt="Card image cap">
-              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
-              <div class="card-block">
-                <h5>{{allPro.name}} </h5>
-                <p>{{sku.size}}</p>
-                <div class="row  item-price">
-                  <div class="col-md-6 col-sm-12 col-xs-12">
-                    <span class="price">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.selling_price}}</span>
-                    <strike *ngIf="sku.actual_price!==undefined">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.actual_price}}
-                    </strike>
-                  </div>
-                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
-                    <span class="saveMney">you save {{sku.percentage}} %</span>
-                  </div>
+        <div *ngFor="let sku of allPro.sku">
+          <div class="card" (click)="showProduxtDetails()">
+            <a>
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid product-img" [src]="allPro.image" alt="Card image cap">
+            <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+            <div class="card-block">
+              <h5>{{allPro.name}} </h5>
+              <p>{{sku.size}}</p>
+              <div class="row  item-price">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.selling_price}}</span>
+                  <strike *ngIf="sku.actual_price!==undefined">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.actual_price}}
+                  </strike>
                 </div>
-                <br />
-                <div class="row prdct-length">
-                  <div class="col-md-4">
-                    <span *ngIf="showInput" (click)="itemDecrease()">
-                      <i class="fa fa-minus" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                  <div class="col-md-4 quantity">
-                    <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity)">Add</span>
-                    <span *ngIf="showInput">{{items.quantity}}</span>
-                  </div>
-                  <div class="col-md-4">
-                    <span class="plus" (click)="itemIncrease()">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </span>
-                  </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                  <span class="saveMney">you save {{sku.percentage}} %</span>
+                </div>
+              </div>
+              <br />
+              <div class="row prdct-length">
+                <div class="col-md-4">
+                  <span *ngIf="showInput" (click)="itemDecrease()">
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                  </span>
+                </div>
+                <div class="col-md-4 quantity">
+                  <span class="add text-center" *ngIf="!showInput" (click)="getCart(items.quantity)">Add</span>
+                  <span *ngIf="showInput">{{items.quantity}}</span>
+                </div>
+                <div class="col-md-4">
+                  <span class="plus" (click)="itemIncrease()">
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </span>
                 </div>
               </div>
             </div>
@@ -232,7 +220,7 @@
 
 <div class="container deals_section brands">
   <h3>SHOP BY BRANDS
-    <span class="viewAll" routerLink="">View All</span>
+    <span class="viewAll" (click)="getViewAllProducts('brands')">View All</span>
   </h3>
   <div class="row">
     <div class=" col-md-3 mt-3" *ngFor="let item of brandsData;let i =index">
