@@ -24,6 +24,11 @@ export class RecProductsComponent implements OnInit {
   title;
   url;
   percentage;
+  showInput = true;
+  items = {
+    quantity: 1
+  }
+  selected;
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -71,12 +76,64 @@ export class RecProductsComponent implements OnInit {
           this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
           this.products[i].sku[0].percentage = this.percentage;
         }
+        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
+
+
     }, error => {
 
     })
   }
 
+  //add to cart
+  quantity;
+  getCart(quantity, id, skuId) {
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      swal('Item added to cart', '', 'success');
+      this.items.quantity = this.quantity;
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
+
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.name !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
+  }
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (thisObj.items.quantity === 1) {
+      return;
+    }
+    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    this.getCart(thisObj.items.quantity, id, skuId);
+  }
 
 
 }
