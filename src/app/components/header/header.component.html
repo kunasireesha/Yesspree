@@ -578,14 +578,14 @@
         <div class="row bac-shadw" *ngFor="let cartItems of mycart">
           <div class="col-lg-3">
             <div class="ashirvadimg">
-              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
+              <img [src]= "url + cartItems.image" alt="ashirvad" />
             </div>
           </div>
           <div class="col-lg-9">
             <div class="atta">
 
               <p>
-                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
+                <strong>{{cartItems.name}}</strong>
               </p>
               <div class="row">
                 <div class="col-md-3">

@@ -50,7 +50,7 @@ export class OrderSummaryComponent implements OnInit {
     var inData = {
         _session: localStorage.session,
         coupon_code:"yesspree30",
-        id_order:this.orderId
+        id_order:JSON.stringify(this.orderId)
       }
       this.loginService.postPromo(inData).subscribe(response => {
         this.Promo = response.json().result;

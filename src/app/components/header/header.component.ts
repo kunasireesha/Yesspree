@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
     grandTotal:string;
     mycart:string;
     search:string;
-
+    mycartImg:string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -431,7 +431,7 @@ export class HeaderComponent implements OnInit {
         _session: localStorage.session,
         count:event.length,
         id_warehouse:JSON.parse(localStorage.id_warehouse),
-        lang:"eng",
+        lang:"en",
         parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
         search:event,
         start:0

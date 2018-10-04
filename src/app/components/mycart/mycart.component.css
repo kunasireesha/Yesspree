@@ -46,8 +46,9 @@
 
 .prod-image {
   width: 30%;
-  height: 60%;
+  height: 50%;
   float: left;
+  padding-right: 10px;
 }
 
 .prod-table {
@@ -90,6 +91,11 @@
 .table-total p {
   margin-top: 30px;
   font-size: 18px;
+}
+.table-delete p{
+    margin-top: 30px;
+    font-size: 22px;
+    cursor: pointer;
 }
 
 .table-savings p {

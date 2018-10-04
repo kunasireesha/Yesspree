@@ -178,4 +178,10 @@ export class DataService {
     recProducts(params):Observable<any>{
         return this.postInputParams(params, 'item/viewall');
     }
+    exploreCartCount(params):Observable<any>{
+        return this.postInputParams(params, 'product/updateadvcount')
+    }
+    removeCart(params):Observable<any>{
+        return this.postInputParams(params, 'cart/remove');
+    }
 }
