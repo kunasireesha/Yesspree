@@ -212,10 +212,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/product_details"], navigationExtras);
     }
 
-  showProductDetails(id){
+  showProductDetails(proId){
     let navigationExtras: NavigationExtras = {
       queryParams:{
-        id:id
+        proId:proId
       }
       
     }

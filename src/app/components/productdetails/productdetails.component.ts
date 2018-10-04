@@ -11,9 +11,10 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 export class ProductdetailsComponent implements OnInit {
   id;
   prodId;
+  product;
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
-      this.prodId = params.id;
+      this.prodId = params.proId;
     });
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.id = JSON.parse(localStorage.userId);
@@ -62,16 +63,15 @@ export class ProductdetailsComponent implements OnInit {
 
   productDetails() {
       var inData = {
-        _id: this.prodId,
+        _id: this.id,
         _session: localStorage.session,
-        products:"12",
+        products:this.prodId ,
         parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
         id_warehouse:JSON.parse(localStorage.id_warehouse),
         lang:"en",
     }
     this.loginService.productDetails(inData).subscribe(response => {
-     console.log(response);
-     debugger
+    this.product = response.json().product.pic[0];
     }, err => {
       console.log(err);
     })
