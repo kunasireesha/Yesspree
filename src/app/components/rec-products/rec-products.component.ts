@@ -34,9 +34,9 @@ export class RecProductsComponent implements OnInit {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
-
       this.id = 0;
     }
+
     if (this.type === 'recProducts') {
       this.typeOfProduct = "specific_product1";
       this.subCatId = '';
@@ -72,8 +72,8 @@ export class RecProductsComponent implements OnInit {
     this.loginService.recProducts(inData).subscribe(response => {
       this.products = response.json().product;
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].actual_price !== undefined) {
-          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
           this.products[i].sku[0].percentage = this.percentage;
         }
         this.products[i].image = this.url + this.products[i].pic[0].pic;
@@ -125,6 +125,7 @@ export class RecProductsComponent implements OnInit {
       localStorage.setItem('name', name);
     }
   }
+
   itemDecrease(id, skuId, index) {
     this.selected = index;
     let thisObj = this;

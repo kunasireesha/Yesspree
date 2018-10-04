@@ -33,12 +33,12 @@
                     <span class="price">
                       <i class="fa fa-rupee" aria-hidden="true"></i>
                       {{sku.selling_price}}</span>
-                    <strike *ngIf="sku.actual_price!==undefined">
+                    <strike *ngIf="sku.mrp!==undefined">
                       <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.actual_price}}
+                      {{sku.mrp}}
                     </strike>
                   </div>
-                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
                     <span class="saveMney">you save {{sku.percentage}} %</span>
                   </div>
                 </div>

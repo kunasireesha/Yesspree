@@ -64,13 +64,10 @@ export function getAuthServiceConfigs() {
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
-<<<<<<< HEAD
     RecProductsComponent,
-    SearchProductComponent
-=======
+    SearchProductComponent,
     CategoriesComponent,
     RecProductsComponent
->>>>>>> cbd416ca5379c983d1f287553d74a2f3cc09bb7c
   ],
   imports: [
     BrowserModule,

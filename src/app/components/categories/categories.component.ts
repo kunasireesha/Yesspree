@@ -61,12 +61,12 @@ export class CategoriesComponent implements OnInit {
   allProductsdata = [];
   id;
   pageNav;
-  showInput = false;
+  showInput = true;
   items = {
     quantity: 1
   }
   percentage;
-
+  selected;
 
   productImage;
   slidingbanner = [];
@@ -128,16 +128,22 @@ export class CategoriesComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(id, skuId, index) {
-    // if (index) {
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
     let thisObj = this;
-    this.showInput = true;
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
-    // }
-
+    if (localStorage.catname !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('catname', name);
+    }
   }
-  itemDecrease(id, skuId) {
+
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
       return;
@@ -145,15 +151,21 @@ export class CategoriesComponent implements OnInit {
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
   }
-
+  quantity;
   getCart(quantity, id, skuId) {
+
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
     var inData = {
       _id: this.id,
       _session: localStorage.session,
       id_product: id,
       id_sku: skuId,
       op: "modify",
-      quantity: JSON.stringify(quantity),
+      quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse)
@@ -182,8 +194,8 @@ export class CategoriesComponent implements OnInit {
     this.loginService.recProducts(inData).subscribe(response => {
       this.topProductsdata = response.json().product;
       for (var i = 0; i < this.topProductsdata.length; i++) {
-        if (this.topProductsdata[i].sku[0].actual_price !== undefined) {
-          this.percentage = this.topProductsdata[i].sku[0].selling_price / this.topProductsdata[i].sku[0].actual_price * 100
+        if (this.topProductsdata[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.topProductsdata[i].sku[0].selling_price / this.topProductsdata[i].sku[0].mrp) * 100
           this.topProductsdata[i].sku[0].percentage = this.percentage;
         }
         this.topProductsdata[i].image = this.url + this.topProductsdata[i].pic[0].pic;
@@ -208,8 +220,8 @@ export class CategoriesComponent implements OnInit {
     this.loginService.recProducts(inData).subscribe(response => {
       this.allProductsdata = response.json().product;
       for (var i = 0; i < this.allProductsdata.length; i++) {
-        if (this.allProductsdata[i].sku[0].actual_price !== undefined) {
-          this.percentage = this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].actual_price * 100
+        if (this.allProductsdata[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].mrp) * 100
           this.allProductsdata[i].sku[0].percentage = this.percentage;
         }
         this.allProductsdata[i].image = this.url + this.allProductsdata[i].pic[0].pic;
