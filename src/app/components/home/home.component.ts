@@ -203,10 +203,10 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/recProducts"], navigationExtras);
   }
 
-  showProductDetails(id){
+  showProductDetails(proId){
     let navigationExtras: NavigationExtras = {
       queryParams:{
-        id:id
+        proId:proId
       }
       
     }
