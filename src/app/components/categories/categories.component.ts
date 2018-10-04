@@ -128,34 +128,40 @@ export class CategoriesComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease() {
+  itemIncrease(id, skuId, index) {
+    // if (index) {
     let thisObj = this;
     this.showInput = true;
     thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, id, skuId);
+    // }
+
   }
-  itemDecrease() {
+  itemDecrease(id, skuId) {
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
       return;
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, id, skuId);
   }
-  getCart(quantity) {
+
+  getCart(quantity, id, skuId) {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      id_product: "11",
-      id_sku: "20",
+      id_product: id,
+      id_sku: skuId,
       op: "modify",
-      quantity: quantity,
+      quantity: JSON.stringify(quantity),
       wh_pincode: "560078",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      //   this.subSubCatData = response.json().result.sub_category;
+      swal('Item added to cart', '', 'success');
     }, err => {
-      console.log(err)
+      swal(err.json().message, '', 'error');
     })
   }
 
@@ -175,6 +181,13 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.topProductsdata = response.json().product;
+      for (var i = 0; i < this.topProductsdata.length; i++) {
+        if (this.topProductsdata[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.topProductsdata[i].sku[0].selling_price / this.topProductsdata[i].sku[0].actual_price * 100
+          this.topProductsdata[i].sku[0].percentage = this.percentage;
+        }
+        this.topProductsdata[i].image = this.url + this.topProductsdata[i].pic[0].pic;
+      }
     }, error => {
 
     })
@@ -193,12 +206,13 @@ export class CategoriesComponent implements OnInit {
       "id_subcategory": this.catId
     }
     this.loginService.recProducts(inData).subscribe(response => {
-      this.allProductsdata = response.json().product || 0;
+      this.allProductsdata = response.json().product;
       for (var i = 0; i < this.allProductsdata.length; i++) {
         if (this.allProductsdata[i].sku[0].actual_price !== undefined) {
           this.percentage = this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].actual_price * 100
           this.allProductsdata[i].sku[0].percentage = this.percentage;
         }
+        this.allProductsdata[i].image = this.url + this.allProductsdata[i].pic[0].pic;
       }
     }, error => {
 
@@ -215,4 +229,7 @@ export class CategoriesComponent implements OnInit {
     this.router.navigate(["/recProducts"], navigationExtras);
 
   }
+
+
+
 }

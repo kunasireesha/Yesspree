@@ -106,10 +106,11 @@ export class HomeComponent implements OnInit {
         }
       }
       this.slidingbanner = response.json().result.banner[5].bannerdata;
-      console.log(this.products);
+      //for product image
       for (var i = 0; i < this.products.length; i++) {
-        this.productImage = this.products[i].pic[0].pic;
+        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
+
       this.products1 = response.json().result.specific_product[1].product;
       for (var i = 0; i < this.products1.length; i++) {
         if (this.products1[i].sku[0].actual_price !== undefined) {
@@ -121,6 +122,7 @@ export class HomeComponent implements OnInit {
       console.log(err)
     })
   }
+
 
   showSubData(id) {
     let navigationExtras: NavigationExtras = {
@@ -162,8 +164,9 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
+      swal('Item added to cart', '', 'success');
     }, err => {
-      console.log(err)
+      swal(err.json().message, '', 'error');
     })
   }
 
