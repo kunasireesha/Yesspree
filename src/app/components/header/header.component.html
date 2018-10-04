@@ -47,9 +47,9 @@
                 <a class="dropdown-item" routerLink="/mynotifiactions">
                   <i class="fa fa-bell-o" aria-hidden="true"></i>
                   &nbsp; Notifications</a>
-                  <a class="dropdown-item" routerLink="/wishlist">
-                    <i class="fa fa-heart" aria-hidden="true"></i>
-                    &nbsp; WishList</a>
+                <a class="dropdown-item" routerLink="/wishlist">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                  &nbsp; WishList</a>
                 <a class="dropdown-item" (click)="logout()">
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
                   &nbsp; Logout</a>
@@ -77,17 +77,17 @@
         <div class="input-group  search-menu mb-3">
           <div class="input-group-prepend dropdown-append">
             <select class="form-control location" id="exampleFormControlSelect1">
-              <option selected *ngFor = "let villageName of Village">{{villageName.pincode}}</option>
+              <option selected *ngFor="let villageName of Village">{{villageName.pincode}}</option>
             </select>
           </div>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button" (click)="searchProducts()">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)] ="search">
           <div class="input-group-append search-append">
-            <button class="btn " type="button" id="button-addon2">Search</button>
+            <button class="btn "type="button" id="button-addon2" (click)="searchProducts(search)">Search</button>
           </div>
         </div>
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
-        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart">
+        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
           <i class="fas fa-shopping-cart"></i> My Cart (0)</button>
       </form>
     </div>
@@ -98,10 +98,10 @@
   <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
     <div class="carousel-inner row w-100 mx-auto" role="listbox">
       <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i =index"
-        [ngClass]="{'active':i == 0}">
+        [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }">
         <div class="panel panel-default">
           <div class="panel-thumbnail">
-            <a class="thumb" (click)="showSubcategorie(item._id)">
+            <a class="thumb" (click)="showSubcategorie(item._id,item.name,i)">
               <img class="img-fluid mx-auto d-block catImg" [src]="url + item.pic" alt="{{item.name}}">
             </a>
             <p>{{item.name}}</p>
@@ -370,56 +370,56 @@
         </div>
         <!-- otp screen registration -->
         <div class="container password-popup modal-box" *ngIf="showOtpForRegister">
-            <div class="row">
-              <div class="col-md-6">
-                <div class="col-lg-2 p-0 ">
-                  <button class="btn button cross-btn" (click)="onCloseCancel()">
-                    x
-                  </button>
-                </div>
-                <h3 class="text-center">OTP VERIFICATION</h3>
-                <h5>We have sent an OTP to Your registered Mobile Number.</h5>
-                <h5>Please Enter OTP</h5>
-                <form class="login-form">
-                  <div class="row justify-content-md-center">
-                    <div class="form-group mt-3 col-md-8">
-                      <input type="text" class="form-control input-field" placeholder="Enter Otp" name="otp" [(ngModel)]="formData.otp"
-                        required>
-                    </div>
-                    <div class="form-group col-md-8">
-                      <button type="submit" class="btn submit-button"  (click)="checkOtp('registering')">Continue</button>
-                    </div>
-                    <div class="form-group col-md-8">
-                      <h5>
-                        <a (click)="resendOtp()">Resend OTP</a>
-                      </h5>
-                    </div>
-  
-                  </div>
-                </form>
-  
-  
+          <div class="row">
+            <div class="col-md-6">
+              <div class="col-lg-2 p-0 ">
+                <button class="btn button cross-btn" (click)="onCloseCancel()">
+                  x
+                </button>
               </div>
-              <div class="col-md-6 background-image">
-                <div class="row  align-items-center">
-                  <div class="col-md-12 text-center popup-logo">
-                    <img src="/assets/images/logo.png" alt="logo">
+              <h3 class="text-center">OTP VERIFICATION</h3>
+              <h5>We have sent an OTP to Your registered Mobile Number.</h5>
+              <h5>Please Enter OTP</h5>
+              <form class="login-form">
+                <div class="row justify-content-md-center">
+                  <div class="form-group mt-3 col-md-8">
+                    <input type="text" class="form-control input-field" placeholder="Enter Otp" name="otp" [(ngModel)]="formData.otp"
+                      required>
                   </div>
+                  <div class="form-group col-md-8">
+                    <button type="submit" class="btn submit-button" (click)="checkOtp('registering')">Continue</button>
+                  </div>
+                  <div class="form-group col-md-8">
+                    <h5>
+                      <a (click)="resendOtp()">Resend OTP</a>
+                    </h5>
+                  </div>
+
                 </div>
-                <p>Download our App. Enjoy Your Shippings</p>
-                <div class="row apps">
-  
-                  <div class="col-md-6">
-                    <img src="/assets/images/google-play.png" class="text-center img-fluid">
-                  </div>
-                  <div class="col-md-6">
-                    <img src="/assets/images/app-store.png" class="text-center img-fluid">
-                  </div>
+              </form>
+
+
+            </div>
+            <div class="col-md-6 background-image">
+              <div class="row  align-items-center">
+                <div class="col-md-12 text-center popup-logo">
+                  <img src="/assets/images/logo.png" alt="logo">
                 </div>
-  
               </div>
+              <p>Download our App. Enjoy Your Shippings</p>
+              <div class="row apps">
+
+                <div class="col-md-6">
+                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                </div>
+                <div class="col-md-6">
+                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                </div>
+              </div>
+
             </div>
           </div>
+        </div>
         <!-- otp screen-->
         <!-- forgot password -->
         <div class="container password-popup modal-box" *ngIf="showForgotPassword">
@@ -541,17 +541,17 @@
           <div class="col-8">
             <div class="t-mrp">
               <p>Total MRP</p>
-              <p>Your Total Savings</p>
+              <!-- <p>Your Total Savings</p> -->
             </div>
           </div>
           <div class="col-4">
             <div class="rup">
               <p>
                 <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i> 2000</strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{mrp}}</strong>
               </p>
-              <p class="green-text">
-                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p>
+              <!-- <p class="green-text">
+                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p> -->
             </div>
           </div>
         </div>
@@ -569,14 +569,13 @@
             <div class="rup">
               <p>
                 <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i> 1500</strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</strong>
               </p>
-
             </div>
           </div>
         </div>
 
-        <div class="row bac-shadw">
+        <div class="row bac-shadw" *ngFor="let cartItems of mycart">
           <div class="col-lg-3">
             <div class="ashirvadimg">
               <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
@@ -594,21 +593,21 @@
                 </div>
                 <div class="col-md-2">
                   <p class="green-text">
-                    <i class="fa fa-inr" aria-hidden="true">359</i>
+                    <i class="fa fa-inr" aria-hidden="true">{{cartItems.selling_price}}</i>
                   </p>
 
                 </div>
                 <div class="col-md-2">
                   <p class="red-text">
                     <i class=" fa fa-inr" aria-hidden="true">
-                      <strike>420</strike>
+                      <strike>{{cartItems.actual_price}}</strike>
                     </i>
                   </p>
 
                 </div>
-                <div class="col-md-5">
+                <!-- <div class="col-md-5">
                   <p class="save">You save 14%</p>
-                </div>
+                </div> -->
               </div>
 
               <div class="row">
@@ -627,70 +626,9 @@
                 </div>
               </div>
             </div>
-
-
           </div>
         </div>
-
-
-        <div class="row bac-shadw">
-          <div class="col-lg-3">
-            <div class="ashirvadimg">
-              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
-            </div>
-          </div>
-          <div class="col-lg-9">
-            <div class="atta">
-
-              <p>
-                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
-              </p>
-              <div class="row">
-                <div class="col-md-3">
-                  <p>10kg</p>
-                </div>
-                <div class="col-md-2">
-                  <p class="green-text">
-                    <i class="fa fa-inr" aria-hidden="true">359</i>
-                  </p>
-
-                </div>
-                <div class="col-md-2">
-                  <p class="red-text">
-                    <i class="fa fa-inr" aria-hidden="true">
-                      <strike>420</strike>
-                    </i>
-                  </p>
-
-                </div>
-                <div class="col-md-5">
-                  <p class="save">You save 14%</p>
-                </div>
-              </div>
-
-              <div class="row">
-                <div class="col-md-4">
-                  <p>Subscribe</p>
-                </div>
-                <div class="col-md-8">
-                  <div class="num-bac">
-                    <p>
-                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus"></i>
-                      &nbsp;
-                      <span _ngcontent-c5="">| &nbsp;2&nbsp; |</span>&nbsp;
-                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus"></i>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-          </div>
-        </div>
-
       </div>
-
       <div class="modal-footer cust-modalfooter">
         <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
       </div>

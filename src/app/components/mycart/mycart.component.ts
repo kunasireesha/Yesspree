@@ -1,4 +1,6 @@
+import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-mycart',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mycart.component.css']
 })
 export class MycartComponent implements OnInit {
-
-  constructor() { }
-
-  ngOnInit() {
+  userName:string;
+  id:string;
+  checkout:string;
+  constructor(public loginService: DataService,) { 
   }
 
+  orders=[];
+  data={}
+  ngOnInit() {
+    //   this.cartCheckout();
+  }
+  
 }

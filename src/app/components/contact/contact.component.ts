@@ -20,7 +20,7 @@ export class ContactComponent implements OnInit {
 
     var inData = {
       _id: this.userId,
-      device_type: "android",
+      device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
       parent_warehouseid: "1",

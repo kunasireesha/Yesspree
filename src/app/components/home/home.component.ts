@@ -16,15 +16,11 @@ export class HomeComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
     });
-    if (this.pageNav === 'childCategories') {
-      this.showchildCat = true;
-    }
-    if (this.showchildCat) {
-      this.getChildCat();
-    }
+
   }
 
   dashboardData;
+  skuid: string;
   // categoryData;
   sqareBaneer1;
   sqareBaneer2;
@@ -43,11 +39,10 @@ export class HomeComponent implements OnInit {
   catId;
   mainBanner;
   wishList;
-  showchildCat = false;
   showInput = false;
   childCat = [];
   items = {
-    quantity: 1
+    quantity: 0
   }
 
   getChildCat() {
@@ -70,6 +65,8 @@ export class HomeComponent implements OnInit {
   productImage;
   subSubCatData
   slidingbanner = [];
+  percentage;
+  percentage1;
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
@@ -80,7 +77,7 @@ export class HomeComponent implements OnInit {
     }
     var inData = {
       _id: this.id,
-      device_type: "android",
+      device_type: "desktop",
       _session: "115313153802191_NAM",
       lang: "en",
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
@@ -89,6 +86,7 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
+      this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
       this.mainBanner = response.json().result.banner[0].bannerdata;
@@ -101,12 +99,24 @@ export class HomeComponent implements OnInit {
       this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
       this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
       this.products = response.json().result.specific_product[0].product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].actual_price !== undefined) {
+          this.percentage = this.products[i].sku[0].selling_price / this.products[i].sku[0].actual_price * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+      }
       this.slidingbanner = response.json().result.banner[5].bannerdata;
       console.log(this.products);
       for (var i = 0; i < this.products.length; i++) {
         this.productImage = this.products[i].pic[0].pic;
       }
       this.products1 = response.json().result.specific_product[1].product;
+      for (var i = 0; i < this.products1.length; i++) {
+        if (this.products1[i].sku[0].actual_price !== undefined) {
+          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].actual_price * 100
+          this.products1[i].sku[0].percentage = this.percentage1;
+        }
+      }
     }, err => {
       console.log(err)
     })
@@ -124,40 +134,40 @@ export class HomeComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease() {
+  itemIncrease(id, skuId) {
     let thisObj = this;
     this.showInput = true;
     thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, id, skuId);
   }
-  itemDecrease() {
+  itemDecrease(id, skuId) {
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
       return;
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity);
+    this.getCart(thisObj.items.quantity, id, skuId);
   }
-  getCart(quantity) {
+  getCart(quantity, id, skuId) {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      id_product: this.products[0].id_product,
-      id_sku: "20",
+      id_product: id,
+      id_sku: skuId,
       op: "modify",
-      quantity: quantity,
+      quantity: JSON.stringify(quantity),
       wh_pincode: "560078",
-      parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse:JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-        this.subSubCatData = response.json();
+      this.subSubCatData = response.json();
     }, err => {
       console.log(err)
     })
   }
 
-  wish(id){
+  wish(id) {
     var inData = {
       _session:localStorage.session,
       _id:this.id,
@@ -166,24 +176,28 @@ export class HomeComponent implements OnInit {
       "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
       "id_warehouse":JSON.parse(localStorage.id_warehouse),
       "lang":"en"
-    }
-    this.loginService.wish(inData).subscribe(response=> {
-      // if(response.json().status === "failure"){
 
-      // }
-    this.wishList = response.json();
-    },err=>{
-     console.log(err)
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if(response.json().status === "failure"){
+        swal("Wishlist already added. Please try again.","", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list","", "success")
+      }
+      
+    }, err => {
+      console.log(err)
     })
   }
-  viewProducts(action){
-let navigationExtras: NavigationExtras = {
-  queryParams:{
-    action:action
-  }
-  
-}
-this.router.navigate(["/recProducts"], navigationExtras);
+  viewProducts(action) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        action: action
+      }
+
+    }
+    this.router.navigate(["/recProducts"], navigationExtras);
   }
 
   showProductDetails(id){

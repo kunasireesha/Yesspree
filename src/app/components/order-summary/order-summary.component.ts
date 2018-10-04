@@ -13,7 +13,23 @@ export class OrderSummaryComponent implements OnInit {
   deliveryOp: boolean = false;
   paymentM: boolean = false;
   Promo:string;
-  constructor(public loginService: DataService) { }
+  cartSummary:string;
+  orderId:string;
+  orders=[];
+  data={}
+  checkout:string;
+  userName:string;
+  id:string;
+  timeSlot:string;
+  dateSlot:string;
+  constructor(public loginService: DataService) { 
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+        this.userName = JSON.parse(localStorage.userName);
+        this.id = JSON.parse(localStorage.userId);
+      } else {
+        this.id = '';
+      }
+  }
   order() {
     this.orderSu = true;
     this.deliveryA = this.deliveryOp = this.paymentM = false
@@ -34,7 +50,7 @@ export class OrderSummaryComponent implements OnInit {
     var inData = {
         _session: localStorage.session,
         coupon_code:"yesspree30",
-        id_order:"49"
+        id_order:this.orderId
       }
       this.loginService.postPromo(inData).subscribe(response => {
         this.Promo = response.json().result;
@@ -43,7 +59,49 @@ export class OrderSummaryComponent implements OnInit {
         swal(err.message, "", "error")
       })
   }
+  checkoutSummary(){
+    var inData = {
+        _session: localStorage.session,
+        parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+        id_warehouse: JSON.parse(localStorage.id_warehouse),
+        lang:"en",
+      }
+      this.loginService.checkoutSummary(inData).subscribe(response => {
+        this.cartSummary = response.json().orders;
+        this.orderId = response.json().orders[0].order_id;
+        this.dateSlot = response.json().orders[0].deliveryslot;
+        this.timeSlot = response.json().orders[0].deliveryslot[0].times;
+        console.log(this.orderId);
+      }, err => {
+        swal(err.message, "", "error")
+      })
+  }
+  cartCheckout(){   
+    this.data={
+      "id_order":this.orderId,
+      "total_paid":"46",
+      "pay_type":"cod",
+      "pay_option":"COD",
+      "express":1
+    }
+    this.orders.push(this.data);
+    console.log(this.orders);
+  var inData = {
+      _id: this.id,
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      lang:"en",
+      orders:this.data     
+  }
+    this.loginService.checkOut(inData).subscribe(response => {
+       this.checkout = response.json();
+       console.log(this.cartCheckout);
+    }, err => {
+      console.log(err)
+    }) 
+  }
   ngOnInit() {
+      this.checkoutSummary();
   }
 
 }

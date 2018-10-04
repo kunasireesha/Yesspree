@@ -19,7 +19,7 @@ export class MyAccountComponent implements OnInit {
       this.id = 0;
     }
     this.getAdd();
-    this.getWishlist()
+    this.getWishlist();
     localStorage.getItem;
     this.url = AppSettings.imageUrl;
   }
@@ -378,8 +378,8 @@ export class MyAccountComponent implements OnInit {
 
       if (value === true) {
         this.loginService.deleteAdd(inData).subscribe(response => {
-          swal("Deleted successfully", "", "success");
           this.getAdd();
+          swal("Deleted successfully", "", "success");
         }, err => {
           swal(err.message, "", "error")
         })

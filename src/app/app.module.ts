@@ -26,7 +26,9 @@ import { OrderSummaryComponent } from './components/order-summary/order-summary.
 import { MyAccountComponent } from './components/my-account/my-account.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { StaticComponent } from './components/static/static.component';
+import { CategoriesComponent } from './components/categories/categories.component';
 import { RecProductsComponent } from './components/rec-products/rec-products.component';
+import { SearchProductComponent } from './search-product/search-product.component';
 
 
 //services need to mention in providers
@@ -62,7 +64,9 @@ export function getAuthServiceConfigs() {
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
-    RecProductsComponent
+    CategoriesComponent,
+    RecProductsComponent,
+    SearchProductComponent
   ],
   imports: [
     BrowserModule,
@@ -84,8 +88,7 @@ export function getAuthServiceConfigs() {
       },
       {
         path: 'childcat',
-        component: HomeComponent,
-        data: [{ page: 'childCategories' }]
+        component: CategoriesComponent
       },
       {
         path: 'mycart',
