@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { MatDialogModule } from '@angular/material';
-import { NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NgModule, NO_ERRORS_SCHEMA, Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ImageZoomModule } from 'angular2-image-zoom';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -191,6 +191,10 @@ export function getAuthServiceConfigs() {
         path: 'wishlist',
         component: MyAccountComponent,
         data: [{ page: 'wishlist' }]
+      },
+      {
+        path:'searchProduct',
+        component:SearchProductComponent,
       }
 
 

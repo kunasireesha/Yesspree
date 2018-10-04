@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 import { AppSettings } from '../../config';
-import { Router } from '@angular/router';
+import { Router, Params } from '@angular/router';
 import swal from 'sweetalert';
 import { PARAMETERS } from '../../../../node_modules/@angular/core/src/util/decorators';
 
@@ -184,5 +184,11 @@ export class DataService {
     }
     removeCart(params):Observable<any>{
         return this.postInputParams(params, 'cart/remove');
+    }
+    subscriptionActive(Params):Observable<any>{
+        return this.postAuthorizationInputParams(Params,'subscription/orders')
+    }
+    subscriptionCancel(Params):Observable<any>{
+        return this.postAuthorizationInputParams(Params, 'subscription/orders')
     }
 }

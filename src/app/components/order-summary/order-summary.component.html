@@ -58,8 +58,8 @@
       </thead>
       <tbody>
         <tr>
-          <td class="table-data">
-            <img src="assets/images/Aashirvaad.jpg" class="prod-image">
+          <td class="table-data" *ngFor="let cartimg of cart">
+            <img [src]="url + cartimg.image" class="prod-image">
             <p>
               <strong>{{summary.name}}</strong>
               </p>

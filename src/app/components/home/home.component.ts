@@ -202,16 +202,6 @@ export class HomeComponent implements OnInit {
     }
     this.router.navigate(["/recProducts"], navigationExtras);
   }
-  showProductDetails(id){
-    let navigationExtras: NavigationExtras = {
-    queryParams:{
-    id:id
-    }
-    
-    }
-    this.router.navigate(["/product_details"], navigationExtras);
-    }
-
   showProductDetails(proId){
     let navigationExtras: NavigationExtras = {
       queryParams:{

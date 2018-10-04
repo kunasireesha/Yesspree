@@ -470,5 +470,27 @@ export class MyAccountComponent implements OnInit {
 
     })
   }
+  subscriptionActive(){
+      var inData = {
+        "type":"Active",
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse":JSON.parse(localStorage.id_warehouse),
+        "lang":"en"
+      }
+      this.loginService.subscriptionActive(inData).subscribe(response =>{
+
+      })
+  }
+  subscriptionCancel(){
+    var inData = {
+        "type":"Cancelled",
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),,
+        "id_warehouse":JSON.parse(localStorage.id_warehouse),
+        "lang":"en"
+      }
+      this.loginService.subscriptionActive(inData).subscribe(response =>{
+
+      }) 
+  }
   
 }

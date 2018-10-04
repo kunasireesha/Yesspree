@@ -426,21 +426,13 @@ export class HeaderComponent implements OnInit {
     }
   }
   searchProducts(event){
-    var inData = {
-        _id: this.id,
-        _session: localStorage.session,
-        count:event.length,
-        id_warehouse:JSON.parse(localStorage.id_warehouse),
-        lang:"en",
-        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
-        search:event,
-        start:0
-    }
-    this.loginService.searchProducts(inData).subscribe(response => {
-      //  console.log(response.json());
-    }, err => {
-      console.log(err)
-    })
+    let navigationExtras: NavigationExtras = {
+        queryParams: {
+            event: event,
+            count: event.length
+        }
+      }
+      this.router.navigate(["/searchProduct"], navigationExtras);
   }
   postVillageName() {
     var inData = {

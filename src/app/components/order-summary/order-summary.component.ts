@@ -1,3 +1,4 @@
+import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,11 +18,13 @@ export class OrderSummaryComponent implements OnInit {
   orderId:string;
   orders=[];
   data={}
+  cart:string;
   checkout:string;
   userName:string;
   id:string;
   timeSlot:string;
   dateSlot:string;
+  url;
   constructor(public loginService: DataService) { 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.userName = JSON.parse(localStorage.userName);
@@ -68,6 +71,7 @@ export class OrderSummaryComponent implements OnInit {
       }
       this.loginService.checkoutSummary(inData).subscribe(response => {
         this.cartSummary = response.json().orders;
+        this.cart = response.json().cart;
         this.orderId = response.json().orders[0].order_id;
         this.dateSlot = response.json().orders[0].deliveryslot;
         this.timeSlot = response.json().orders[0].deliveryslot[0].times;
@@ -91,7 +95,7 @@ export class OrderSummaryComponent implements OnInit {
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse),
       lang:"en",
-      orders:this.data     
+      orders:this.orders     
   }
     this.loginService.checkOut(inData).subscribe(response => {
        this.checkout = response.json();
@@ -101,6 +105,7 @@ export class OrderSummaryComponent implements OnInit {
     }) 
   }
   ngOnInit() {
+    this.url = AppSettings.imageUrl;
       this.checkoutSummary();
   }
 
