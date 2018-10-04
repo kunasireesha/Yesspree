@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
 import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
 
+
 //components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -64,13 +65,10 @@ export function getAuthServiceConfigs() {
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
-<<<<<<< HEAD
+    CategoriesComponent,
     RecProductsComponent,
     SearchProductComponent
-=======
-    CategoriesComponent,
-    RecProductsComponent
->>>>>>> cbd416ca5379c983d1f287553d74a2f3cc09bb7c
+
   ],
   imports: [
     BrowserModule,

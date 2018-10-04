@@ -78,7 +78,7 @@ export class OrderSummaryComponent implements OnInit {
   }
   cartCheckout(){   
     this.data={
-      "id_order":this.orderId,
+      "id_order":JSON.stringify(this.orderId),
       "total_paid":"46",
       "pay_type":"cod",
       "pay_option":"COD",
