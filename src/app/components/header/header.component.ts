@@ -102,8 +102,8 @@ export class HeaderComponent implements OnInit {
       device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: localStorage.parent_warehouseid,
-      id_warehouse: localStorage.id_warehouse,
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -435,7 +435,6 @@ export class HeaderComponent implements OnInit {
         parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
         search:event,
         start:0
-
     }
     this.loginService.searchProducts(inData).subscribe(response => {
       //  console.log(response.json());

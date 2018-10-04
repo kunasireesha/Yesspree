@@ -1,6 +1,6 @@
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 
 
 @Component({
@@ -10,7 +10,11 @@ import { Router } from '@angular/router';
 })
 export class ProductdetailsComponent implements OnInit {
   id;
-  constructor(private router: Router, public loginService: DataService) {
+  prodId;
+  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
+    this.route.queryParams.subscribe(params => {
+      this.prodId = params.id;
+    });
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.id = JSON.parse(localStorage.userId);
       }  else {
@@ -58,17 +62,19 @@ export class ProductdetailsComponent implements OnInit {
 
   productDetails() {
       var inData = {
-        _id: "270",
+        _id: this.prodId,
         _session: localStorage.session,
         products:"12",
-        parent_warehouseid:"1",
-        id_warehouse:"2",
+        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+        id_warehouse:JSON.parse(localStorage.id_warehouse),
         lang:"en",
     }
     this.loginService.productDetails(inData).subscribe(response => {
-    //  console.log(response.json());
+     console.log(response);
+     debugger
     }, err => {
-      console.log(err)
+      console.log(err);
     })
   }
 }
+  

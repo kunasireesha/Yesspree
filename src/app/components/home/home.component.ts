@@ -80,8 +80,8 @@ export class HomeComponent implements OnInit {
       device_type: "desktop",
       _session: "115313153802191_NAM",
       lang: "en",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -172,19 +172,23 @@ export class HomeComponent implements OnInit {
 
   wish(id) {
     var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en"
+      _session:localStorage.session,
+      _id:this.id,
+      id_product:id,
+      op:"create",
+      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse":JSON.parse(localStorage.id_warehouse),
+      "lang":"en"
+
     }
     this.loginService.wish(inData).subscribe(response => {
-      // if(response.json().status === "failure"){
-
-      // }
-      this.wishList = response.json();
+      if(response.json().status === "failure"){
+        swal("Wishlist already added. Please try again.","", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list","", "success")
+      }
+      
     }, err => {
       console.log(err)
     })
@@ -207,5 +211,16 @@ export class HomeComponent implements OnInit {
     }
     this.router.navigate(["/product_details"], navigationExtras);
     }
+
+  showProductDetails(id){
+    let navigationExtras: NavigationExtras = {
+      queryParams:{
+        id:id
+      }
+      
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+      }
+  
 
 }

@@ -110,27 +110,32 @@
   <br />
   <div class="products">
     <div class="row items">
-      <div class="col-md-3 col-lg-3 col-xs-12 col-sm-4 item" *ngFor="let recPro of products">
-        <!-- <div *ngFor="let item of recPro.pic; let i = index"> -->
-        <div *ngFor="let sku of recPro.sku">
-          <div class="card">
-            <a (click)="wish(recPro._id)">
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid product-img" [src]="recPro.image" alt="Card image cap" (click)="showProductDetails(recPro._id)">
-            <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
-            <div class="card-block">
-              <h5>{{recPro.name}} </h5>
-              <p>{{sku.size}}</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.selling_price}}</span>
-                  <strike *ngIf="sku.actual_price!==undefined">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.actual_price}}
-                  </strike>
+
+      <div class="col-md-3 item" *ngFor="let recPro of products">
+        <div *ngFor="let item of recPro.pic; let i = index">
+          <div *ngFor="let sku of recPro.sku">
+            <div class="card">
+              <a (click)="wish(recPro._id)">
+                <i class="fa fa-heart" aria-hidden="true"></i>
+              </a>
+              <img class="img-fluid product-img" [src]="url + item.pic" alt="Card image cap"  (click)="showProductDetails(recPro._id)">
+              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h5>{{recPro.name}} </h5>
+                <p>{{sku.size}}</p>
+                <div class="row  item-price">
+                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                    <span class="price">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.selling_price}}</span>
+                    <strike *ngIf="sku.actual_price!==undefined">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.actual_price}}
+                    </strike>
+                  </div>
+                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
+                    <span class="saveMney">you save {{sku.percentage}} %</span>
+                  </div>
                 </div>
 
                 <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.actual_price!==undefined">
@@ -233,7 +238,7 @@
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
               <img class="img-fluid product-img" [src]="url + item.pic" alt="Card image cap" (click)="showProductDetails(recPro._id)">
-              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+              <img class="img-fluid valuepack" src="/assets/images/va`luePack.jpg" alt="Card image cap">
               <div class="card-block">
                 <h5>{{recPro1.name}} </h5>
                 <p>{{sku.size}}</p>
