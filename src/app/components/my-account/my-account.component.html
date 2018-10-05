@@ -14,6 +14,7 @@
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
         <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
         <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
+        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -121,7 +122,7 @@
         </div>
         <div class="row">
           <div>
-            <img src="assets/images/Aashirvaad.jpg" class="ashirvaad-image">
+            <img [src]="url + cartData.product_pic" class="ashirvaad-image" style="padding-left:20px;">
           </div>
           <div class="prod-name">
             <p>
@@ -1096,6 +1097,32 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-lg-9 notification" *ngIf="coupon">
+        <h4>
+         coupons
+        </h4>
+        <div class="row notifications-bar"  *ngFor="let offer of coupons">
+          <div class="col-lg-4">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+            </div>
+            <div class="coupon-image">
+              <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
+              <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
+            </div>
+          </div>
+          <div class="col-lg-5">
+              <div class="validity">
+                    <p>validity Start From: <b>{{offer.validity_start}}</b></p>
+                    <p>Validity end: <b>{{offer.validity_end}}</b></p>
+              </div>
+              
+          </div>
+          <div class="col-lg-3">
+              <p>Updated Data: <b>{{offer.updated}}</b></p>
+          </div>
+        </div>  
       </div>
   </div>
 </div>

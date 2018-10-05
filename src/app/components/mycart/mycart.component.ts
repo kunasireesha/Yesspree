@@ -15,6 +15,7 @@ export class MycartComponent implements OnInit {
   mrp:string;
   grandTotal:string;
   mycart:string;
+  cartCount:string;
   url:string;
   exploreCart:string;
   removeCrt:string;
@@ -31,7 +32,6 @@ export class MycartComponent implements OnInit {
       }
     //   this.cartCheckout();
     this.getCart();
-    this.exploreCartCount();
   }
   getCart() {
     this.url = AppSettings.imageUrl;
@@ -46,6 +46,7 @@ export class MycartComponent implements OnInit {
     this.loginService.getCart(inData).subscribe(response => {
         this.mrp = response.json().summary.mrp;
         this.grandTotal = response.json().summary.grand_total;
+        this.cartCount = reponse.json().summary.cart_count;
         this.mycart = response.json().cart;
         console.log(this.mycart);
     }, err => {
@@ -58,7 +59,7 @@ export class MycartComponent implements OnInit {
       }
       this.loginService.exploreCartCount(inData).subscribe(response =>{
           this.exploreCart = response.json();
-          console.log(this.exploreCartCount);
+          swal("Explore successfully",'','success');
       })
   }
   removeCart(product,sku){

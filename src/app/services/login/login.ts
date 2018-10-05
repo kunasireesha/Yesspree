@@ -161,8 +161,6 @@ export class DataService {
     productDetails(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'item/specific');
     }
-    
-
     searchProducts(params):Observable<any>{
         return this.postInputParams(params, 'item/search');
     }
@@ -212,5 +210,8 @@ export class DataService {
     }
     explore(params):Observable<any> {
         return this.postInputParams(params,'product/updateadvcount')
+    }
+    offersCoupon(Params):Observable<any>{
+        return this.postInputParams(Params, 'offers/offerall');
     }
 }

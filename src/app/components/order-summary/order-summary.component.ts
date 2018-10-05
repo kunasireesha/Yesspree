@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
@@ -26,7 +26,13 @@ export class OrderSummaryComponent implements OnInit {
   timeSlot:string;
   dateSlot:string;
   url;
-  constructor(public loginService: DataService, public router:Router) { 
+  promoCode;
+  coupon;
+  constructor(public loginService: DataService,private route: ActivatedRoute, public router: Router) { 
+    this.route.queryParams.subscribe(params => {
+        this.promoCode = params.promoCode;
+        console.log(params);
+      });
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.userName = JSON.parse(localStorage.userName);
         this.id = JSON.parse(localStorage.userId);
@@ -50,18 +56,23 @@ export class OrderSummaryComponent implements OnInit {
     this.paymentM = true;
     this.orderSu = this.deliveryOp = this.deliveryA = false
   }
-  postPromo(){
+  postPromo(event){
     var inData = {
         _session: localStorage.session,
-        coupon_code:"yesspree30",
+        coupon_code:event,
         id_order:JSON.stringify(this.orderId)
       }
       this.loginService.postPromo(inData).subscribe(response => {
-        this.Promo = response.json().result;
+        this.Promo = response.json();
+        if(response.status === "success"){
+            swal('promo applied successfully', '', 'success');
+        }
+        else{
+            swal("invalid promo code", "", "error")  
+        }
         console.log(this.Promo);
-      }, err => {
-        swal(err.message, "", "error")
-      })
+
+      });
   }
   checkoutSummary(){
     var inData = {

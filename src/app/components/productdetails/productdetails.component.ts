@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
 
+
 @Component({
   selector: 'app-productdetails',
   templateUrl: './productdetails.component.html',
@@ -115,8 +116,8 @@ export class ProductdetailsComponent implements OnInit {
         "start_date":"Sun, 26 Aug  2018",
         "subscription_type":"Once a week"
       }
-      this.loginService.productSubscription(inData).subscribe(response =>{
-       
+      this.loginService.productSubscription(inData).subscribe(response =>{  
+             
       })
   }
 }

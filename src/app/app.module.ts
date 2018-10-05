@@ -197,6 +197,11 @@ export function getAuthServiceConfigs() {
         data: [{ page: 'wishlist' }]
       },
       {
+          path: 'coupon',
+          component:MyAccountComponent,
+          data:[{ page: 'coupon' }]
+      },
+      {
         path:'searchProduct',
         component:SearchProductComponent,
       },

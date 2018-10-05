@@ -12,6 +12,8 @@ export class MyAccountComponent implements OnInit {
   id;
   url;
   productId;
+  coupons;
+  promoCode;
   ngOnInit() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
@@ -50,6 +52,7 @@ export class MyAccountComponent implements OnInit {
   mynotifiactions = false;
   sharescreen = false;
   wishlist = false;
+  coupon = false;
   getAddress;
   editData;
   orders;
@@ -118,6 +121,9 @@ export class MyAccountComponent implements OnInit {
     }
     else if (this.pageNav === "wishlist") {
       this.wishlist = true;
+    }
+    else if (this.pageNav === 'coupon'){
+        this.coupon = true;
     }
   }
 
@@ -287,6 +293,35 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = true;
     this.router.navigate(['/wishlist']);
   }
+  showCoupon(){
+    var inData= {
+        "lang":"en"
+      }
+      this.loginService.offersCoupon(inData).subscribe(response =>{
+          this.coupons = response.json().offer;
+        //   this.promoCode = response.json().offer[0].promo_code;
+          console.log(this.promoCode);
+      });
+      this.deliveryAddress = false;
+      this.myaccountData = false;
+      this.myOrders1 = false;
+      this.myOrders2 = false;
+      this.mycart = false;
+      this.mysubscription = false;
+      this.offers = false;
+      this.rateUs = false;
+      this.sharescreen = false;
+      this.mynotifiactions = false;
+      this.wishlist = false;
+      this.coupon = true;
+      this.router.navigate(['/coupon']);
+    //   let navigationExtras: NavigationExtras = {
+    //     queryParams: {
+    //       promoCode:this.promoCode
+    //     }
+    //   }
+        // this.router.navigate(['/coupon'],navigationExtras);
+  }
   update() {
     var inData = {
       _id: JSON.parse(localStorage.userId),
@@ -306,8 +341,6 @@ export class MyAccountComponent implements OnInit {
       swal(err.msg, '', "error")
     })
   }
-
-
 
   //for address type
   buttonType(type) {

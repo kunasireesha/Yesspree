@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   mycart = [];
   search: string;
   mycartImg: string;
+  productId; 
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -78,7 +79,6 @@ export class HeaderComponent implements OnInit {
   mapsAPILoader;
   latlocation;
   lanLocation;
-  summary;
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -114,7 +114,6 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      this.summary=response.json().summary;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -413,7 +412,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/childcat"], navigationExtras);
 
   }
-  geodata=[];
+
 
   geoLocation() {
     if (navigator.geolocation) {
@@ -422,21 +421,39 @@ export class HeaderComponent implements OnInit {
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
         this.loginService.getLocation(inData).subscribe(response => {
-          console.log(response);
-          debugger
         })
       });
     }
   }
- 
-  searchProducts(event) {
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        event: event,
-        count: event.length
-      }
+
+  getVillage() {
+    var inData = {
+      "wh_pincode": "560078",
     }
-    this.router.navigate(["/searchProduct"], navigationExtras);
+  }
+  searchProducts(event){
+    var inData = {
+        _id: this.id,
+        _session: localStorage.session,
+        count:event.length,
+        id_warehouse:JSON.parse(localStorage.id_warehouse),
+        lang:"en",
+        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+        search:event,
+        start:0
+    }
+    this.loginService.searchProducts(inData).subscribe(response => {
+        this.productId = response.json().product[0]._id;
+        console.log(this.productId);
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+              proId: this.productId
+            }
+          }
+        this.router.navigate(["/product_details"],navigationExtras);
+    }, err => {
+      console.log(err)
+    })
   }
   postVillageName() {
     var inData = {
@@ -513,7 +530,6 @@ export class HeaderComponent implements OnInit {
 
 
   addCart(quantity, id, skuId) {
-
     if (quantity === 0) {
       this.quantity = 1;
     } else {
