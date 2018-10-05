@@ -92,6 +92,12 @@ export class ProductdetailsComponent implements OnInit {
     }
     this.loginService.productDetails(inData).subscribe(response => {
     this.product = response.json().product;
+    for(var i = 0; i<this.product.length;i++){
+      if (this.product[i].sku[0].mrp !== undefined) {
+        this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
+        this.product[i].sku[0].percentage = this.percentage;
+      }
+    }
     for(var i = 0; i < this.product.length; i++){
       this.firstPic = this.url + this.product[i].pic[0].pic;
     }
@@ -101,8 +107,9 @@ export class ProductdetailsComponent implements OnInit {
     }
     for(var i = 0; i<this.specificProd.length;i++){
       if (this.specificProd[i].sku[0].mrp !== undefined) {
-        this.percentage = this.specificProd[i].sku[0].selling_price / this.specificProd[i].sku[0].mrp * 100
+        this.percentage = 100 - ((this.specificProd[i].sku[0].selling_price) / (this.specificProd[i].sku[0].mrp) * 100)
         this.specificProd[i].sku[0].percentage = this.percentage;
+        console.log(  this.specificProd[i].sku[0].percentage )
       }
     }
     

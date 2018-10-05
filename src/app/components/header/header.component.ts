@@ -78,6 +78,7 @@ export class HeaderComponent implements OnInit {
   mapsAPILoader;
   latlocation;
   lanLocation;
+  summary;
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -113,6 +114,7 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
+      this.summary=response.json().summary;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -411,7 +413,7 @@ export class HeaderComponent implements OnInit {
     this.router.navigate(["/childcat"], navigationExtras);
 
   }
-
+  geodata=[];
 
   geoLocation() {
     if (navigator.geolocation) {
@@ -420,6 +422,9 @@ export class HeaderComponent implements OnInit {
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
         this.loginService.getLocation(inData).subscribe(response => {
+          this.geodata=response.results;
+          console.log(this.geodata);;
+          debugger
         })
       });
     }

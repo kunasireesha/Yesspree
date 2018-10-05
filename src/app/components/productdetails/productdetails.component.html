@@ -105,14 +105,14 @@
           <p> More by
             <strong> {{item.name}}</strong>
           </p>
-          <p class="item_details_save"> You Save 14%</p>
+          <p class="item_details_save"> You Save {{sku.percentage}}%</p>
           <p>
             <strong>Price</strong>
             <span class="item_details_price">: {{sku.selling_price}} </span>
           </p>
           <p>
             <strong>Deducted</strong>
-            <span class="item_details_deduct">: Rs.70 </span>
+            <span class="item_details_deduct">: Rs.{{sku.mrp-sku.selling_price}} </span>
           </p>
           <p> Available in </p>
           <p>
@@ -207,12 +207,12 @@
                     <span class="price">
                       <i class="fa fa-rupee" aria-hidden="true"></i>
                       {{sku.selling_price}}</span>
-                    <strike>
+                    <strike  *ngIf="sku.mrp!==undefined">
                       <i class="fa fa-rupee" aria-hidden="true"></i>
                       {{sku.mrp}}</strike>
                   </div>
-                  <div class="col-md-6 col-sm-12 col-xs-12">
-                    <span class="saveMney">you save {{item.percentage}}</span>
+                  <div class="col-md-6 col-sm-12 col-xs-12"  *ngIf="sku.mrp!==undefined">
+                    <span class="saveMney">you save {{sku.percentage}}%</span>
                   </div>
                 </div>
                 <br />

@@ -88,7 +88,7 @@
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
         <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
-          <i class="fas fa-shopping-cart"></i> My Cart ( {{dashboardData.summary.cart_count}} )</button>
+          <i class="fas fa-shopping-cart"></i> My Cart ( {{summary.cart_count}} )</button>
       </form>
     </div>
   </nav>
@@ -636,3 +636,8 @@
 
   </div>
 </div>
+
+<!-- <div *ngFor="let data of geodata | async">
+  {{ data | async }}
+</div> -->
+

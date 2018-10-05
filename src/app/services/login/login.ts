@@ -140,7 +140,7 @@ export class DataService {
         });
         return this.http.get(this.geourl + '?' + params, { headers: headers })
             .map(response => {
-                return response.json();
+                return response;
             })
             .catch(error => {
                 return Observable.throw(error.json());
