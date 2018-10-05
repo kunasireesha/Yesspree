@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
@@ -25,7 +26,7 @@ export class OrderSummaryComponent implements OnInit {
   timeSlot:string;
   dateSlot:string;
   url;
-  constructor(public loginService: DataService) { 
+  constructor(public loginService: DataService, public router:Router) { 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.userName = JSON.parse(localStorage.userName);
         this.id = JSON.parse(localStorage.userId);
@@ -99,7 +100,8 @@ export class OrderSummaryComponent implements OnInit {
   }
     this.loginService.checkOut(inData).subscribe(response => {
        this.checkout = response.json();
-       console.log(this.cartCheckout);
+       swal('order placed successfully', '', 'success');
+       this.router.navigate(["/"]);
     }, err => {
       console.log(err)
     }) 

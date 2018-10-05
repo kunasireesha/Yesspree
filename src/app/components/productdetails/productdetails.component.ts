@@ -35,8 +35,23 @@ export class ProductdetailsComponent implements OnInit {
   showInput = false;
   showInput1 = false;
 
-  showSubscribeDetails() {
+  showSubscribeDetails(event) {
+    alert(event)
     this.showSubscriptionData = !this.showSubscriptionData;
+    var inData = {
+        "day":event,
+        "id_product":"11",
+        "id_sku":"20",
+        "is_alternate":"1",
+        "is_doorbellring":"1",
+        "pay_type":"COD",
+        "quantity":"1",
+        "start_date":"Sun, 26 Aug  2018",
+        "subscription_type":"Once a week"
+      }
+      this.loginService.productSubscription(inData).subscribe(response =>{
+       
+      })
   }
 
   submit() {

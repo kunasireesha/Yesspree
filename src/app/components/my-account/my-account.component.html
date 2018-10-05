@@ -110,13 +110,14 @@
 
     <div class="col-lg-9 order-details" *ngIf="myOrders1">
       <h4> MY ORDERS</h4>
-      <div class="prod-details" (click)="showOrderItems()">
-        <div class="row order-time">
+      <div *ngFor="let order of orders" class="prod-details" (click)="showOrderItems()">
+          <div *ngFor="let cartData of order.cart">
+        <div class="row order-time"  >
           <div class="col-lg-6">
-            <p>Placed On:31-March-2018</p>
+            <p>{{order.order.delivery_slot_time}}</p>
           </div>
           <div class="col-lg-6 order-id">
-            <p>Order Id:65321405470</p>
+            <p>Order ID :{{cartData.id_order}}</p>
           </div>
         </div>
         <div class="row">
@@ -125,24 +126,25 @@
           </div>
           <div class="prod-name">
             <p>
-              <strong>Ashirvaad Whole Wheat Atta - 100% pure</strong>
+              <strong>{{cartData.product_name}}</strong>
             </p>
             <p>10 kg</p>
-            <p>Quantity : 3</p>
+            <p>Quantity : {{cartData.dispatch_quantity}}</p>
           </div>
         </div>
         <div class="row order-status">
           <div class="col-lg-6 ">
             <p>Status:
-              <span>Picked Up</span>
+              <span>{{order.order.order_status}}</span>
             </p>
           </div>
           <div class=" col-lg-6 delivery-time">
             <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
           </div>
         </div>
+    </div>
       </div>
-      <div class="prod-details">
+      <!-- <div class="prod-details">
         <div class="row order-time">
           <div class="col-lg-6">
             <p>Placed On:31-March-2018</p>
@@ -205,7 +207,7 @@
             <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- my orders 2 -->

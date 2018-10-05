@@ -191,4 +191,7 @@ export class DataService {
     subscriptionCancel(Params):Observable<any>{
         return this.postAuthorizationInputParams(Params, 'subscription/orders')
     }
+    productSubscription(Params):Observable<any>{
+        return this.postInputParams(Params, 'subscription');
+    }
 }
