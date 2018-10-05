@@ -14,12 +14,12 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
-    Village:string;
-    mrp:string;
-    grandTotal:string;
-    mycart:string;
-    search:string;
-    mycartImg:string;
+  Village: string;
+  mrp: number;
+  grandTotal: number;
+  mycart = [];
+  search: string;
+  mycartImg: string;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -37,6 +37,11 @@ export class HeaderComponent implements OnInit {
   url;
   catId;
   id;
+  percentage;
+  selected;
+  sku = {
+    mycart: 0
+  }
   formData = {
     firstName: '',
     lastName: '',
@@ -425,14 +430,14 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts(event){
+  searchProducts(event) {
     let navigationExtras: NavigationExtras = {
-        queryParams: {
-            event: event,
-            count: event.length
-        }
+      queryParams: {
+        event: event,
+        count: event.length
       }
-      this.router.navigate(["/searchProduct"], navigationExtras);
+    }
+    this.router.navigate(["/searchProduct"], navigationExtras);
   }
   postVillageName() {
     var inData = {
@@ -447,6 +452,9 @@ export class HeaderComponent implements OnInit {
       console.log(err)
     })
   }
+  grandPer;
+  savedMoney;
+  quantity;
   getCart() {
     var inData = {
       _id: this.id,
@@ -457,12 +465,77 @@ export class HeaderComponent implements OnInit {
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
-        this.mrp = response.json().summary.mrp;
-        this.grandTotal = response.json().summary.grand_total;
-        this.mycart = response.json().cart;
-        console.log(this.mycart);
+      this.mrp = response.json().summary.mrp;
+      this.grandTotal = response.json().summary.grand_total;
+      this.mycart = response.json().cart;
+      for (var i = 0; i < this.mycart.length; i++) {
+        if (this.mycart[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100
+          this.mycart[i].sku[0].percentage = this.percentage;
+        }
+      }
+
+      this.savedMoney = this.mrp - this.grandTotal;
+      this.grandPer = Math.ceil(100 - (this.grandTotal / this.mrp) * 100)
+
     }, err => {
       console.log(err)
+    })
+  }
+
+
+  //add to cart
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.cartName !== name) {
+      this.sku.mycart = 0;
+    }
+
+    this.sku.mycart = Math.floor(this.sku.mycart + 1);
+    thisObj.addCart(this.sku.mycart, id, skuId);
+    localStorage.setItem('cartName', name);
+
+  }
+
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (this.sku.mycart === 1) {
+      return;
+    }
+    this.sku.mycart = Math.floor(this.sku.mycart - 1);
+    this.addCart(this.sku.mycart, id, skuId);
+  }
+
+  subscribe() {
+
+  }
+
+
+  addCart(quantity, id, skuId) {
+
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      swal('Item added to cart', '', 'success');
+      this.getCart();
+    }, err => {
+      swal(err.json().message, '', 'error');
     })
   }
 }

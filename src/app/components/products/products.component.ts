@@ -95,9 +95,6 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.getLastCatData(inData).subscribe(response => {
       this.lastCatData = response.json().result.category;
-
-
-
     }, err => {
       console.log(err)
     })
@@ -128,7 +125,7 @@ export class ProductsComponent implements OnInit {
       wh_pincode: "560078",
       parent_warehouseid: "1",
       id_warehouse: "2",
-      lang: "eng",
+      lang: "en",
     }
     this.loginService.getProducts(inData).subscribe(response => {
       this.subSubCatData = response.json().result.sub_category;
