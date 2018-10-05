@@ -15,6 +15,7 @@ export class DataService {
     msg;
     geourl = "https://maps.googleapis.com/maps/api/geocode/json";
     //checking url after login
+    response
     checkCredentials() {
         if (localStorage.getItem("userName") !== null) {
             this._router.navigate(['/sidemenu']);
@@ -139,12 +140,14 @@ export class DataService {
             'Authorization': localStorage.authkey
         });
         return this.http.get(this.geourl + '?' + params, { headers: headers })
-            .map(response => {
-                return response;
-            })
-            .catch(error => {
-                return Observable.throw(error.json());
-            });
+            // .subscribe(response => {
+            //    this.response = response
+            //    console.log(this.response);
+            //    debugger
+            // })
+            // .catch(error => {
+            //     return Observable.throw(error.json());
+            // });
     }
 
 
@@ -191,6 +194,22 @@ export class DataService {
     }
     productSubscription(Params):Observable<any>{
         return this.postAuthorizationInputParams(Params, 'subscription');
+    }
+    //brand navigation
+    brands(params):Observable<any> {
+        return this.postInputParams(params, 'item/product'); 
+    }
+    searchAll(params):Observable<any> {
+        return this.postInputParams(params, 'item/searchall'); 
+    }
+    category(params):Observable<any> {
+        return this.postInputParams(params,'item/product')
+    }
+    skuInfo(params):Observable<any> {
+        return this.postInputParams(params,'item/skuinfo')
+    }
+    explore(params):Observable<any> {
+        return this.postInputParams(params,'product/updateadvcount')
     }
     offersCoupon(Params):Observable<any>{
         return this.postInputParams(Params, 'offers/offerall');
