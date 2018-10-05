@@ -6,7 +6,7 @@ import { AppSettings } from '../../config';
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
-  styleUrls: ['./rec-products.component.css','../products/products.component.less','../home/home.component.less']
+  styleUrls: ['./rec-products.component.css','../product/product.component.less','../home/home.component.less']
 
 })
 export class RecProductsComponent implements OnInit {
