@@ -28,7 +28,16 @@
   height: 50%;
   margin-top: 20%;
 }
-
+.coupon-image p {
+    padding-top: 10px;
+}
+.validity p{
+    padding-top: 30px;
+}
+strong{
+    color:green;
+    padding-top: 5px;
+}
 .account-details h5 {
   margin-top: 30px;
 }

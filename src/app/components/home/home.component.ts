@@ -224,7 +224,6 @@ export class HomeComponent implements OnInit {
       queryParams: {
         proId: proId
       }
-
     }
     this.router.navigate(["/product_details"], navigationExtras);
   }

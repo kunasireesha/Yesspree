@@ -97,27 +97,26 @@
       <br />
       <div class="row">
         <div class="col-md-3 itemdetails">
-          <img _ngcontent-c5="" alt="Aashirvad" class="img-fluid prod_img" [src]="url+product.pic">
+          <img _ngcontent-c5="" alt="Aashirvad" class="img-fluid prod_img" src="{{firstPic}}">
         </div>
-        <div class="col-md-9 itemdetails">
-          <h5>Aashirvaad Shudh Chakki Whole Wheat Atta</h5>
+        <div class="col-md-9 itemdetails" *ngFor="let item of product">
+          <div *ngFor="let sku of item.sku">
+          <h5>{{item.name}}</h5>
           <p> More by
-            <strong> Aashirvaad</strong>
+            <strong> {{item.name}}</strong>
           </p>
-          <p class="item_details_save"> You Save 14%</p>
+          <p class="item_details_save"> You Save {{sku.percentage}}%</p>
           <p>
             <strong>Price</strong>
-            <span class="item_details_price">: Rs.329 </span>
+            <span class="item_details_price">: {{sku.selling_price}} </span>
           </p>
           <p>
             <strong>Deducted</strong>
-            <span class="item_details_deduct">: Rs.70 </span>
+            <span class="item_details_deduct">: Rs.{{sku.mrp-sku.selling_price}} </span>
           </p>
           <p> Available in </p>
           <p>
-            <span class="item_details_quantity">1 kg </span>
-            <span class="item_details_quantity">5 kg </span>
-            <span class="item_details_quantity">10 kg </span>
+            <span class="item_details_quantity">{{sku.size}} </span>
           </p>
 
           <p>
@@ -174,6 +173,7 @@
             </div>
           </div>
         </div>
+        </div>
       </div>
 
       <p>
@@ -192,7 +192,58 @@
       <p> Made with superior quality wheat</p>
       <p> Made with superior quality wheat</p>
       <h3>Similar Products</h3>
-      <app-product></app-product>
+      <div class="products">
+        <div class="row items">
+          <div class="col-md-3 item" *ngFor="let item of specificProd">
+            <div class="card" (click)="showProduxtDetails()">
+              <div *ngFor="let sku of item.sku">
+              <a>
+                <i class="fa fa-heart" aria-hidden="true"></i>
+              </a>
+              <img class="img-fluid product-img" [src]="item.image" alt="Card image cap">
+              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h5>{{item.name}} </h5>
+                <p>{{sku.size}}</p>
+                <div class="row  item-price">
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <span class="price">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.selling_price}}</span>
+                    <strike  *ngIf="sku.mrp!==undefined">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.mrp}}</strike>
+                  </div>
+                  <div class="col-md-6 col-sm-12 col-xs-12"  *ngIf="sku.mrp!==undefined">
+                    <span class="saveMney">you save {{sku.percentage}}%</span>
+                  </div>
+                </div>
+                <br />
+                <div class="row prdct-length">
+                  <div class="col-md-4">
+                    <span *ngIf="showInput">
+                      <i class="fa fa-minus" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <span class="add text-center" *ngIf="!showInput">Add</span>
+                    <span *ngIf="showInput">1</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="plus" (click)="showInputValue()">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </div>
+      
+      
+        </div>
+      </div>
+      
     </div>
   </div>
 </div>

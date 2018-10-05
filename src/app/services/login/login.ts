@@ -140,7 +140,7 @@ export class DataService {
         });
         return this.http.get(this.geourl + '?' + params, { headers: headers })
             .map(response => {
-                return response.json();
+                return response;
             })
             .catch(error => {
                 return Observable.throw(error.json());
@@ -158,8 +158,6 @@ export class DataService {
     productDetails(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'item/specific');
     }
-    
-
     searchProducts(params):Observable<any>{
         return this.postInputParams(params, 'item/search');
     }
@@ -193,5 +191,8 @@ export class DataService {
     }
     productSubscription(Params):Observable<any>{
         return this.postAuthorizationInputParams(Params, 'subscription');
+    }
+    offersCoupon(Params):Observable<any>{
+        return this.postInputParams(Params, 'offers/offerall');
     }
 }

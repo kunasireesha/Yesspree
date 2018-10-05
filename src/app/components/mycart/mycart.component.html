@@ -6,12 +6,12 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-6">
-      <h4>YOUR CART (3 ITEMS)</h4>
+      <h4>YOUR CART ({{cartCount}})</h4>
     </div>
     <div class="col-lg-6">
       <div class="row">
         <div class="col-lg-4">
-          <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
+          <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
         </div>
         <div class="col-lg-4">
           <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
@@ -121,7 +121,9 @@
     <img src="">
   </div>
   <div>
-    <h5>Last Minute Buys</h5>
-    <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>  
+      <div class="background-img">
+        <h5>Last Minute Buys</h5>
+        <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>  
+      </div>
   </div>
 </div>

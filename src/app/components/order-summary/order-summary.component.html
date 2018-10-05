@@ -63,7 +63,7 @@
             <p>
               <strong>{{summary.name}}</strong>
               </p>
-            <span>10kg</span>
+            <span>1</span>
           </td>
           <td class="table-price">
             <p>
@@ -118,11 +118,12 @@
     </div>
     <div class="col-lg-4 input-button">
       <form>
-        <input type="text" class="form-control input-field" placeholder="PROMO CODE" (click)="postPromo()">
-      </form>
+        <input type="text" class="form-control input-field" placeholder="PROMO CODE" [(ngModel)]="coupon" name="coupon">
+         </form>
     </div>
     <div class="col-lg-4 input-button">
-      <button type="button" class="btn apply-btn">APPLY</button>
+        <button type="button" class="btn apply-btn" (click)="postPromo(coupon)">APPLY</button>
+   
     </div>
     <div>
       <hr class="dash" />
@@ -212,8 +213,6 @@
     </div>
   </div>
 </div>
-
-
 <!-- Delivery Options -->
 
 <div class="container" *ngIf="deliveryOp">

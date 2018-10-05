@@ -15,6 +15,7 @@ export class MycartComponent implements OnInit {
   mrp:string;
   grandTotal:string;
   mycart:string;
+  cartCount:string;
   url:string;
   exploreCart:string;
   removeCrt:string;
@@ -45,6 +46,7 @@ export class MycartComponent implements OnInit {
     this.loginService.getCart(inData).subscribe(response => {
         this.mrp = response.json().summary.mrp;
         this.grandTotal = response.json().summary.grand_total;
+        this.cartCount = reponse.json().summary.cart_count;
         this.mycart = response.json().cart;
         console.log(this.mycart);
     }, err => {
