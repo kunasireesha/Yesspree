@@ -294,14 +294,6 @@ export class MyAccountComponent implements OnInit {
     this.router.navigate(['/wishlist']);
   }
   showCoupon(){
-    var inData= {
-        "lang":"en"
-      }
-      this.loginService.offersCoupon(inData).subscribe(response =>{
-          this.coupons = response.json().offer;
-        //   this.promoCode = response.json().offer[0].promo_code;
-          console.log(this.promoCode);
-      });
       this.deliveryAddress = false;
       this.myaccountData = false;
       this.myOrders1 = false;
@@ -315,6 +307,14 @@ export class MyAccountComponent implements OnInit {
       this.wishlist = false;
       this.coupon = true;
       this.router.navigate(['/coupon']);
+      var inData= {
+        "lang":"en"
+      }
+      this.loginService.offersCoupon(inData).subscribe(response =>{
+          this.coupons = response.json().offer;
+        //   this.promoCode = response.json().offer[0].promo_code;
+          console.log(this.promoCode);
+      });
     //   let navigationExtras: NavigationExtras = {
     //     queryParams: {
     //       promoCode:this.promoCode
