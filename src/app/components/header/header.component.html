@@ -79,8 +79,8 @@
       <div class="container navbar-nav pt-3">
         <div class="input-group  search-menu mb-3">
           <div class="input-group-prepend dropdown-append">
-            <select class="form-control location" id="exampleFormControlSelect1">
-              <option selected *ngFor="let villageName of Village">{{villageName.pincode}}</option>
+            <select class="form-control location" id="exampleFormControlSelect1" (change)="postVillageName($event.target.value)">
+              <option selected *ngFor="let villageName of Village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
           <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search">
