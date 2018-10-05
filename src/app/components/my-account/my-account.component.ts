@@ -12,11 +12,13 @@ export class MyAccountComponent implements OnInit {
   id;
   url;
   productId;
+  coupons;
+  promoCode;
   ngOnInit() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
-      this.id = 0;
+      this.id = '';
     }
     this.getAdd();
     this.getWishlist();
@@ -50,6 +52,7 @@ export class MyAccountComponent implements OnInit {
   mynotifiactions = false;
   sharescreen = false;
   wishlist = false;
+  coupon = false;
   getAddress;
   editData;
   orders;
@@ -89,6 +92,14 @@ export class MyAccountComponent implements OnInit {
       this.deliveryAddress = true;
     } else if (this.pageNav === "orders1") {
       this.myOrders1 = true;
+      var inData = {
+        type: 'Present'
+      }
+      this.loginService.myorders(inData).subscribe(response => {
+        this.orders = response.json().orders;
+      }, err => {
+        console.log(err)
+      })
     } else if (this.pageNav === "address2") {
       this.myOrders2 = true;
     } else if (this.pageNav === "cart") {
@@ -101,13 +112,13 @@ export class MyAccountComponent implements OnInit {
       this.rateUs = true;
     } else if (this.pageNav === "notifications") {
       this.mynotifiactions = true;
-      var inData = {
+      var nParams = {
         "id_customer": this.id,
         "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
       }
-      this.loginService.notificationsData(inData).subscribe(response => {
+      this.loginService.notificationsData(nParams).subscribe(response => {
         this.notificationList = response.json();
         console.log(this.notificationList)
       }, error => {
@@ -118,6 +129,17 @@ export class MyAccountComponent implements OnInit {
     }
     else if (this.pageNav === "wishlist") {
       this.wishlist = true;
+    }
+    else if (this.pageNav === 'coupon') {
+      this.coupon = true;
+      var params = {
+        "lang": "en"
+      }
+      this.loginService.offersCoupon(params).subscribe(response => {
+        this.coupons = response.json().offer;
+        //   this.promoCode = response.json().offer[0].promo_code;
+        console.log(this.promoCode);
+      });
     }
   }
 
@@ -153,18 +175,7 @@ export class MyAccountComponent implements OnInit {
   }
 
   myorders() {
-    var inData = {
-      type: 'Present'
-    }
-    this.loginService.myorders(inData).subscribe(response => {
-      this.orders = response.json().orders;
-      //   for(var i = 0; i<this.orders.length; i++) {
-      //       this.myOrder = this.orders[i].order;
-      //       console.log( this.myOrder)
-      //   }
-    }, err => {
-      console.log(err)
-    })
+
     this.deliveryAddress = false;
     this.myaccountData = false;
     this.myOrders1 = true;
@@ -287,6 +298,28 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = true;
     this.router.navigate(['/wishlist']);
   }
+  showCoupon() {
+
+    this.deliveryAddress = false;
+    this.myaccountData = false;
+    this.myOrders1 = false;
+    this.myOrders2 = false;
+    this.mycart = false;
+    this.mysubscription = false;
+    this.offers = false;
+    this.rateUs = false;
+    this.sharescreen = false;
+    this.mynotifiactions = false;
+    this.wishlist = false;
+    this.coupon = true;
+    this.router.navigate(['/coupon']);
+    //   let navigationExtras: NavigationExtras = {
+    //     queryParams: {
+    //       promoCode:this.promoCode
+    //     }
+    //   }
+    // this.router.navigate(['/coupon'],navigationExtras);
+  }
   update() {
     var inData = {
       _id: JSON.parse(localStorage.userId),
@@ -306,8 +339,6 @@ export class MyAccountComponent implements OnInit {
       swal(err.msg, '', "error")
     })
   }
-
-
 
   //for address type
   buttonType(type) {
@@ -497,5 +528,4 @@ export class MyAccountComponent implements OnInit {
       swal("unSubscribed", '', 'success');
     })
   }
-
 }

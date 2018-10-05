@@ -20,6 +20,7 @@ export class HeaderComponent implements OnInit {
   mycart = [];
   search: string;
   mycartImg: string;
+  productId; 
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -432,14 +433,29 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts(event) {
-    let navigationExtras: NavigationExtras = {
-      queryParams: {
-        event: event,
-        count: event.length
-      }
+  searchProducts(event){
+    var inData = {
+        _id: this.id,
+        _session: localStorage.session,
+        count:event.length,
+        id_warehouse:JSON.parse(localStorage.id_warehouse),
+        lang:"en",
+        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
+        search:event,
+        start:0
     }
-    this.router.navigate(["/searchProduct"], navigationExtras);
+    this.loginService.searchProducts(inData).subscribe(response => {
+        this.productId = response.json().product[0]._id;
+        console.log(this.productId);
+        let navigationExtras: NavigationExtras = {
+            queryParams: {
+              proId: this.productId
+            }
+          }
+        this.router.navigate(["/product_details"],navigationExtras);
+    }, err => {
+      console.log(err)
+    })
   }
   postVillageName() {
     var inData = {
@@ -516,7 +532,6 @@ export class HeaderComponent implements OnInit {
 
 
   addCart(quantity, id, skuId) {
-
     if (quantity === 0) {
       this.quantity = 1;
     } else {

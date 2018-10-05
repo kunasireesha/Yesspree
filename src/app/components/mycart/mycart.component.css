@@ -87,7 +87,18 @@
   padding: 5px 40px;
 
 }
-
+.background-img{
+    background-image: url("/assets/images/productbg.jpg");
+    height:100px;
+    margin-bottom: 25px;
+    padding: 30px;
+}
+.background-img p {
+    color: #ffffff;
+}
+.background-img h5{
+    color: #fff212;
+}
 .table-total p {
   margin-top: 30px;
   font-size: 18px;

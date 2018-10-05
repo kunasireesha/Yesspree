@@ -9,29 +9,29 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./mycart.component.css']
 })
 export class MycartComponent implements OnInit {
-  userName:string;
-  id:string;
-  checkout:string;
-  mrp:string;
-  grandTotal:string;
-  mycart:string;
-  url:string;
-  exploreCart:string;
-  removeCrt:string;
-  constructor(public loginService: DataService,) { 
+  userName: string;
+  id: string;
+  checkout: string;
+  mrp: string;
+  grandTotal: string;
+  mycart: string;
+  cartCount: string;
+  url: string;
+  exploreCart: string;
+  removeCrt: string;
+  constructor(public loginService: DataService, ) {
   }
 
-  orders=[];
-  data={}
+  orders = [];
+  data = {}
   ngOnInit() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-        this.id = JSON.parse(localStorage.userId)
-      } else {
-        this.id = ''
-      }
+      this.id = JSON.parse(localStorage.userId)
+    } else {
+      this.id = ''
+    }
     //   this.cartCheckout();
     this.getCart();
-    this.exploreCartCount();
   }
   getCart() {
     this.url = AppSettings.imageUrl;
@@ -44,33 +44,34 @@ export class MycartComponent implements OnInit {
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
-        this.mrp = response.json().summary.mrp;
-        this.grandTotal = response.json().summary.grand_total;
-        this.mycart = response.json().cart;
-        console.log(this.mycart);
+      this.mrp = response.json().summary.mrp;
+      this.grandTotal = response.json().summary.grand_total;
+      this.cartCount = response.json().summary.cart_count;
+      this.mycart = response.json().cart;
+      console.log(this.mycart);
     }, err => {
       console.log(err)
     })
   }
-  exploreCartCount(){
-      var inData = {
-          _id:this.id
-      }
-      this.loginService.exploreCartCount(inData).subscribe(response =>{
-          this.exploreCart = response.json();
-          console.log(this.exploreCartCount);
-      })
-  }
-  removeCart(product,sku){
+  exploreCartCount() {
     var inData = {
-        _id:this.id,
-        _session: localStorage.session,
-        id_product: product,
-        id_sku:sku
+      _id: this.id
     }
-    this.loginService.removeCart(inData).subscribe(response =>{
-        swal("item removed successfully",'','success');
-        this.getCart();
+    this.loginService.exploreCartCount(inData).subscribe(response => {
+      this.exploreCart = response.json();
+      swal("Explore successfully", '', 'success');
     })
-}
+  }
+  removeCart(product, sku) {
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: product,
+      id_sku: sku
+    }
+    this.loginService.removeCart(inData).subscribe(response => {
+      swal("item removed successfully", '', 'success');
+      this.getCart();
+    })
+  }
 }

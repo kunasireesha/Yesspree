@@ -14,6 +14,7 @@
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
         <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
         <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
+        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -31,7 +32,6 @@
         </div>
         <div class="col-lg-8 input-details">
           <form>
-
             <div class="form-group">
               <label for="exampleInputFname">First Name</label>
               <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname" placeholder="Paresh Kumar"
@@ -122,13 +122,13 @@
         </div>
         <div class="row">
           <div>
-            <img src="assets/images/Aashirvaad.jpg" class="ashirvaad-image">
+            <img [src]="url + cartData.product_pic" class="ashirvaad-image" style="padding-left:20px;">
           </div>
           <div class="prod-name">
             <p>
               <strong>{{cartData.product_name}}</strong>
             </p>
-            <p>10 kg</p>
+            <p>{{cartData.size}}</p>
             <p>Quantity : {{cartData.dispatch_quantity}}</p>
           </div>
         </div>
@@ -211,7 +211,7 @@
     </div>
 
     <!-- my orders 2 -->
-    <div class="col-lg-9 order-summary" *ngIf="myOrders2">
+    <!-- <div class="col-lg-9 order-summary" *ngIf="myOrders2">
       <div>
         <h4>MY ORDERS</h4>
       </div>
@@ -400,7 +400,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
 
     <!-- my cart -->
@@ -917,30 +917,129 @@
 
 
     <!-- wish list -->
-    <div class="col-lg-9 notification" *ngIf="wishlist">
-      <h4>
-        <strong>WISH LIST</strong>
-      </h4>
-      <div class="row notifications-bar"  *ngFor="let item of getWishList">
-        <div class="col-lg-3">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+    <div class="container" *ngIf="wishlist">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4>YOUR CART (3 ITEMS)</h4>
           </div>
-          <div class="chakki-img" *ngFor="let image of item.pic">
-            <img [src]="url+ image.pic" alt="Chakki-img">
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-lg-4">
+                <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
+              </div>
+              <div class="col-lg-4">
+                <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+              </div>
+              <div class="col-lg-4">
+                <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
+              </div>
+            </div>
+          </div>
+          <table class="table prod-table">
+            <thead class="table-header">
+              <tr>
+                <th scope="col" width="40%" class="table-headings">Item Description</th>
+                <th scope="col" width="15%" class="table-headings">Unity Price</th>
+                <th scope="col" width="15%" class="table-headings">Quantity</th>
+                <th scope="col" width="15%" class="table-headings">Subtotal</th>
+                <th scope="col" width="15%" class="table-headings">Savings</th>
+                <th scope="col" width="15%" class="table-headings">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cartItems of mycart">
+      
+                <td class="table-data">
+                  <img [src]="url + cartItems.image" class="prod-image">
+                  <p>
+                    <strong>{{cartItems.name}} </strong>
+                    </p>
+                  <!-- <span>10kg</span> -->
+                </td>
+                <td class="table-price">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.actual_price}}
+                    <br />
+                    <i class="fa fa-strikethrought" aria-hidden="true"></i>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
+                  </p>
+                </td>
+                <td class="table-quanities">
+                  <p>
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                    <span>|2|</span>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </p>
+                </td>
+                <td class="table-total">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
+                  </p>
+                </td>
+                <td class="table-savings">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
+                  </p>
+                  <span>
+                    You Save 14%
+                  </span>
+                </td>
+                <td class="table-delete"  *ngFor="let sku of cartItems.sku">
+                    <p> 
+                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
+                  </p>
+                </td>
+              </tr>
+              <tr class="table-border">
+                <td class="mrp-rate">
+                  <h5>Total MRP</h5>
+                </td>
+                <td></td>
+                <td></td>
+                <td class="table-total">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+                </td>
+                <td class="table-savings">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>127.00
+                  </p>
+                  <span> You Save 15%</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 text-center">
+            <h5>
+              <strong>Total to Pay</strong>
+            </h5>
+          </div>
+          <div class="col-lg-6 total-mrp">
+            <p>
+              <strong>
+                <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+            </p>
           </div>
         </div>
-        <div class="col-lg-9 notification-details">
-          <h6>
-            <strong>{{item.brand}}</strong>
-          </h6>
-          <p>{{item.description}}</p>
-          <span>an hour ago</span><br/>
-          <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="deleteWish(item._id)">DELETE</button>
+        <div class="row">
+          <div class="col-lg-6">
+            <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+          </div>
+          <div class="col-lg-6">
+            <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
+          </div>
+        </div>
+        <div>
+          <img src="">
+        </div>
+        <div>
+          <h5>Last Minute Buys</h5>
+      
         </div>
       </div>
-     
-    </div>
+   
      <!-- wish list -->
 
     <!-- share screen -->
@@ -998,6 +1097,32 @@
             </div>
           </div>
         </div>
+      </div>
+      <div class="col-lg-9 notification" *ngIf="coupon">
+        <h4>
+         coupons
+        </h4>
+        <div class="row notifications-bar"  *ngFor="let offer of coupons">
+          <div class="col-lg-4">
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+            </div>
+            <div class="coupon-image">
+              <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
+              <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
+            </div>
+          </div>
+          <div class="col-lg-5">
+              <div class="validity">
+                    <p>validity Start From: <b>{{offer.validity_start}}</b></p>
+                    <p>Validity end: <b>{{offer.validity_end}}</b></p>
+              </div>
+              
+          </div>
+          <div class="col-lg-3">
+              <p>Updated Data: <b>{{offer.updated}}</b></p>
+          </div>
+        </div>  
       </div>
   </div>
 </div>

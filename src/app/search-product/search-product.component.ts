@@ -27,7 +27,6 @@ export class SearchProductComponent implements OnInit {
       } else {
         this.id = ''
       }
-      this.searchProducts()
   }
   searchProducts(){
     var inData = {
