@@ -58,11 +58,11 @@
       </thead>
       <tbody>
         <tr>
-          <td class="table-data">
-            <img src="assets/images/Aashirvaad.jpg" class="prod-image">
+          <td class="table-data" *ngFor="let cartimg of cart">
+            <img [src]="url + cartimg.image" class="prod-image">
             <p>
-              <strong>Ashirvaad Whole Wheat Atta - </strong>
-              <br />100% Pure</p>
+              <strong>{{summary.name}}</strong>
+              </p>
             <span>10kg</span>
           </td>
           <td class="table-price">
@@ -128,7 +128,7 @@
       <hr class="dash" />
     </div>
   </div>
-  <div class="row">
+  <div class="row" *ngFor="let summary of cartSummary">
     <div class="col-lg-6 text-center">
       <h5>
         <strong>Total to Pay</strong>
@@ -137,7 +137,7 @@
     <div class="col-lg-6 total-mrp">
       <p>
         <strong>
-          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;767.00</strong>
+          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.grand_total}}</strong>
       </p>
     </div>
   </div>

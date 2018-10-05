@@ -7,7 +7,7 @@
         <p [ngClass]="{'active':showCategories}">
           <a>
             <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
-            <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories" (click)="closesubSubCat()"></i>
+            <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories && i==selectedCat" (click)="closesubSubCat()"></i>
           </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id)">{{cat.name}}</span>
         </p>
         <!-- categories -->

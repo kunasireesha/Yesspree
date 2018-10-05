@@ -80,15 +80,15 @@
               <option selected *ngFor="let villageName of Village">{{villageName.pincode}}</option>
             </select>
           </div>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)] ="search">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search">
           <div class="input-group-append search-append">
-            <button class="btn "type="button" id="button-addon2" (click)="searchProducts(search)">Search</button>
+            <button class="btn " type="button" id="button-addon2" (click)="searchProducts(search)">Search</button>
           </div>
         </div>
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
         <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
-          <i class="fas fa-shopping-cart"></i> My Cart (0)</button>
+          <i class="fas fa-shopping-cart"></i> My Cart ( {{dashboardData.summary.cart_count}} )</button>
       </form>
     </div>
   </nav>
@@ -346,7 +346,6 @@
                 </div>
               </form>
 
-
             </div>
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
@@ -531,7 +530,7 @@
   <div class="modal-dialog modal-side modal-top-right" role="document">
     <div class="modal-content cust-mheader">
       <div class="modal-header mcart">
-        <h5 class="modal-title" id="exampleModalLabel">My cart (3 items)</h5>
+        <h5 class="modal-title" id="exampleModalLabel">My cart ( {{mycart.length}} items)</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -541,7 +540,7 @@
           <div class="col-8">
             <div class="t-mrp">
               <p>Total MRP</p>
-              <!-- <p>Your Total Savings</p> -->
+              <p>Your Total Savings </p>
             </div>
           </div>
           <div class="col-4">
@@ -550,8 +549,8 @@
                 <strong>
                   <i class="fa fa-inr" aria-hidden="true"></i>{{mrp}}</strong>
               </p>
-              <!-- <p class="green-text">
-                <i class="fa fa-inr" aria-hidden="true"></i> 500 (25%)</p> -->
+              <p class="green-text">
+                <i class="fa fa-inr" aria-hidden="true"></i> {{savedMoney}} ( {{grandPer}} % )</p>
             </div>
           </div>
         </div>
@@ -575,21 +574,22 @@
           </div>
         </div>
 
-        <div class="row bac-shadw" *ngFor="let cartItems of mycart">
+        <div class="row  bac-shadw" *ngFor="let cartItems of mycart;let i = index">
+
           <div class="col-lg-3">
             <div class="ashirvadimg">
-              <img src="assets/images/Aashirvaad.jpg" alt="ashirvad" />
+              <img [src]="url + cartItems.image" alt="ashirvad" />
             </div>
           </div>
           <div class="col-lg-9">
             <div class="atta">
 
               <p>
-                <strong>Ashirvaad Whole Wheet Att - 100% Pure</strong>
+                <strong>{{cartItems.name}}</strong>
               </p>
-              <div class="row">
+              <div class="row" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-3">
-                  <p>10kg</p>
+                  <p>{{sku.size}}</p>
                 </div>
                 <div class="col-md-2">
                   <p class="green-text">
@@ -597,30 +597,30 @@
                   </p>
 
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-2" *ngIf="sku.mrp!==undefined">
                   <p class="red-text">
                     <i class=" fa fa-inr" aria-hidden="true">
-                      <strike>{{cartItems.actual_price}}</strike>
+                      <strike>{{cartItems.mrp}}</strike>
                     </i>
                   </p>
 
                 </div>
-                <!-- <div class="col-md-5">
-                  <p class="save">You save 14%</p>
-                </div> -->
+                <div class="col-md-5" *ngIf="sku.mrp!==undefined">
+                  <p class="save">You save {{sku.percentage}}%</p>
+                </div>
               </div>
 
-              <div class="row">
+              <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
                   <p>Subscribe</p>
                 </div>
                 <div class="col-md-8">
                   <div class="num-bac">
                     <p>
-                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus"></i>
+                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus" (click)="itemDecrease(cartItems._id,sku._id,i)"></i>
                       &nbsp;
-                      <span _ngcontent-c5="">| &nbsp;2&nbsp; |</span>&nbsp;
-                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus"></i>
+                      <span _ngcontent-c5="">| &nbsp;{{sku.mycart}}&nbsp; |</span>&nbsp;
+                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus" (click)="itemIncrease(cartItems,cartItems.name,cartItems._id,sku._id,i)"></i>
                     </p>
                   </div>
                 </div>

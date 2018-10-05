@@ -29,23 +29,25 @@
           <th scope="col" width="15%" class="table-headings">Quantity</th>
           <th scope="col" width="15%" class="table-headings">Subtotal</th>
           <th scope="col" width="15%" class="table-headings">Savings</th>
+          <th scope="col" width="15%" class="table-headings">Delete</th>
         </tr>
       </thead>
       <tbody>
-        <tr>
+        <tr *ngFor="let cartItems of mycart">
+
           <td class="table-data">
-            <img src="/assets/images/Aashirvaad.jpg" class="prod-image">
+            <img [src]="url + cartItems.image" class="prod-image">
             <p>
-              <strong>Ashirvaad Whole Wheat Atta - </strong>
-              <br />100% Pure</p>
-            <span>10kg</span>
+              <strong>{{cartItems.name}} </strong>
+              </p>
+            <!-- <span>10kg</span> -->
           </td>
           <td class="table-price">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;359.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.actual_price}}
               <br />
               <i class="fa fa-strikethrought" aria-hidden="true"></i>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;420.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
             </p>
           </td>
           <td class="table-quanities">
@@ -57,7 +59,7 @@
           </td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;718.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
             </p>
           </td>
           <td class="table-savings">
@@ -68,41 +70,10 @@
               You Save 14%
             </span>
           </td>
-        </tr>
-        <tr>
-          <td class="table-data">
-            <img src="/assets/images/Annapurna.png" class="multigrain-image">
-            <p>
-              <strong>Ashirvaad Multigrain Atta - </strong>
+          <td class="table-delete"  *ngFor="let sku of cartItems.sku">
+              <p> 
+                <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
             </p>
-            <span>1kg</span>
-          </td>
-          <td class="table-price">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;49.00
-              <br />
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;56.00
-            </p>
-          </td>
-          <td class="table-quanities">
-            <p>
-              <i class="fa fa-minus" aria-hidden="true"></i>
-              <span>|1|</span>
-              <i class="fa fa-plus" aria-hidden="true"></i>
-            </p>
-          </td>
-          <td class="table-total">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;49.00
-            </p>
-          </td>
-          <td class="table-savings">
-            <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;7.00
-            </p>
-            <span>
-              You Save 12%
-            </span>
           </td>
         </tr>
         <tr class="table-border">
@@ -113,7 +84,7 @@
           <td></td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>889.00</p>
+              <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
           </td>
           <td class="table-savings">
             <p>
@@ -134,7 +105,7 @@
     <div class="col-lg-6 total-mrp">
       <p>
         <strong>
-          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;767.00</strong>
+          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
       </p>
     </div>
   </div>
@@ -151,5 +122,6 @@
   </div>
   <div>
     <h5>Last Minute Buys</h5>
+
   </div>
 </div>

@@ -1,3 +1,5 @@
+import { Router } from '@angular/router';
+import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
 
@@ -17,12 +19,14 @@ export class OrderSummaryComponent implements OnInit {
   orderId:string;
   orders=[];
   data={}
+  cart:string;
   checkout:string;
   userName:string;
   id:string;
   timeSlot:string;
   dateSlot:string;
-  constructor(public loginService: DataService) { 
+  url;
+  constructor(public loginService: DataService, public router:Router) { 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
         this.userName = JSON.parse(localStorage.userName);
         this.id = JSON.parse(localStorage.userId);
@@ -50,7 +54,7 @@ export class OrderSummaryComponent implements OnInit {
     var inData = {
         _session: localStorage.session,
         coupon_code:"yesspree30",
-        id_order:this.orderId
+        id_order:JSON.stringify(this.orderId)
       }
       this.loginService.postPromo(inData).subscribe(response => {
         this.Promo = response.json().result;
@@ -68,6 +72,7 @@ export class OrderSummaryComponent implements OnInit {
       }
       this.loginService.checkoutSummary(inData).subscribe(response => {
         this.cartSummary = response.json().orders;
+        this.cart = response.json().cart;
         this.orderId = response.json().orders[0].order_id;
         this.dateSlot = response.json().orders[0].deliveryslot;
         this.timeSlot = response.json().orders[0].deliveryslot[0].times;
@@ -78,7 +83,7 @@ export class OrderSummaryComponent implements OnInit {
   }
   cartCheckout(){   
     this.data={
-      "id_order":this.orderId,
+      "id_order":JSON.stringify(this.orderId),
       "total_paid":"46",
       "pay_type":"cod",
       "pay_option":"COD",
@@ -91,16 +96,18 @@ export class OrderSummaryComponent implements OnInit {
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse),
       lang:"en",
-      orders:this.data     
+      orders:this.orders     
   }
     this.loginService.checkOut(inData).subscribe(response => {
        this.checkout = response.json();
-       console.log(this.cartCheckout);
+       swal('order placed successfully', '', 'success');
+       this.router.navigate(["/"]);
     }, err => {
       console.log(err)
     }) 
   }
   ngOnInit() {
+    this.url = AppSettings.imageUrl;
       this.checkoutSummary();
   }
 

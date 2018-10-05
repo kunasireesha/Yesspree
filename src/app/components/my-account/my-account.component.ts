@@ -55,6 +55,7 @@ export class MyAccountComponent implements OnInit {
   orders;
   getWishList;
   notificationList;
+  myOrder;
   createdData = []
   mydata = {
     first_name: '',
@@ -156,7 +157,11 @@ export class MyAccountComponent implements OnInit {
       type: 'Present'
     }
     this.loginService.myorders(inData).subscribe(response => {
-      this.orders = response.json()
+      this.orders = response.json().orders;
+    //   for(var i = 0; i<this.orders.length; i++) {
+    //       this.myOrder = this.orders[i].order;
+    //       console.log( this.myOrder)
+    //   }
     }, err => {
       console.log(err)
     })
@@ -469,6 +474,28 @@ export class MyAccountComponent implements OnInit {
     },error=> {
 
     })
+  }
+  subscriptionActive(){
+      var inData = {
+        "type":"Active",
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse":JSON.parse(localStorage.id_warehouse),
+        "lang":"en"
+      }
+      this.loginService.subscriptionActive(inData).subscribe(response =>{
+       swal("subscribed", '', 'success');
+      })
+  }
+  subscriptionCancel(){
+    var inData = {
+        "type":"Cancelled",
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),,
+        "id_warehouse":JSON.parse(localStorage.id_warehouse),
+        "lang":"en"
+      }
+      this.loginService.subscriptionActive(inData).subscribe(response =>{
+        swal("unSubscribed", '', 'success');
+      }) 
   }
   
 }

@@ -111,7 +111,6 @@
   <div class="products">
     <div class="row items">
       <div class="col-md-3 item" *ngFor="let recPro of products;let i =index">
-
         <div *ngFor="let sku of recPro.sku">
           <div class="card">
             <a (click)="wish(recPro._id)">

@@ -77,8 +77,9 @@
 
 .prod-image {
   width: 30%;
-  height: 60%;
+  height: 50%;
   float: left;
+  padding-right: 10px;
 }
 
 .prod-table {
