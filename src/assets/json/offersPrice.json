@@ -1,0 +1,79 @@
+{
+  "offers": [{
+      "offer": "Up to 5%",
+      "value": "5",
+      "selected": false
+    },
+    {
+      "offer": "5% to 10%",
+      "value": "5,10",
+      "selected": false
+    },
+    {
+      "offer": "10% to 15%",
+      "value": "10,15",
+      "selected": false
+    },
+    {
+      "offer": "15% to 25%",
+      "value": "15,25",
+      "selected": false
+    },
+    {
+      "offer": "25% to 50%",
+      "value": "25,50",
+      "selected": false
+    },
+    {
+      "offer": "More than 50%",
+      "value": "50",
+      "selected": false
+    }
+  ],
+  "prices": [{
+      "price": "Less than 25 Rs",
+      "selected": false
+    },
+    {
+      "price": "25 Rs to 50 Rs",
+      "selected": false
+    },
+    {
+      "price": "50 Rs to 100 Rs",
+      "selected": false
+    },
+    {
+      "price": "100 Rs to 150 Rs",
+      "selected": false
+    },
+    {
+      "price": "150 Rs to 200 Rs",
+      "selected": false
+    },
+    {
+      "price": "200 Rs to 300 Rs",
+      "selected": false
+    },
+    {
+      "price": "300 Rs to 400 Rs",
+      "selected": false
+    },
+    {
+      "price": "400 Rs to 500 Rs",
+      "selected": false
+    },
+    {
+      "price": "500 Rs to 700 Rs",
+      "selected": false
+    },
+    {
+      "price": "700 Rs to 1000 Rs",
+      "selected": false
+    },
+    {
+      "price": "More than 1000 Rs",
+      "selected": false
+    }
+  ]
+
+}

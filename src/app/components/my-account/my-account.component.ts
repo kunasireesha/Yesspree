@@ -101,17 +101,17 @@ export class MyAccountComponent implements OnInit {
       this.rateUs = true;
     } else if (this.pageNav === "notifications") {
       this.mynotifiactions = true;
-      var inData =  {
-        "id_customer":this.id ,
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
+      var inData = {
+        "id_customer": this.id,
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
       }
-      this.loginService.notificationsData(inData).subscribe(response=> {
-      this.notificationList = response.json();
-      console.log( this.notificationList)
-      },error=>{
-  
+      this.loginService.notificationsData(inData).subscribe(response => {
+        this.notificationList = response.json();
+        console.log(this.notificationList)
+      }, error => {
+
       })
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
@@ -158,10 +158,10 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.myorders(inData).subscribe(response => {
       this.orders = response.json().orders;
-    //   for(var i = 0; i<this.orders.length; i++) {
-    //       this.myOrder = this.orders[i].order;
-    //       console.log( this.myOrder)
-    //   }
+      //   for(var i = 0; i<this.orders.length; i++) {
+      //       this.myOrder = this.orders[i].order;
+      //       console.log( this.myOrder)
+      //   }
     }, err => {
       console.log(err)
     })
@@ -273,7 +273,7 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = false;
     this.router.navigate(['/share']);
   }
-  showWishList(){
+  showWishList() {
     this.deliveryAddress = false;
     this.myaccountData = false;
     this.myOrders1 = false;
@@ -301,7 +301,7 @@ export class MyAccountComponent implements OnInit {
       localStorage.removeItem("userName");
       localStorage.setItem("userName", JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
       localStorage.removeItem("userMobile");
-      localStorage.setItem("userMobile",response.json().result[0].mobile);
+      localStorage.setItem("userMobile", response.json().result[0].mobile);
     }, err => {
       swal(err.msg, '', "error")
     })
@@ -441,61 +441,61 @@ export class MyAccountComponent implements OnInit {
       swal(err.message, "", "error");
     })
   }
-  getWishlist(){
+  getWishlist() {
     var inData = {
-      "_id":this.id,
-      "op":"get",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en",
-      "_session":localStorage.session
-    
+      "_id": this.id,
+      "op": "get",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "_session": localStorage.session
+
     }
-    this.loginService.getWishlist(inData).subscribe(response=> {
+    this.loginService.getWishlist(inData).subscribe(response => {
       this.getWishList = response.json().result;
       console.log(this.getWishList);
-    },error=> {
+    }, error => {
       console.log(error);
     })
   }
-  deleteWish(id){
+  deleteWish(id) {
     var inData = {
-      "_session":localStorage.session,
-      "_id":this.id,
-      "id_product":id,
-      "op":"delete",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en"
+      "_session": localStorage.session,
+      "_id": this.id,
+      "id_product": id,
+      "op": "delete",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
     }
-    this.loginService.deleteWish(inData).subscribe(response=> {
-    console.log(response)
-    this.getWishList();
-    },error=> {
+    this.loginService.deleteWish(inData).subscribe(response => {
+      console.log(response)
+      this.getWishList();
+    }, error => {
 
     })
   }
-  subscriptionActive(){
-      var inData = {
-        "type":"Active",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
-      }
-      this.loginService.subscriptionActive(inData).subscribe(response =>{
-       swal("subscribed", '', 'success');
-      })
-  }
-  subscriptionCancel(){
+  subscriptionActive() {
     var inData = {
-        "type":"Cancelled",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),,
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
-      }
-      this.loginService.subscriptionActive(inData).subscribe(response =>{
-        swal("unSubscribed", '', 'success');
-      }) 
+      "type": "Active",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
+    }
+    this.loginService.subscriptionActive(inData).subscribe(response => {
+      swal("subscribed", '', 'success');
+    })
   }
-  
+  subscriptionCancel() {
+    var inData = {
+      "type": "Cancelled",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
+    }
+    this.loginService.subscriptionActive(inData).subscribe(response => {
+      swal("unSubscribed", '', 'success');
+    })
+  }
+
 }

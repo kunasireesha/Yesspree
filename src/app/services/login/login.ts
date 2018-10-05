@@ -97,15 +97,15 @@ export class DataService {
         return this.postAuthorizationInputParams(params, 'customer/address')
     }
 
-    wish(params):Observable<any>{
-        return this.postAuthorizationInputParams(params,'wishlist')
+    wish(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'wishlist')
 
     }
-    getWishlist(params):Observable<any> {
-        return this.postAuthorizationInputParams(params,'wishlist')  
+    getWishlist(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'wishlist')
     }
-    deleteWish(params):Observable<any> {
-        return this.postAuthorizationInputParams(params,'wishlist')  
+    deleteWish(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'wishlist')
     }
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
@@ -158,40 +158,46 @@ export class DataService {
     productDetails(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'item/specific');
     }
-    
 
-    searchProducts(params):Observable<any>{
+
+    searchProducts(params): Observable<any> {
         return this.postInputParams(params, 'item/search');
     }
-    postPromo(params):Observable<any>{
+    postPromo(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'cart/coupon');
     }
-    postVillageName(params):Observable<any>{
+    postVillageName(params): Observable<any> {
         return this.postInputParams(params, 'customer/villagename');
     }
-    checkOut(params):Observable<any>{
-        return this.postInputParams(params,'cart/checkout')
+    checkOut(params): Observable<any> {
+        return this.postInputParams(params, 'cart/checkout')
     }
-    checkoutSummary(params):Observable<any>{
-        return this.postAuthorizationInputParams(params,'cart/summary');
+    checkoutSummary(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'cart/summary');
     }
     //view all 
-    recProducts(params):Observable<any>{
+    recProducts(params): Observable<any> {
         return this.postInputParams(params, 'item/viewall');
     }
-    exploreCartCount(params):Observable<any>{
+    exploreCartCount(params): Observable<any> {
         return this.postInputParams(params, 'product/updateadvcount')
     }
-    removeCart(params):Observable<any>{
+    removeCart(params): Observable<any> {
         return this.postInputParams(params, 'cart/remove');
     }
-    subscriptionActive(Params):Observable<any>{
-        return this.postAuthorizationInputParams(Params,'subscription/orders')
-    }
-    subscriptionCancel(Params):Observable<any>{
+    subscriptionActive(Params): Observable<any> {
         return this.postAuthorizationInputParams(Params, 'subscription/orders')
     }
-    productSubscription(Params):Observable<any>{
+    subscriptionCancel(Params): Observable<any> {
+        return this.postAuthorizationInputParams(Params, 'subscription/orders')
+    }
+    productSubscription(Params): Observable<any> {
         return this.postInputParams(Params, 'subscription');
     }
+
+    filterData(params): Observable<any> {
+        return this.postInputParams(params, 'item/filterdata');
+    }
+
+
 }

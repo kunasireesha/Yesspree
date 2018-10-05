@@ -80,7 +80,7 @@ export class HomeComponent implements OnInit {
     var inData = {
       _id: this.id,
       device_type: "desktop",
-      _session: "115313153802191_NAM",
+      _session:  localStorage.session,
       lang: "en",
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse),
