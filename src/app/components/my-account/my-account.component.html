@@ -31,7 +31,6 @@
         </div>
         <div class="col-lg-8 input-details">
           <form>
-
             <div class="form-group">
               <label for="exampleInputFname">First Name</label>
               <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname" placeholder="Paresh Kumar"
@@ -128,7 +127,7 @@
             <p>
               <strong>{{cartData.product_name}}</strong>
             </p>
-            <p>10 kg</p>
+            <p>{{cartData.size}}</p>
             <p>Quantity : {{cartData.dispatch_quantity}}</p>
           </div>
         </div>
@@ -211,7 +210,7 @@
     </div>
 
     <!-- my orders 2 -->
-    <div class="col-lg-9 order-summary" *ngIf="myOrders2">
+    <!-- <div class="col-lg-9 order-summary" *ngIf="myOrders2">
       <div>
         <h4>MY ORDERS</h4>
       </div>
@@ -400,7 +399,7 @@
         </div>
 
       </div>
-    </div>
+    </div> -->
 
 
     <!-- my cart -->

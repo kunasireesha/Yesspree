@@ -192,6 +192,6 @@ export class DataService {
         return this.postAuthorizationInputParams(Params, 'subscription/orders')
     }
     productSubscription(Params):Observable<any>{
-        return this.postInputParams(Params, 'subscription');
+        return this.postAuthorizationInputParams(Params, 'subscription');
     }
 }

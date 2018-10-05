@@ -16,6 +16,8 @@ export class ProductdetailsComponent implements OnInit {
   firstPic;
   specificProd;
   percentage;
+  productDetail:string;
+
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
@@ -40,23 +42,8 @@ export class ProductdetailsComponent implements OnInit {
   showInput = false;
   showInput1 = false;
 
-  showSubscribeDetails(event) {
-    alert(event)
+  showSubscribeDetails() {
     this.showSubscriptionData = !this.showSubscriptionData;
-    var inData = {
-        "day":event,
-        "id_product":"11",
-        "id_sku":"20",
-        "is_alternate":"1",
-        "is_doorbellring":"1",
-        "pay_type":"COD",
-        "quantity":"1",
-        "start_date":"Sun, 26 Aug  2018",
-        "subscription_type":"Once a week"
-      }
-      this.loginService.productSubscription(inData).subscribe(response =>{
-       
-      })
   }
 
   submit() {
@@ -112,10 +99,25 @@ export class ProductdetailsComponent implements OnInit {
         console.log(  this.specificProd[i].sku[0].percentage )
       }
     }
-    
     }, err => {
       console.log(err);
     })
+  }
+  subscribe(){
+    var inData = {
+        "day":"mon",
+        "id_product":"11",
+        "id_sku":"20",
+        "is_alternate":"1",
+        "is_doorbellring":"1",
+        "pay_type":"COD",
+        "quantity":"1",
+        "start_date":"Sun, 26 Aug  2018",
+        "subscription_type":"Once a week"
+      }
+      this.loginService.productSubscription(inData).subscribe(response =>{
+       
+      })
   }
 }
   
