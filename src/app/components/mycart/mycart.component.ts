@@ -31,7 +31,6 @@ export class MycartComponent implements OnInit {
       }
     //   this.cartCheckout();
     this.getCart();
-    this.exploreCartCount();
   }
   getCart() {
     this.url = AppSettings.imageUrl;
@@ -58,7 +57,7 @@ export class MycartComponent implements OnInit {
       }
       this.loginService.exploreCartCount(inData).subscribe(response =>{
           this.exploreCart = response.json();
-          console.log(this.exploreCartCount);
+          swal("Explore successfully",'','success');
       })
   }
   removeCart(product,sku){

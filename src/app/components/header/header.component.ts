@@ -437,7 +437,7 @@ export class HeaderComponent implements OnInit {
         count: event.length
       }
     }
-    this.router.navigate(["/searchProduct"], navigationExtras);
+    this.router.navigate(["/product_details"], navigationExtras);
   }
   postVillageName() {
     var inData = {

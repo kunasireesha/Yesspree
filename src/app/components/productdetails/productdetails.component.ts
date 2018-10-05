@@ -73,6 +73,7 @@ export class ProductdetailsComponent implements OnInit {
     }
     this.loginService.productDetails(inData).subscribe(response => {
     this.product = response.json().product.pic[0];
+
     this.productDetail= response.json().product;
     }, err => {
       console.log(err);
