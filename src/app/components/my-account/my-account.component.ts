@@ -298,8 +298,8 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = true;
     this.router.navigate(['/wishlist']);
   }
-  showCoupon() {
 
+  showCoupon() {
     this.deliveryAddress = false;
     this.myaccountData = false;
     this.myOrders1 = false;
@@ -313,6 +313,7 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = false;
     this.coupon = true;
     this.router.navigate(['/coupon']);
+
     //   let navigationExtras: NavigationExtras = {
     //     queryParams: {
     //       promoCode:this.promoCode

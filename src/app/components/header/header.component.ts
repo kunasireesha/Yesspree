@@ -1,4 +1,5 @@
-import { Component, OnInit, OnChanges } from '@angular/core';
+import { MyAccountComponent } from './../my-account/my-account.component';
+import { Component, OnInit, OnChanges,ViewChild } from '@angular/core';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import swal from 'sweetalert';
@@ -14,6 +15,8 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
   styleUrls: ['./header.component.less']
 })
 export class HeaderComponent implements OnInit {
+
+  @ViewChild(MyAccountComponent) myaccountcmp:MyAccountComponent;
   Village: string;
   mrp: number;
   grandTotal: number;
@@ -87,8 +90,8 @@ export class HeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.geoLocation()
-    this.postVillageName();
+    this.geoLocation();
+    this.postVillageName(event);
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -457,7 +460,8 @@ export class HeaderComponent implements OnInit {
       console.log(err)
     })
   }
-  postVillageName() {
+  
+  postVillageName(event) {
     var inData = {
       wh_pincode: "560078"
     }

@@ -44,11 +44,11 @@ export class MycartComponent implements OnInit {
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
-      this.mrp = response.json().summary.mrp;
-      this.grandTotal = response.json().summary.grand_total;
-      this.cartCount = response.json().summary.cart_count;
-      this.mycart = response.json().cart;
-      console.log(this.mycart);
+        this.mrp = response.json().summary.mrp;
+        this.grandTotal = response.json().summary.grand_total;
+        this.cartCount = response.json().summary.cart_count;
+        this.mycart = response.json().cart;
+        console.log(this.mycart);
     }, err => {
       console.log(err)
     })
