@@ -16,7 +16,7 @@ export class MyAccountComponent implements OnInit {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
-      this.id = 0;
+      this.id = '';
     }
     this.getAdd();
     this.getWishlist();
@@ -489,7 +489,7 @@ export class MyAccountComponent implements OnInit {
   subscriptionCancel(){
     var inData = {
         "type":"Cancelled",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),,
+        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse":JSON.parse(localStorage.id_warehouse),
         "lang":"en"
       }
@@ -497,5 +497,4 @@ export class MyAccountComponent implements OnInit {
         swal("unSubscribed", '', 'success');
       }) 
   }
-  
 }

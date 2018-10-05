@@ -134,40 +134,43 @@
               <div class="col-lg-12">
                 <p>Choose Days</p>
                 <ul class="chs-days">
-                  <button (click)="showSubscribeDetails('Mon')"><li>Mon</li></button>
-                  <button (click)="showSubscribeDetails('Tue')"><li>Tue</li></button>
-                  <button (click)="showSubscribeDetails('Wed')"><li>Wed</li></button>
-                  <button (click)="showSubscribeDetails('Thu')"><li>Thu</li></button>
-                  <button (click)="showSubscribeDetails('Fri')"><li>Fri</li></button>
-                  <button (click)="showSubscribeDetails('Sat')"><li>Sat</li></button>
-                  <button (click)="showSubscribeDetails('Sun')"><li>Sun</li></button>
+                  <button (click)="subscribe('Mon')"><li>Mon</li></button>
+                  <button (click)="subscribe('Tue')"><li>Tue</li></button>
+                  <button (click)="subscribe('Wed')"><li>Wed</li></button>
+                  <button (click)="subscribe('Thu')"><li>Thu</li></button>
+                  <button (click)="subscribe('Fri')"><li>Fri</li></button>
+                  <button (click)="subscribe('Sat')"><li>Sat</li></button>
+                  <button (click)="subscribe('Sun')"><li>Sun</li></button>
                 </ul>
               </div>
             </div>
-
             <!-- <input type=text [(ngModel)]="data">
               <input type=text [(ngModel)]="email" name="mail">
               <button (click)="submit()">Submit</button> -->
             <div class="row">
               <div class="col-lg-12 evry-day">
+                
+                    <input type="checkbox" name="vehicle1" value="Bike"> Every Day
                 <p>
-                  <i class="fa fa-check-circle" aria-hidden="true"></i> Every Day</p>
+                    <input type="checkbox" name="vehicle1" value="Bike"> Alternate days</p>
                 <p>
-                  <i class="fa fa-check-circle" aria-hidden="true"></i> Alternate days</p>
-                <p>
-                  <i class="fa fa-check-circle" aria-hidden="true"></i> Once a week</p>
+                    <input type="checkbox" name="vehicle1" value="Bike"> Once a week</p>
               </div>
+              <input type="checkbox" name="vehicle1" value="Bike">
             </div>
-
             <div class="row">
               <div class="col-lg-12">
                 <h6>Starting Date</h6>
                 <div class="cust-calender">
                   <i class="fa fa-calendar" aria-hidden="true"></i>
                   <input type="datetime-local" value="2018-09-12T19:30" min="2018-06-07T00:00" max="2018-06-14T00:00" />
-
                 </div>
               </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <button (click)="subscribe()">Subscribe</button>
+                </div>
             </div>
           </div>
         </div>
