@@ -228,6 +228,30 @@ export class HomeComponent implements OnInit {
     }
     this.router.navigate(["/product_details"], navigationExtras);
   }
+  //banner navigation
+  bannerNav(type,target){
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        type: type,
+        target:target
+      }
+
+    }
+    if(type == "explore"){
+      var inData =  {
+        _id: this.id
+      }
+      this.loginService.explore(inData).subscribe(response=> {
+      console.log(response);
+      swal("Explored successfully","","success");
+      },error=> {
+        console.log(error);
+      })
+    } else {
+      this.router.navigate(["/banner_navigation"], navigationExtras); 
+    }
+   
+  }
 
 
 }

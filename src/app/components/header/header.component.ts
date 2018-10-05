@@ -422,19 +422,13 @@ export class HeaderComponent implements OnInit {
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
         this.loginService.getLocation(inData).subscribe(response => {
-          this.geodata=response.results;
-          console.log(this.geodata);;
+          console.log(response);
           debugger
         })
       });
     }
   }
-
-  getVillage() {
-    var inData = {
-      "wh_pincode": "560078",
-    }
-  }
+ 
   searchProducts(event) {
     let navigationExtras: NavigationExtras = {
       queryParams: {

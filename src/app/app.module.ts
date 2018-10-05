@@ -30,6 +30,7 @@ import { StaticComponent } from './components/static/static.component';
 import { CategoriesComponent } from './components/categories/categories.component';
 import { RecProductsComponent } from './components/rec-products/rec-products.component';
 import { SearchProductComponent } from './search-product/search-product.component';
+import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
 
 
 //services need to mention in providers
@@ -68,7 +69,8 @@ export function getAuthServiceConfigs() {
     RecProductsComponent,
     SearchProductComponent,
     CategoriesComponent,
-    RecProductsComponent
+    RecProductsComponent,
+    BannerNavigationComponent
 
 
   ],
@@ -197,6 +199,10 @@ export function getAuthServiceConfigs() {
       {
         path:'searchProduct',
         component:SearchProductComponent,
+      },
+      {
+        path:'banner_navigation',
+        component:BannerNavigationComponent,
       }
 
 
