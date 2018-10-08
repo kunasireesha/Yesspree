@@ -202,6 +202,11 @@ export function getAuthServiceConfigs() {
           data:[{ page: 'coupon' }]
       },
       {
+          path:'myCartDetails',
+          component:MyAccountComponent,
+          data:[{page:'myCartDetails'}]
+      },
+      {
         path:'searchProduct',
         component:SearchProductComponent,
       },
