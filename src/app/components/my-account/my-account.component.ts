@@ -20,7 +20,7 @@ export class MyAccountComponent implements OnInit {
   cartCount;
   ordersData;
   sku = [];
-  subscribe= false;
+  subscribeactive = false;
   discount;
   cancelPlan;
   ngOnInit() {
@@ -542,7 +542,7 @@ export class MyAccountComponent implements OnInit {
     //        this.discount = this.subscribedOrders[i].order.total_selling_price;
            
     //    }
-       this.subscribe = false;
+       this.subscribeactive = true;
        swal("subscribed", '', 'success');
       })
   }
@@ -555,10 +555,9 @@ export class MyAccountComponent implements OnInit {
       }
       this.loginService.subscriptionActive(inData).subscribe(response => {  
           this.ordersData = response.json().orders;   
-          this.subscribe = true; 
+          this.subscribeactive = false;
           alert(this.ordersData); 
-            swal("unsubscribed", '', 'success');      
-           
+            swal("unsubscribed", '', 'success');       
       }) 
   }
   getCart(){
