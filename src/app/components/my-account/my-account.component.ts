@@ -505,6 +505,9 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getWishlist(inData).subscribe(response=> {
       this.WishList = response.json().result;
+      for(var i = 0; i < this.WishList.length; i++){
+        this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
+      }
       this.grandTotal = response.json().summary.grand_total;
       console.log(this.WishList);
     },error=> {
