@@ -297,7 +297,7 @@
             <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
           </p>
           <p class="cancel-plan">
-            <a href="#">Cancel Plan</a>
+            <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
           </p>
         </div>
       </div>

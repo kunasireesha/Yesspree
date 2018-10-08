@@ -22,6 +22,7 @@ export class MyAccountComponent implements OnInit {
   sku = [];
   subscribe= false;
   discount;
+  cancelPlan;
   ngOnInit() {
 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -573,5 +574,16 @@ export class MyAccountComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  subscriptionStatus(num){
+      var inData = {
+        _id: this.id,
+        order_no:num,
+        order_status:"Cancelled",
+        cancelled_on:new Date()
+      }
+      this.loginService.subscriptionStatus(inData).subscribe(reponse =>{
+        swal('cancelled order', "", "error")
+      })
   }
 }
