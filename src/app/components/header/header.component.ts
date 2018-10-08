@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   search: string;
   mycartImg: string;
   productId; 
+  cartCount;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -84,6 +85,7 @@ export class HeaderComponent implements OnInit {
   lanLocation;
   summary;
 
+
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
@@ -118,7 +120,7 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      this.summary = response.json().summary;
+      this.cartCount = response.json().summary.cart_count;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -415,7 +417,6 @@ export class HeaderComponent implements OnInit {
     this.catSer.categories = categories;
     this.showSubcat = true;
     this.router.navigate(["/childcat"], navigationExtras);
-
   }
 
 
