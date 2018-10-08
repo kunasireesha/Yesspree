@@ -149,202 +149,67 @@
       <br />
       <h6>Corn Flour/Maize Atta/Makka Atta
         <span>
-          <button type="button" data-toggle="modal" data-target="#refineby">
+          <button type="button" data-toggle="modal" data-target="#refineby" (click)="filterData()">
             Refine By
           </button>
-          <select>
-            <option>
-              Sort By
+          <select (change)="changeSort(idforrefine,$event.target.value)">
+            <option *ngFor="let data of sortData" value="{{data.name}}">{{data.name}}
             </option>
+
           </select>
         </span>
       </h6>
       <br />
       <div class="row cust-response">
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
-            <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
+        <div class="col-md-6 col-lg-3 col-xs-12 item" *ngFor="let prod of products;let i = index">
+          <div *ngFor="let sku of prod.sku">
+            <div class="card" (click)="showProduxtDetails()">
+              <a>
+                <i class="fa fa-heart" aria-hidden="true"></i>
+              </a>
+              <img class="img-fluid product-img" [src]="prod.image" alt="Card image cap">
+              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+              <div class="card-block">
+                <h5>{{prod.name}} </h5>
+                <p>{{sku.size}}</p>
+                <div class="row  item-price">
+                  <div class="col-md-6 col-sm-12 col-xs-12">
+                    <span class="price">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.selling_price}}</span>
+                    <strike *ngIf="sku.mrp!==undefined">
+                      <i class="fa fa-rupee" aria-hidden="true"></i>
+                      {{sku.mrp}}
+                    </strike>
+                  </div>
+                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
+                    <span class="saveMney">you save {{sku.percentage}} %</span>
+                  </div>
                 </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                  <span (click)="decrees()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 col-lg-6 col-sm-6 col-xs-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count}}</span>
-                </div>
-                <div class="col-md-3 col-lg-3 col-sm-3 col-xs-3">
-                  <span (click)="showInputValue()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees2()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count1}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue2()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
+                <br />
+                <div class="row prdct-length">
+                  <div class="col-md-4">
+                    <span *ngIf="showInput && i == selected" (click)="itemDecrease(prod._id,sku._id,i)">
+                      <i class="fa fa-minus" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                  <div class="col-md-4 quantity">
+                    <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,prod._id,sku._id)">Add</span>
+                    <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
+                  </div>
+                  <div class="col-md-4">
+                    <span class="plus" (click)="itemIncrease(prod,prod.name,prod._id,sku._id,i)">
+                      <i class="fa fa-plus" aria-hidden="true"></i>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/product1.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees3()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count2}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue3()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
+        <div class="col-md-6 col-lg-3 col-xs-12 item" *ngIf="products.length==0">
+          <p class="text-center">No Data Available</p>
         </div>
-
-
-
-        <div class="col-md-6 col-lg-3 col-xs-12 item">
-          <div class="card" (click)="showProduxtDetails()">
-            <a>
-              <i class="fa fa-heart" aria-hidden="true"></i>
-            </a>
-            <img class="img-fluid" src="/assets/images/Annapurna.png" alt="Card image cap">
-
-            <div class="card-block">
-              <h5>Aashirvaad Whole Wheat Atta- 100% Pure </h5>
-              <p>10 Kg</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    359</span>
-                  <strike>
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    420</strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="saveMney">you save 14%</span>
-                </div>
-              </div>
-              <br />
-              <div class="row prdct-length">
-                <div class="col-md-3">
-                  <span (click)="decrees4()">
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                  </span>
-                </div>
-                <div class="col-md-6 quantity">
-                  <span class="add text-center" *ngIf="!showInput">Add</span>
-                  <span *ngIf="showInput">{{count3}}</span>
-                </div>
-                <div class="col-md-3">
-                  <span (click)="showInputValue4()">
-                    <i class="fa fa-plus" aria-hidden="true"></i>
-                  </span>
-                </div>
-              </div>
-
-
-            </div>
-          </div>
-
-        </div>
-
-
       </div>
     </div>
   </div>
@@ -355,7 +220,7 @@
   <div class="modal-dialog modal-side modal-top-right" role="document">
     <div class="modal-content cust-mheader">
       <div class="modal-header m-header">
-        <h5 class="modal-title" id="exampleModalLabel">Refine by</h5>
+        <h5 class="modal-title" id="exampleModalLabel" (click)="clearData()">Refine by</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -381,71 +246,17 @@
                 <div class="container">
                   <div class="table-responsive">
                     <table class="table table-condensed">
-
-                      <tbody>
+                      <tbody *ngFor="let item of brands">
                         <tr>
-                          <td>Brand 1</td>
+                          <td>{{item.brand_en}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                              <label class="form-check-label popup-label" for="defaultCheck1"></label>
+                              <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.brand_en}}"
+                                name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)">
+                              <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.brand_en}}"></label>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td>Brand 2</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="gridCheck1">
-                              <label class="form-check-label popup-label" for="gridCheck1">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>Brand 3</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="brand3">
-                              <label class="form-check-label popup-label" for="brand3">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>Brand 4</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="brand4">
-                              <label class="form-check-label popup-label" for="brand4">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>Brand 5</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="brand5">
-                              <label class="form-check-label popup-label" for="brand5">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>Brand 6</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="brand6">
-                              <label class="form-check-label popup-label" for="brand6">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
                       </tbody>
                     </table>
                   </div>
@@ -455,126 +266,17 @@
                 <div class="container">
                   <div class="table-responsive">
                     <table class="table table-condensed">
-
-                      <tbody>
+                      <tbody *ngFor="let price of prices">
                         <tr>
-                          <td>Less than 25 Rs</td>
+                          <td>{{price.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="price1">
-                              <label class="form-check-label popup-label" for="price1"></label>
+                              <input class="form-check-input" type="radio" value="{{price.value}}" id="{{price.name}}"
+                                name="selected" [(ngModel)]="price.selected" (change)="checkPrice(price.value)">
+                              <label class="form-check-label popup-label" [(ngModel)]="price.selected" for="{{price.name}}"></label>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td>25 Rs to 50 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price2">
-                              <label class="form-check-label popup-label" for="price2">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>50 Rs to 100 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price3">
-                              <label class="form-check-label popup-label" for="price3">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>100 Rs to 150 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price4">
-                              <label class="form-check-label popup-label" for="price4">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>150 Rs to 200 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price5">
-                              <label class="form-check-label popup-label" for="price5">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>200 Rs to 300 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price6">
-                              <label class="form-check-label popup-label" for="price6">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>300 Rs to 400 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price7">
-                              <label class="form-check-label popup-label" for="price7">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>400 Rs to 500 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price8">
-                              <label class="form-check-label popup-label" for="price8">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>500 Rs to 700 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price9">
-                              <label class="form-check-label popup-label" for="price9">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>700 Rs to 1000 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price10">
-                              <label class="form-check-label popup-label" for="price10">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>More than 1000 Rs</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="price11">
-                              <label class="form-check-label popup-label" for="price11">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
                       </tbody>
                     </table>
                   </div>
@@ -584,71 +286,17 @@
                 <div class="container">
                   <div class="table-responsive">
                     <table class="table table-condensed">
-
-                      <tbody>
+                      <tbody *ngFor="let offer of offers">
                         <tr>
-                          <td>Up to 5%</td>
+                          <td>{{offer.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="checkbox" value="" id="offer1">
-                              <label class="form-check-label popup-label" for="offer1"></label>
+                              <input class="form-check-input" type="radio" value="{{offer.value}}" id="{{offer.name}}"
+                                name="selected" [(ngModel)]="offer.selected" (change)="checkOffers(offer.value)">
+                              <label class="form-check-label popup-label" [(ngModel)]="offer.selected" for="{{offer.name}}"></label>
                             </div>
                           </td>
                         </tr>
-                        <tr>
-                          <td>5% to 10%</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="offer2">
-                              <label class="form-check-label popup-label" for="offer2">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>10% to 15%</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="offer3">
-                              <label class="form-check-label popup-label" for="offer3">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>15% to 25%</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="offer4">
-                              <label class="form-check-label popup-label" for="offer4">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>25% to 50%</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="offer5">
-                              <label class="form-check-label popup-label" for="offer5">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
-                        <tr>
-                          <td>More than 50%</td>
-                          <td>
-                            <div class="form-check">
-                              <input class="form-check-input" type="checkbox" id="offer6">
-                              <label class="form-check-label popup-label" for="offer6">
-                              </label>
-                            </div>
-                          </td>
-                        </tr>
-
                       </tbody>
                     </table>
                   </div>
@@ -662,7 +310,7 @@
       </div>
       <div class="modal-footer cust-modalfooter">
         <input class="btn refinbtn1" type="reset" value="CLEAR ALL" flex-start>
-        <input class="btn refinbtn" type="submit" value="DONE" data-dismiss="modal">
+        <input class="btn refinbtn" type="submit" value="DONE" data-dismiss="modal" (click)="filter(idforrefine,'')">
       </div>
     </div>
   </div>

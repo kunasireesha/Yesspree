@@ -96,6 +96,14 @@ export class MyAccountComponent implements OnInit {
       this.deliveryAddress = true;
     } else if (this.pageNav === "orders1") {
       this.myOrders1 = true;
+      var inData = {
+        type: 'Present'
+      }
+      this.loginService.myorders(inData).subscribe(response => {
+        this.orders = response.json().orders;
+      }, err => {
+        console.log(err)
+      })
     } else if (this.pageNav === "address2") {
       this.myOrders2 = true;
     } else if (this.pageNav === "cart") {
@@ -108,17 +116,17 @@ export class MyAccountComponent implements OnInit {
       this.rateUs = true;
     } else if (this.pageNav === "notifications") {
       this.mynotifiactions = true;
-      var inData =  {
-        "id_customer":this.id ,
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
+      var nParams = {
+        "id_customer": this.id,
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
       }
-      this.loginService.notificationsData(inData).subscribe(response=> {
-      this.notificationList = response.json();
-      console.log( this.notificationList)
-      },error=>{
-  
+      this.loginService.notificationsData(nParams).subscribe(response => {
+        this.notificationList = response.json();
+        console.log(this.notificationList)
+      }, error => {
+
       })
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
@@ -126,8 +134,16 @@ export class MyAccountComponent implements OnInit {
     else if (this.pageNav === "wishlist") {
       this.wishlist = true;
     }
-    else if (this.pageNav === 'coupon'){
-        this.coupon = true;
+    else if (this.pageNav === 'coupon') {
+      this.coupon = true;
+      var params = {
+        "lang": "en"
+      }
+      this.loginService.offersCoupon(params).subscribe(response => {
+        this.coupons = response.json().offer;
+        //   this.promoCode = response.json().offer[0].promo_code;
+        console.log(this.promoCode);
+      });
     }
   }
 
@@ -163,18 +179,7 @@ export class MyAccountComponent implements OnInit {
   }
 
   myorders() {
-    var inData = {
-      type: 'Present'
-    }
-    this.loginService.myorders(inData).subscribe(response => {
-      this.orders = response.json().orders;
-    //   for(var i = 0; i<this.orders.length; i++) {
-    //       this.myOrder = this.orders[i].order;
-    //       console.log( this.myOrder)
-    //   }
-    }, err => {
-      console.log(err)
-    })
+
     this.deliveryAddress = false;
     this.myaccountData = false;
     this.myOrders1 = true;
@@ -283,7 +288,7 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = false;
     this.router.navigate(['/share']);
   }
-  showWishList(){
+  showWishList() {
     this.deliveryAddress = false;
     this.myaccountData = false;
     this.myOrders1 = false;
@@ -297,34 +302,28 @@ export class MyAccountComponent implements OnInit {
     this.wishlist = true;
     this.router.navigate(['/wishlist']);
   }
-  showCoupon(){
-      this.deliveryAddress = false;
-      this.myaccountData = false;
-      this.myOrders1 = false;
-      this.myOrders2 = false;
-      this.mycart = false;
-      this.mysubscription = false;
-      this.offers = false;
-      this.rateUs = false;
-      this.sharescreen = false;
-      this.mynotifiactions = false;
-      this.wishlist = false;
-      this.coupon = true;
-      this.router.navigate(['/coupon']);
-      var inData= {
-        "lang":"en"
-      }
-      this.loginService.offersCoupon(inData).subscribe(response =>{
-          this.coupons = response.json().offer;
-        //   this.promoCode = response.json().offer[0].promo_code;
-          console.log(this.promoCode);
-      });
+
+  showCoupon() {
+    this.deliveryAddress = false;
+    this.myaccountData = false;
+    this.myOrders1 = false;
+    this.myOrders2 = false;
+    this.mycart = false;
+    this.mysubscription = false;
+    this.offers = false;
+    this.rateUs = false;
+    this.sharescreen = false;
+    this.mynotifiactions = false;
+    this.wishlist = false;
+    this.coupon = true;
+    this.router.navigate(['/coupon']);
+
     //   let navigationExtras: NavigationExtras = {
     //     queryParams: {
     //       promoCode:this.promoCode
     //     }
     //   }
-        // this.router.navigate(['/coupon'],navigationExtras);
+    // this.router.navigate(['/coupon'],navigationExtras);
   }
   update() {
     var inData = {
@@ -340,7 +339,7 @@ export class MyAccountComponent implements OnInit {
       localStorage.removeItem("userName");
       localStorage.setItem("userName", JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
       localStorage.removeItem("userMobile");
-      localStorage.setItem("userMobile",response.json().result[0].mobile);
+      localStorage.setItem("userMobile", response.json().result[0].mobile);
     }, err => {
       swal(err.msg, '', "error")
     })
@@ -478,61 +477,61 @@ export class MyAccountComponent implements OnInit {
       swal(err.message, "", "error");
     })
   }
-  getWishlist(){
+  getWishlist() {
     var inData = {
-      "_id":this.id,
-      "op":"get",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en",
-      "_session":localStorage.session
-    
+      "_id": this.id,
+      "op": "get",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "_session": localStorage.session
+
     }
-    this.loginService.getWishlist(inData).subscribe(response=> {
+    this.loginService.getWishlist(inData).subscribe(response => {
       this.getWishList = response.json().result;
       console.log(this.getWishList);
-    },error=> {
+    }, error => {
       console.log(error);
     })
   }
-  deleteWish(id){
+  deleteWish(id) {
     var inData = {
-      "_session":localStorage.session,
-      "_id":this.id,
-      "id_product":id,
-      "op":"delete",
-      "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse":JSON.parse(localStorage.id_warehouse),
-      "lang":"en"
+      "_session": localStorage.session,
+      "_id": this.id,
+      "id_product": id,
+      "op": "delete",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
     }
-    this.loginService.deleteWish(inData).subscribe(response=> {
-    console.log(response)
-    this.getWishList();
-    },error=> {
+    this.loginService.deleteWish(inData).subscribe(response => {
+      console.log(response)
+      this.getWishList();
+    }, error => {
 
     })
   }
-  subscriptionActive(){
-      var inData = {
-        "type":"Active",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
-      }
-      this.loginService.subscriptionActive(inData).subscribe(response =>{
-       swal("subscribed", '', 'success');
-      })
-  }
-  subscriptionCancel(){
+  subscriptionActive() {
     var inData = {
-        "type":"Cancelled",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
-      }
-      this.loginService.subscriptionActive(inData).subscribe(response =>{
-        swal("unSubscribed", '', 'success');
-      }) 
+      "type": "Active",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
+    }
+    this.loginService.subscriptionActive(inData).subscribe(response => {
+      swal("subscribed", '', 'success');
+    })
+  }
+  subscriptionCancel() {
+    var inData = {
+      "type": "Cancelled",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
+    }
+    this.loginService.subscriptionActive(inData).subscribe(response => {
+      swal("unSubscribed", '', 'success');
+    })
   }
   getCart(){
     this.url = AppSettings.imageUrl;
