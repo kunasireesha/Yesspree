@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
-
+import { AppSettings } from '../../config';
+import { Http, Headers } from '@angular/http';
+import * as _ from 'underscore';
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -9,7 +11,7 @@ import { DataService } from '../../services/login/login';
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, ) {
+  constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http) {
     this.route.queryParams.subscribe(params => {
       this.subCatId = params.id;
       this.subName = params.name;
@@ -17,6 +19,8 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.filterData();
+    this.url = AppSettings.imageUrl;
     //get subcat data
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
@@ -44,7 +48,7 @@ export class ProductsComponent implements OnInit {
 
   showCategories = false;
   showSubCategories = false;
-  showInput = false;
+  showInput = true;
   showInput1 = false;
   subCatId;
   id;
@@ -52,8 +56,31 @@ export class ProductsComponent implements OnInit {
   subcatdata = [];
   subSubCatData = [];
   lastCatData = [];
+  products = [];
   selectedCat;
   selectedLastCat;
+  percentage;
+  url;
+  selected;
+  brands = [];
+  offers = [];
+  prices = [];
+  items = {
+    quantity: 1
+  };
+
+  brandValue = '';
+  priceValue = '';
+  offersValue = '';
+
+  brandsData = '';
+  priceData = '';
+  offersData = '';
+  brandsFilter = [];
+  pricesFilter = [];
+  offersFilter = [];
+  sortData = [];
+  idforrefine;
 
   //sub sub categories
   showsubSubCat(index, subId) {
@@ -118,6 +145,7 @@ export class ProductsComponent implements OnInit {
 
   //get products
   getProducts(id) {
+    this.idforrefine = localStorage.setItem('subid', id);
     var inData = {
       _id: this.id,
       id_subcategory: id,
@@ -128,7 +156,14 @@ export class ProductsComponent implements OnInit {
       lang: "en",
     }
     this.loginService.getProducts(inData).subscribe(response => {
-      this.subSubCatData = response.json().result.sub_category;
+      this.products = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+        this.products[i].image = this.url + this.products[i].pic[0].pic;
+      }
     }, err => {
       console.log(err)
     })
@@ -145,5 +180,147 @@ export class ProductsComponent implements OnInit {
   showProduxtDetails() {
     this.router.navigate(["/product_details"]);
   }
+
+
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.catname !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('catname', name);
+    }
+  }
+
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (thisObj.items.quantity === 1) {
+      return;
+    }
+    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    this.getCart(thisObj.items.quantity, id, skuId);
+  }
+
+  quantity;
+  getCart(quantity, id, skuId) {
+
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      swal('Item added to cart', '', 'success');
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
+
+
+
+  //filter ata
+
+  clearData() {
+    this.brandValue = '';
+    this.priceValue = '';
+    this.offersValue = '';
+  }
+
+  filterData() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_category": this.subCatId,
+    }
+    this.loginService.filterData(inData).subscribe(response => {
+      this.sortData = response.json().sort;
+      //brands
+      this.brandsFilter = _.filter(response.json().refine, function (obj) {
+        return obj.name === 'Brand';
+      });
+      this.brands = this.brandsFilter[0].Brand;
+
+      //offers
+      this.offersFilter = _.filter(response.json().refine, function (obj) {
+        return obj.name === 'Offer';
+      });
+      this.offers = this.offersFilter[0].Offer;
+
+      //prices
+      this.pricesFilter = _.filter(response.json().refine, function (obj) {
+        return obj.name === 'Price';
+      });
+      this.prices = this.pricesFilter[0].Price;
+
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
+
+
+  checkBrands(value) {
+    this.brandValue = value;
+  }
+
+  checkOffers(value) {
+    this.offersValue = value;
+  }
+
+  checkPrice(value) {
+    this.priceValue = value;
+  }
+
+  changeSort(id, value) {
+    this.filter(id, value);
+  }
+
+  filter(id, value) {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "brand": this.brandValue,
+      "price": this.priceValue,
+      "offer": this.offersValue,
+      "sort": value,
+      "count": 20,
+      "start": 0,
+      id_subcategory: localStorage.subid,
+    }
+    this.loginService.getProducts(inData).subscribe(response => {
+      this.products = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+        this.products[i].image = this.url + this.products[i].pic[0].pic;
+      }
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
+
 
 }

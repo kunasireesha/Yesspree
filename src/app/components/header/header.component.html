@@ -31,7 +31,7 @@
                   <i class="fa fa-image"></i>&nbsp; Addresses</a>
                 <a class="dropdown-item" routerLink="ordersfirst">
                   <i class="fa fa-first-order"></i>&nbsp; My Orders</a>
-                <a class="dropdown-item" routerLink="/mycart">
+                <a class="dropdown-item" routerLink="/myAccountcart">
                   <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
                   My Cart
                 </a>
@@ -50,15 +50,14 @@
                 <a class="dropdown-item" routerLink="/wishlist">
                   <i class="fa fa-heart" aria-hidden="true"></i>
                   &nbsp; WishList</a>
-                  <a class="dropdown-item" routerLink="/coupon">
-                    <i class="fa fa-trophy" aria-hidden="true"></i>
-                    &nbsp; Coupons</a>
+                <a class="dropdown-item" routerLink="/coupon">
+                  <i class="fa fa-trophy" aria-hidden="true"></i>
+                  &nbsp; Coupons</a>
                 <a class="dropdown-item" (click)="logout()">
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
                   &nbsp; Logout</a>
               </div>
             </div>
-
           </li>
         </ul>
       </div>
@@ -643,4 +642,3 @@
 <!-- <div *ngFor="let data of geodata | async">
   {{ data | async }}
 </div> -->
-
