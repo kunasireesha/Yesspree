@@ -79,7 +79,7 @@
       <div class="container navbar-nav pt-3">
         <div class="input-group  search-menu mb-3">
           <div class="input-group-prepend dropdown-append">
-            <select class="form-control location" id="exampleFormControlSelect1" (change)="postVillageName($event.target.value)">
+            <select class="form-control location" id="exampleFormControlSelect1">
               <option selected *ngFor="let villageName of Village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
@@ -91,7 +91,9 @@
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
         <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
-          <i class="fas fa-shopping-cart"></i> My Cart ( {{summary.cart_count}} )</button>
+          <i class="fas fa-shopping-cart"></i> My Cart 
+            <!-- ( {{summary.cart_count}} ) -->
+        </button>
       </form>
     </div>
   </nav>

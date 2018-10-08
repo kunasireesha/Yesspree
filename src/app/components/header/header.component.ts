@@ -1,5 +1,5 @@
 import { MyAccountComponent } from './../my-account/my-account.component';
-import { Component, OnInit, OnChanges,ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import swal from 'sweetalert';
@@ -16,14 +16,15 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
 })
 export class HeaderComponent implements OnInit {
 
-  @ViewChild(MyAccountComponent) myaccountcmp:MyAccountComponent;
+  @ViewChild(MyAccountComponent) myaccountcmp: MyAccountComponent;
+
   Village: string;
   mrp: number;
   grandTotal: number;
   mycart = [];
   search: string;
   mycartImg: string;
-  productId; 
+  productId;
   constructor(
     public loginService: DataService,
     private socialAuthService: AuthService,
@@ -88,10 +89,10 @@ export class HeaderComponent implements OnInit {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
 
-
+  randomkey;
   ngOnInit() {
     this.geoLocation();
-    this.postVillageName(event);
+    // this.postVillageName(event);
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -106,14 +107,15 @@ export class HeaderComponent implements OnInit {
     if (localStorage.userData !== undefined) {
       this.userMobile = JSON.parse(localStorage.userMobile);
     }
+
     //for dashboard data
     var inData = {
       _id: this.id,
       device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -122,7 +124,8 @@ export class HeaderComponent implements OnInit {
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
-    })
+    });
+
   }
 
   showProfile: boolean
@@ -425,6 +428,7 @@ export class HeaderComponent implements OnInit {
         this.latlocation = position.coords.latitude;
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
+
         this.loginService.getLocation(inData).subscribe(response => {
         })
       });
@@ -436,44 +440,44 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts(event){
+  searchProducts(event) {
     var inData = {
-        _id: this.id,
-        _session: localStorage.session,
-        count:event.length,
-        id_warehouse:JSON.parse(localStorage.id_warehouse),
-        lang:"en",
-        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
-        search:event,
-        start:0
+      _id: this.id,
+      _session: localStorage.session,
+      count: event.length,
+      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      lang: "en",
+      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
+      search: event,
+      start: 0
     }
     this.loginService.searchProducts(inData).subscribe(response => {
-        this.productId = response.json().product[0]._id;
-        console.log(this.productId);
-        let navigationExtras: NavigationExtras = {
-            queryParams: {
-              proId: this.productId
-            }
-          }
-        this.router.navigate(["/product_details"],navigationExtras);
+      this.productId = response.json().product[0]._id;
+      console.log(this.productId);
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          proId: this.productId
+        }
+      }
+      this.router.navigate(["/product_details"], navigationExtras);
     }, err => {
       console.log(err)
     })
   }
-  
-  postVillageName(event) {
-    var inData = {
-      wh_pincode: "560078"
-    }
-    this.loginService.postVillageName(inData).subscribe(response => {
-      this.Village = response.json().result;
-      localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
-      localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
-      console.log(this.Village);
-    }, err => {
-      console.log(err)
-    })
-  }
+
+  // postVillageName(event) {
+  //   var inData = {
+  //     wh_pincode: "560078"
+  //   }
+  //   this.loginService.postVillageName(inData).subscribe(response => {
+  //     this.Village = response.json().result;
+  //     localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
+  //     localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
+  //     console.log(this.Village);
+  //   }, err => {
+  //     console.log(err)
+  //   })
+  // }
   grandPer;
   savedMoney;
   quantity;

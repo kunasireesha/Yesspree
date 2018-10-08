@@ -69,6 +69,7 @@ export class HomeComponent implements OnInit {
   slidingbanner = [];
   percentage;
   percentage1;
+  randomkey;
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
@@ -77,13 +78,16 @@ export class HomeComponent implements OnInit {
     } else {
       this.id = 0
     }
+
+
+
     var inData = {
       _id: this.id,
       device_type: "desktop",
-      _session:  localStorage.session,
+      _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -220,7 +224,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/recProducts"], navigationExtras);
   }
   showProductDetails(proId) {
-   let navigationExtras: NavigationExtras = {
+    let navigationExtras: NavigationExtras = {
       queryParams: {
         proId: proId
       }
@@ -228,28 +232,28 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/product_details"], navigationExtras);
   }
   //banner navigation
-  bannerNav(type,target){
+  bannerNav(type, target) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         type: type,
-        target:target
+        target: target
       }
 
     }
-    if(type == "explore"){
-      var inData =  {
+    if (type == "explore") {
+      var inData = {
         _id: this.id
       }
-      this.loginService.explore(inData).subscribe(response=> {
-      console.log(response);
-      swal("Explored successfully","","success");
-      },error=> {
+      this.loginService.explore(inData).subscribe(response => {
+        console.log(response);
+        swal("Explored successfully", "", "success");
+      }, error => {
         console.log(error);
       })
     } else {
-      this.router.navigate(["/banner_navigation"], navigationExtras); 
+      this.router.navigate(["/banner_navigation"], navigationExtras);
     }
-   
+
   }
 
 

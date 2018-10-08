@@ -136,7 +136,7 @@ export class DataService {
 
     getLocation(params): Observable<any> {
         const headers = new Headers({
-            // 'Content-Type': "application/JSON",
+            'Content-Type': "application/JSON",
             'Authorization': localStorage.authkey
         });
         return this.http.get(this.geourl + '?' + params, { headers: headers })
