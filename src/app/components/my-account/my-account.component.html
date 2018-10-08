@@ -280,7 +280,8 @@
         </div>
       </div>
       <hr>
-      <div class="row" *ngFor="let item of subscribedOrders">
+      <div class="" *ngIf="subscribeactive">
+        <div class="row"  *ngFor="let item of subscribedOrders">
         <div class="col-lg-3">
           <img [src]="url + item.order.product_pic" class="onion-image">
         </div>
@@ -300,11 +301,12 @@
             <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
           </p>
         </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!subscribeactive">
+          <p>No data Found</p>
       </div>
       <hr>
-    </div>
-    <div *ngIf="nodata">
-            No data found...
     </div>
     <!-- offers -->
     <div class="col-lg-9" *ngIf="offers">
