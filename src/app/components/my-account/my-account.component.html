@@ -206,10 +206,9 @@
                 </p>
               </td>
               <td class="table-total">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
-                </p>
-              </td>
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+                </td>
               <td class="table-savings">
                 <p>
                   <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
@@ -240,18 +239,18 @@
         </table>
       </div>
       <div class="row">
-        <div class="col-lg-6 text-center">
-          <h5>
-            <strong>Total to Pay</strong>
-          </h5>
+          <div class="col-lg-6 text-center">
+            <h5>
+              <strong>Total to Pay</strong>
+            </h5>
+          </div>
+          <div class="col-lg-6 total-mrp">
+            <p>
+              <strong>
+                <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+            </p>
+          </div>
         </div>
-        <div class="col-lg-6 total-mrp">
-          <p>
-            <strong>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-          </p>
-        </div>
-      </div>
       <div class="row check-butons">
         <div class="col-lg-6">
           <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
@@ -642,7 +641,7 @@
     <div class="col-lg-9 notification" *ngIf="wishlist">
         <div class="row">
           <div class="col-lg-6">
-            <h4>YOUR CART (3 ITEMS)</h4>
+            <h4>YOUR CART ({{cartCount}} ITEMS)</h4>
           </div>
           <div class="col-lg-6">
             <div class="row">
@@ -666,7 +665,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let item of WishList">
+              <tr *ngFor="let item of WishList;let i =index">
                 <td class="table-data">
                   <img [src]="url + item.pic[0].pic" class="prod-image">
                   <p>
@@ -684,9 +683,9 @@
                 </td>
                 <td class="table-quanities">
                   <p>
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                    <span>|2|</span>
-                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(item._id,sku._id,i)"></i>
+                    <span>|1|</span>
+                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(i)"></i>
                   </p>
                 </td>
                 <td class="table-total">
@@ -728,86 +727,12 @@
             </tbody>
           </table>
         </div>
-        <table class="table prod-table">
-          <thead class="table-header">
-            <tr>
-              <th scope="col" width="40%" class="table-headings">Item Description</th>
-              <th scope="col" width="15%" class="table-headings">Unity Price</th>
-              <th scope="col" width="15%" class="table-headings">Quantity</th>
-              <th scope="col" width="15%" class="table-headings">Subtotal</th>
-              <th scope="col" width="15%" class="table-headings">Savings</th>
-              <th scope="col" width="15%" class="table-headings">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let cartItems of mycart">
-
-              <td class="table-data">
-                <img [src]="url + cartItems.image" class="prod-image">
-                <p>
-                  <strong>{{cartItems.name}} </strong>
-                </p>
-                <!-- <span>10kg</span> -->
-              </td>
-              <td class="table-price">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.actual_price}}
-                  <br />
-                  <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
-                </p>
-              </td>
-              <td class="table-quanities">
-                <p>
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                  <span>|2|</span>
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </p>
-              </td>
-              <td class="table-total">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
-                </p>
-              </td>
-              <td class="table-savings">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
-                </p>
-                <span>
-                  You Save 14%
-                </span>
-              </td>
-              <td class="table-delete" *ngFor="let sku of cartItems.sku">
-                <p>
-                  <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
-                </p>
-              </td>
-            </tr>
-            <tr class="table-border">
-              <td class="mrp-rate">
-                <h5>Total MRP</h5>
-              </td>
-              <td></td>
-              <td></td>
-              <td class="table-total">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
-              </td>
-              <td class="table-savings">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>127.00
-                </p>
-                <span> You Save 15%</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
       <div class="row">
         <div class="col-lg-6 text-center">
           <h5>
             <strong>Total to Pay</strong>
           </h5>
+        </div>
         </div>
         <div class="col-lg-6 total-mrp">
           <p>
@@ -815,7 +740,6 @@
               <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
           </p>
         </div>
-      </div>
       <div class="row">
         <div class="col-lg-6">
           <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
@@ -823,13 +747,6 @@
         <div class="col-lg-6">
           <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
         </div>
-      </div>
-      <div>
-        <img src="">
-      </div>
-      <div>
-        <h5>Last Minute Buys</h5>
-
       </div>
     </div>
 

@@ -9,11 +9,11 @@
         <div class="col-md-3 item" *ngFor="let data of brandData;let i =index">
           <div *ngFor="let sku of data.sku">
             <div  class="card" (click)="showProduxtDetails()">
-              <a (click)="wish(item._id)">
+              <a (click)="wish(data._id)">
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
               <img class="img-fluid product-img" [src]="data.image" alt="Card image cap" (click)="showProductDetails(recPro.id_product)">
-              <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap">
+              <!-- <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap"> -->
               <div class="card-block">
                 <h5>{{data.name}} </h5>
                 <p>{{sku.size}}</p>
@@ -55,7 +55,7 @@
         </div>
   
         <div class="col-12">
-          <h3 class="text-center nodata" *ngIf="products.length==0 && !showbrands">No Data Found</h3>
+          <h3 class="text-center nodata" *ngIf="brandData.length==0">No Data Found</h3>
         </div>
   
       </div>

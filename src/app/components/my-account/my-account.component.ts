@@ -65,6 +65,11 @@ export class MyAccountComponent implements OnInit {
   WishList = []
   notificationList;
   myOrder;
+  items = {
+    quantity: 1
+  }
+  selected;
+  quantity;
   createdData = []
   mydata = {
     first_name: '',
@@ -492,13 +497,13 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getWishlist(inData).subscribe(response=> {
       this.WishList = response.json().result;
+      this.grandTotal = response.json().summary.grand_total;
       console.log(this.WishList);
     },error=> {
       console.log(error);
     })
   }
   removeWish(id){
-
     var inData = {
         "_session": localStorage.session,
         "_id": this.id,
@@ -558,5 +563,30 @@ export class MyAccountComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  itemIncrease(data, name, id, skuId, index) {
+    alert(index)
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.name !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      // thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      // thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
+  }
+
+  itemDecrease(id, skuId, index) {
+    alert(index)
+    this.selected = index;
+    let thisObj = this;
+    if (thisObj.items.quantity === 1) {
+      return;
+    }
+    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    // this.getCart(thisObj.items.quantity, id, skuId);
   }
 }
