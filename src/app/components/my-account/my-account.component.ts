@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-my-account',
@@ -17,7 +18,11 @@ export class MyAccountComponent implements OnInit {
   mrp;
   grandTotal;
   cartCount;
+  ordersData;
   sku = [];
+  subscribe= false;
+  discount;
+  cancelPlan;
   ngOnInit() {
 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -59,6 +64,7 @@ export class MyAccountComponent implements OnInit {
   sharescreen = false;
   wishlist = false;
   coupon = false;
+  nodata = false;
   getAddress;
   editData;
   orders;
@@ -70,6 +76,7 @@ export class MyAccountComponent implements OnInit {
   }
   selected;
   quantity;
+  subscribedOrders;
   createdData = []
   mydata = {
     first_name: '',
@@ -118,6 +125,7 @@ export class MyAccountComponent implements OnInit {
       this.getCart();
     } else if (this.pageNav === "subscription") {
       this.mysubscription = true;
+    //   this.subscriptionActive();
     } else if (this.pageNav === "offers") {
       this.offers = true;
     } else if (this.pageNav === "rateus") {
@@ -523,12 +531,18 @@ export class MyAccountComponent implements OnInit {
   }
   subscriptionActive() {
       var inData = {
-        "type": "Active",
+      "type": "Active",
       "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
       "id_warehouse": JSON.parse(localStorage.id_warehouse),
       "lang": "en"
       }
       this.loginService.subscriptionActive(inData).subscribe(response => {
+       this.subscribedOrders = response.json().orders;
+    //    for(var i= 0 ; i<this.subscribedOrders.length;i++){
+    //        this.discount = this.subscribedOrders[i].order.total_selling_price;
+           
+    //    }
+       this.subscribe = false;
        swal("subscribed", '', 'success');
       })
   }
@@ -539,8 +553,12 @@ export class MyAccountComponent implements OnInit {
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
       }
-      this.loginService.subscriptionActive(inData).subscribe(response => {
-        swal("unSubscribed", '', 'success');
+      this.loginService.subscriptionActive(inData).subscribe(response => {  
+          this.ordersData = response.json().orders;   
+          this.subscribe = true; 
+          alert(this.ordersData); 
+            swal("unsubscribed", '', 'success');      
+           
       }) 
   }
   getCart(){
@@ -588,5 +606,16 @@ export class MyAccountComponent implements OnInit {
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     // this.getCart(thisObj.items.quantity, id, skuId);
+  }
+  subscriptionStatus(num){
+      var inData = {
+        _id: this.id,
+        order_no:num,
+        order_status:"Cancelled",
+        cancelled_on:new Date()
+      }
+      this.loginService.subscriptionStatus(inData).subscribe(reponse =>{
+        swal('cancelled order', "", "error")
+      })
   }
 }

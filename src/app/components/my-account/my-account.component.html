@@ -279,31 +279,32 @@
         </div>
       </div>
       <hr>
-      <div class="row">
+      <div class="row" *ngFor="let item of subscribedOrders">
         <div class="col-lg-3">
-          <img src="assets/images/onion.jpg" class="onion-image">
+          <img [src]="url + item.order.product_pic" class="onion-image">
         </div>
         <div class="col-lg-9">
           <h5>
-            <strong>Onion</strong>
+            <strong>{{item.product_name}}</strong>
           </h5>
           <p class="monthly-subscription">Subscribed for monthly @
             <strong>
-              <i class="fa fa-rupee" aria-hidden="true"></i>486 </strong>
+              <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
           </p>
           <p class="saving-rupees">
             You Saved
-            <i class="fa fa-rupee" aria-hidden="true"></i>54
+            <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
           </p>
           <p class="cancel-plan">
-            <a href="#">Cancel Plan</a>
+            <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
           </p>
         </div>
       </div>
       <hr>
     </div>
-
-
+    <div *ngIf="nodata">
+            No data found...
+    </div>
     <!-- offers -->
     <div class="col-lg-9" *ngIf="offers">
       <div class="row">
