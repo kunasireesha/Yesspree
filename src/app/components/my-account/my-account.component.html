@@ -917,20 +917,17 @@
 
 
     <!-- wish list -->
-    <div class="container" *ngIf="wishlist">
+    <div class="col-lg-9 notification" *ngIf="wishlist">
         <div class="row">
           <div class="col-lg-6">
             <h4>YOUR CART (3 ITEMS)</h4>
           </div>
           <div class="col-lg-6">
             <div class="row">
-              <div class="col-lg-4">
-                <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
-              </div>
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
               </div>
-              <div class="col-lg-4">
+              <div class="col-lg-6">
                 <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
               </div>
             </div>
@@ -947,21 +944,20 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let cartItems of mycart">
-      
+              <tr *ngFor="let item of WishList">
                 <td class="table-data">
-                  <img [src]="url + cartItems.image" class="prod-image">
+                  <img [src]="url + item.pic[0].pic" class="prod-image">
                   <p>
-                    <strong>{{cartItems.name}} </strong>
+                    <strong>{{item.name}} </strong>
                     </p>
                   <!-- <span>10kg</span> -->
                 </td>
-                <td class="table-price">
+                <td class="table-price" *ngFor="let sku of item.sku">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.actual_price}}
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.mrp}}
                     <br />
                     <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
                   </p>
                 </td>
                 <td class="table-quanities">
@@ -984,9 +980,9 @@
                     You Save 14%
                   </span>
                 </td>
-                <td class="table-delete"  *ngFor="let sku of cartItems.sku">
+                <td class="table-delete"  *ngFor="let sku of item.sku">
                     <p> 
-                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
+                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(sku._id)"></i>
                   </p>
                 </td>
               </tr>
@@ -1030,13 +1026,6 @@
           <div class="col-lg-6">
             <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
           </div>
-        </div>
-        <div>
-          <img src="">
-        </div>
-        <div>
-          <h5>Last Minute Buys</h5>
-      
         </div>
       </div>
    

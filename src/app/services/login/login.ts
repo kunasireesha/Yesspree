@@ -200,7 +200,7 @@ export class DataService {
         return this.postInputParams(params, 'item/product'); 
     }
     searchAll(params):Observable<any> {
-        return this.postInputParams(params, 'item/searchall'); 
+        return this.postAuthorizationInputParams(params, 'item/searchall'); 
     }
     category(params):Observable<any> {
         return this.postInputParams(params,'item/product')

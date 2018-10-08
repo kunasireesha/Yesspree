@@ -56,7 +56,7 @@ export class MyAccountComponent implements OnInit {
   getAddress;
   editData;
   orders;
-  getWishList;
+  WishList = []
   notificationList;
   myOrder;
   createdData = []
@@ -485,13 +485,13 @@ export class MyAccountComponent implements OnInit {
     
     }
     this.loginService.getWishlist(inData).subscribe(response=> {
-      this.getWishList = response.json().result;
-      console.log(this.getWishList);
+      this.WishList = response.json().result;
+      console.log(this.WishList);
     },error=> {
       console.log(error);
     })
   }
-  deleteWish(id){
+  removeWish(id){
     var inData = {
       "_session":localStorage.session,
       "_id":this.id,
@@ -503,7 +503,7 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.deleteWish(inData).subscribe(response=> {
     console.log(response)
-    this.getWishList();
+    this.getWishlist();
     },error=> {
 
     })
