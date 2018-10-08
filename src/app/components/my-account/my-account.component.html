@@ -645,7 +645,7 @@
     <div class="col-lg-9 notification" *ngIf="wishlist">
         <div class="row">
           <div class="col-lg-6">
-            <h4>YOUR CART (3 ITEMS)</h4>
+            <h4>MY CART ({{cartCount}} ITEMS)</h4>
           </div>
           <div class="col-lg-6">
             <div class="row">
@@ -679,10 +679,12 @@
                 </td>
                 <td class="table-price">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.actual_price}}
-                    <br />
-                    <i class="fa fa-strikethrought" aria-hidden="true"></i>
                     <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
+                    <br />
+                    <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                        {{item.mrp}}
+                      </strike>
                   </p>
                 </td>
                 <td class="table-quanities">
@@ -707,7 +709,7 @@
                 </td>
                 <td class="table-delete"  *ngFor="let sku of item.sku">
                     <p> 
-                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
+                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(item._id,sku._id)"></i>
                   </p>
                 </td>
               </tr>

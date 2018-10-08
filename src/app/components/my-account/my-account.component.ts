@@ -508,7 +508,7 @@ export class MyAccountComponent implements OnInit {
       for(var i = 0; i < this.WishList.length; i++){
         this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
       }
-      this.grandTotal = response.json().summary.grand_total;
+      this.cartCount = response.json().summary.cart_count;
       console.log(this.WishList);
     },error=> {
       console.log(error);
