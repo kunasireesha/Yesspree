@@ -198,11 +198,11 @@
                   <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.selling_price}}
                 </p>
               </td>
-              <td class="table-quanities">
+              <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
                 <p>
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                  <span>|2|</span>
-                  <i class="fa fa-plus" aria-hidden="true"></i>
+                  <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,skuSize.mycart)"></i>
+                  <span>|{{skuSize.mycart}}|</span>
+                  <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,skuSize.mycart)"></i>
                 </p>
               </td>
               <td class="table-total">
@@ -657,7 +657,7 @@
               </div>
             </div>
           </div>
-          <table class="table prod-table">
+          <table class="table prod-table wish">
             <thead class="table-header">
               <tr>
                 <th scope="col" width="40%" class="table-headings">Item Description</th>
@@ -681,17 +681,17 @@
                   <p>
                     <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
                     <br />
-                    <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                    <strike *ngIf="skuData.mrp!==undefined || skuData.mrp==skuData.selling_price">
                         <i class="fa fa-rupee" aria-hidden="true"></i>
                         {{item.mrp}}
                       </strike>
                   </p>
                 </td>
-                <td class="table-quanities">
+                <td class="table-quanities" *ngFor="let sku of item.sku">
                   <p>
-                    <i class="fa fa-minus" aria-hidden="true"></i>
-                    <span>|2|</span>
-                    <i class="fa fa-plus" aria-hidden="true"></i>
+                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item._id,sku._id,i,sku.mycart)"></i>
+                    <span>|{{sku.mycart}}|</span>
+                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,i,sku.mycart)"></i>
                   </p>
                 </td>
                 <td class="table-total">
@@ -707,7 +707,7 @@
                     You Save 14%
                   </span>
                 </td>
-                <td class="table-delete"  *ngFor="let sku of item.sku">
+                <td class="table-delete">
                     <p> 
                       <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(item._id,sku._id)"></i>
                   </p>

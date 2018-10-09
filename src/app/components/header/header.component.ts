@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
   percentage;
   selected;
   sku = {
-    mycart: 0
+    mycart: 0 
   }
   formData = {
     firstName: '',
@@ -509,10 +509,8 @@ export class HeaderComponent implements OnInit {
           this.mycart[i].sku[0].percentage = this.percentage;
         }
       }
-
       this.savedMoney = this.mrp - this.grandTotal;
       this.grandPer = Math.ceil(100 - (this.grandTotal / this.mrp) * 100)
-
     }, err => {
       console.log(err)
     })
@@ -521,30 +519,38 @@ export class HeaderComponent implements OnInit {
 
   //add to cart
   itemIncrease(data, name, id, skuId, index,mycart) {
+    console.log(data);
     this.selected = index;
     let thisObj = this;
-    if (localStorage.cartName !== name) {
-      this.sku.mycart = 0;
+    // if (localStorage.cartName !== name) {
+    //   this.sku.mycart = 0;
+    // }
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
     }
-
-    this.sku.mycart = Math.floor(this.sku.mycart + 1 || mycart + 1);
+    this.sku.mycart = Math.floor(this.sku.mycart + 1);
+   
+    
     thisObj.addCart(this.sku.mycart, id, skuId,mycart);
     localStorage.setItem('cartName', name);
-
+    this.getCart();
   }
 
-  itemDecrease(id, skuId, index,mycart) {
+  itemDecrease(data,id, skuId, index,mycart) {
     this.selected = index;
     let thisObj = this;
-    if (this.sku.mycart === 1) {
-      return;
+    // if (this.sku.mycart === 1) {
+    //   return;
+    // }
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
     }
-    this.sku.mycart = Math.floor(this.sku.mycart - 1 || mycart - 1 );
+    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
     this.addCart(this.sku.mycart, id, skuId,mycart);
-  }
-
-  subscribe() {
-
   }
 
 

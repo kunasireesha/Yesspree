@@ -19,7 +19,10 @@ export class MyAccountComponent implements OnInit {
   grandTotal;
   cartCount;
   ordersData;
-  sku = [];
+  skuData = []
+  sku = {
+    mycart: 0 
+  }
   subscribe = false;
   discount;
   cancelPlan;
@@ -564,6 +567,59 @@ export class MyAccountComponent implements OnInit {
 
     })
   }
+  itemIncrease(data, name, id, skuId, index) {
+    console.log(data)
+    this.selected = index;
+    let thisObj = this;
+
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
+    }
+    this.sku.mycart = Math.floor(this.sku.mycart + 1);
+   
+    
+    thisObj.addCart(this.sku.mycart, id, skuId);
+    localStorage.setItem('cartName', name);
+    this.getCart();
+  }
+
+  itemDecrease(data, name, id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
+    }
+    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
+    this.addCart(this.sku.mycart, id, skuId);
+  }
+  addCart(quantity, id, skuId) {
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      swal('Item added to cart', '', 'success');
+      this.getCart();
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
   getCart() {
     this.url = AppSettings.imageUrl;
     var inData = {
@@ -579,36 +635,10 @@ export class MyAccountComponent implements OnInit {
       this.grandTotal = response.json().summary.grand_total;
       this.cartCount = response.json().summary.cart_count;
       this.mycart = response.json().cart;
-      this.sku = response.json().cart.sku;
-      console.log(this.mycart);
+      this.skuData = response.json().cart.sku;
     }, err => {
       console.log(err)
     })
-  }
-  itemIncrease(data, name, id, skuId, index) {
-    alert(index)
-    this.selected = index;
-    let thisObj = this;
-    if (localStorage.name !== name) {
-      thisObj.items.quantity = 0;
-    }
-    if (name === data.name) {
-      // thisObj.showInput = true;
-      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-      // thisObj.getCart(thisObj.items.quantity, id, skuId);
-      localStorage.setItem('name', name);
-    }
-  }
-
-  itemDecrease(id, skuId, index) {
-    alert(index)
-    this.selected = index;
-    let thisObj = this;
-    if (thisObj.items.quantity === 1) {
-      return;
-    }
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    // this.getCart(thisObj.items.quantity, id, skuId);
   }
   subscriptionStatus(num) {
     var inData = {
