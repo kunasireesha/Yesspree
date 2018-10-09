@@ -39,7 +39,7 @@
             <img [src]="url + cartItems.image" class="prod-image">
             <p>
               <strong>{{cartItems.name}} </strong>
-              </p>
+            </p>
             <!-- <span>10kg</span> -->
           </td>
           <td class="table-price">
@@ -72,9 +72,9 @@
               You Save 14%
             </span>
           </td>
-          <td class="table-delete"  *ngFor="let sku of cartItems.sku">
-              <p> 
-                <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
+          <td class="table-delete" *ngFor="let sku of cartItems.sku">
+            <p>
+              <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
             </p>
           </td>
         </tr>
@@ -123,9 +123,9 @@
     <img src="">
   </div>
   <div>
-      <div class="background-img">
-        <h5>Last Minute Buys</h5>
-        <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>  
-      </div>
+    <div class="background-img">
+      <!-- <h5>Last Minute Buys</h5> -->
+      <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>
+    </div>
   </div>
 </div>

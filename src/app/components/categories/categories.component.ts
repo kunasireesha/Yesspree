@@ -167,8 +167,8 @@ export class CategoriesComponent implements OnInit {
       op: "modify",
       quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');
@@ -184,9 +184,9 @@ export class CategoriesComponent implements OnInit {
       "_id": this.id,
       "_session": localStorage.session,
       "count": 4,
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "parent_warehouseid": localStorage.parent_warehouseid,
       "start": 0,
       "type": 'top_products',
       "id_subcategory": this.catId
@@ -210,9 +210,9 @@ export class CategoriesComponent implements OnInit {
       "_id": this.id,
       "_session": localStorage.session,
       "count": 4,
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "parent_warehouseid": localStorage.parent_warehouseid,
       "start": 0,
       "type": 'all_products',
       "id_subcategory": this.catId

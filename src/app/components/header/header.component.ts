@@ -1,13 +1,13 @@
 import { MyAccountComponent } from './../my-account/my-account.component';
-import { Component, OnInit, OnChanges,ViewChild } from '@angular/core';
+import { Component, OnInit, OnChanges, ViewChild } from '@angular/core';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
-
-import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
+// import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -16,20 +16,24 @@ import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular
 })
 export class HeaderComponent implements OnInit {
 
-  @ViewChild(MyAccountComponent) myaccountcmp:MyAccountComponent;
-  Village: string;
+  @ViewChild(MyAccountComponent) myaccountcmp: MyAccountComponent;
+
+  village = [];
   mrp: number;
   grandTotal: number;
   mycart = [];
   search: string;
   mycartImg: string;
-  productId; 
+
+  productId;
+
   cartCount;
   constructor(
     public loginService: DataService,
-    private socialAuthService: AuthService,
+    // private socialAuthService: AuthService,
     public router: Router,
-    public catSer: CatListServices
+    public catSer: CatListServices,
+    public authService: AuthService
   ) {
 
   }
@@ -90,10 +94,11 @@ export class HeaderComponent implements OnInit {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
   }
 
-
+  randomkey;
   ngOnInit() {
-    this.geoLocation();
-    this.postVillageName(event);
+    // this.geoLocation();
+
+    this.postVillageName();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -108,14 +113,15 @@ export class HeaderComponent implements OnInit {
     if (localStorage.userData !== undefined) {
       this.userMobile = JSON.parse(localStorage.userMobile);
     }
+    localStorage.getItem('id_warehouse');
     //for dashboard data
     var inData = {
       _id: this.id,
       device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
@@ -124,7 +130,24 @@ export class HeaderComponent implements OnInit {
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
+    });
+
+  }
+
+
+  postVillageName() {
+    var inData = {
+      wh_pincode: "560078"
+    }
+    this.loginService.postVillageName(inData).subscribe(response => {
+      this.village = response.json().result;
+      localStorage.setItem('id_warehouse', this.village[0].id_warehouse);
+      localStorage.setItem('parent_warehouseid', this.village[0].parent_warehouseid);
+    }, err => {
+      console.log(err)
     })
+
+
   }
 
   showProfile: boolean
@@ -215,24 +238,24 @@ export class HeaderComponent implements OnInit {
 
 
   //social login
-  public socialLogin(socialPlatform: string) {
-    let socialPlatformProvider;
-    if (socialPlatform == "facebook") {
-      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+  // public socialLogin(socialPlatform: string) {
+  //   let socialPlatformProvider;
+  //   if (socialPlatform == "facebook") {
+  //     socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
 
-    } else if (socialPlatform == "google") {
-      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-      console.log(socialPlatformProvider);
-    }
+  //   } else if (socialPlatform == "google") {
+  //     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+  //     console.log(socialPlatformProvider);
+  //   }
 
-    this.socialAuthService.signIn(socialPlatformProvider).then(
-      (userData) => {
-        console.log(socialPlatform + " sign in data : ", userData);
+  //   this.socialAuthService.signIn(socialPlatformProvider).then(
+  //     (userData) => {
+  //       console.log(socialPlatform + " sign in data : ", userData);
 
 
-      }
-    );
-  }
+  //     }
+  //   );
+  // }
 
 
 
@@ -426,6 +449,7 @@ export class HeaderComponent implements OnInit {
         this.latlocation = position.coords.latitude;
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
+
         this.loginService.getLocation(inData).subscribe(response => {
         })
       });
@@ -437,44 +461,32 @@ export class HeaderComponent implements OnInit {
       "wh_pincode": "560078",
     }
   }
-  searchProducts(event){
+  searchProducts(event) {
     var inData = {
-        _id: this.id,
-        _session: localStorage.session,
-        count:event.length,
-        id_warehouse:JSON.parse(localStorage.id_warehouse),
-        lang:"en",
-        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
-        search:event,
-        start:0
+      _id: this.id,
+      _session: localStorage.session,
+      count: event.length,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      search: event,
+      start: 0
     }
     this.loginService.searchProducts(inData).subscribe(response => {
-        this.productId = response.json().product[0]._id;
-        console.log(this.productId);
-        let navigationExtras: NavigationExtras = {
-            queryParams: {
-              proId: this.productId
-            }
-          }
-        this.router.navigate(["/product_details"],navigationExtras);
+      this.productId = response.json().product[0]._id;
+      console.log(this.productId);
+      let navigationExtras: NavigationExtras = {
+        queryParams: {
+          proId: this.productId
+        }
+      }
+      this.router.navigate(["/product_details"], navigationExtras);
     }, err => {
       console.log(err)
     })
   }
-  
-  postVillageName(event) {
-    var inData = {
-      wh_pincode: "560078"
-    }
-    this.loginService.postVillageName(inData).subscribe(response => {
-      this.Village = response.json().result;
-      localStorage.setItem('id_warehouse', JSON.stringify(response.json().result[0].id_warehouse));
-      localStorage.setItem('parent_warehouseid', JSON.stringify(response.json().result[0].parent_warehouseid));
-      console.log(this.Village);
-    }, err => {
-      console.log(err)
-    })
-  }
+
+
   grandPer;
   savedMoney;
   quantity;
@@ -483,8 +495,8 @@ export class HeaderComponent implements OnInit {
       _id: this.id,
       _session: localStorage.session,
       op: "get",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
@@ -550,8 +562,8 @@ export class HeaderComponent implements OnInit {
       op: "modify",
       quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');
@@ -560,4 +572,22 @@ export class HeaderComponent implements OnInit {
       swal(err.json().message, '', 'error');
     })
   }
+
+  signInWithFacebook() {
+    this.authService.signInWithFacebook()
+      .then((res) => {
+        this.router.navigate(['dashboard'])
+      })
+      .catch((err) => console.log(err));
+  }
+
+
+  signInWithGoogle() {
+    this.authService.signInWithGoogle()
+      .then((res) => {
+        this.router.navigate(['dashboard'])
+      })
+      .catch((err) => console.log(err));
+  }
+
 }

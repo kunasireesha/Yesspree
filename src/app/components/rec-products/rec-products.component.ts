@@ -6,7 +6,7 @@ import { AppSettings } from '../../config';
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
-  styleUrls: ['./rec-products.component.css','../product/product.component.less','../home/home.component.less']
+  styleUrls: ['./rec-products.component.css', '../product/product.component.less', '../home/home.component.less']
 
 })
 export class RecProductsComponent implements OnInit {
@@ -15,8 +15,8 @@ export class RecProductsComponent implements OnInit {
   products = []
   brands = []
   showbrands = false;
-  showproducts =false;
-  noData=false;
+  showproducts = false;
+  noData = false;
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
       this.type = params.action;
@@ -62,7 +62,7 @@ export class RecProductsComponent implements OnInit {
       this.subCatId = this.catId;
       this.title = "All Products";
       this.showbrands = false;
-    } else if(this.type === 'brands') {
+    } else if (this.type === 'brands') {
       this.typeOfProduct = "brands";
       this.title = "All Brands";
       this.subCatId = '';
@@ -74,9 +74,9 @@ export class RecProductsComponent implements OnInit {
       "_id": this.id,
       "_session": localStorage.session,
       "count": 20,
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "parent_warehouseid": localStorage.parent_warehouseid,
       "start": 0,
       "type": this.typeOfProduct,
       "id_subcategory": this.subCatId
@@ -114,8 +114,8 @@ export class RecProductsComponent implements OnInit {
       op: "modify",
       quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');

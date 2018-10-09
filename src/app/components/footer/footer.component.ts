@@ -10,45 +10,46 @@ import { catList } from '../../services/catList';
   styleUrls: ['./footer.component.less']
 })
 export class FooterComponent implements OnInit {
-    id;
-    dashboardDatas;
-    categoryDatas;
-    selectedCat;
-    categoryNames=[];
-    showSubcat = false;
+  id;
+  dashboardDatas;
+  categoryDatas;
+  selectedCat;
+  categoryNames = [];
+  showSubcat = false;
   constructor(
-    private loginService:DataService,
+    private loginService: DataService,
     public catSer: CatListServices,
     public router: Router,
-    ) { this.dashboardData();
-         }
+  ) {
+    this.dashboardData();
+  }
 
   ngOnInit() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-        this.id = JSON.parse(localStorage.userId);
-       
-      } else {
-        this.id = 0;
-      }
-     
+      this.id = JSON.parse(localStorage.userId);
+
+    } else {
+      this.id = 0;
+    }
+
   }
 
-  dashboardData(){
+  dashboardData() {
     var inData = {
-        _id: this.id,
-        device_type: "desktop",
-        _session: localStorage.session,
-        lang: "en",
-        parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-        id_warehouse: JSON.parse(localStorage.id_warehouse),
-        pincode: "560075"
-      }
-      this.loginService.getDashboardData(inData).subscribe(response => {
-        this.categoryNames = response.json().result.category;
-        console.log(this.categoryNames);
-      }, err => {
-        console.log(err)
-      })
+      _id: this.id,
+      device_type: "desktop",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: "560075"
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      this.categoryNames = response.json().result.category;
+      console.log(this.categoryNames);
+    }, err => {
+      console.log(err)
+    })
   }
   showSubcategorie(id, name, index) {
     this.selectedCat = index;

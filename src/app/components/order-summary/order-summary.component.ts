@@ -14,31 +14,31 @@ export class OrderSummaryComponent implements OnInit {
   deliveryA: boolean = false;
   deliveryOp: boolean = false;
   paymentM: boolean = false;
-  Promo:string;
-  cartSummary:string;
-  orderId:string;
-  orders=[];
-  data={}
-  cart:string;
-  checkout:string;
-  userName:string;
-  id:string;
-  timeSlot:string;
-  dateSlot:string;
+  Promo: string;
+  cartSummary: string;
+  orderId: string;
+  orders = [];
+  data = {}
+  cart: string;
+  checkout: string;
+  userName: string;
+  id: string;
+  timeSlot: string;
+  dateSlot: string;
   url;
   promoCode;
   coupon;
-  constructor(public loginService: DataService,private route: ActivatedRoute, public router: Router) { 
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
-        this.promoCode = params.promoCode;
-        console.log(params);
-      });
+      this.promoCode = params.promoCode;
+      console.log(params);
+    });
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-        this.userName = JSON.parse(localStorage.userName);
-        this.id = JSON.parse(localStorage.userId);
-      } else {
-        this.id = '';
-      }
+      this.userName = JSON.parse(localStorage.userName);
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = '';
+    }
   }
   order() {
     this.orderSu = true;
@@ -56,70 +56,70 @@ export class OrderSummaryComponent implements OnInit {
     this.paymentM = true;
     this.orderSu = this.deliveryOp = this.deliveryA = false
   }
-  postPromo(event){
+  postPromo(event) {
     var inData = {
-        _session: localStorage.session,
-        coupon_code:event,
-        id_order:JSON.stringify(this.orderId)
+      _session: localStorage.session,
+      coupon_code: event,
+      id_order: JSON.stringify(this.orderId)
+    }
+    this.loginService.postPromo(inData).subscribe(response => {
+      this.Promo = response.json();
+      if (response.status === "success") {
+        swal('promo applied successfully', '', 'success');
       }
-      this.loginService.postPromo(inData).subscribe(response => {
-        this.Promo = response.json();
-        if(response.status === "success"){
-            swal('promo applied successfully', '', 'success');
-        }
-        else{
-            swal("invalid promo code", "", "error")  
-        }
-        console.log(this.Promo);
+      else {
+        swal("invalid promo code", "", "error")
+      }
+      console.log(this.Promo);
 
-      });
+    });
   }
-  checkoutSummary(){
+  checkoutSummary() {
     var inData = {
-        _session: localStorage.session,
-        parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-        id_warehouse: JSON.parse(localStorage.id_warehouse),
-        lang:"en",
-      }
-      this.loginService.checkoutSummary(inData).subscribe(response => {
-        this.cartSummary = response.json().orders;
-        this.cart = response.json().cart;
-        this.orderId = response.json().orders[0].order_id;
-        this.dateSlot = response.json().orders[0].deliveryslot;
-        this.timeSlot = response.json().orders[0].deliveryslot[0].times;
-        console.log(this.orderId);
-      }, err => {
-        swal(err.message, "", "error")
-      })
+      _session: localStorage.session,
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+    }
+    this.loginService.checkoutSummary(inData).subscribe(response => {
+      this.cartSummary = response.json().orders;
+      this.cart = response.json().cart;
+      this.orderId = response.json().orders[0].order_id;
+      this.dateSlot = response.json().orders[0].deliveryslot;
+      this.timeSlot = response.json().orders[0].deliveryslot[0].times;
+      console.log(this.orderId);
+    }, err => {
+      swal(err.message, "", "error")
+    })
   }
-  cartCheckout(){   
-    this.data={
-      "id_order":JSON.stringify(this.orderId),
-      "total_paid":"46",
-      "pay_type":"cod",
-      "pay_option":"COD",
-      "express":1
+  cartCheckout() {
+    this.data = {
+      "id_order": JSON.stringify(this.orderId),
+      "total_paid": "46",
+      "pay_type": "cod",
+      "pay_option": "COD",
+      "express": 1
     }
     this.orders.push(this.data);
     console.log(this.orders);
-  var inData = {
+    var inData = {
       _id: this.id,
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
-      lang:"en",
-      orders:this.orders     
-  }
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+      orders: this.orders
+    }
     this.loginService.checkOut(inData).subscribe(response => {
-       this.checkout = response.json();
-       swal('order placed successfully', '', 'success');
-       this.router.navigate(["/"]);
+      this.checkout = response.json();
+      swal('order placed successfully', '', 'success');
+      this.router.navigate(["/"]);
     }, err => {
       console.log(err)
-    }) 
+    })
   }
   ngOnInit() {
     this.url = AppSettings.imageUrl;
-      this.checkoutSummary();
+    this.checkoutSummary();
   }
 
 }

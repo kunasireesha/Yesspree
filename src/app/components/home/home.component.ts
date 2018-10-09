@@ -17,10 +17,14 @@ export class HomeComponent implements OnInit {
       this.catId = params.id;
     });
 
-  }
 
+
+  }
+  Village = [];
   dashboardData;
   skuid: string;
+  showProducts1: boolean;
+  showProducts: boolean;
   // categoryData;
   sqareBaneer1;
   sqareBaneer2;
@@ -69,8 +73,11 @@ export class HomeComponent implements OnInit {
   slidingbanner = [];
   percentage;
   percentage1;
+  randomkey;
 
   ngOnInit() {
+    console.log(localStorage.length);
+    console.log(localStorage);
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
@@ -80,15 +87,15 @@ export class HomeComponent implements OnInit {
     var inData = {
       _id: this.id,
       device_type: "desktop",
-      _session:  localStorage.session,
+      _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       pincode: "560075"
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
+      // this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
       this.mainBanner = response.json().result.banner[0].bannerdata;
@@ -100,13 +107,21 @@ export class HomeComponent implements OnInit {
       this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
       this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
       this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
-      this.products = response.json().result.specific_product[0].product;
-      for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-          this.products[i].sku[0].percentage = this.percentage;
+
+      //recommended products 
+      if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+        this.products = response.json().result.specific_product[0].product;
+        for (var i = 0; i < this.products.length; i++) {
+          if (this.products[i].sku[0].mrp !== undefined) {
+            this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+            this.products[i].sku[0].percentage = this.percentage;
+          }
         }
+        this.showProducts = true;
+      } else {
+        this.showProducts = false;
       }
+
 
       this.slidingbanner = response.json().result.banner[5].bannerdata;
       //for product image
@@ -114,12 +129,19 @@ export class HomeComponent implements OnInit {
         this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
 
-      this.products1 = response.json().result.specific_product[1].product;
-      for (var i = 0; i < this.products1.length; i++) {
-        if (this.products1[i].sku[0].mrp !== undefined) {
-          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
-          this.products1[i].sku[0].percentage = this.percentage1;
+      //recommended products1 
+      if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
+        this.products1 = response.json().result.specific_product[1].product;
+
+        for (var i = 0; i < this.products1.length; i++) {
+          if (this.products1[i].sku[0].mrp !== undefined) {
+            this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
+            this.products1[i].sku[0].percentage = this.percentage1;
+          }
         }
+        this.showProducts1 = true;
+      } else {
+        this.showProducts1 = false;
       }
     }, err => {
       console.log(err)
@@ -176,8 +198,8 @@ export class HomeComponent implements OnInit {
       op: "modify",
       quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
@@ -193,8 +215,8 @@ export class HomeComponent implements OnInit {
       _id: this.id,
       id_product: id,
       op: "create",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
 
     }
@@ -220,7 +242,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/recProducts"], navigationExtras);
   }
   showProductDetails(proId) {
-   let navigationExtras: NavigationExtras = {
+    let navigationExtras: NavigationExtras = {
       queryParams: {
         proId: proId
       }
@@ -228,28 +250,28 @@ export class HomeComponent implements OnInit {
     this.router.navigate(["/product_details"], navigationExtras);
   }
   //banner navigation
-  bannerNav(type,target){
+  bannerNav(type, target) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         type: type,
-        target:target
+        target: target
       }
 
     }
-    if(type == "explore"){
-      var inData =  {
+    if (type == "explore") {
+      var inData = {
         _id: this.id
       }
-      this.loginService.explore(inData).subscribe(response=> {
-      console.log(response);
-      swal("Explored successfully","","success");
-      },error=> {
+      this.loginService.explore(inData).subscribe(response => {
+        console.log(response);
+        swal("Explored successfully", "", "success");
+      }, error => {
         console.log(error);
       })
     } else {
-      this.router.navigate(["/banner_navigation"], navigationExtras); 
+      this.router.navigate(["/banner_navigation"], navigationExtras);
     }
-   
+
   }
 
 
