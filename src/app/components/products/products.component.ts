@@ -91,8 +91,8 @@ export class ProductsComponent implements OnInit {
       id_category: subId,
       _session: localStorage.session,
       pincode: "560075",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.getSubSubCatData(inData).subscribe(response => {
@@ -222,8 +222,8 @@ export class ProductsComponent implements OnInit {
       op: "modify",
       quantity: JSON.stringify(this.quantity),
       wh_pincode: "560078",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');
@@ -246,9 +246,9 @@ export class ProductsComponent implements OnInit {
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "parent_warehouseid": localStorage.parent_warehouseid,
       "id_category": this.subCatId,
     }
     this.loginService.filterData(inData).subscribe(response => {
@@ -297,9 +297,9 @@ export class ProductsComponent implements OnInit {
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "parent_warehouseid": localStorage.parent_warehouseid,
       "brand": this.brandValue,
       "price": this.priceValue,
       "offer": this.offersValue,

@@ -7,7 +7,7 @@ import { AppSettings } from '../../config';
 @Component({
   selector: 'app-productdetails',
   templateUrl: './productdetails.component.html',
-  styleUrls: ['./productdetails.component.less','../product/product.component.less']
+  styleUrls: ['./productdetails.component.less', '../product/product.component.less']
 })
 export class ProductdetailsComponent implements OnInit {
   id;
@@ -17,23 +17,23 @@ export class ProductdetailsComponent implements OnInit {
   firstPic;
   specificProd;
   percentage;
-  productDetail:string;
+  productDetail: string;
 
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
     });
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-        this.id = JSON.parse(localStorage.userId);
-      }  else {
-        this.id = ''
-      }
-   }
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = ''
+    }
+  }
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     this.productDetails();
-    
+
   }
   showSubscriptionData = false;
   showCategories = true;
@@ -70,55 +70,54 @@ export class ProductdetailsComponent implements OnInit {
   }
 
   productDetails() {
-      var inData = {
-        _id: this.id,
-        _session: localStorage.session,
-        products:this.prodId ,
-        parent_warehouseid:JSON.parse(localStorage.parent_warehouseid),
-        id_warehouse:JSON.parse(localStorage.id_warehouse),
-        lang:"en",
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      products: this.prodId,
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
     }
     this.loginService.productDetails(inData).subscribe(response => {
-    this.product = response.json().product;
-    for(var i = 0; i<this.product.length;i++){
-      if (this.product[i].sku[0].mrp !== undefined) {
-        this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
-        this.product[i].sku[0].percentage = this.percentage;
+      this.product = response.json().product;
+      for (var i = 0; i < this.product.length; i++) {
+        if (this.product[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
+          this.product[i].sku[0].percentage = this.percentage;
+        }
       }
-    }
-    for(var i = 0; i < this.product.length; i++){
-      this.firstPic = this.url + this.product[i].pic[0].pic;
-    }
-    this.specificProd = response.json().specific_product[0].product;
-    for(var i = 0; i < this.specificProd.length; i++){
-      this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
-    }
-    for(var i = 0; i<this.specificProd.length;i++){
-      if (this.specificProd[i].sku[0].mrp !== undefined) {
-        this.percentage = 100 - ((this.specificProd[i].sku[0].selling_price) / (this.specificProd[i].sku[0].mrp) * 100)
-        this.specificProd[i].sku[0].percentage = this.percentage;
-        console.log(  this.specificProd[i].sku[0].percentage )
+      for (var i = 0; i < this.product.length; i++) {
+        this.firstPic = this.url + this.product[i].pic[0].pic;
       }
-    }
+      this.specificProd = response.json().specific_product[0].product;
+      for (var i = 0; i < this.specificProd.length; i++) {
+        this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
+      }
+      for (var i = 0; i < this.specificProd.length; i++) {
+        if (this.specificProd[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - ((this.specificProd[i].sku[0].selling_price) / (this.specificProd[i].sku[0].mrp) * 100)
+          this.specificProd[i].sku[0].percentage = this.percentage;
+          console.log(this.specificProd[i].sku[0].percentage)
+        }
+      }
     }, err => {
       console.log(err);
     })
   }
-  subscribe(){
+  subscribe() {
     var inData = {
-        "day":"mon",
-        "id_product":"11",
-        "id_sku":"20",
-        "is_alternate":"1",
-        "is_doorbellring":"1",
-        "pay_type":"COD",
-        "quantity":"1",
-        "start_date":"Sun, 26 Aug  2018",
-        "subscription_type":"Once a week"
-      }
-      this.loginService.productSubscription(inData).subscribe(response =>{  
-             
-      })
+      "day": "mon",
+      "id_product": "11",
+      "id_sku": "20",
+      "is_alternate": "1",
+      "is_doorbellring": "1",
+      "pay_type": "COD",
+      "quantity": "1",
+      "start_date": "Sun, 26 Aug  2018",
+      "subscription_type": "Once a week"
+    }
+    this.loginService.productSubscription(inData).subscribe(response => {
+
+    })
   }
 }
-  

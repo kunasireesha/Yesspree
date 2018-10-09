@@ -6,22 +6,17 @@
           <div class="col-md-6">
             <h3>Categories</h3>
             <div class="row">
-              <div class="col-md-6">
+              <!-- <div class="col-md-12" *ngFor="let items of categoryDatas">
+                   <p>{{items.name}}</p>
+              </div> -->
+              <div class="col-md-6" *ngFor="let item of categoryNames let i =index"
+              [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }" >
                 <ul>
-                  <li>Baby Care</li>
-                  <li>Health & Beauty</li>
-                  <li>Grocery</li>
-                  <li>Beverages</li>
-                  <li>Bakes & Cakes</li>
-                </ul>
-              </div>
-              <div class="col-md-6">
-                <ul>
-                  <li>Milk Products & Breads </li>
-                  <li>Vegetables & Fruits</li>
+                  <li (click)="showSubcategorie(item._id,item.name,i)">{{item.name}} </li>
+                  <!-- <li>Vegetables & Fruits</li>
                   <li>Pet Care</li>
                   <li>Poultry</li>
-                  <li>Office & Study Needs</li>
+                  <li>Office & Study Needs</li> -->
                 </ul>
               </div>
             </div>
@@ -55,8 +50,8 @@
       </div>
       <div class="col-lg-3 app-list">
         <h3>Download App</h3>
-        <img src="/assets/images/Android.png" alt="Android">
-        <img src="/assets/images/Ios-icon.png" alt="ios">
+        <img src="assets/images/Android.png" alt="Android">
+        <img src="assets/images/Ios-icon.png" alt="ios">
         <h3>Follow Us</h3>
         <ul class="social">
           <li>

@@ -10,6 +10,11 @@ import { AngularFontAwesomeModule } from 'angular-font-awesome';
 import { DataService } from './services/login/login'
 import Popper from 'popper.js';
 import swal from 'sweetalert';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFireDatabaseModule } from 'angularfire2/database'
+import { AngularFirestoreModule } from 'angularfire2/firestore';
+import { AngularFireAuthModule } from 'angularfire2/auth';
+
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
 import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
@@ -32,7 +37,7 @@ import { RecProductsComponent } from './components/rec-products/rec-products.com
 import { SearchProductComponent } from './search-product/search-product.component';
 import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
 
-
+import { AuthService } from './services/auth.service';
 //services need to mention in providers
 
 export function getAuthServiceConfigs() {
@@ -51,6 +56,15 @@ export function getAuthServiceConfigs() {
   );
   return config;
 }
+
+var firebaseConfig = {
+  apiKey: "AIzaSyDuESqaJ9e1KykYB7QYo_8gF1CI-YgCNcE",
+  authDomain: "yesspree-d146f.firebaseapp.com",
+  databaseURL: "https://yesspree-d146f.firebaseio.com",
+  projectId: "yesspree-d146f",
+  storageBucket: "yesspree-d146f.appspot.com",
+  messagingSenderId: "849103706717"
+};
 
 @NgModule({
   declarations: [
@@ -86,6 +100,10 @@ export function getAuthServiceConfigs() {
     FormsModule,
     ReactiveFormsModule,
     SocialLoginModule,
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule,
+    AngularFireDatabaseModule,
+    AngularFireAuthModule,
     RouterModule.forRoot([
       {
         path: '',
@@ -204,6 +222,15 @@ export function getAuthServiceConfigs() {
       {
         path: 'searchProduct',
         component: SearchProductComponent,
+      }, {
+
+        path: 'myCartDetails',
+        component: MyAccountComponent,
+        data: [{ page: 'myCartDetails' }]
+      },
+      {
+        path: 'searchProduct',
+        component: SearchProductComponent,
       },
       {
         path: 'banner_navigation',
@@ -214,7 +241,7 @@ export function getAuthServiceConfigs() {
     ], { useHash: true })
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [DataService, {
+  providers: [DataService, AuthService, {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
   }],

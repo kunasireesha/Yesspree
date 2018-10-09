@@ -14,12 +14,18 @@ export class MyAccountComponent implements OnInit {
   productId;
   coupons;
   promoCode;
+  mrp;
+  grandTotal;
+  cartCount;
+  sku = [];
   ngOnInit() {
+
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
-      this.id = '';
+      this.id = 0;
     }
+    // this.getCart();
     this.getAdd();
     this.getWishlist();
     localStorage.getItem;
@@ -104,6 +110,7 @@ export class MyAccountComponent implements OnInit {
       this.myOrders2 = true;
     } else if (this.pageNav === "cart") {
       this.mycart = true;
+      this.getCart();
     } else if (this.pageNav === "subscription") {
       this.mysubscription = true;
     } else if (this.pageNav === "offers") {
@@ -114,8 +121,8 @@ export class MyAccountComponent implements OnInit {
       this.mynotifiactions = true;
       var nParams = {
         "id_customer": this.id,
-        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "parent_warehouseid": localStorage.parent_warehouseid,
+        "id_warehouse": localStorage.id_warehouse,
         "lang": "en"
       }
       this.loginService.notificationsData(nParams).subscribe(response => {
@@ -477,8 +484,8 @@ export class MyAccountComponent implements OnInit {
     var inData = {
       "_id": this.id,
       "op": "get",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en",
       "_session": localStorage.session
 
@@ -496,8 +503,8 @@ export class MyAccountComponent implements OnInit {
       "_id": this.id,
       "id_product": id,
       "op": "delete",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.deleteWish(inData).subscribe(response => {
@@ -510,8 +517,8 @@ export class MyAccountComponent implements OnInit {
   subscriptionActive() {
     var inData = {
       "type": "Active",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
@@ -521,12 +528,33 @@ export class MyAccountComponent implements OnInit {
   subscriptionCancel() {
     var inData = {
       "type": "Cancelled",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
       swal("unSubscribed", '', 'success');
+    })
+  }
+  getCart() {
+    this.url = AppSettings.imageUrl;
+    var inData = {
+      _id: JSON.parse(localStorage.userId),
+      _session: localStorage.session,
+      op: "get",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en"
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      this.mrp = response.json().summary.mrp;
+      this.grandTotal = response.json().summary.grand_total;
+      this.cartCount = response.json().summary.cart_count;
+      this.mycart = response.json().cart;
+      this.sku = response.json().cart.sku;
+      console.log(this.mycart);
+    }, err => {
+      console.log(err)
     })
   }
 }

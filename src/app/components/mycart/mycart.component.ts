@@ -39,16 +39,16 @@ export class MycartComponent implements OnInit {
       _id: this.id,
       _session: localStorage.session,
       op: "get",
-      parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
-      id_warehouse: JSON.parse(localStorage.id_warehouse),
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
       lang: "en"
     }
     this.loginService.getCart(inData).subscribe(response => {
-        this.mrp = response.json().summary.mrp;
-        this.grandTotal = response.json().summary.grand_total;
-        this.cartCount = response.json().summary.cart_count;
-        this.mycart = response.json().cart;
-        console.log(this.mycart);
+      this.mrp = response.json().summary.mrp;
+      this.grandTotal = response.json().summary.grand_total;
+      this.cartCount = response.json().summary.cart_count;
+      this.mycart = response.json().cart;
+      console.log(this.mycart);
     }, err => {
       console.log(err)
     })

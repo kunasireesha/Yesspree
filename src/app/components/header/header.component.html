@@ -5,16 +5,16 @@
 
         <ul>
           <li *ngIf="showProfile">
-            <img src="/assets/images/phone.png" alt="phone"> {{userMobile}}
+            <img src="assets/images/phone.png" alt="phone"> {{userMobile}}
           </li>
           <li *ngIf="showLogin">
             <a (click)="openSingin()">
-              <img src="/assets/images/signin.png" alt="sign in">Sing In
+              <img src="assets/images/signin.png" alt="sign in">Sing In
             </a>
           </li>
           <li *ngIf="showLogin">
             <a (click)="openRegistration()">
-              <img src="/assets/images/signup.png" alt="sign out">Sign Up
+              <img src="assets/images/signup.png" alt="sign out">Sign Up
             </a>
           </li>
           <li>
@@ -31,7 +31,7 @@
                   <i class="fa fa-image"></i>&nbsp; Addresses</a>
                 <a class="dropdown-item" routerLink="ordersfirst">
                   <i class="fa fa-first-order"></i>&nbsp; My Orders</a>
-                <a class="dropdown-item" routerLink="/mycart">
+                <a class="dropdown-item" routerLink="/myAccountcart">
                   <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
                   My Cart
                 </a>
@@ -58,7 +58,6 @@
                   &nbsp; Logout</a>
               </div>
             </div>
-
           </li>
         </ul>
       </div>
@@ -69,7 +68,7 @@
 <div class="container-fluid  main-menu">
   <nav class="navbar sticky-top navbar-expand-lg navbar-light  ">
     <a class="navbar-brand" routerLink="/">
-      <img src="/assets/images/logo.png" alt="logo">
+      <img src="assets/images/logo.png" alt="logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -80,7 +79,7 @@
         <div class="input-group  search-menu mb-3">
           <div class="input-group-prepend dropdown-append">
             <select class="form-control location" id="exampleFormControlSelect1">
-              <option selected *ngFor="let villageName of Village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
+              <option selected *ngFor="let villageName of village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
           <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search">
@@ -91,8 +90,9 @@
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
         <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
-          <i class="fas fa-shopping-cart"></i> My Cart 
-            <!-- ( {{summary.cart_count}} ) -->
+
+          <i class="fas fa-shopping-cart"></i> My Cart
+          <!-- ( {{summary.cart_count}} ) -->
         </button>
       </form>
     </div>
@@ -177,11 +177,11 @@
                 </div>
                 <div class="row text-center social-login justify-content-md-center">
                   <div class="col-lg-8 mb-3">
-                    <button type="submit" class="btn  submit-button google" (click)="socialLogin('google')">
+                    <button type="submit" class="btn  submit-button google" (click)="signInWithGoogle()">
                       <i class="fab fa-google"></i> SIGN IN WITH GOOGLE</button>
                   </div>
                   <div class="col-lg-8">
-                    <button type="submit" class="btn  submit-button facebook" (click)="socialLogin('facebook')">
+                    <button type="submit" class="btn  submit-button facebook" (click)="signInWithFacebook()">
                       <i class="fab fa-facebook"></i> SIGN IN WITH FACEBOOK</button>
                   </div>
                 </div>
@@ -198,17 +198,17 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="/assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo">
                 </div>
               </div>
               <p>Download our App. Enjoy Your Shippings</p>
               <div class="row apps">
 
                 <div class="col-md-6">
-                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  <img src="assets/images/google-play.png" class="text-center img-fluid">
                 </div>
                 <div class="col-md-6">
-                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  <img src="assets/images/app-store.png" class="text-center img-fluid">
                 </div>
               </div>
 
@@ -300,17 +300,17 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="/assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo">
                 </div>
               </div>
               <p>Download our App. Enjoy Your Shippings</p>
               <div class="row apps">
 
                 <div class="col-md-6">
-                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  <img src="assets/images/google-play.png" class="text-center img-fluid">
                 </div>
                 <div class="col-md-6">
-                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  <img src="assets/images/app-store.png" class="text-center img-fluid">
                 </div>
               </div>
 
@@ -355,17 +355,17 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="/assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo">
                 </div>
               </div>
               <p>Download our App. Enjoy Your Shippings</p>
               <div class="row apps">
 
                 <div class="col-md-6">
-                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  <img src="assets/images/google-play.png" class="text-center img-fluid">
                 </div>
                 <div class="col-md-6">
-                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  <img src="assets/images/app-store.png" class="text-center img-fluid">
                 </div>
               </div>
 
@@ -407,17 +407,17 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="/assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo">
                 </div>
               </div>
               <p>Download our App. Enjoy Your Shippings</p>
               <div class="row apps">
 
                 <div class="col-md-6">
-                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  <img src="assets/images/google-play.png" class="text-center img-fluid">
                 </div>
                 <div class="col-md-6">
-                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  <img src="assets/images/app-store.png" class="text-center img-fluid">
                 </div>
               </div>
 
@@ -453,17 +453,17 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="/assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo">
                 </div>
               </div>
               <p>Download our App. Enjoy Your Shippings</p>
               <div class="row apps">
 
                 <div class="col-md-6">
-                  <img src="/assets/images/google-play.png" class="text-center img-fluid">
+                  <img src="assets/images/google-play.png" class="text-center img-fluid">
                 </div>
                 <div class="col-md-6">
-                  <img src="/assets/images/app-store.png" class="text-center img-fluid">
+                  <img src="assets/images/app-store.png" class="text-center img-fluid">
                 </div>
               </div>
 
@@ -501,17 +501,17 @@
         <div class="col-md-6 background-image">
           <div class="row  align-items-center">
             <div class="col-md-12 text-center popup-logo">
-              <img src="/assets/images/logo.png" alt="logo">
+              <img src="assets/images/logo.png" alt="logo">
             </div>
           </div>
           <p>Download our App. Enjoy Your Shippings</p>
           <div class="row apps">
 
             <div class="col-md-6">
-              <img src="/assets/images/google-play.png" class="text-center img-fluid">
+              <img src="assets/images/google-play.png" class="text-center img-fluid">
             </div>
             <div class="col-md-6">
-              <img src="/assets/images/app-store.png" class="text-center img-fluid">
+              <img src="assets/images/app-store.png" class="text-center img-fluid">
             </div>
           </div>
 
