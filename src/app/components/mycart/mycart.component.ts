@@ -19,6 +19,7 @@ export class MycartComponent implements OnInit {
   url: string;
   exploreCart: string;
   removeCrt: string;
+  items
   constructor(public loginService: DataService, ) {
   }
 
@@ -52,6 +53,29 @@ export class MycartComponent implements OnInit {
     }, err => {
       console.log(err)
     })
+  }
+  itemIncrease(data, name, id, skuId, index) {
+    // this.selected = index;
+    let thisObj = this;
+    // if (localStorage.name !== name) {
+    //   thisObj.items.quantity = 0;
+    // }
+    if (name === data.name) {
+      // thisObj.showInput = true;
+      // thisObj.items.quantity = Math.floor(this.mycart + 1);
+      // thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
+  }
+
+  itemDecrease(id, skuId, index) {
+    // this.selected = index;
+    let thisObj = this;
+    // if (thisObj.items.quantity === 1) {
+    //   return;
+    // }
+    // thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    // this.getCart(thisObj.items.quantity, id, skuId);
   }
   exploreCartCount() {
     var inData = {

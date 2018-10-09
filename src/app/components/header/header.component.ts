@@ -508,27 +508,27 @@ export class HeaderComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(data, name, id, skuId, index) {
+  itemIncrease(data, name, id, skuId, index,mycart) {
     this.selected = index;
     let thisObj = this;
     if (localStorage.cartName !== name) {
       this.sku.mycart = 0;
     }
 
-    this.sku.mycart = Math.floor(this.sku.mycart + 1);
-    thisObj.addCart(this.sku.mycart, id, skuId);
+    this.sku.mycart = Math.floor(this.sku.mycart + 1 || mycart + 1);
+    thisObj.addCart(this.sku.mycart, id, skuId,mycart);
     localStorage.setItem('cartName', name);
 
   }
 
-  itemDecrease(id, skuId, index) {
+  itemDecrease(id, skuId, index,mycart) {
     this.selected = index;
     let thisObj = this;
     if (this.sku.mycart === 1) {
       return;
     }
-    this.sku.mycart = Math.floor(this.sku.mycart - 1);
-    this.addCart(this.sku.mycart, id, skuId);
+    this.sku.mycart = Math.floor(this.sku.mycart - 1 || mycart - 1 );
+    this.addCart(this.sku.mycart, id, skuId,mycart);
   }
 
   subscribe() {
@@ -536,11 +536,11 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  addCart(quantity, id, skuId) {
+  addCart(quantity, id, skuId,mycart) {
     if (quantity === 0) {
       this.quantity = 1;
     } else {
-      this.quantity = quantity
+      this.quantity = quantity || mycart
     }
     var inData = {
       _id: this.id,
