@@ -220,6 +220,9 @@ export class DataService {
     filterData(params): Observable<any> {
         return this.postInputParams(params, 'item/filterdata');
     }
+    subscriptionStatus(params):Observable<any>{
+        return this.postInputParams(params,'subscription/status')
+    }
 
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
+import { empty } from 'rxjs';
 
 @Component({
   selector: 'app-my-account',
@@ -17,7 +18,11 @@ export class MyAccountComponent implements OnInit {
   mrp;
   grandTotal;
   cartCount;
+  ordersData;
   sku = [];
+  subscribe = false;
+  discount;
+  cancelPlan;
   ngOnInit() {
 
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -59,12 +64,19 @@ export class MyAccountComponent implements OnInit {
   sharescreen = false;
   wishlist = false;
   coupon = false;
+  nodata = false;
   getAddress;
   editData;
   orders;
-  getWishList;
+  WishList = []
   notificationList;
   myOrder;
+  items = {
+    quantity: 1
+  }
+  selected;
+  quantity;
+  subscribedOrders;
   createdData = []
   mydata = {
     first_name: '',
@@ -113,6 +125,7 @@ export class MyAccountComponent implements OnInit {
       this.getCart();
     } else if (this.pageNav === "subscription") {
       this.mysubscription = true;
+      //   this.subscriptionActive();
     } else if (this.pageNav === "offers") {
       this.offers = true;
     } else if (this.pageNav === "rateus") {
@@ -491,13 +504,17 @@ export class MyAccountComponent implements OnInit {
 
     }
     this.loginService.getWishlist(inData).subscribe(response => {
-      this.getWishList = response.json().result;
-      console.log(this.getWishList);
+      this.WishList = response.json().result;
+      for (var i = 0; i < this.WishList.length; i++) {
+        this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
+      }
+      this.cartCount = response.json().summary.cart_count;
+      console.log(this.WishList);
     }, error => {
       console.log(error);
     })
   }
-  deleteWish(id) {
+  removeWish(id) {
     var inData = {
       "_session": localStorage.session,
       "_id": this.id,
@@ -508,8 +525,9 @@ export class MyAccountComponent implements OnInit {
       "lang": "en"
     }
     this.loginService.deleteWish(inData).subscribe(response => {
+
       console.log(response)
-      this.getWishList();
+      this.getWishlist();
     }, error => {
 
     })
@@ -517,23 +535,33 @@ export class MyAccountComponent implements OnInit {
   subscriptionActive() {
     var inData = {
       "type": "Active",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
       "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
+      this.subscribedOrders = response.json().orders;
+      //    for(var i= 0 ; i<this.subscribedOrders.length;i++){
+      //        this.discount = this.subscribedOrders[i].order.total_selling_price;
+
+      //    }
+      this.subscribe = false;
       swal("subscribed", '', 'success');
     })
   }
   subscriptionCancel() {
     var inData = {
       "type": "Cancelled",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
       "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
-      swal("unSubscribed", '', 'success');
+      this.ordersData = response.json().orders;
+      this.subscribe = true;
+      alert(this.ordersData);
+      swal("unsubscribed", '', 'success');
+
     })
   }
   getCart() {
@@ -555,6 +583,42 @@ export class MyAccountComponent implements OnInit {
       console.log(this.mycart);
     }, err => {
       console.log(err)
+    })
+  }
+  itemIncrease(data, name, id, skuId, index) {
+    alert(index)
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.name !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      // thisObj.showInput = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      // thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
+  }
+
+  itemDecrease(id, skuId, index) {
+    alert(index)
+    this.selected = index;
+    let thisObj = this;
+    if (thisObj.items.quantity === 1) {
+      return;
+    }
+    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    // this.getCart(thisObj.items.quantity, id, skuId);
+  }
+  subscriptionStatus(num) {
+    var inData = {
+      _id: this.id,
+      order_no: num,
+      order_status: "Cancelled",
+      cancelled_on: new Date()
+    }
+    this.loginService.subscriptionStatus(inData).subscribe(reponse => {
+      swal('cancelled order', "", "error")
     })
   }
 }

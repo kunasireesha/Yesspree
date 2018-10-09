@@ -17,8 +17,10 @@ export class ProductdetailsComponent implements OnInit {
   firstPic;
   specificProd;
   percentage;
-  productDetail: string;
 
+  productDetail: string;
+  weak;
+  checked;
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
@@ -80,12 +82,14 @@ export class ProductdetailsComponent implements OnInit {
     }
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
+      console.log(this.product);
       for (var i = 0; i < this.product.length; i++) {
         if (this.product[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
           this.product[i].sku[0].percentage = this.percentage;
         }
       }
+
       for (var i = 0; i < this.product.length; i++) {
         this.firstPic = this.url + this.product[i].pic[0].pic;
       }
@@ -104,20 +108,25 @@ export class ProductdetailsComponent implements OnInit {
       console.log(err);
     })
   }
-  subscribe() {
+
+  subscribe(weak) {
+    this.weak = weak
+  }
+  subscribeData(productId, sku, check) {
     var inData = {
-      "day": "mon",
-      "id_product": "11",
-      "id_sku": "20",
+      "day": this.weak,
+      "id_product": productId,
+      "id_sku": sku,
       "is_alternate": "1",
       "is_doorbellring": "1",
       "pay_type": "COD",
       "quantity": "1",
       "start_date": "Sun, 26 Aug  2018",
-      "subscription_type": "Once a week"
+      "subscription_type": check
     }
     this.loginService.productSubscription(inData).subscribe(response => {
-
+      swal("subscribed", '', 'success');
     })
   }
+
 }

@@ -280,31 +280,34 @@
         </div>
       </div>
       <hr>
-      <div class="row">
+      <div class="" *ngIf="subscribeactive">
+        <div class="row"  *ngFor="let item of subscribedOrders">
         <div class="col-lg-3">
-          <img src="assets/images/onion.jpg" class="onion-image">
+          <img [src]="url + item.order.product_pic" class="onion-image">
         </div>
         <div class="col-lg-9">
           <h5>
-            <strong>Onion</strong>
+            <strong>{{item.product_name}}</strong>
           </h5>
           <p class="monthly-subscription">Subscribed for monthly @
             <strong>
-              <i class="fa fa-rupee" aria-hidden="true"></i>486 </strong>
+              <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
           </p>
           <p class="saving-rupees">
             You Saved
-            <i class="fa fa-rupee" aria-hidden="true"></i>54
+            <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
           </p>
           <p class="cancel-plan">
-            <a href="#">Cancel Plan</a>
+            <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
           </p>
         </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="!subscribeactive">
+          <p>No data Found</p>
       </div>
       <hr>
     </div>
-
-
     <!-- offers -->
     <div class="col-lg-9" *ngIf="offers">
       <div class="row">
@@ -639,128 +642,120 @@
 
 
     <!-- wish list -->
-    <div class="container" *ngIf="wishlist">
-      <div class="row">
-        <div class="col-lg-6">
-          <h4>YOUR CART (3 ITEMS)</h4>
-        </div>
-        <div class="col-lg-6">
-          <div class="row">
-            <div class="col-lg-4">
-              <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
-            </div>
-            <div class="col-lg-4">
-              <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-            </div>
-            <div class="col-lg-4">
-              <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
+    <div class="col-lg-9 notification" *ngIf="wishlist">
+        <div class="row">
+          <div class="col-lg-6">
+            <h4>MY CART ({{cartCount}} ITEMS)</h4>
+          </div>
+          <div class="col-lg-6">
+            <div class="row">
+              <div class="col-lg-6">
+                <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+              </div>
+              <div class="col-lg-6">
+                <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
+              </div>
             </div>
           </div>
+          <table class="table prod-table">
+            <thead class="table-header">
+              <tr>
+                <th scope="col" width="40%" class="table-headings">Item Description</th>
+                <th scope="col" width="15%" class="table-headings">Unity Price</th>
+                <th scope="col" width="15%" class="table-headings">Quantity</th>
+                <th scope="col" width="15%" class="table-headings">Subtotal</th>
+                <th scope="col" width="15%" class="table-headings">Savings</th>
+                <th scope="col" width="15%" class="table-headings">Delete</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of WishList">
+                <td class="table-data">
+                  <img src="{{item.image}}" class="prod-image">
+                  <p>
+                    <strong>{{item.name}} </strong>
+                    </p>
+                  <!-- <span>10kg</span> -->
+                </td>
+                <td class="table-price">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
+                    <br />
+                    <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                        {{item.mrp}}
+                      </strike>
+                  </p>
+                </td>
+                <td class="table-quanities">
+                  <p>
+                    <i class="fa fa-minus" aria-hidden="true"></i>
+                    <span>|2|</span>
+                    <i class="fa fa-plus" aria-hidden="true"></i>
+                  </p>
+                </td>
+                <td class="table-total">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
+                  </p>
+                </td>
+                <td class="table-savings">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
+                  </p>
+                  <span>
+                    You Save 14%
+                  </span>
+                </td>
+                <td class="table-delete"  *ngFor="let sku of item.sku">
+                    <p> 
+                      <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(item._id,sku._id)"></i>
+                  </p>
+                </td>
+              </tr>
+              <tr class="table-border">
+                <td class="mrp-rate">
+                  <h5>Total MRP</h5>
+                </td>
+                <td></td>
+                <td></td>
+                <td class="table-total">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+                </td>
+                <td class="table-savings">
+                  <p>
+                    <i class="fa fa-inr" aria-hidden="true"></i>127.00
+                  </p>
+                  <span> You Save 15%</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <table class="table prod-table">
-          <thead class="table-header">
-            <tr>
-              <th scope="col" width="40%" class="table-headings">Item Description</th>
-              <th scope="col" width="15%" class="table-headings">Unity Price</th>
-              <th scope="col" width="15%" class="table-headings">Quantity</th>
-              <th scope="col" width="15%" class="table-headings">Subtotal</th>
-              <th scope="col" width="15%" class="table-headings">Savings</th>
-              <th scope="col" width="15%" class="table-headings">Delete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let cartItems of mycart">
+        <div class="row">
+          <div class="col-lg-6 text-center">
+            <h5>
+              <strong>Total to Pay</strong>
+            </h5>
+          </div>
+          <div class="col-lg-6 total-mrp">
+            <p>
+              <strong>
+                <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+            </p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6">
+            <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+          </div>
+          <div class="col-lg-6">
+            <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
+          </div>
+        </div>
+      </div>
 
-              <td class="table-data">
-                <img [src]="url + cartItems.image" class="prod-image">
-                <p>
-                  <strong>{{cartItems.name}} </strong>
-                </p>
-                <!-- <span>10kg</span> -->
-              </td>
-              <td class="table-price">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.actual_price}}
-                  <br />
-                  <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
-                </p>
-              </td>
-              <td class="table-quanities">
-                <p>
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                  <span>|2|</span>
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </p>
-              </td>
-              <td class="table-total">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
-                </p>
-              </td>
-              <td class="table-savings">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
-                </p>
-                <span>
-                  You Save 14%
-                </span>
-              </td>
-              <td class="table-delete" *ngFor="let sku of cartItems.sku">
-                <p>
-                  <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
-                </p>
-              </td>
-            </tr>
-            <tr class="table-border">
-              <td class="mrp-rate">
-                <h5>Total MRP</h5>
-              </td>
-              <td></td>
-              <td></td>
-              <td class="table-total">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
-              </td>
-              <td class="table-savings">
-                <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>127.00
-                </p>
-                <span> You Save 15%</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 text-center">
-          <h5>
-            <strong>Total to Pay</strong>
-          </h5>
-        </div>
-        <div class="col-lg-6 total-mrp">
-          <p>
-            <strong>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-          </p>
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-lg-6">
-          <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-        </div>
-        <div class="col-lg-6">
-          <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
-        </div>
-      </div>
-      <div>
-        <img src="">
-      </div>
-      <div>
-        <!-- <h5>Last Minute Buys</h5> -->
-
-      </div>
-    </div>
 
     <!-- wish list -->
 
