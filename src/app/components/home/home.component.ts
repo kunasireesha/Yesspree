@@ -110,13 +110,13 @@ export class HomeComponent implements OnInit {
 
       //recommended products 
       if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
-        this.products = response.json().result.specific_product[0].product;
-        for (var i = 0; i < this.products.length; i++) {
-          if (this.products[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-            this.products[i].sku[0].percentage = this.percentage;
-          }
+      this.products = response.json().result.specific_product[0].product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+          this.products[i].sku[0].percentage = this.percentage;
         }
+      }
         this.showProducts = true;
       } else {
         this.showProducts = false;
@@ -131,14 +131,18 @@ export class HomeComponent implements OnInit {
 
       //recommended products1 
       if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
-        this.products1 = response.json().result.specific_product[1].product;
+      this.products1 = response.json().result.specific_product[1].product;
 
-        for (var i = 0; i < this.products1.length; i++) {
-          if (this.products1[i].sku[0].mrp !== undefined) {
-            this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
-            this.products1[i].sku[0].percentage = this.percentage1;
-          }
+      for (var i = 0; i < this.products1.length; i++) {
+        if (this.products1[i].sku[0].mrp !== undefined) {
+          this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
+          this.products1[i].sku[0].percentage = this.percentage1;
         }
+      }
+
+      for (var i = 0; i < this.products1.length; i++) {
+        this.products1[i].image = this.url + this.products1[i].pic[0].pic;
+      }
         this.showProducts1 = true;
       } else {
         this.showProducts1 = false;

@@ -131,7 +131,6 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     });
-
   }
 
 
@@ -146,8 +145,6 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     })
-
-
   }
 
   showProfile: boolean
