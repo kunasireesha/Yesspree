@@ -87,7 +87,7 @@
               <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartData.mrp-cartData.selling_price}}
             </p>
             <span>
-              You Save {{(100-(cartData.selling_price/cartData.mrp)*100)}}%
+              You Save {{(100-(cartData.selling_price/cartData.mrp)*100).toFixed(0)}}%
             </span>
           </td>
         </tr>
@@ -105,7 +105,7 @@
             <p>
               <i class="fa fa-inr" aria-hidden="true"></i>{{summarySum.mrp-summarySum.selling_price}}
             </p>
-            <span> You Save {{(100-(summarySum.selling_price/summarySum.mrp)*100)}}%</span>
+            <span> You Save {{(100-(summarySum.selling_price/summarySum.mrp)*100).toFixed(0)}}%</span>
           </td>
         </tr>
       </tbody>

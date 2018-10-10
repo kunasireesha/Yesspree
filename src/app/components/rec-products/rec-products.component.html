@@ -9,7 +9,7 @@
         <div class="col-md-3 item" *ngFor="let data of products;let i =index">
           <div *ngFor="let sku of data.sku">
             <div  class="card" (click)="showProduxtDetails()">
-              <a (click)="wish(item._id)">
+              <a (click)="wish(data._id)">
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
               <img class="img-fluid product-img" [src]="data.image" alt="Card image cap" (click)="showProductDetails(recPro.id_product)">

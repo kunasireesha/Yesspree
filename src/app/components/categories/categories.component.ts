@@ -25,7 +25,7 @@ export class CategoriesComponent implements OnInit {
   catName;
   url;
   childCat = [];
-
+  wishList = [];
   getChildCat() {
     this.url = AppSettings.imageUrl;
     var inData = {
@@ -251,7 +251,36 @@ export class CategoriesComponent implements OnInit {
     this.router.navigate(["/recProducts"], navigationExtras);
 
   }
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
 
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
+      }
 
+    }, err => {
+      console.log(err)
+    })
+  }
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+  }
 
 }
