@@ -210,4 +210,12 @@ export class BannerNavigationComponent implements OnInit {
       console.log(err)
     })
   }
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+  }
 }

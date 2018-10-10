@@ -12,7 +12,7 @@
               <a (click)="wish(data._id)">
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
-              <img class="img-fluid product-img" [src]="data.image" alt="Card image cap" (click)="showProductDetails(recPro.id_product)">
+              <img class="img-fluid product-img" [src]="data.image" alt="Card image cap" (click)="showProductDetails(data.id_product)">
               <!-- <img class="img-fluid valuepack" src="/assets/images/valuePack.jpg" alt="Card image cap"> -->
               <div class="card-block">
                 <h5>{{data.name}} </h5>
