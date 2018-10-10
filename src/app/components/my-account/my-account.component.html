@@ -730,19 +730,11 @@
                             </p>
                           </td>
                           <td class="table-quanities" *ngFor="let sku of item.sku">
-
                               <p>
                                   <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(item,item.name,item.id_product,sku._id,i,'wishList')"></i>
                                   <span>|{{sku.mycart}}|</span>
                                   <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(item,item.name,item.id_product,sku._id,i,'wishList')"></i>
                                 </p>
-
-
-                            <!-- <p>
-                              <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(item,item._id,sku._id,sku.id_product,i,sku.mycart,'wishList')"></i>
-                              <span>|{{sku.mycart}}|</span>
-                              <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(item,item.name,item._id,sku._id,sku.id_product,i,sku.mycart,'wishList')"></i>
-                            </p> -->
                           </td>
                           <td class="table-total">
                             <p>

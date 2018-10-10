@@ -46,9 +46,9 @@
                     </td>
                     <td class="table-quanities" *ngFor="let sku of cartItems.sku">
                         <p>
-                            <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i,sku.mycart)"></i>
+                            <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i)"></i>
                             <span>|{{sku.mycart}}|</span>
-                            <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)"></i>
+                            <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)"></i>
                         </p>
                     </td>
                     <td class="table-total">

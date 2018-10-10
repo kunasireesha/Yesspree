@@ -25,6 +25,7 @@ export class OrderSummaryComponent implements OnInit {
   id: string;
   timeSlot: string;
   dateSlot: string;
+  summarySum;
   url;
   promoCode;
   coupon;
@@ -87,6 +88,7 @@ export class OrderSummaryComponent implements OnInit {
       this.orderId = response.json().orders[0].order_id;
       this.dateSlot = response.json().orders[0].deliveryslot;
       this.timeSlot = response.json().orders[0].deliveryslot[0].times;
+      this.summarySum = response.json().summary
       console.log(this.orderId);
     }, err => {
       swal(err.message, "", "error")
