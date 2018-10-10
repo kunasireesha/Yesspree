@@ -152,6 +152,7 @@ export class ProductdetailsComponent implements OnInit {
     this.getCart(thisObj.items.quantity, id, skuId);
   }
 
+
   getCart(quantity, id, skuId) {
     if (quantity === 0) {
       this.quantity = 1;
@@ -189,6 +190,7 @@ export class ProductdetailsComponent implements OnInit {
       localStorage.setItem('name', name);
     }
   }
+
   wish(id) {
     var inData = {
       _session: localStorage.session,
