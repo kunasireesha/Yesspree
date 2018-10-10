@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { Http, Headers } from '@angular/http';
 import * as _ from 'underscore';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -65,6 +66,7 @@ export class ProductsComponent implements OnInit {
   brands = [];
   offers = [];
   prices = [];
+  wishList = [];
   items = {
     quantity: 1
   };
@@ -177,8 +179,13 @@ export class ProductsComponent implements OnInit {
     this.showInput1 = true;
   }
 
-  showProduxtDetails() {
-    this.router.navigate(["/product_details"]);
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
   }
 
 
@@ -321,6 +328,30 @@ export class ProductsComponent implements OnInit {
       swal(err.json().message, '', 'error');
     })
   }
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
+
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
+      }
+
+    }, err => {
+      console.log(err)
+    })
+  }
+
 
 
 }

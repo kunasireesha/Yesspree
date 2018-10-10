@@ -183,15 +183,17 @@
           </div>
         </div>
       </div>
-
       <p>
         <b>Prodct Details</b>
       </p>
-      <p> Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy
+      <p> Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum
+        text dummy
         text Lorem
-        ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem
+        ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text
+        dummy text Lorem
         ipsum
-        text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text </p>
+        text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text
+      </p>
       <p>
         <b>Key Features</b>
       </p>
@@ -206,7 +208,7 @@
           <div class="col-md-3 item" *ngFor="let item of specificProd; let i = index">
             <div class="card" (click)="showProduxtDetails()">
               <div *ngFor="let sku of item.sku">
-                <a>
+                <a (click)="wish(item._id)">
                   <i class="fa fa-heart" aria-hidden="true"></i>
                 </a>
                 <img class="img-fluid product-img" [src]="item.image" alt="Card image cap">

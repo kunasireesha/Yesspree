@@ -28,6 +28,8 @@ export class ProductdetailsComponent implements OnInit {
   items = {
     quantity: 1
   }
+  wishList = [];
+
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
@@ -59,8 +61,13 @@ export class ProductdetailsComponent implements OnInit {
     console.log(this.data + ' ' + this.email);
   }
 
-  showProduxtDetails() {
-    this.router.navigate(["/product_details"]);
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
   }
 
   collapse() {
@@ -181,5 +188,28 @@ export class ProductdetailsComponent implements OnInit {
       thisObj.getCart(thisObj.items.quantity, id, skuId);
       localStorage.setItem('name', name);
     }
+  }
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
+
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
+      }
+
+    }, err => {
+      console.log(err)
+    })
   }
 }
