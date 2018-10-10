@@ -190,12 +190,12 @@
                   <br />100% Pure</p>
                 <span>{{skuSize.size}}</span>
               </td>
-              <td class="table-price">
+              <td class="table-price" *ngFor="let skuSize of cartDetails.sku">
                 <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.actual_price}}
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
                   <br />
                   <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.selling_price}}
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.selling_price}}
                 </p>
               </td>
               <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
@@ -207,15 +207,15 @@
               </td>
               <td class="table-total">
                 <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.selling_price}}
                 </p>
               </td>
               <td class="table-savings">
                 <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.mrp-cartDetails.selling_price}}
                 </p>
                 <span>
-                  You Save 14%
+                  You Save {{(100-(cartDetails.selling_price/cartDetails.mrp)*100)}}%
                 </span>
               </td>
             </tr>
@@ -231,9 +231,10 @@
               </td>
               <td class="table-savings">
                 <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>127.00
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
+
                 </p>
-                <span> You Save 15%</span>
+                <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}% </span>
               </td>
             </tr>
           </tbody>
@@ -645,7 +646,7 @@
     <div class="col-lg-9 notification" *ngIf="wishlist">
         <div class="row">
           <div class="col-lg-6">
-            <h4>MY CART ({{cartCount}} ITEMS)</h4>
+            <h4>MY WISHlIST ({{wishCount}} ITEMS)</h4>
           </div>
           <div class="col-lg-6">
             <div class="row">
@@ -677,34 +678,33 @@
                     </p>
                   <!-- <span>10kg</span> -->
                 </td>
-                <td class="table-price">
+                <td class="table-price"  *ngFor="let sku of item.sku">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
-                    <br />
-                    <strike *ngIf="skuData.mrp!==undefined || skuData.mrp==skuData.selling_price">
-                        <i class="fa fa-rupee" aria-hidden="true"></i>
-                        {{item.mrp}}
-                      </strike>
+                      <strike *ngIf="skuData.mrp!==undefined || skuData.mrp==skuData.selling_price">
+                          <i class="fa fa-rupee" aria-hidden="true"></i>
+                          {{sku.mrp}}
+                        </strike><br />
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
                   </p>
                 </td>
                 <td class="table-quanities" *ngFor="let sku of item.sku">
                   <p>
-                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item._id,sku._id,i,sku.mycart)"></i>
+                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item._id,sku._id,sku.id_product,i,sku.mycart,'wishList')"></i>
                     <span>|{{sku.mycart}}|</span>
-                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,i,sku.mycart)"></i>
+                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,sku.id_product,i,sku.mycart,'wishList')"></i>
                   </p>
                 </td>
                 <td class="table-total">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
                   </p>
                 </td>
                 <td class="table-savings">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
+                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.mrp-item.selling_price}}
                   </p>
                   <span>
-                    You Save 14%
+                    You Save {{(100-(item.selling_price/item.mrp)*100)}}%
                   </span>
                 </td>
                 <td class="table-delete">
@@ -725,9 +725,9 @@
                 </td>
                 <td class="table-savings">
                   <p>
-                    <i class="fa fa-inr" aria-hidden="true"></i>127.00
+                    <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
                   </p>
-                  <span> You Save 15%</span>
+                  <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}} %</span>
                 </td>
               </tr>
             </tbody>

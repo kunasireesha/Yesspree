@@ -18,24 +18,22 @@ export class MyAccountComponent implements OnInit {
   mrp;
   grandTotal;
   cartCount;
+  wishCount;
   ordersData;
   skuData = []
   sku = {
     mycart: 0 
   }
+  summary
   subscribe = false;
   discount;
   cancelPlan;
   ngOnInit() {
 
-    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-      this.id = JSON.parse(localStorage.userId);
-    } else {
-      this.id = 0;
-    }
+    
     // this.getCart();
-    this.getAdd();
-    this.getWishlist();
+    
+    // this.getWishlist();
     localStorage.getItem;
     this.url = AppSettings.imageUrl;
   }
@@ -100,6 +98,11 @@ export class MyAccountComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = 0;
+    }
     this.pageNav = this.route.snapshot.data[0]['page'];
     if (this.pageNav === "account") {
       this.myaccountData = true;
@@ -111,6 +114,7 @@ export class MyAccountComponent implements OnInit {
       })
     } else if (this.pageNav === "address") {
       this.deliveryAddress = true;
+      this.getAdd();
     } else if (this.pageNav === "orders1") {
       this.myOrders1 = true;
       var inData = {
@@ -150,8 +154,9 @@ export class MyAccountComponent implements OnInit {
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
     }
-    else if (this.pageNav === "wishlist") {
+    else if (this.pageNav === "wishlistpage") {
       this.wishlist = true;
+      this.getWishlist();
     }
     else if (this.pageNav === 'coupon') {
       this.coupon = true;
@@ -508,10 +513,12 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getWishlist(inData).subscribe(response => {
       this.WishList = response.json().result;
+      this.summary =  response.json().summary;
       for (var i = 0; i < this.WishList.length; i++) {
         this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
       }
-      this.cartCount = response.json().summary.cart_count;
+      this.wishCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       console.log(this.WishList);
     }, error => {
       console.log(error);
@@ -567,7 +574,7 @@ export class MyAccountComponent implements OnInit {
 
     })
   }
-  itemIncrease(data, name, id, skuId, index) {
+  itemIncrease(data, name, id, skuId, index,action) {
     console.log(data)
     this.selected = index;
     let thisObj = this;
@@ -578,14 +585,12 @@ export class MyAccountComponent implements OnInit {
       }
     }
     this.sku.mycart = Math.floor(this.sku.mycart + 1);
-   
-    
-    thisObj.addCart(this.sku.mycart, id, skuId);
+    thisObj.addCart(this.sku.mycart, id, skuId,action);
     localStorage.setItem('cartName', name);
-    this.getCart();
+    
   }
 
-  itemDecrease(data, name, id, skuId, index) {
+  itemDecrease(data, name, id, skuId, index,action) {
     this.selected = index;
     let thisObj = this;
     for(var i=0;i<data.length;i++){
@@ -593,10 +598,13 @@ export class MyAccountComponent implements OnInit {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
+    // if(this.sku.mycart === 0) {
+    //   return;
+    // }
     this.sku.mycart = Math.floor(this.sku.mycart - 1 );
-    this.addCart(this.sku.mycart, id, skuId);
+    this.addCart(this.sku.mycart, id, skuId,action);
   }
-  addCart(quantity, id, skuId) {
+  addCart(quantity, id, skuId,action) {
     if (quantity === 0) {
       this.quantity = 1;
     } else {
@@ -615,7 +623,15 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');
+      if(action==='wishList'){
+      this.wishlist=true;
+      this.mycart=false;
+      this.getWishlist();
+    }else{
+      this.wishlist=true;
+      this.mycart=false;
       this.getCart();
+    }
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -636,6 +652,7 @@ export class MyAccountComponent implements OnInit {
       this.cartCount = response.json().summary.cart_count;
       this.mycart = response.json().cart;
       this.skuData = response.json().cart.sku;
+      this.summary = response.json().summary;
     }, err => {
       console.log(err)
     })

@@ -212,7 +212,7 @@ var firebaseConfig = {
       {
         path: 'wishlist',
         component: MyAccountComponent,
-        data: [{ page: 'wishlist' }]
+        data: [{ page: 'wishlistpage' }]
       },
       {
         path: 'coupon',

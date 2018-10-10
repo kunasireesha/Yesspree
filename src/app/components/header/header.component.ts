@@ -515,7 +515,7 @@ export class HeaderComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(data, name, id, skuId, index,mycart) {
+  itemIncrease(data, name, id, skuId, index) {
     console.log(data);
     this.selected = index;
     let thisObj = this;
@@ -530,12 +530,12 @@ export class HeaderComponent implements OnInit {
     this.sku.mycart = Math.floor(this.sku.mycart + 1);
    
     
-    thisObj.addCart(this.sku.mycart, id, skuId,mycart);
+    thisObj.addCart(this.sku.mycart, id, skuId);
     localStorage.setItem('cartName', name);
     this.getCart();
   }
 
-  itemDecrease(data,id, skuId, index,mycart) {
+  itemDecrease(data, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
     // if (this.sku.mycart === 1) {
@@ -547,15 +547,15 @@ export class HeaderComponent implements OnInit {
       }
     }
     this.sku.mycart = Math.floor(this.sku.mycart - 1 );
-    this.addCart(this.sku.mycart, id, skuId,mycart);
+    this.addCart(this.sku.mycart, id, skuId);
   }
 
 
-  addCart(quantity, id, skuId,mycart) {
+  addCart(quantity, id, skuId) {
     if (quantity === 0) {
       this.quantity = 1;
     } else {
-      this.quantity = quantity || mycart
+      this.quantity = quantity
     }
     var inData = {
       _id: this.id,

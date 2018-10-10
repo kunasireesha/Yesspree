@@ -57,8 +57,8 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="table-data" *ngFor="let cartimg of cart">
+        <tr *ngFor="let cartimg of cart">
+          <td class="table-data">
             <img [src]="url + cartimg.image" class="prod-image">
             <p>
               <strong>{{summary.name}}</strong>
