@@ -495,6 +495,8 @@ export class MyAccountComponent implements OnInit {
       swal(err.message, "", "error");
     })
   }
+
+  
   getWishlist() {
     var inData = {
       "_id": this.id,

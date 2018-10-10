@@ -29,6 +29,21 @@ export class OrderSummaryComponent implements OnInit {
   url;
   promoCode;
   coupon;
+
+  addData = {
+    name: '',
+    phone: '',
+    address1: '',
+    taluk: '',
+    district: '',
+    state: '',
+    pincode: ''
+  }
+  type;
+  editData;
+  getAddress = [];
+
+
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
       this.promoCode = params.promoCode;
@@ -41,11 +56,17 @@ export class OrderSummaryComponent implements OnInit {
       this.id = '';
     }
   }
+
+  ngOnInit() {
+    this.url = AppSettings.imageUrl;
+    this.checkoutSummary();
+  }
   order() {
     this.orderSu = true;
     this.deliveryA = this.deliveryOp = this.paymentM = false
   }
   delAdd() {
+    this.getAdd();
     this.deliveryA = true;
     this.orderSu = this.deliveryOp = this.paymentM = false
   }
@@ -119,9 +140,70 @@ export class OrderSummaryComponent implements OnInit {
       console.log(err)
     })
   }
-  ngOnInit() {
-    this.url = AppSettings.imageUrl;
-    this.checkoutSummary();
+
+
+
+  //for address type
+  buttonType(type) {
+    this.type = type;
   }
 
+  //get address
+  getAdd() {
+    var inData = {
+      op: "get"
+    }
+    this.loginService.getAdd(inData).subscribe(response => {
+      this.getAddress = response.json().result
+    }, err => {
+      swal(err.message, "", "error")
+    })
+  }
+
+  //edit address
+  editAdd(item) {
+    this.editData = item;
+    for (var i = 0; i < this.getAddress.length; i++) {
+      if (item._id === this.getAddress[i]._id) {
+        this.addData = {
+          name: this.getAddress[i].name,
+          phone: this.getAddress[i].phone,
+          address1: this.getAddress[i].address1,
+          taluk: this.getAddress[i].taluk,
+          district: this.getAddress[i].district,
+          state: this.getAddress[i].state,
+          pincode: this.getAddress[i].pincode,
+        }
+      }
+    }
+  }
+
+  updateAdd() {
+    var inData = {
+      op: "update",
+      id_address: this.editData._id,
+      id_customer: this.editData.id_customer,
+      name: this.addData.name,
+      phone: this.addData.phone,
+      address1: this.addData.address1,
+      city: this.editData.city,
+      state: this.addData.state,
+      person_prefix: this.editData.person_prefix,
+      taluk: this.addData.taluk,
+      district: this.addData.district,
+      lat: this.editData.lat,
+      lon: this.editData.lon,
+      landmark: this.editData.landmark,
+      selected: this.editData.selected,
+      type: this.type,
+      pincode: this.addData.pincode
+    }
+
+    this.loginService.updateAdd(inData).subscribe(response => {
+      this.getAdd();
+      swal("Updated successfully", "", "success");
+    }, err => {
+      swal(err.message, "", "error");
+    })
+  }
 }

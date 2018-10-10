@@ -109,8 +109,8 @@ export class HeaderComponent implements OnInit {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
       this.showProfile = true;
-      this.userName = localStorage.userName;
-      this.id = localStorage.userId;
+      this.userName = JSON.parse(localStorage.userName);
+      this.id = JSON.parse(localStorage.userId);
     } else {
       this.showLogin = true;
       this.showProfile = false;

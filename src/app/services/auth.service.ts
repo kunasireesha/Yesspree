@@ -36,8 +36,8 @@ export class AuthServices {
       "google_id": data.providerData[0].uid
     }
     this.http.post(AppSettings.baseUrl + 'customer/social', inData).subscribe(response => {
-      localStorage.setItem('userId', response.json().result[0]._id);
-      localStorage.setItem('userName', response.json().result[0].first_name + ' ' + response.json().result[0].last_name);
+      localStorage.setItem('userId', JSON.stringify(response.json().result[0]._id));
+      localStorage.setItem('userName', JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
       localStorage.setItem('authkey', response.json().key);
       localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
       localStorage.setItem("userMobile", response.json().result[0].mobile);
