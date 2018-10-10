@@ -116,8 +116,8 @@ export class ProductsComponent implements OnInit {
       id_category: lastId,
       _session: localStorage.session,
       pincode: "560075",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.getLastCatData(inData).subscribe(response => {
@@ -151,8 +151,8 @@ export class ProductsComponent implements OnInit {
       id_subcategory: id,
       _session: localStorage.session,
       wh_pincode: "560078",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       lang: "en",
     }
     this.loginService.getProducts(inData).subscribe(response => {
