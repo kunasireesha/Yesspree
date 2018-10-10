@@ -18,21 +18,23 @@ export class MyAccountComponent implements OnInit {
   mrp;
   grandTotal;
   cartCount;
+  wishCount;
   ordersData;
-  sku = [];
+  skuData = []
+  sku = {
+    mycart: 0 
+  }
+  unsubscribe = false;
+  summary
   subscribe = false;
   discount;
   cancelPlan;
   ngOnInit() {
 
-    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-      this.id = JSON.parse(localStorage.userId);
-    } else {
-      this.id = 0;
-    }
+    
     // this.getCart();
-    this.getAdd();
-    this.getWishlist();
+    
+    // this.getWishlist();
     localStorage.getItem;
     this.url = AppSettings.imageUrl;
   }
@@ -97,6 +99,11 @@ export class MyAccountComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = 0;
+    }
     this.pageNav = this.route.snapshot.data[0]['page'];
     if (this.pageNav === "account") {
       this.myaccountData = true;
@@ -108,16 +115,10 @@ export class MyAccountComponent implements OnInit {
       })
     } else if (this.pageNav === "address") {
       this.deliveryAddress = true;
+      this.getAdd();
     } else if (this.pageNav === "orders1") {
       this.myOrders1 = true;
-      var inData = {
-        type: 'Present'
-      }
-      this.loginService.myorders(inData).subscribe(response => {
-        this.orders = response.json().orders;
-      }, err => {
-        console.log(err)
-      })
+      this.ordersDetails();
     } else if (this.pageNav === "address2") {
       this.myOrders2 = true;
     } else if (this.pageNav === "cart") {
@@ -125,7 +126,7 @@ export class MyAccountComponent implements OnInit {
       this.getCart();
     } else if (this.pageNav === "subscription") {
       this.mysubscription = true;
-      //   this.subscriptionActive();
+        this.subscriptionActive();
     } else if (this.pageNav === "offers") {
       this.offers = true;
     } else if (this.pageNav === "rateus") {
@@ -147,8 +148,9 @@ export class MyAccountComponent implements OnInit {
     } else if (this.pageNav === "share") {
       this.sharescreen = true;
     }
-    else if (this.pageNav === "wishlist") {
+    else if (this.pageNav === "wishlistpage") {
       this.wishlist = true;
+      this.getWishlist();
     }
     else if (this.pageNav === 'coupon') {
       this.coupon = true;
@@ -505,10 +507,12 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getWishlist(inData).subscribe(response => {
       this.WishList = response.json().result;
+      this.summary =  response.json().summary;
       for (var i = 0; i < this.WishList.length; i++) {
         this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
       }
-      this.cartCount = response.json().summary.cart_count;
+      this.wishCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       console.log(this.WishList);
     }, error => {
       console.log(error);
@@ -532,36 +536,98 @@ export class MyAccountComponent implements OnInit {
 
     })
   }
+  
   subscriptionActive() {
+    this.mysubscription = true;
+    this.unsubscribe = false;
     var inData = {
-      "type": "Active",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
-      "lang": "en"
+    "type": "Active",
+    "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+    "id_warehouse": JSON.parse(localStorage.id_warehouse),
+    "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
-      this.subscribedOrders = response.json().orders;
-      //    for(var i= 0 ; i<this.subscribedOrders.length;i++){
-      //        this.discount = this.subscribedOrders[i].order.total_selling_price;
-
-      //    }
-      this.subscribe = false;
-      swal("subscribed", '', 'success');
+    this.subscribedOrders = response.json().orders;
+    console.log(this.subscribedOrders);
+    // this.subscribe = false;
     })
-  }
-  subscriptionCancel() {
-    var inData = {
-      "type": "Cancelled",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
-      "lang": "en"
     }
-    this.loginService.subscriptionActive(inData).subscribe(response => {
-      this.ordersData = response.json().orders;
-      this.subscribe = true;
-      alert(this.ordersData);
-      swal("unsubscribed", '', 'success');
+    subscriptionCancel() {
+    this.mysubscription = false; 
+    var inData = {
+    "type": "Cancelled",
+    "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+    "id_warehouse": JSON.parse(localStorage.id_warehouse),
+    "lang": "en"
+    }
+    this.loginService.subscriptionCancel(inData).subscribe(response => { 
+    this.ordersData = response.json().orders; 
+    this.unsubscribe = true;
+    
+    }) 
+    }
+  itemIncrease(data, name, id, skuId, index,action) {
+    console.log(data)
+    alert(name)
+    this.selected = index;
+    let thisObj = this;
 
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
+    }
+    this.sku.mycart = Math.floor(this.sku.mycart + 1);
+    thisObj.addCart(this.sku.mycart, id, skuId,action);
+    localStorage.setItem('cartName', name);
+    
+  }
+
+  itemDecrease(data, name, id, skuId, index,action) {
+    alert(name)
+    this.selected = index;
+    let thisObj = this;
+    for(var i=0;i<data.length;i++){
+      if(data[i].name === name){
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
+    }
+    // if(this.sku.mycart === 0) {
+    //   return;
+    // }
+    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
+    this.addCart(this.sku.mycart, id, skuId,action);
+  }
+  addCart(quantity, id, skuId,action) {
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      swal('Item added to cart', '', 'success');
+      if(action==='wishList'){
+      this.wishlist=true;
+      this.mycart=false;
+      this.getWishlist();
+    }else if(action==='mycart'){
+      this.wishlist=false;
+      this.mycart=true;
+      this.getCart();
+    }
+    }, err => {
+      swal(err.json().message, '', 'error');
     })
   }
   getCart() {
@@ -579,46 +645,37 @@ export class MyAccountComponent implements OnInit {
       this.grandTotal = response.json().summary.grand_total;
       this.cartCount = response.json().summary.cart_count;
       this.mycart = response.json().cart;
-      this.sku = response.json().cart.sku;
-      console.log(this.mycart);
+      this.skuData = response.json().cart.sku;
+      this.summary = response.json().summary;
     }, err => {
       console.log(err)
     })
   }
-  itemIncrease(data, name, id, skuId, index) {
-    alert(index)
-    this.selected = index;
-    let thisObj = this;
-    if (localStorage.name !== name) {
-      thisObj.items.quantity = 0;
-    }
-    if (name === data.name) {
-      // thisObj.showInput = true;
-      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-      // thisObj.getCart(thisObj.items.quantity, id, skuId);
-      localStorage.setItem('name', name);
-    }
-  }
-
-  itemDecrease(id, skuId, index) {
-    alert(index)
-    this.selected = index;
-    let thisObj = this;
-    if (thisObj.items.quantity === 1) {
-      return;
-    }
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    // this.getCart(thisObj.items.quantity, id, skuId);
-  }
-  subscriptionStatus(num) {
+  subscriptionStatus(num){
     var inData = {
-      _id: this.id,
-      order_no: num,
-      order_status: "Cancelled",
-      cancelled_on: new Date()
+    _id: this.id,
+    order_no:num,
+    order_status:"Cancelled",
+    cancelled_on:new Date()
     }
-    this.loginService.subscriptionStatus(inData).subscribe(reponse => {
-      swal('cancelled order', "", "error")
+    this.loginService.subscriptionStatus(inData).subscribe(reponse =>{
+    swal('cancelled order', "", "success");
+    this.subscriptionActive();
     })
-  }
+    }
+    ordersDetails(){
+      var inData = {
+      type: 'Present',
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      "lang":"en"
+      
+      }
+      this.loginService.myorders(inData).subscribe(response => {
+      this.orders = response.json().orders;
+      console.log(this.orders);
+      }, err => {
+      console.log(err)
+      })
+      }
 }

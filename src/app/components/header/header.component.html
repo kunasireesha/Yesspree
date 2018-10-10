@@ -623,10 +623,10 @@
                 <div class="col-md-8">
                   <div class="num-bac">
                     <p>
-                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus" (click)="itemDecrease(cartItems._id,sku._id,i)"></i>
+                      <i _ngcontent-c5="" aria-hidden="true" class="fa fa-minus" (click)="itemDecrease(mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)"></i>
                       &nbsp;
                       <span _ngcontent-c5="">| &nbsp;{{sku.mycart}}&nbsp; |</span>&nbsp;
-                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus" (click)="itemIncrease(cartItems,cartItems.name,cartItems._id,sku._id,i)"></i>
+                      <i _ngcontent-c3="" aria-hidden="true" class="fa fa-plus" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)"></i>
                     </p>
                   </div>
                 </div>

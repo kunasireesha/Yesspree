@@ -111,22 +111,21 @@ export class ProductdetailsComponent implements OnInit {
 
   subscribe(weak) {
     this.weak = weak
-  }
+    }
   subscribeData(productId, sku, check) {
     var inData = {
-      "day": this.weak,
-      "id_product": productId,
-      "id_sku": sku,
-      "is_alternate": "1",
-      "is_doorbellring": "1",
-      "pay_type": "COD",
-      "quantity": "1",
-      "start_date": "Sun, 26 Aug  2018",
-      "subscription_type": check
+    "day": this.weak,
+    "id_product": productId,
+    "id_sku": sku,
+    "is_alternate": "1",
+    "is_doorbellring": "1",
+    "pay_type": "COD",
+    "quantity": "1",
+    "start_date": "Sun, 26 Aug 2018",
+    "subscription_type": check
     }
     this.loginService.productSubscription(inData).subscribe(response => {
-      swal("subscribed", '', 'success');
+    swal("subscribed", '', 'success');
     })
-  }
-
+    }
 }

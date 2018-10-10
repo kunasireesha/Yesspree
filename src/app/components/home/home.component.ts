@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   showProducts1: boolean;
   showProducts: boolean;
   // categoryData;
+
   sqareBaneer1 = {
     pic: ''
   };
@@ -124,7 +125,6 @@ export class HomeComponent implements OnInit {
         this.BigSqur = response.json().result.banner[2].bannerdata;
       }
 
-      // if (response.json().result.banner[3].bannerdata.length !== '' || response.json().result.banner[3].bannerdata.length !== undefined || response.json().result.banner[3].bannerdata.length !== 0) {
       this.popProducts = response.json().result.banner[3].bannerdata;
       // }
       // 

@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
       localStorage.setItem('id_warehouse', "2");
       localStorage.setItem('parent_warehouseid', "1");
-      localStorage.setItem('name', 'JPNagar-560078');
+
     }
 
     this.geoLocation();
@@ -155,17 +155,12 @@ export class HeaderComponent implements OnInit {
   }
 
   changeVillageName(data, villageData) {
-
     for (var i = 0; i < villageData.length; i++) {
       if (data === villageData[i].pincode) {
         localStorage.setItem('id_warehouse', villageData[i].id_warehouse);
-        localStorage.setItem('name', villageData[i].pincode);
         localStorage.setItem('parent_warehouseid', villageData[i].parent_warehouseid);
       }
     }
-    console.log(localStorage.id_warehouse);
-    console.log(localStorage.name);
-
   }
 
   showProfile: boolean
@@ -541,16 +536,15 @@ export class HeaderComponent implements OnInit {
       this.mrp = response.json().summary.mrp;
       this.grandTotal = response.json().summary.grand_total;
       this.mycart = response.json().cart;
+      console.log(this.mycart);
       for (var i = 0; i < this.mycart.length; i++) {
         if (this.mycart[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100
           this.mycart[i].sku[0].percentage = this.percentage;
         }
       }
-
       this.savedMoney = this.mrp - this.grandTotal;
       this.grandPer = Math.ceil(100 - (this.grandTotal / this.mrp) * 100)
-
     }, err => {
       console.log(err)
     })
@@ -559,30 +553,38 @@ export class HeaderComponent implements OnInit {
 
   //add to cart
   itemIncrease(data, name, id, skuId, index) {
+    console.log(data);
     this.selected = index;
     let thisObj = this;
-    if (localStorage.cartName !== name) {
-      this.sku.mycart = 0;
+    // if (localStorage.cartName !== name) {
+    //   this.sku.mycart = 0;
+    // }
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
     }
-
     this.sku.mycart = Math.floor(this.sku.mycart + 1);
+
+
     thisObj.addCart(this.sku.mycart, id, skuId);
     localStorage.setItem('cartName', name);
-
+    this.getCart();
   }
 
-  itemDecrease(id, skuId, index) {
+  itemDecrease(data, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (this.sku.mycart === 1) {
-      return;
+    // if (this.sku.mycart === 1) {
+    //   return;
+    // }
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
+        this.sku.mycart = parseInt(data[i].sku[0].mycart);
+      }
     }
     this.sku.mycart = Math.floor(this.sku.mycart - 1);
     this.addCart(this.sku.mycart, id, skuId);
-  }
-
-  subscribe() {
-
   }
 
 

@@ -57,38 +57,38 @@
         </tr>
       </thead>
       <tbody>
-        <tr>
-          <td class="table-data" *ngFor="let cartimg of cart">
-            <img [src]="url + cartimg.image" class="prod-image">
+        <tr *ngFor="let cartData of cart">
+          <td class="table-data">
+            <img [src]="url + cartData.image" class="prod-image">
             <p>
               <strong>{{summary.name}}</strong>
               </p>
-            <span>1</span>
+            <!-- <span>1</span> -->
           </td>
           <td class="table-price">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.total_selling_price}}
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartData.selling_price}}
               <br />
               <!-- <i class="fa fa-strikethrought" aria-hidden="true"></i> -->
               <!-- <i class="fa fa-inr" aria-hidden="true"></i>&nbsp; -->
             </p>
           </td>
-          <td class="table-quanity">
+          <td class="table-quanity" *ngFor="let sku of cartData.sku">
             <div class="quantity">
-              <span>2</span>
+              <span>{{sku.mycart}}</span>
             </div>
           </td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.grand_total}}
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartData.selling_price}}
             </p>
           </td>
           <td class="table-savings">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;122.00
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartData.mrp-cartData.selling_price}}
             </p>
             <span>
-              You Save 14%
+              You Save {{(100-(cartData.selling_price/cartData.mrp)*100)}}%
             </span>
           </td>
         </tr>
@@ -100,13 +100,13 @@
           <td></td>
           <td class="table-total">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>{{summary.grand_total}}</p>
+              <i class="fa fa-inr" aria-hidden="true"></i>{{summarySum.grand_total}}</p>
           </td>
           <td class="table-savings">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>127.00
+              <i class="fa fa-inr" aria-hidden="true"></i>{{summarySum.mrp-summarySum.selling_price}}
             </p>
-            <span> You Save 15%</span>
+            <span> You Save {{(100-(summarySum.selling_price/summarySum.mrp)*100)}}%</span>
           </td>
         </tr>
       </tbody>
@@ -309,7 +309,7 @@
     <div class="col-lg-6">
     </div>
     <div class="col-lg-6">
-      <button type="button" class="btn pay-btn" (click)="cartCheckout()">PROCEED AND PAY</button>
+      <button type="button" class="btn pay-btn" (click)="cartCheckout(summarySum.grand_total)">PROCEED AND PAY</button>
     </div>
   </div>
 </div>
