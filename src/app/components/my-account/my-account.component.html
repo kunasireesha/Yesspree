@@ -196,9 +196,9 @@
                 </td>
                 <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
                   <p>
-                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(cartDetails,cartDetails.name,cartDetails.id_product,skuSize._id,i)"></i>
+                    <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
                     <span>|{{skuSize.mycart}}|</span>
-                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(cartDetails,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
+                    <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
                   </p>
                 </td>
                 <td class="table-total">
@@ -731,9 +731,9 @@
                           </td>
                           <td class="table-quanities" *ngFor="let sku of item.sku">
                               <p>
-                                  <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(item,item.name,item.id_product,sku._id,i,'wishList')"></i>
+                                  <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
                                   <span>|{{sku.mycart}}|</span>
-                                  <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(item,item.name,item.id_product,sku._id,i,'wishList')"></i>
+                                  <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
                                 </p>
                           </td>
                           <td class="table-total">
