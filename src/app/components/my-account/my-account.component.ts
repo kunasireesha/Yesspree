@@ -567,8 +567,8 @@ export class MyAccountComponent implements OnInit {
     }) 
     }
   itemIncrease(data, name, id, skuId, index,action) {
+    // alert(id)
     console.log(data)
-    alert(name)
     this.selected = index;
     let thisObj = this;
 
@@ -584,7 +584,7 @@ export class MyAccountComponent implements OnInit {
   }
 
   itemDecrease(data, name, id, skuId, index,action) {
-    alert(name)
+    // alert(id)
     this.selected = index;
     let thisObj = this;
     for(var i=0;i<data.length;i++){

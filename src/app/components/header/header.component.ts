@@ -553,7 +553,6 @@ export class HeaderComponent implements OnInit {
 
   //add to cart
   itemIncrease(data, name, id, skuId, index) {
-    console.log(data);
     this.selected = index;
     let thisObj = this;
     // if (localStorage.cartName !== name) {
