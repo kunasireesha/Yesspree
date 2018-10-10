@@ -23,6 +23,7 @@ export class ProductdetailsComponent implements OnInit {
   checked;
   selected;
   quantity;
+  showInput1=false;
   subSubCatData;
   items = {
     quantity: 1

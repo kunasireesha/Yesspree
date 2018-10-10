@@ -37,7 +37,9 @@ export class OrderSummaryComponent implements OnInit {
     taluk: '',
     district: '',
     state: '',
-    pincode: ''
+    pincode: '',
+    mr: 'Mr.',
+    mrs: 'Mrs.'
   }
   type;
   editData;
@@ -160,23 +162,7 @@ export class OrderSummaryComponent implements OnInit {
     })
   }
 
-  //edit address
-  editAdd(item) {
-    this.editData = item;
-    for (var i = 0; i < this.getAddress.length; i++) {
-      if (item._id === this.getAddress[i]._id) {
-        this.addData = {
-          name: this.getAddress[i].name,
-          phone: this.getAddress[i].phone,
-          address1: this.getAddress[i].address1,
-          taluk: this.getAddress[i].taluk,
-          district: this.getAddress[i].district,
-          state: this.getAddress[i].state,
-          pincode: this.getAddress[i].pincode,
-        }
-      }
-    }
-  }
+
 
   updateAdd() {
     var inData = {

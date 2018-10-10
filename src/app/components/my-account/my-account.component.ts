@@ -22,7 +22,7 @@ export class MyAccountComponent implements OnInit {
   ordersData;
   skuData = []
   sku = {
-    mycart: 0 
+    mycart: 0
   }
   unsubscribe = false;
   summary
@@ -31,9 +31,9 @@ export class MyAccountComponent implements OnInit {
   cancelPlan;
   ngOnInit() {
 
-    
+
     // this.getCart();
-    
+
     // this.getWishlist();
     localStorage.getItem;
     this.url = AppSettings.imageUrl;
@@ -125,8 +125,8 @@ export class MyAccountComponent implements OnInit {
       this.mycart = true;
       this.getCart();
     } else if (this.pageNav === "subscription") {
-      // this.mysubscription = true;
-      //   this.subscriptionActive();
+      this.mysubscription = true;
+      this.subscriptionActive();
     } else if (this.pageNav === "offers") {
       this.offers = true;
     } else if (this.pageNav === "rateus") {
@@ -496,7 +496,7 @@ export class MyAccountComponent implements OnInit {
     })
   }
 
-  
+
   getWishlist() {
     var inData = {
       "_id": this.id,
@@ -509,7 +509,7 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getWishlist(inData).subscribe(response => {
       this.WishList = response.json().result;
-      this.summary =  response.json().summary;
+      this.summary = response.json().summary;
       for (var i = 0; i < this.WishList.length; i++) {
         this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
       }
@@ -538,66 +538,66 @@ export class MyAccountComponent implements OnInit {
 
     })
   }
-  
+
   subscriptionActive() {
     this.mysubscription = true;
     this.unsubscribe = false;
     var inData = {
-    "type": "Active",
-    "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-    "id_warehouse": JSON.parse(localStorage.id_warehouse),
-    "lang": "en"
+      "type": "Active",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
     }
     this.loginService.subscriptionActive(inData).subscribe(response => {
-    this.subscribedOrders = response.json().orders;
-    console.log(this.subscribedOrders);
-    // this.subscribe = false;
+      this.subscribedOrders = response.json().orders;
+      console.log(this.subscribedOrders);
+      // this.subscribe = false;
     })
-    }
-    subscriptionCancel() {
-    this.mysubscription = false; 
+  }
+  subscriptionCancel() {
+    this.mysubscription = false;
     var inData = {
-    "type": "Cancelled",
-    "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-    "id_warehouse": JSON.parse(localStorage.id_warehouse),
-    "lang": "en"
+      "type": "Cancelled",
+      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+      "id_warehouse": JSON.parse(localStorage.id_warehouse),
+      "lang": "en"
     }
-    this.loginService.subscriptionCancel(inData).subscribe(response => { 
-    this.ordersData = response.json().orders; 
-    this.unsubscribe = true;
-    
-    }) 
-    }
-  itemIncrease(data, name, id, skuId, index,action) {
+    this.loginService.subscriptionCancel(inData).subscribe(response => {
+      this.ordersData = response.json().orders;
+      this.unsubscribe = true;
+
+    })
+  }
+  itemIncrease(data, name, id, skuId, index, action) {
     this.selected = index;
     let thisObj = this;
 
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
     this.sku.mycart = Math.floor(this.sku.mycart + 1);
-    thisObj.addCart(this.sku.mycart, id, skuId,action);
+    thisObj.addCart(this.sku.mycart, id, skuId, action);
     localStorage.setItem('cartName', name);
-    
+
   }
 
-  itemDecrease(data, name, id, skuId, index,action) {
+  itemDecrease(data, name, id, skuId, index, action) {
     this.selected = index;
     let thisObj = this;
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
     // if(this.sku.mycart === 0) {
     //   return;
     // }
-    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
-    this.addCart(this.sku.mycart, id, skuId,action);
+    this.sku.mycart = Math.floor(this.sku.mycart - 1);
+    this.addCart(this.sku.mycart, id, skuId, action);
   }
-  addCart(quantity, id, skuId,action) {
+  addCart(quantity, id, skuId, action) {
     if (quantity === 0) {
       this.quantity = 1;
     } else {
@@ -616,15 +616,15 @@ export class MyAccountComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');
-      if(action==='wishList'){
-      this.wishlist=true;
-      this.mycart=false;
-      this.getWishlist();
-    }else if(action==='mycart'){
-      this.wishlist=false;
-      this.mycart=true;
-      this.getCart();
-    }
+      if (action === 'wishList') {
+        this.wishlist = true;
+        this.mycart = false;
+        this.getWishlist();
+      } else if (action === 'mycart') {
+        this.wishlist = false;
+        this.mycart = true;
+        this.getCart();
+      }
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -650,31 +650,31 @@ export class MyAccountComponent implements OnInit {
       console.log(err)
     })
   }
-  subscriptionStatus(num){
+  subscriptionStatus(num) {
     var inData = {
-    _id: this.id,
-    order_no:num,
-    order_status:"Cancelled",
-    cancelled_on:new Date()
+      _id: this.id,
+      order_no: num,
+      order_status: "Cancelled",
+      cancelled_on: new Date()
     }
-    this.loginService.subscriptionStatus(inData).subscribe(reponse =>{
-    swal('cancelled order', "", "success");
-    this.subscriptionActive();
+    this.loginService.subscriptionStatus(inData).subscribe(reponse => {
+      swal('cancelled order', "", "success");
+      this.subscriptionActive();
     })
-    }
-    ordersDetails(){
-      var inData = {
+  }
+  ordersDetails() {
+    var inData = {
       type: 'Present',
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
-      "lang":"en"
-      
-      }
-      this.loginService.myorders(inData).subscribe(response => {
+      "lang": "en"
+
+    }
+    this.loginService.myorders(inData).subscribe(response => {
       this.orders = response.json().orders;
       console.log(this.orders);
-      }, err => {
+    }, err => {
       console.log(err)
-      })
-      }
+    })
+  }
 }
