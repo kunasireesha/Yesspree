@@ -88,16 +88,16 @@ export class OrderSummaryComponent implements OnInit {
       this.orderId = response.json().orders[0].order_id;
       this.dateSlot = response.json().orders[0].deliveryslot;
       this.timeSlot = response.json().orders[0].deliveryslot[0].times;
-      this.summarySum = response.json().summary
+      this.summarySum = response.json().summary;
       console.log(this.orderId);
     }, err => {
       swal(err.message, "", "error")
     })
   }
-  cartCheckout() {
+  cartCheckout(grand) {
     this.data = {
       "id_order": JSON.stringify(this.orderId),
-      "total_paid": "46",
+      "total_paid": JSON.stringify(grand),
       "pay_type": "cod",
       "pay_option": "COD",
       "express": 1
