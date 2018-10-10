@@ -149,6 +149,15 @@ export class RecProductsComponent implements OnInit {
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
   }
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+  } 
+  
   wish(id) {
     var inData = {
       _session: localStorage.session,
