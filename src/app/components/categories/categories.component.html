@@ -63,10 +63,10 @@
       <div class="col-md-3 item" *ngFor="let topProd of topProductsdata;let i = index">
         <div *ngFor="let sku of topProd.sku">
           <div class="card" (click)="showProduxtDetails()">
-            <a>
+            <a (click)="wish(topProd._id)">
               <i class="fa fa-heart" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="topProd.image" alt="Card image cap">
+            <img class="img-fluid product-img" [src]="topProd.image" alt="Card image cap" (click)="showProductDetails(topProd.id_product)">
             <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
             <div class="card-block">
               <h5>{{topProd.name}}</h5>
@@ -152,10 +152,10 @@
       <div class="col-md-3 item" *ngFor="let allPro of allProductsdata;let i = index">
         <div *ngFor="let sku of allPro.sku">
           <div class="card" (click)="showProduxtDetails()">
-            <a>
+            <a (click)="wish(allPro._id)">
               <i class="fa fa-heart" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="allPro.image" alt="Card image cap">
+            <img class="img-fluid product-img" [src]="allPro.image" alt="Card image cap" (click)="showProductDetails(allPro.id_product)">
             <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
             <div class="card-block">
               <h5>{{allPro.name}} </h5>

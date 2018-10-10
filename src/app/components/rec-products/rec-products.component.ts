@@ -29,6 +29,7 @@ export class RecProductsComponent implements OnInit {
   title;
   url;
   percentage;
+  wishList;
   showInput = true;
   items = {
     quantity: 1
@@ -148,6 +149,28 @@ export class RecProductsComponent implements OnInit {
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
   }
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
 
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
+      }
+
+    }, err => {
+      console.log(err)
+    })
+  }
 
 }
