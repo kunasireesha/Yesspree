@@ -17,10 +17,16 @@ export class ProductdetailsComponent implements OnInit {
   firstPic;
   specificProd;
   percentage;
-
+  showInputs = true;
   productDetail: string;
   weak;
   checked;
+  selected;
+  quantity;
+  subSubCatData;
+  items = {
+    quantity: 1
+  }
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
@@ -43,7 +49,6 @@ export class ProductdetailsComponent implements OnInit {
   data = '';
   email = '';
   showInput = false;
-  showInput1 = false;
 
   showSubscribeDetails() {
     this.showSubscriptionData = !this.showSubscriptionData;
@@ -128,4 +133,52 @@ export class ProductdetailsComponent implements OnInit {
     swal("subscribed", '', 'success');
     })
     }
+
+    itemDecrease(id, skuId, index) {
+        this.selected = index;
+        let thisObj = this;
+        if (thisObj.items.quantity === 1) {
+          return;
+        }
+        thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+        this.getCart(thisObj.items.quantity, id, skuId);
+      }
+
+      getCart(quantity, id, skuId) {
+        if (quantity === 0) {
+          this.quantity = 1;
+        } else {
+          this.quantity = quantity
+        }
+        var inData = {
+          _id: this.id,
+          _session: localStorage.session,
+          id_product: id,
+          id_sku: skuId,
+          op: "modify",
+          quantity: JSON.stringify(this.quantity),
+          wh_pincode: "560078",
+          parent_warehouseid: localStorage.parent_warehouseid,
+          id_warehouse: JSON.parse(localStorage.id_warehouse, )
+        }
+        this.loginService.getCart(inData).subscribe(response => {
+          this.subSubCatData = response.json();
+          swal('Item added to cart', '', 'success');
+        }, err => {
+          swal(err.json().message, '', 'error');
+        })
+      }
+      itemIncrease(data, name, id, skuId, index) {
+        this.selected = index;
+        let thisObj = this;
+        if (localStorage.name !== name) {
+          thisObj.items.quantity = 0;
+        }
+        if (name === data.name) {
+          thisObj.showInputs = true;
+          thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+          thisObj.getCart(thisObj.items.quantity, id, skuId);
+          localStorage.setItem('name', name);
+        }
+      }
 }

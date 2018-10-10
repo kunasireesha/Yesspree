@@ -125,8 +125,8 @@ export class MyAccountComponent implements OnInit {
       this.mycart = true;
       this.getCart();
     } else if (this.pageNav === "subscription") {
-      this.mysubscription = true;
-        this.subscriptionActive();
+      // this.mysubscription = true;
+      //   this.subscriptionActive();
     } else if (this.pageNav === "offers") {
       this.offers = true;
     } else if (this.pageNav === "rateus") {
@@ -569,8 +569,6 @@ export class MyAccountComponent implements OnInit {
     }) 
     }
   itemIncrease(data, name, id, skuId, index,action) {
-    // alert(id)
-    console.log(data)
     this.selected = index;
     let thisObj = this;
 
@@ -586,7 +584,6 @@ export class MyAccountComponent implements OnInit {
   }
 
   itemDecrease(data, name, id, skuId, index,action) {
-    // alert(id)
     this.selected = index;
     let thisObj = this;
     for(var i=0;i<data.length;i++){

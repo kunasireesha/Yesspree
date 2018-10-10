@@ -64,9 +64,9 @@
             </p>
             <!-- <span>1</span> -->
           </td>
-          <td class="table-price">
+          <td class="table-price"  *ngFor="let sku of cartData.sku">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartData.selling_price}}
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
               <br />
               <!-- <i class="fa fa-strikethrought" aria-hidden="true"></i> -->
               <!-- <i class="fa fa-inr" aria-hidden="true"></i>&nbsp; -->
