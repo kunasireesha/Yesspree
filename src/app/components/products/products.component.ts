@@ -265,6 +265,7 @@ export class ProductsComponent implements OnInit {
         return obj.name === 'Brand';
       });
       this.brands = this.brandsFilter[0].Brand;
+      console.log(this.brands);
 
       //offers
       this.offersFilter = _.filter(response.json().refine, function (obj) {

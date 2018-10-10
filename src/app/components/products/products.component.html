@@ -248,12 +248,12 @@
                     <table class="table table-condensed">
                       <tbody *ngFor="let item of brands">
                         <tr>
-                          <td>{{item.brand_en}}</td>
+                          <td>{{item.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.brand_en}}"
+                              <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.name}}"
                                 name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)">
-                              <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.brand_en}}"></label>
+                              <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.name}}"></label>
                             </div>
                           </td>
                         </tr>
