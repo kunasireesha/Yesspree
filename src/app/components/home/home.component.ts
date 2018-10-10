@@ -26,8 +26,12 @@ export class HomeComponent implements OnInit {
   showProducts1: boolean;
   showProducts: boolean;
   // categoryData;
-  sqareBaneer1;
-  sqareBaneer2;
+  sqareBaneer1={
+    pic:''
+  };
+  sqareBaneer2={
+    pic:''
+  };
   BigSqur;
   popProducts;
   squrBanner;
@@ -99,8 +103,8 @@ export class HomeComponent implements OnInit {
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
       this.mainBanner = response.json().result.banner[0].bannerdata;
-      this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0];
-      this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1];
+      this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0] || '';
+      this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1] || '';
       this.BigSqur = response.json().result.banner[2].bannerdata;
       this.popProducts = response.json().result.banner[3].bannerdata;
       this.squrBanner = response.json().result.banner[6].bannerdata;

@@ -500,6 +500,7 @@ export class HeaderComponent implements OnInit {
       this.mrp = response.json().summary.mrp;
       this.grandTotal = response.json().summary.grand_total;
       this.mycart = response.json().cart;
+      console.log(this.mycart);
       for (var i = 0; i < this.mycart.length; i++) {
         if (this.mycart[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100
