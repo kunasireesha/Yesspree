@@ -45,6 +45,23 @@ export class OrderSummaryComponent implements OnInit {
   editData;
   getAddress = [];
 
+  list = [{
+    value: 'Mr.',
+    selected: false
+  },
+  {
+    value: 'Mrs.',
+    selected: false
+  },
+  {
+    value: 'Miss.',
+    selected: false
+  },
+  {
+    value: 'M/S.',
+    selected: false
+  }]
+
 
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {

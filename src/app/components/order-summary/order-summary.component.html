@@ -319,14 +319,13 @@
 
         <form>
           <ul _ngcontent-c1="" class="title-list">
-            <li _ngcontent-c1="">
+            <li _ngcontent-c1="" *ngFor="let mr of list">
               <div _ngcontent-c1="">
-                <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio"
-                 >
-                <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
+                <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
+                <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">{{mr.value}}</label>
               </div>
             </li>
-            <li _ngcontent-c1="">
+            <!-- <li _ngcontent-c1="">
               <div _ngcontent-c1="">
                 <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
                 <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
@@ -343,7 +342,7 @@
                 <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
                 <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
               </div>
-            </li>
+            </li> -->
           </ul>
           <div class="form-group">
             <label for="exampleInputEmail1">Name</label>
