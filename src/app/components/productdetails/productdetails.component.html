@@ -123,9 +123,9 @@
                             <button type="button" class="btn btn-black">ADD TO WISHLIST</button>
                             <button type="button" class="btn btn-black" (click)="showSubscribeDetails()">SUBSCRIBE</button>
                             
-                            <button type="button" class="btn btn-yellow dec">-</button>
-                            <button type="button" class="btn btn-yellow qty">1</button>
-                            <button type="button" class="btn btn-yellow add">+</button>
+                            <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(item._id,sku._id,i)">-</button>
+                            <button type="button" class="btn btn-yellow qty">{{items.quantity}}</button>
+                            <button type="button" class="btn btn-yellow add" (click)="itemDecrease(item._id,sku._id,i)">+</button>
                         </p>
                         <br />
                         <div class="cust-subscribe" *ngIf="showSubscriptionData">
@@ -202,7 +202,7 @@
                             <h3>Similar Products</h3>
                             <div class="products">
                                 <div class="row items">
-                                    <div class="col-md-3 item" *ngFor="let item of specificProd">
+                                    <div class="col-md-3 item" *ngFor="let item of specificProd; let i = index">
                                         <div class="card" (click)="showProduxtDetails()">
                                             <div *ngFor="let sku of item.sku">
                                                 <a>
