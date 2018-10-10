@@ -21,10 +21,11 @@ export class FooterComponent implements OnInit {
     public catSer: CatListServices,
     public router: Router,
   ) {
-    this.dashboardData();
+
   }
 
   ngOnInit() {
+    this.dashboardData();
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
 

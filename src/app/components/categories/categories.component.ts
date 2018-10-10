@@ -46,14 +46,24 @@ export class CategoriesComponent implements OnInit {
 
   dashboardData;
   // categoryData;
-  sqareBaneer1;
-  sqareBaneer2;
+  sqareBaneer1 = {
+    pic: ''
+  };
+  sqareBaneer2 = {
+    pic: ''
+  };
   BigSqur;
   popProducts;
   squrBanner;
-  offerBanner1;
-  offerBanner2;
-  offerBanner3;
+  offerBanner1 = {
+    pic: ''
+  };
+  offerBanner2 = {
+    pic: ''
+  };
+  offerBanner3 = {
+    pic: ''
+  };
   products;
   products1;
   brandsData = [];

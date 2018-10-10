@@ -20,6 +20,7 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLogi
 import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
 
 
+
 //components
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -37,7 +38,7 @@ import { RecProductsComponent } from './components/rec-products/rec-products.com
 import { SearchProductComponent } from './search-product/search-product.component';
 import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
 
-import { AuthService } from './services/auth.service';
+import { AuthServices } from './services/auth.service';
 //services need to mention in providers
 
 export function getAuthServiceConfigs() {
@@ -45,11 +46,11 @@ export function getAuthServiceConfigs() {
     [
       {
         id: FacebookLoginProvider.PROVIDER_ID,
-        provider: new FacebookLoginProvider("Your-Facebook-app-id")
+        provider: new FacebookLoginProvider("211463156112817")
       },
       {
         id: GoogleLoginProvider.PROVIDER_ID,
-        provider: new GoogleLoginProvider("Your-Google-Client-Id")
+        provider: new GoogleLoginProvider("849103706717-1kn7e8mhmb7cc4hudstp0e6bs0alqtsu.apps.googleusercontent.com 	")
       }
 
     ]
@@ -241,7 +242,7 @@ var firebaseConfig = {
     ], { useHash: true })
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [DataService, AuthService, {
+  providers: [DataService, AuthServices, {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
   }],
