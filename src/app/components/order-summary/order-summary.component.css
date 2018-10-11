@@ -356,7 +356,12 @@
 }
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step.active-step .mdl-stepper-circle {
-  background-color: rgb(33, 150, 243);
+  background-color: gray;
+}
+
+
+.stepactive {
+  background-color: #fff212 !important;
 }
 
 .mdl-stepper-horizontal-alternative .mdl-stepper-step.step-done .mdl-stepper-circle:before {

@@ -506,14 +506,22 @@ export class HeaderComponent implements OnInit {
       start: 0
     }
     this.loginService.searchProducts(inData).subscribe(response => {
-      this.productId = response.json().product[0]._id;
-      console.log(this.productId);
-      let navigationExtras: NavigationExtras = {
-        queryParams: {
-          proId: this.productId
+      if (response.json().product === undefined) {
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            proId: ''
+          }
         }
+        this.router.navigate(["/product_details"], navigationExtras);
+      } else {
+        this.productId = response.json().product[0]._id;
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            proId: this.productId
+          }
+        }
+        this.router.navigate(["/product_details"], navigationExtras);
       }
-      this.router.navigate(["/product_details"], navigationExtras);
     }, err => {
       console.log(err)
     })

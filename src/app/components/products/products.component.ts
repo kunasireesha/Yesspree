@@ -24,6 +24,7 @@ export class ProductsComponent implements OnInit {
         this.subCatId = params.id;
         this.subName = params.name;
       });
+      this.getProducts(this.subCatId);
     }
     if (this.pageNav === 'details') {
       this.showDetails = true;
@@ -36,6 +37,12 @@ export class ProductsComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.subCatId === '') {
+      this.shownodata = true;
+
+    } else {
+      this.shownodata = false;
+    }
     this.filterData();
     this.url = AppSettings.imageUrl;
     //get subcat data
@@ -62,6 +69,7 @@ export class ProductsComponent implements OnInit {
   }
 
   pageNav;
+  shownodata = false;
   showCategories = false;
   showCat=false;
   showsubcat=false;

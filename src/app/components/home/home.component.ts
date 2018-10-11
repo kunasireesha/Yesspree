@@ -90,8 +90,7 @@ export class HomeComponent implements OnInit {
   randomkey;
 
   ngOnInit() {
-    console.log(localStorage.length);
-    console.log(localStorage);
+
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
