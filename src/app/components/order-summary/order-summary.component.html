@@ -4,16 +4,16 @@
 
     <div class="mdl-stepper-horizontal-alternative">
       <div class="mdl-stepper-step active-step step-done" (click)="order()">
-        <div class="mdl-stepper-circle">
-          <span>1</span>
+        <div class="mdl-stepper-circle" [ngClass]="{'stepactive' :orderSu}">
+
         </div>
         <div class="mdl-stepper-title">Order Summary</div>
         <div class="mdl-stepper-bar-left"></div>
         <div class="mdl-stepper-bar-right"></div>
       </div>
       <div class="mdl-stepper-step active-step editable-step" (click)="delAdd()">
-        <div class="mdl-stepper-circle">
-          <span>2</span>
+        <div class="mdl-stepper-circle" [ngClass]="{'stepactive' :deliveryA}">
+
         </div>
         <div class="mdl-stepper-title">Delivery Address</div>
         <div class="mdl-stepper-optional"></div>
@@ -21,16 +21,16 @@
         <div class="mdl-stepper-bar-right"></div>
       </div>
       <div class="mdl-stepper-step active-step editable-step" (click)="delOpt()">
-        <div class="mdl-stepper-circle">
-          <span>3</span>
+        <div class="mdl-stepper-circle" [ngClass]="{'stepactive' :deliveryOp}">
+
         </div>
         <div class="mdl-stepper-title">Delivery Options</div>
         <div class="mdl-stepper-bar-left"></div>
         <div class="mdl-stepper-bar-right"></div>
       </div>
       <div class="mdl-stepper-step active-step editable-step" (click)="paymentMethod()">
-        <div class="mdl-stepper-circle">
-          <span>4</span>
+        <div class="mdl-stepper-circle" [ngClass]="{'stepactive' :paymentM}">
+
         </div>
         <div class="mdl-stepper-title">Payment Method</div>
         <div class="mdl-stepper-bar-left"></div>

@@ -121,6 +121,7 @@ export class OrderSummaryComponent implements OnInit {
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
       lang: "en",
+      _id: this.id
     }
     this.loginService.checkoutSummary(inData).subscribe(response => {
       this.cartSummary = response.json().orders;
@@ -181,32 +182,48 @@ export class OrderSummaryComponent implements OnInit {
 
 
 
-  updateAdd() {
+  createAdd() {
     var inData = {
-      op: "update",
-      id_address: this.editData._id,
-      id_customer: this.editData.id_customer,
+      op: "create",
+      pincode: this.addData.pincode,
+      id_customer: localStorage.userId,
       name: this.addData.name,
-      phone: this.addData.phone,
+      phone: JSON.parse(localStorage.userData).mobile,
       address1: this.addData.address1,
-      city: this.editData.city,
+      city: "hyd",
       state: this.addData.state,
-      person_prefix: this.editData.person_prefix,
+      person_prefix: JSON.parse(localStorage.userData).person_prefix,
       taluk: this.addData.taluk,
       district: this.addData.district,
-      lat: this.editData.lat,
-      lon: this.editData.lon,
-      landmark: this.editData.landmark,
-      selected: this.editData.selected,
+      lat: "5550",
+      lon: "123",
+      landmark: "hyd",
+      selected: true,
       type: this.type,
-      pincode: this.addData.pincode
-    }
+      country: "India"
 
-    this.loginService.updateAdd(inData).subscribe(response => {
+    }
+    this.loginService.createAdd(inData).subscribe(response => {
+      swal("Created successfully", "", "success");
       this.getAdd();
-      swal("Updated successfully", "", "success");
+      this.clearData();
     }, err => {
-      swal(err.message, "", "error");
+
     })
+  }
+
+  // clear input fields
+  clearData() {
+    this.addData = {
+      name: '',
+      phone: '',
+      address1: '',
+      taluk: '',
+      district: '',
+      state: '',
+      pincode: '',
+      mr: 'Mr.',
+      mrs: 'Mrs.'
+    }
   }
 }
