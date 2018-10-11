@@ -183,6 +183,7 @@ export class HeaderComponent implements OnInit {
     this.showOtp = false;
     this.showForgotPassword = false;
     this.showOtpForRegister = false;
+    this.changepw = false;
   }
   //registration link
   openRegistration() {
@@ -193,6 +194,7 @@ export class HeaderComponent implements OnInit {
     this.showOtp = false;
     this.showForgotPassword = false;
     this.showOtpForRegister = false;
+    this.changepw = false;
   }
 
   //show otp screen
@@ -359,42 +361,56 @@ export class HeaderComponent implements OnInit {
     var inData = {
       email: this.formData.forMobile
     }
-    this.loginService.forgot(inData).subscribe(response => {
-      this.forData = response.json().result[0];
-      if (response.json().status === "failure") {
-        swal(JSON.stringify(response.json().message), " ", "error");
-      } else {
-        this.showForgotPassword = false;
-        this.showRegistration = false
-        this.showModal = true;
-        this.showOpacity = true;
-        this.showOtp = true;
-
-      }
-    }, err => {
-      swal(err.message, "", "error")
-    })
+    if(this.formData.forMobile === '') {
+      swal("Fill the field", "", "warning");
+    } else{
+      this.loginService.forgot(inData).subscribe(response => {
+        if (response.json().status === "failure") {
+          swal("Please enter valid number", " ", "error");
+        } else {
+          this.forData = response.json().result[0];
+          this.showForgotPassword = false;
+          this.showRegistration = false
+          this.showModal = true;
+          this.showOpacity = true;
+          this.showOtp = true;
+          swal("Otp sent succeessfully", " ", "success");
+        }
+      }, err => {
+        swal(err.message, "", "error")
+      })
+    }
+    
   }
   checkOtp(action) {
     var inData = {
       otp: (this.formData.otp),
       email: this.formData.forMobile
     }
-    this.loginService.checkOtp(inData).subscribe(response => {
-      swal("Otp verified successfully", "", "success");
-      this.showOtp = false;
-      if (action === 'forgotpswrd') {
-        this.changepw = true;
-      } else {
-        this.changepw = false;
-        swal("Registered succeessfully", "", "success");
-        this.onCloseCancel();
-        // this.clearFields();
-        this.formData.otp = '';
-      }
-    }, err => {
-      swal("Failed", "", "error")
-    })
+    if(this.formData.otp === '') {
+      swal("Fill the field", "", "warning");
+    } else  {
+      this.loginService.checkOtp(inData).subscribe(response => {
+        if (response.json().status === "failure") {
+          swal(response.json().message, " ", "error");
+        } else {
+        swal("Otp verified successfully", "", "success");
+        this.showOtp = false;
+        if (action === 'forgotpswrd') {
+          this.changepw = true;
+        } else {
+          this.changepw = false;
+          swal("Registered succeessfully", "", "success");
+          this.onCloseCancel();
+          this.clearFields();
+        }
+        }
+        
+      }, err => {
+        swal("Failed", "", "error")
+      })
+    }
+    
   }
 
 
@@ -410,7 +426,8 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.updatePw(inData).subscribe(response => {
       swal("Password changed", "", "success");
-      this.onCloseCancel()
+      this.onCloseCancel();
+      this.formData.forMobile = '';
     }, err => {
       swal(err.message, "", "error")
     })

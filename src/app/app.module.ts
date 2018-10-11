@@ -37,7 +37,8 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { RecProductsComponent } from './components/rec-products/rec-products.component';
 import { SearchProductComponent } from './search-product/search-product.component';
 import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
-
+// directive
+import { NumberOnlyDirective } from './directives/number';
 import { AuthServices } from './services/auth.service';
 //services need to mention in providers
 
@@ -85,8 +86,8 @@ var firebaseConfig = {
     SearchProductComponent,
     CategoriesComponent,
     RecProductsComponent,
-    BannerNavigationComponent
-
+    BannerNavigationComponent,
+    NumberOnlyDirective
 
   ],
   imports: [
