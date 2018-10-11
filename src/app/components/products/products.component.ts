@@ -71,6 +71,9 @@ export class ProductsComponent implements OnInit {
   pageNav;
   shownodata = false;
   showCategories = false;
+  showCat=false;
+  showsubcat=false;
+  showlastcat=false;
   showSubCategories = false;
   showInput = true;
   showInput1 = false;
@@ -114,6 +117,7 @@ export class ProductsComponent implements OnInit {
   firstPic;
   specificProd;
   weak;
+  catName;
   //sub sub categories
   showsubSubCat(index, subId) {
     this.selectedCat = index;
@@ -141,6 +145,7 @@ export class ProductsComponent implements OnInit {
 
   //last categories
   showLastCat(index, lastId) {
+    
     this.selectedLastCat = index;
     this.showSubCategories = true;
     var inData = {
@@ -163,15 +168,27 @@ export class ProductsComponent implements OnInit {
   }
   //end last categories
 
-
-  showCateProd(id) {
+  subcatName;
+  lastcatName;
+  showCateProd(id,name) {
+    this.showCat=true;
+    this.catName = name;
+    this.showlastcat=false;
+    this.showsubcat=false;   
     this.getProducts(id);
   }
-  getSubcatProd(id) {
+
+  getSubcatProd(id,name) {
+    this.subcatName = name;
+    this.showsubcat=true;
+    this.showlastcat=false; 
     this.getProducts(id);
   }
 
-  getLastProd(id) {
+  getLastProd(id,name) {
+    this.lastcatName = name;
+    this.showlastcat=true;
+   
     this.getProducts(id);
   }
 
