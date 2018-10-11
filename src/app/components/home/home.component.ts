@@ -137,20 +137,20 @@ export class HomeComponent implements OnInit {
       }
 
       //recommended products 
-      if (response.json().result.specific_product[0] !== undefined) {
-        if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
-          this.products = response.json().result.specific_product[0].product;
-          for (var i = 0; i < this.products.length; i++) {
-            if (this.products[i].sku[0].mrp !== undefined) {
-              this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-              this.products[i].sku[0].percentage = this.percentage;
-            }
-          }
-          this.showProducts = true;
-        } else {
-          this.showProducts = false;
-        }
-      }
+      // if (response.json().result.specific_product[0] !== undefined) {
+      //   if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+      //     this.products = response.json().result.specific_product[0].product;
+      //     for (var i = 0; i < this.products.length; i++) {
+      //       if (this.products[i].sku[0].mrp !== undefined) {
+      //         this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+      //         this.products[i].sku[0].percentage = this.percentage;
+      //       }
+      //     }
+      //     this.showProducts = true;
+      //   } else {
+      //     this.showProducts = false;
+      //   }
+      // }
 
       if (response.json().result.banner[5].bannerdata.length !== '' || response.json().result.banner[5].bannerdata.length !== undefined || response.json().result.banner[5].bannerdata.length !== 0) {
 
@@ -162,28 +162,31 @@ export class HomeComponent implements OnInit {
       }
 
       //recommended products1 
-      if (response.json().result.specific_product[1] !== undefined) {
-        if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
-          this.products1 = response.json().result.specific_product[1].product;
+      // if (response.json().result.specific_product[1] !== undefined) {
+      //   if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
+      //     this.products1 = response.json().result.specific_product[1].product;
 
-          for (var i = 0; i < this.products1.length; i++) {
-            if (this.products1[i].sku[0].mrp !== undefined) {
-              this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
-              this.products1[i].sku[0].percentage = this.percentage1;
-            }
-          }
+      //     for (var i = 0; i < this.products1.length; i++) {
+      //       if (this.products1[i].sku[0].mrp !== undefined) {
+      //         this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
+      //         this.products1[i].sku[0].percentage = this.percentage1;
+      //       }
+      //     }
 
-          for (var i = 0; i < this.products1.length; i++) {
-            this.products1[i].image = this.url + this.products1[i].pic[0].pic;
-          }
-          this.showProducts1 = true;
-        } else {
-          this.showProducts1 = false;
-        }
-      }
+      //     for (var i = 0; i < this.products1.length; i++) {
+      //       this.products1[i].image = this.url + this.products1[i].pic[0].pic;
+      //     }
+      //     this.showProducts1 = true;
+      //   } else {
+      //     this.showProducts1 = false;
+      //   }
+      // }
     }, err => {
       console.log(err)
     })
+
+    this.viewSpecificProducts2();
+    this.viewSpecificProducts1();
   }
 
 
@@ -270,12 +273,69 @@ export class HomeComponent implements OnInit {
       console.log(err)
     })
   }
+
+
+  viewSpecificProducts1() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "start": 0,
+      "type": 'specific_product1',
+      "id_subcategory": ''
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.products = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+          this.products[i].sku[0].percentage = this.percentage;
+        }
+        this.products[i].image = this.url + this.products[i].pic[0].pic;
+      }
+
+
+    }, error => {
+
+    })
+  }
+
+  viewSpecificProducts2() {
+    var inData = {
+      "_id": this.id,
+      "_session": localStorage.session,
+      "count": 4,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "start": 0,
+      "type": 'specific_product2',
+      "id_subcategory": ''
+    }
+    this.loginService.recProducts(inData).subscribe(response => {
+      this.products1 = response.json().product;
+      for (var i = 0; i < this.products.length; i++) {
+        if (this.products1[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - (this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp) * 100
+          this.products1[i].sku[0].percentage = this.percentage;
+        }
+        this.products1[i].image = this.url + this.products1[i].pic[0].pic;
+      }
+    }, error => {
+
+    })
+  }
+
+
+
   viewProducts(action) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         action: action
       }
-
     }
     this.router.navigate(["/recProducts"], navigationExtras);
   }

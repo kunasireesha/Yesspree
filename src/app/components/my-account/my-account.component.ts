@@ -10,7 +10,7 @@ import { empty } from 'rxjs';
     styleUrls: ['./my-account.component.css']
 })
 export class MyAccountComponent implements OnInit {
-    feedback:any;
+    feedback: any;
     rating;
     input;
     id;
@@ -567,7 +567,7 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.subscriptionCancel(inData).subscribe(response => {
             this.ordersData = response.json().orders;
-          
+
 
         })
     }
@@ -680,20 +680,20 @@ export class MyAccountComponent implements OnInit {
             console.log(err)
         })
     }
-    ratings(rate){
+    ratings(rate) {
         this.rating = rate;
     }
-    feedBack(input){
+    feedBack(input) {
         var inData = {
-            "id_customer":this.id,
-            "op":"create",
-            "rating":this.rating,
-            "review":input,
-            "table":"ratings_reviews"
+            "id_customer": this.id,
+            "op": "create",
+            "rating": this.rating,
+            "review": input,
+            "table": "ratings_reviews"
         }
-        this.loginService.rateus(inData).subscribe(response =>{
+        this.loginService.rateus(inData).subscribe(response => {
             this.feedback = response.json();
-            swal('Rating submitted successfully', '');
+            swal('Rating submitted successfully', '', 'success');
         }, err => {
             console.log(err)
         })

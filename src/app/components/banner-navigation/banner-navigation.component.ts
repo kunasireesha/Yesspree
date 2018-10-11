@@ -7,7 +7,7 @@ import { AppSettings } from '../../config';
 @Component({
   selector: 'app-banner-navigation',
   templateUrl: './banner-navigation.component.html',
-  styleUrls: ['./banner-navigation.component.css','../product/product.component.less']
+  styleUrls: ['./banner-navigation.component.css', '../product/product.component.less']
 })
 export class BannerNavigationComponent implements OnInit {
   type;
@@ -24,12 +24,12 @@ export class BannerNavigationComponent implements OnInit {
   }
   quantity;
   subSubCatData;
-  constructor(public loginService:DataService, private route: ActivatedRoute, public router: Router ) {
-    this.route.queryParams.subscribe(params=> {
-      this.type =params.type
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
+    this.route.queryParams.subscribe(params => {
+      this.type = params.type
       this.target = params.target
     })
-   }
+  }
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
@@ -38,103 +38,103 @@ export class BannerNavigationComponent implements OnInit {
     } else {
       this.id = 0;
     }
-    if(this.type === 'brand'){
-       var inData = {
-        "_id":this.id,
-        "_session":localStorage.session,
-        "brand":this.target,
-        "count":20,
-        "start":0,
-        "wh_pincode":"560078",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
+    if (this.type === 'brand') {
+      var inData = {
+        "_id": this.id,
+        "_session": localStorage.session,
+        "brand": this.target,
+        "count": 20,
+        "start": 0,
+        "wh_pincode": "560078",
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
       }
-      this.loginService.brands(inData).subscribe(response=> {
+      this.loginService.brands(inData).subscribe(response => {
         this.brandData = response.json().product;
-        for(var i = 0; i<this.brandData.length; i++) {
-          if (this.brandData[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
-            this.brandData[i].sku[0].percentage = this.percentage;
-          }
-        this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
-        }
-        // console.log(this.brandData)
-      },error=>{
-
-      })
-    } else if(this.type === 'search'){
-      var params2 = {
-        "_id":this.id,
-        "_session":localStorage.session,
-        "search":this.target,
-        "count":20,
-        "start":0,
-        "wh_pincode":"560078",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
-      }
-      this.loginService.searchAll(params2).subscribe(response=> {
-        this.brandData = response.json().product;
-        for(var i = 0; i<this.brandData.length; i++) {
+        for (var i = 0; i < this.brandData.length; i++) {
           if (this.brandData[i].sku[0].mrp !== undefined) {
             this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
             this.brandData[i].sku[0].percentage = this.percentage;
           }
           this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
+        }
+        // console.log(this.brandData)
+      }, error => {
+
+      })
+    } else if (this.type === 'search') {
+      var params2 = {
+        "_id": this.id,
+        "_session": localStorage.session,
+        "search": this.target,
+        "count": 20,
+        "start": 0,
+        "wh_pincode": "560078",
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
+      }
+      this.loginService.searchAll(params2).subscribe(response => {
+        this.brandData = response.json().product;
+        for (var i = 0; i < this.brandData.length; i++) {
+          if (this.brandData[i].sku[0].mrp !== undefined) {
+            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
+            this.brandData[i].sku[0].percentage = this.percentage;
           }
-      },error=> {
+          this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
+        }
+      }, error => {
 
       })
     }
-    else if(this.type === 'category') {
+    else if (this.type === 'category') {
       var params1 = {
-        "_id":this.id,
-        "_session":localStorage.session,
-        "category":this.target,
-        "count":20,
-        "start":0,
-        "wh_pincode":"560078",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
+        "_id": this.id,
+        "_session": localStorage.session,
+        "category": this.target,
+        "count": 20,
+        "start": 0,
+        "wh_pincode": "560078",
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
       }
-      this.loginService.category(params1).subscribe(response=> {
+      this.loginService.category(params1).subscribe(response => {
         this.brandData = response.json().product;
-        for(var i = 0; i<this.brandData.length; i++) {
+        for (var i = 0; i < this.brandData.length; i++) {
           if (this.brandData[i].sku[0].mrp !== undefined) {
             this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
             this.brandData[i].sku[0].percentage = this.percentage;
           }
           this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
-          }
-        },error=> {
-    
-        })
+        }
+      }, error => {
+
+      })
     } else {
       var params = {
-        "_id":this.id,
-        "_session":localStorage.session,
-        "sku":this.target,
-        "count":20,
-        "start":0,
-        "wh_pincode":"560078",
-        "parent_warehouseid":JSON.parse(localStorage.parent_warehouseid),
-        "id_warehouse":JSON.parse(localStorage.id_warehouse),
-        "lang":"en"
+        "_id": this.id,
+        "_session": localStorage.session,
+        "sku": this.target,
+        "count": 20,
+        "start": 0,
+        "wh_pincode": "560078",
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
       }
-      this.loginService.skuInfo(params).subscribe(response=> {
+      this.loginService.skuInfo(params).subscribe(response => {
         this.brandData = response.json().product;
-        for(var i = 0; i<this.brandData.length; i++) {
+        for (var i = 0; i < this.brandData.length; i++) {
           if (this.brandData[i].sku[0].mrp !== undefined) {
             this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
             this.brandData[i].sku[0].percentage = this.percentage;
           }
           this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
-          }
-      },error=> {
-        
+        }
+      }, error => {
+
       })
     }
   }
@@ -210,10 +210,10 @@ export class BannerNavigationComponent implements OnInit {
       console.log(err)
     })
   }
-  showProductDetails(proId) {
+  showProductDetails(prod) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId
+        proId: prod.id_product
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);

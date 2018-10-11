@@ -419,15 +419,15 @@
       <hr>
       <div class="row smiley-icons">
         <div class="col-lg-4">
-          <img src="assets/images/happy.png" class="smiley-image" (click)="ratings('Happy')">
+          <img src="assets/images/happy.png" class="smiley-image" (click)="ratings('Happy')" [ngClass]="{'activerate' : rating === 'Happy'}">
           <p>Happy</p>
         </div>
         <div class="col-lg-4">
-          <img src="assets/images/good.png" class="smiley-image" (click)="ratings('Good')">
+          <img src="assets/images/good.png" class="smiley-image" (click)="ratings('Good')" [ngClass]="{'activerate' : rating === 'Good'}">
           <p>Good</p>
         </div>
         <div class="col-lg-4">
-          <img src="assets/images/not_good.png" class="smiley-image" (click)="ratings('Not Good')">
+          <img src="assets/images/not_good.png" class="smiley-image" (click)="ratings('Not Good')" [ngClass]="{'activerate' : rating === 'Not Good'}">
           <p>Not Good</p>
         </div>
       </div>
@@ -439,9 +439,9 @@
       </div>
       <div class="cust-feedback">
         <div class="form-group">
-            <label for="usr">Feedback</label>
-            <input type="text" class="form-control" id="usr" [(ngModel)]="input" placeholder="write a feedback here">
-          </div>
+          <label for="usr">Feedback</label>
+          <input type="text" class="form-control" id="usr" [(ngModel)]="input" placeholder="write a feedback here">
+        </div>
         <p>(Optional)</p>
       </div>
       <div class="submit-btn-block">
