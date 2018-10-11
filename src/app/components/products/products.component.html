@@ -8,7 +8,7 @@
           <a>
             <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
             <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories && i==selectedCat" (click)="closesubSubCat()"></i>
-          </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id)">{{cat.name}}</span>
+          </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id,cat.name)">{{cat.name}}</span>
         </p>
         <!-- categories -->
         <div *ngFor="let subcat of subSubCatData;let ii = index">
@@ -17,11 +17,11 @@
               <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
               <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories" (click)="closeLastCat()"></i>
             </a> &nbsp;&nbsp;
-            <span (click)="getSubcatProd(subcat._id)">{{subcat.name}}</span>
+            <span (click)="getSubcatProd(subcat._id,subcat.name)">{{subcat.name}}</span>
           </p>
           <!-- //sub categories -->
           <div *ngFor="let lastcat of lastCatData">
-            <p *ngIf="selectedLastCat==i && showSubCategories" (click)="getLastProd(lastcat._id)">
+            <p *ngIf="selectedLastCat==i && showSubCategories" (click)="getLastProd(lastcat._id,lastcat.name)">
               <span class="subCat">{{lastcat.name}}</span>
             </p>
           </div>
@@ -139,10 +139,15 @@
 
       <p>
         <a routerLink="/">Home</a>&nbsp;&nbsp;>&nbsp;
-        <a>Grocery</a>&nbsp;&nbsp;>&nbsp;
-        <a>Other Flours</a>&nbsp;&nbsp;>&nbsp;
-        <a>Corn Flours</a>&nbsp;&nbsp;>&nbsp;
-        <a>Corn Flour/Maize Atta/Makka Atta</a>
+        <span *ngIf="showCat">
+         {{catName}}&nbsp;&nbsp;>&nbsp;
+        </span>
+        <span *ngIf="showsubcat">
+          {{subcatName}}&nbsp;&nbsp;>&nbsp;
+        </span>
+        <span *ngIf="showlastcat">
+          {{lastcatName}}
+        </span>
 
       </p>
       <br />
