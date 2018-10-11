@@ -130,7 +130,8 @@ var firebaseConfig = {
 
       {
         path: 'products',
-        component: ProductsComponent
+        component: ProductsComponent,
+        data: [{ page: 'items' }]
       },
       {
         path: 'recProducts',
@@ -138,7 +139,8 @@ var firebaseConfig = {
       },
       {
         path: 'product_details',
-        component: ProductdetailsComponent
+        component: ProductsComponent,
+        data: [{ page: 'details' }]
       },
       {
         path: 'myaccount',
