@@ -23,6 +23,8 @@ export class ProductsComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.id;
         this.subName = params.name;
+        this.catName = this.subName;
+
       });
       this.getProducts(this.subCatId);
     }
@@ -71,9 +73,9 @@ export class ProductsComponent implements OnInit {
   pageNav;
   shownodata = false;
   showCategories = false;
-  showCat=false;
-  showsubcat=false;
-  showlastcat=false;
+  showCat = true;
+  showsubcat = false;
+  showlastcat = false;
   showSubCategories = false;
   showInput = true;
   showInput1 = false;
@@ -118,6 +120,8 @@ export class ProductsComponent implements OnInit {
   specificProd;
   weak;
   catName;
+  alternateid;
+  selectedskusize;
   //sub sub categories
   showsubSubCat(index, subId) {
     this.selectedCat = index;
@@ -145,7 +149,7 @@ export class ProductsComponent implements OnInit {
 
   //last categories
   showLastCat(index, lastId) {
-    
+
     this.selectedLastCat = index;
     this.showSubCategories = true;
     var inData = {
@@ -170,25 +174,25 @@ export class ProductsComponent implements OnInit {
 
   subcatName;
   lastcatName;
-  showCateProd(id,name) {
-    this.showCat=true;
+  showCateProd(id, name) {
+    this.showCat = true;
     this.catName = name;
-    this.showlastcat=false;
-    this.showsubcat=false;   
+    this.showlastcat = false;
+    this.showsubcat = false;
     this.getProducts(id);
   }
 
-  getSubcatProd(id,name) {
+  getSubcatProd(id, name) {
     this.subcatName = name;
-    this.showsubcat=true;
-    this.showlastcat=false; 
+    this.showsubcat = true;
+    this.showlastcat = false;
     this.getProducts(id);
   }
 
-  getLastProd(id,name) {
+  getLastProd(id, name) {
     this.lastcatName = name;
-    this.showlastcat=true;
-   
+    this.showlastcat = true;
+
     this.getProducts(id);
   }
 
@@ -449,24 +453,58 @@ export class ProductsComponent implements OnInit {
   }
 
   subscribe(weak) {
-    this.weak = weak
+    this.weak = weak;
+
   }
 
-  subscribeData(productId, sku, check) {
+  skusize(size) {
+    this.selectedskusize = size;
+  }
+
+  subscribeData(productId, sku) {
+    for (var i = 0; i < this.emailFormArray.length; i++) {
+      if (this.emailFormArray[i].type === 'Alternate Days') {
+        this.alternateid = 1
+      } else {
+        this.alternateid = 0
+      }
+    }
+
     var inData = {
       "day": this.weak,
       "id_product": productId,
       "id_sku": sku,
-      "is_alternate": "1",
+      "is_alternate": this.alternateid.toString(),
       "is_doorbellring": "1",
       "pay_type": "COD",
-      "quantity": "1",
-      "start_date": "Sun, 26 Aug 2018",
-      "subscription_type": check
+      "quantity": this.selectedskusize,
+      "start_date": new Date(),
+      "subscription_type": this.typeArray.join(',')
     }
     this.loginService.productSubscription(inData).subscribe(response => {
       swal("subscribed", '', 'success');
     })
+  }
+
+  emailFormArray: Array<any> = [{ type: '', selected: false }];
+  typeArray: Array<any> = [];
+  categories = [
+    { name: "Every Day", selected: false },
+    { name: "Alternate Days", selected: false },
+    { name: "Once a weak", selected: false },
+  ];
+  onChange(email: string, isChecked: boolean) {
+    if (isChecked) {
+      this.emailFormArray.push({ 'type': email, selected: isChecked });
+      this.typeArray.push(email);
+      console.log(this.emailFormArray);
+    } else {
+      let index = this.emailFormArray.indexOf(email);
+      let index1 = this.typeArray.indexOf(email);
+      this.emailFormArray.splice(index, 1);
+      this.typeArray.splice(index1, 1);
+      console.log(this.typeArray);
+    }
   }
 
 }

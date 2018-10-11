@@ -103,33 +103,58 @@ export class CategoriesComponent implements OnInit {
       this.dashboardData = response.json().result;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
-      this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0];
-      this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1];
-      this.BigSqur = response.json().result.banner[2].bannerdata;
-      this.popProducts = response.json().result.banner[3].bannerdata;
-      this.squrBanner = response.json().result.banner[6].bannerdata;
-      this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
-      this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
-      this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
-      this.products = response.json().result.specific_product[0].product;
-      this.slidingbanner = response.json().result.banner[5].bannerdata;
-      for (var i = 0; i < this.products.length; i++) {
-        this.productImage = this.products[i].pic[0].pic;
+      if (response.json().result.banner[1].bannerdata.length !== '' || response.json().result.banner[1].bannerdata.length !== undefined || response.json().result.banner[1].bannerdata.length !== 0) {
+        this.sqareBaneer1 = response.json().result.banner[1].bannerdata[0] || '';
+        this.sqareBaneer2 = response.json().result.banner[1].bannerdata[1] || '';
       }
-      this.products1 = response.json().result.specific_product[1].product;
+      if (response.json().result.banner[2].bannerdata.length !== '' || response.json().result.banner[2].bannerdata.length !== undefined || response.json().result.banner[2].bannerdata.length !== 0) {
+        this.BigSqur = response.json().result.banner[2].bannerdata;
+      }
+
+
+      this.popProducts = response.json().result.banner[3].bannerdata;
+
+      if (response.json().result.banner[6].bannerdata.length !== '' || response.json().result.banner[6].bannerdata.length !== undefined || response.json().result.banner[6].bannerdata.length !== 0) {
+        this.squrBanner = response.json().result.banner[6].bannerdata;
+      }
+
+      if (response.json().result.banner[7].bannerdata.length !== '' || response.json().result.banner[7].bannerdata.length !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
+        this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
+        this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
+        this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
+      }
+
+      if (response.json().result.specific_product[0] !== undefined) {
+        if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+          this.products = response.json().result.specific_product[0].product;
+          this.slidingbanner = response.json().result.banner[5].bannerdata;
+          for (var i = 0; i < this.products.length; i++) {
+            this.productImage = this.products[i].pic[0].pic;
+          }
+        }
+      }
+
+      if (response.json().result.specific_product[1] !== undefined) {
+        if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
+          this.products1 = response.json().result.specific_product[1].product;
+        }
+      }
     }, err => {
       console.log(err)
     });
+
 
     this.getTopProducts();
     this.getAllProducts();
   }
 
 
-  showSubData(id) {
+  showSubData(data) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        id: id
+        id: data._id,
+        name: data.name
+
       }
     }
 

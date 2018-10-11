@@ -137,17 +137,19 @@ export class HomeComponent implements OnInit {
       }
 
       //recommended products 
-      if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
-        this.products = response.json().result.specific_product[0].product;
-        for (var i = 0; i < this.products.length; i++) {
-          if (this.products[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-            this.products[i].sku[0].percentage = this.percentage;
+      if (response.json().result.specific_product[0] !== undefined) {
+        if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+          this.products = response.json().result.specific_product[0].product;
+          for (var i = 0; i < this.products.length; i++) {
+            if (this.products[i].sku[0].mrp !== undefined) {
+              this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+              this.products[i].sku[0].percentage = this.percentage;
+            }
           }
+          this.showProducts = true;
+        } else {
+          this.showProducts = false;
         }
-        this.showProducts = true;
-      } else {
-        this.showProducts = false;
       }
 
       if (response.json().result.banner[5].bannerdata.length !== '' || response.json().result.banner[5].bannerdata.length !== undefined || response.json().result.banner[5].bannerdata.length !== 0) {

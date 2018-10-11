@@ -10,6 +10,9 @@ import { empty } from 'rxjs';
     styleUrls: ['./my-account.component.css']
 })
 export class MyAccountComponent implements OnInit {
+    feedback:any;
+    rating;
+    input;
     id;
     url;
     productId;
@@ -131,6 +134,7 @@ export class MyAccountComponent implements OnInit {
             this.offers = true;
         } else if (this.pageNav === "rateus") {
             this.rateUs = true;
+            // this.feedBack();
         } else if (this.pageNav === "notifications") {
             this.mynotifiactions = true;
             var nParams = {
@@ -672,6 +676,24 @@ export class MyAccountComponent implements OnInit {
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
             console.log(this.orders);
+        }, err => {
+            console.log(err)
+        })
+    }
+    ratings(rate){
+        this.rating = rate;
+    }
+    feedBack(input){
+        var inData = {
+            "id_customer":this.id,
+            "op":"create",
+            "rating":this.rating,
+            "review":input,
+            "table":"ratings_reviews"
+        }
+        this.loginService.rateus(inData).subscribe(response =>{
+            this.feedback = response.json();
+            swal('Rating submitted successfully', '');
         }, err => {
             console.log(err)
         })

@@ -17,7 +17,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
-import { ProductdetailsComponent } from './components/productdetails/productdetails.component';
 
 
 
@@ -78,7 +77,6 @@ var firebaseConfig = {
     ProductComponent,
     MycartComponent,
     OrderSummaryComponent,
-    ProductdetailsComponent,
     MyAccountComponent,
     ContactComponent,
     StaticComponent,
