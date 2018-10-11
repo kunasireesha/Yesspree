@@ -78,7 +78,7 @@
       <div class="container navbar-nav pt-3">
         <div class="input-group  search-menu mb-3">
           <div class="input-group-prepend dropdown-append">
-            <select class="form-control location" id="exampleFormControlSelect1">
+            <select class="form-control location" id="exampleFormControlSelect1" (change)="changeVillageName($event.target.value,village)">
               <option selected *ngFor="let villageName of village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
@@ -112,7 +112,7 @@
             <p>{{item.name}}</p>
           </div>
         </div>
-        
+
       </div>
 
     </div>

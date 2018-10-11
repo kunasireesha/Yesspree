@@ -617,20 +617,21 @@ strike {
   margin-bottom: 30px;
 }
 
-/* .active-btn {
-  background-color: #4a4a4a;
-  color: #fff212;
-  box-shadow: none;
-  width: 70%;
-} */
 .active-btn{
-    background-color: #ffffff;
-    color: #000000;
+    color: #fff212;
+    background-color: #4a4a4a;
     border-color: #000000;
     box-shadow: none;
     width: 70%;  
 }
-
+.active-btn:hover{
+    color: #fff212;
+    background-color: #4a4a4a;
+}
+.active-btn:focused{
+    color: #fff212;
+    background-color: #4a4a4a;
+}
 
 .cancel-btn {
   background-color: #ffffff;
@@ -643,6 +644,10 @@ strike {
 .cancel-btn:hover {
   color: #fff212;
   background-color: #4a4a4a;
+}
+.cancel-btn:focused{
+    color: #fff212;
+    background-color: #4a4a4a;
 }
 
 .header-btns {

@@ -29,6 +29,40 @@ export class OrderSummaryComponent implements OnInit {
   url;
   promoCode;
   coupon;
+
+  addData = {
+    name: '',
+    phone: '',
+    address1: '',
+    taluk: '',
+    district: '',
+    state: '',
+    pincode: '',
+    mr: 'Mr.',
+    mrs: 'Mrs.'
+  }
+  type;
+  editData;
+  getAddress = [];
+
+  list = [{
+    value: 'Mr.',
+    selected: false
+  },
+  {
+    value: 'Mrs.',
+    selected: false
+  },
+  {
+    value: 'Miss.',
+    selected: false
+  },
+  {
+    value: 'M/S.',
+    selected: false
+  }]
+
+
   constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
     this.route.queryParams.subscribe(params => {
       this.promoCode = params.promoCode;
@@ -41,11 +75,17 @@ export class OrderSummaryComponent implements OnInit {
       this.id = '';
     }
   }
+
+  ngOnInit() {
+    this.url = AppSettings.imageUrl;
+    this.checkoutSummary();
+  }
   order() {
     this.orderSu = true;
     this.deliveryA = this.deliveryOp = this.paymentM = false
   }
   delAdd() {
+    this.getAdd();
     this.deliveryA = true;
     this.orderSu = this.deliveryOp = this.paymentM = false
   }
@@ -119,9 +159,54 @@ export class OrderSummaryComponent implements OnInit {
       console.log(err)
     })
   }
-  ngOnInit() {
-    this.url = AppSettings.imageUrl;
-    this.checkoutSummary();
+
+
+
+  //for address type
+  buttonType(type) {
+    this.type = type;
   }
 
+  //get address
+  getAdd() {
+    var inData = {
+      op: "get"
+    }
+    this.loginService.getAdd(inData).subscribe(response => {
+      this.getAddress = response.json().result
+    }, err => {
+      swal(err.message, "", "error")
+    })
+  }
+
+
+
+  updateAdd() {
+    var inData = {
+      op: "update",
+      id_address: this.editData._id,
+      id_customer: this.editData.id_customer,
+      name: this.addData.name,
+      phone: this.addData.phone,
+      address1: this.addData.address1,
+      city: this.editData.city,
+      state: this.addData.state,
+      person_prefix: this.editData.person_prefix,
+      taluk: this.addData.taluk,
+      district: this.addData.district,
+      lat: this.editData.lat,
+      lon: this.editData.lon,
+      landmark: this.editData.landmark,
+      selected: this.editData.selected,
+      type: this.type,
+      pincode: this.addData.pincode
+    }
+
+    this.loginService.updateAdd(inData).subscribe(response => {
+      this.getAdd();
+      swal("Updated successfully", "", "success");
+    }, err => {
+      swal(err.message, "", "error");
+    })
+  }
 }

@@ -6,8 +6,8 @@ import swal from 'sweetalert';
 import { AppSettings } from '../../config';
 import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
-// import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
-import { AuthService } from '../../services/auth.service';
+import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
+import { AuthServices } from '../../services/auth.service';
 
 @Component({
   selector: 'app-header',
@@ -30,10 +30,10 @@ export class HeaderComponent implements OnInit {
   cartCount;
   constructor(
     public loginService: DataService,
-    // private socialAuthService: AuthService,
+    private socialAuthService: AuthService,
     public router: Router,
     public catSer: CatListServices,
-    public authService: AuthService
+    public authService: AuthServices
   ) {
 
   }
@@ -49,7 +49,7 @@ export class HeaderComponent implements OnInit {
   percentage;
   selected;
   sku = {
-    mycart: 0 
+    mycart: 0
   }
   formData = {
     firstName: '',
@@ -96,9 +96,15 @@ export class HeaderComponent implements OnInit {
 
   randomkey;
   ngOnInit() {
-    // this.geoLocation();
+    if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
+      localStorage.setItem('id_warehouse', "2");
+      localStorage.setItem('parent_warehouseid', "1");
 
+    }
+
+    this.geoLocation();
     this.postVillageName();
+
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
@@ -130,6 +136,7 @@ export class HeaderComponent implements OnInit {
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
+
     });
   }
 
@@ -140,11 +147,20 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.postVillageName(inData).subscribe(response => {
       this.village = response.json().result;
-      localStorage.setItem('id_warehouse', this.village[0].id_warehouse);
-      localStorage.setItem('parent_warehouseid', this.village[0].parent_warehouseid);
+      // localStorage.setItem('id_warehouse', this.village[0].id_warehouse);
+      // localStorage.setItem('parent_warehouseid', this.village[0].parent_warehouseid);
     }, err => {
       console.log(err)
     })
+  }
+
+  changeVillageName(data, villageData) {
+    for (var i = 0; i < villageData.length; i++) {
+      if (data === villageData[i].pincode) {
+        localStorage.setItem('id_warehouse', villageData[i].id_warehouse);
+        localStorage.setItem('parent_warehouseid', villageData[i].parent_warehouseid);
+      }
+    }
   }
 
   showProfile: boolean
@@ -235,24 +251,24 @@ export class HeaderComponent implements OnInit {
 
 
   //social login
-  // public socialLogin(socialPlatform: string) {
-  //   let socialPlatformProvider;
-  //   if (socialPlatform == "facebook") {
-  //     socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
+  public socialLogin(socialPlatform: string) {
+    let socialPlatformProvider;
+    if (socialPlatform == "facebook") {
+      socialPlatformProvider = FacebookLoginProvider.PROVIDER_ID;
 
-  //   } else if (socialPlatform == "google") {
-  //     socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
-  //     console.log(socialPlatformProvider);
-  //   }
+    } else if (socialPlatform == "google") {
+      socialPlatformProvider = GoogleLoginProvider.PROVIDER_ID;
+      console.log(socialPlatformProvider);
+    }
 
-  //   this.socialAuthService.signIn(socialPlatformProvider).then(
-  //     (userData) => {
-  //       console.log(socialPlatform + " sign in data : ", userData);
+    this.socialAuthService.signIn(socialPlatformProvider).then(
+      (userData) => {
+        console.log(socialPlatform + " sign in data : ", userData);
 
 
-  //     }
-  //   );
-  // }
+      }
+    );
+  }
 
 
 
@@ -321,6 +337,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem('authkey', response.json().key);
           localStorage.setItem('userData', JSON.stringify(response.json().result[0]));
           localStorage.setItem("userMobile", response.json().result[0].mobile);
+          localStorage.setItem('issocial', 'false');
           this.userName = JSON.parse(localStorage.userName);
           this.formData.email = this.formData.password = '';
           this.onCloseCancel();
@@ -400,14 +417,32 @@ export class HeaderComponent implements OnInit {
   }
   //logout
   logout() {
-    localStorage.removeItem("userData");
-    localStorage.removeItem("userId");
-    localStorage.removeItem("key");
-    localStorage.removeItem("userName");
-    swal("Successfully log out", '', "success");
-    this.showProfile = false;
-    this.showLogin = true;
-    this.router.navigate(["/"]);
+    if (localStorage.issocial === 'true') {
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("key");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("issocial");
+      localStorage.removeItem('authkey');
+
+      swal("Successfully log out", '', "success");
+      this.showProfile = false;
+      this.showLogin = true;
+      this.router.navigate(["/"]);
+      this.authService.logout();
+    } else if (localStorage.issocial === 'false') {
+      localStorage.removeItem("userData");
+      localStorage.removeItem("userId");
+      localStorage.removeItem("key");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("issocial");
+      localStorage.removeItem('authkey');
+      swal("Successfully log out", '', "success");
+      this.showProfile = false;
+      this.showLogin = true;
+      this.router.navigate(["/"]);
+    }
+
   }
 
 
@@ -448,6 +483,7 @@ export class HeaderComponent implements OnInit {
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
 
         this.loginService.getLocation(inData).subscribe(response => {
+          console.log(response);
         })
       });
     }
@@ -522,14 +558,14 @@ export class HeaderComponent implements OnInit {
     // if (localStorage.cartName !== name) {
     //   this.sku.mycart = 0;
     // }
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
     this.sku.mycart = Math.floor(this.sku.mycart + 1);
-   
-    
+
+
     thisObj.addCart(this.sku.mycart, id, skuId);
     localStorage.setItem('cartName', name);
     this.getCart();
@@ -541,12 +577,12 @@ export class HeaderComponent implements OnInit {
     // if (this.sku.mycart === 1) {
     //   return;
     // }
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
-    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
+    this.sku.mycart = Math.floor(this.sku.mycart - 1);
     this.addCart(this.sku.mycart, id, skuId);
   }
 
@@ -579,17 +615,25 @@ export class HeaderComponent implements OnInit {
   signInWithFacebook() {
     this.authService.signInWithFacebook()
       .then((res) => {
-        this.router.navigate(['dashboard'])
+        swal("Login Successfully", " ", "success");
+        this.onCloseCancel();
+        this.showSignin = false;
+        this.showProfile = true;
+        this.showLogin = false;
       })
       .catch((err) => console.log(err));
   }
 
 
   signInWithGoogle() {
-    this.authService.signInWithGoogle()
-      .then((res) => {
-        this.router.navigate(['dashboard'])
-      })
+    this.authService.signInWithGoogle().then((res) => {
+      swal("Login Successfully", " ", "success");
+      this.onCloseCancel();
+      this.showSignin = false;
+      this.showProfile = true;
+      this.showLogin = false;
+
+    })
       .catch((err) => console.log(err));
   }
 

@@ -22,7 +22,7 @@ export class MyAccountComponent implements OnInit {
     ordersData;
     skuData = []
     sku = {
-        mycart: 0 
+        mycart: 0
     }
     unsubscribe = false;
     summary
@@ -30,15 +30,15 @@ export class MyAccountComponent implements OnInit {
     discount;
     cancelPlan;
     ngOnInit() {
-        
-        
+
+
         // this.getCart();
-        
+
         // this.getWishlist();
         localStorage.getItem;
         this.url = AppSettings.imageUrl;
     }
-    
+
     public itemsList: Object[] = [
         {
             title: 'Collapsible Group Item #1',
@@ -96,8 +96,8 @@ export class MyAccountComponent implements OnInit {
         state: '',
         pincode: ''
     }
-    
-    
+
+
     constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
             this.id = JSON.parse(localStorage.userId);
@@ -111,7 +111,7 @@ export class MyAccountComponent implements OnInit {
                 this.mydata = response.json().result[0];
                 localStorage.setItem('userData', JSON.stringify(response.json().result));
             }, err => {
-                
+
             })
         } else if (this.pageNav === "address") {
             this.deliveryAddress = true;
@@ -126,7 +126,7 @@ export class MyAccountComponent implements OnInit {
             this.getCart();
         } else if (this.pageNav === "subscription") {
             this.mysubscription = true;
-              this.subscriptionActive();
+            this.subscriptionActive();
         } else if (this.pageNav === "offers") {
             this.offers = true;
         } else if (this.pageNav === "rateus") {
@@ -143,7 +143,7 @@ export class MyAccountComponent implements OnInit {
                 this.notificationList = response.json();
                 console.log(this.notificationList)
             }, error => {
-                
+
             })
         } else if (this.pageNav === "share") {
             this.sharescreen = true;
@@ -164,9 +164,9 @@ export class MyAccountComponent implements OnInit {
             });
         }
     }
-    
+
     myaccount() {
-        
+
         this.myaccountData = true;
         this.deliveryAddress = false;
         this.myOrders1 = false;
@@ -180,7 +180,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.router.navigate(['/myaccount']);
     }
-    
+
     myaddress() {
         this.deliveryAddress = true;
         this.myaccountData = false;
@@ -195,9 +195,9 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.router.navigate(['/deliveryaddress']);
     }
-    
+
     myorders() {
-        
+
         this.deliveryAddress = false;
         this.myaccountData = false;
         this.myOrders1 = true;
@@ -211,7 +211,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.router.navigate(['/ordersfirst']);
     }
-    
+
     mycartData() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -240,7 +240,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.router.navigate(['/mysubscription']);
     }
-    
+
     myoffers() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -255,7 +255,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.router.navigate(['/myoffers']);
     }
-    
+
     rateus() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -269,9 +269,9 @@ export class MyAccountComponent implements OnInit {
         this.sharescreen = false;
         this.wishlist = false;
         this.router.navigate(['/myrateus']);
-        
+
     }
-    
+
     notificationsData() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -286,12 +286,12 @@ export class MyAccountComponent implements OnInit {
         this.sharescreen = false;
         this.wishlist = false;
     }
-    
+
     showOrderItems() {
         this.myOrders2 = true;
         this.myOrders1 = false;
     }
-    
+
     share() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -320,7 +320,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = true;
         this.router.navigate(['/wishlist']);
     }
-    
+
     showCoupon() {
         this.deliveryAddress = false;
         this.myaccountData = false;
@@ -335,7 +335,7 @@ export class MyAccountComponent implements OnInit {
         this.wishlist = false;
         this.coupon = true;
         this.router.navigate(['/coupon']);
-        
+
         //   let navigationExtras: NavigationExtras = {
         //     queryParams: {
         //       promoCode:this.promoCode
@@ -350,7 +350,7 @@ export class MyAccountComponent implements OnInit {
             last_name: this.mydata.last_name,
             email: this.mydata.email,
             mobile: this.mydata.mobile
-            
+
         }
         this.loginService.update(inData).subscribe(response => {
             swal("Updated successfully", '', "success");
@@ -362,12 +362,12 @@ export class MyAccountComponent implements OnInit {
             swal(err.msg, '', "error")
         })
     }
-    
+
     //for address type
     buttonType(type) {
         this.type = type;
     }
-    
+
     //create address
     createAdd() {
         var inData = {
@@ -388,14 +388,14 @@ export class MyAccountComponent implements OnInit {
             selected: true,
             type: this.type,
             country: "India"
-            
+
         }
         this.loginService.createAdd(inData).subscribe(response => {
             swal("Created successfully", "", "success");
             this.getAdd();
             this.clearData();
         }, err => {
-            
+
         })
     }
     // clear input fields
@@ -410,8 +410,8 @@ export class MyAccountComponent implements OnInit {
             pincode: '',
         }
     }
-    
-    
+
+
     //get address
     getAdd() {
         var inData = {
@@ -423,18 +423,18 @@ export class MyAccountComponent implements OnInit {
             swal(err.message, "", "error")
         })
     }
-    
+
     //delete address
     deleteAdd(id) {
         var inData = {
             op: "delete",
             id_address: id
         }
-        
+
         swal("Do you want to delete?", "", "warning", {
             buttons: ["Cancel!", "Okay!"],
         }).then((value) => {
-            
+
             if (value === true) {
                 this.loginService.deleteAdd(inData).subscribe(response => {
                     this.getAdd();
@@ -447,7 +447,7 @@ export class MyAccountComponent implements OnInit {
             }
         });
     }
-    
+
     //edit address
     editAdd(item) {
         this.editData = item;
@@ -465,7 +465,7 @@ export class MyAccountComponent implements OnInit {
             }
         }
     }
-    
+
     //update address    
     updateAdd() {
         var inData = {
@@ -487,7 +487,7 @@ export class MyAccountComponent implements OnInit {
             type: this.type,
             pincode: this.addData.pincode
         }
-        
+
         this.loginService.updateAdd(inData).subscribe(response => {
             this.getAdd();
             swal("Updated successfully", "", "success");
@@ -503,15 +503,15 @@ export class MyAccountComponent implements OnInit {
             "id_warehouse": localStorage.id_warehouse,
             "lang": "en",
             "_session": localStorage.session
-            
+
         }
         this.loginService.getWishlist(inData).subscribe(response => {
             this.WishList = response.json().result;
-            this.summary =  response.json().summary;
+            this.summary = response.json().summary;
             for (var i = 0; i < this.WishList.length; i++) {
                 this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
             }
-            this.wishCount = response.json().summary.cart_count;
+            this.wishCount = this.WishList.length;
             this.grandTotal = response.json().summary.grand_total;
             console.log(this.WishList);
         }, error => {
@@ -529,14 +529,14 @@ export class MyAccountComponent implements OnInit {
             "lang": "en"
         }
         this.loginService.deleteWish(inData).subscribe(response => {
-            
+
             console.log(response)
             this.getWishlist();
         }, error => {
-            
+
         })
     }
-    
+
     subscriptionActive() {
         this.mysubscription = true;
         this.unsubscribe = false;
@@ -553,51 +553,50 @@ export class MyAccountComponent implements OnInit {
         })
     }
     subscriptionCancel() {
-        this.mysubscription = false; 
+        this.mysubscription = false;
         this.unsubscribe = true;
-
         var inData = {
             "type": "Cancelled",
             "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
             "id_warehouse": JSON.parse(localStorage.id_warehouse),
             "lang": "en"
         }
-        this.loginService.subscriptionCancel(inData).subscribe(response => { 
-            this.ordersData = response.json().orders; 
-            
-            
-        }) 
+        this.loginService.subscriptionCancel(inData).subscribe(response => {
+            this.ordersData = response.json().orders;
+          
+
+        })
     }
-    itemIncrease(data, name, id, skuId, index,action) {
+    itemIncrease(data, name, id, skuId, index, action) {
         this.selected = index;
         let thisObj = this;
-        
-        for(var i=0;i<data.length;i++){
-            if(data[i].name === name){
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name === name) {
                 this.sku.mycart = parseInt(data[i].sku[0].mycart);
             }
         }
         this.sku.mycart = Math.floor(this.sku.mycart + 1);
-        thisObj.addCart(this.sku.mycart, id, skuId,action);
+        thisObj.addCart(this.sku.mycart, id, skuId, action);
         localStorage.setItem('cartName', name);
-        
+
     }
-    
-    itemDecrease(data, name, id, skuId, index,action) {
+
+    itemDecrease(data, name, id, skuId, index, action) {
         this.selected = index;
         let thisObj = this;
-        for(var i=0;i<data.length;i++){
-            if(data[i].name === name){
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name === name) {
                 this.sku.mycart = parseInt(data[i].sku[0].mycart);
             }
         }
         // if(this.sku.mycart === 0) {
         //   return;
         // }
-        this.sku.mycart = Math.floor(this.sku.mycart - 1 );
-        this.addCart(this.sku.mycart, id, skuId,action);
+        this.sku.mycart = Math.floor(this.sku.mycart - 1);
+        this.addCart(this.sku.mycart, id, skuId, action);
     }
-    addCart(quantity, id, skuId,action) {
+    addCart(quantity, id, skuId, action) {
         if (quantity === 0) {
             this.quantity = 1;
         } else {
@@ -616,13 +615,13 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.getCart(inData).subscribe(response => {
             swal('Item added to cart', '', 'success');
-            if(action==='wishList'){
-                this.wishlist=true;
-                this.mycart=false;
+            if (action === 'wishList') {
+                this.wishlist = true;
+                this.mycart = false;
                 this.getWishlist();
-            }else if(action==='mycart'){
-                this.wishlist=false;
-                this.mycart=true;
+            } else if (action === 'mycart') {
+                this.wishlist = false;
+                this.mycart = true;
                 this.getCart();
             }
         }, err => {
@@ -650,25 +649,25 @@ export class MyAccountComponent implements OnInit {
             console.log(err)
         })
     }
-    subscriptionStatus(num){
+    subscriptionStatus(num) {
         var inData = {
             _id: this.id,
-            order_no:num,
-            order_status:"Cancelled",
-            cancelled_on:new Date()
+            order_no: num,
+            order_status: "Cancelled",
+            cancelled_on: new Date()
         }
-        this.loginService.subscriptionStatus(inData).subscribe(reponse =>{
+        this.loginService.subscriptionStatus(inData).subscribe(reponse => {
             swal('cancelled order', "", "success");
             this.subscriptionActive();
         })
     }
-    ordersDetails(){
+    ordersDetails() {
         var inData = {
             type: 'Present',
             parent_warehouseid: localStorage.parent_warehouseid,
             id_warehouse: localStorage.id_warehouse,
-            "lang":"en"
-            
+            "lang": "en"
+
         }
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;

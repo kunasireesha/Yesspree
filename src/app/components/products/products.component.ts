@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { Http, Headers } from '@angular/http';
 import * as _ from 'underscore';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
@@ -12,10 +13,26 @@ import * as _ from 'underscore';
 export class ProductsComponent implements OnInit {
 
   constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http) {
-    this.route.queryParams.subscribe(params => {
-      this.subCatId = params.id;
-      this.subName = params.name;
-    });
+    this.pageNav = this.route.snapshot.data[0]['page'];
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = 0
+    }
+    if (this.pageNav === 'items') {
+      this.route.queryParams.subscribe(params => {
+        this.subCatId = params.id;
+        this.subName = params.name;
+      });
+    }
+    if (this.pageNav === 'details') {
+      this.showDetails = true;
+      this.route.queryParams.subscribe(params => {
+        this.subCatId = params.proId;
+        this.productDetails();
+      });
+    }
+
   }
 
   ngOnInit() {
@@ -39,17 +56,19 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.getSubcatData(inData).subscribe(response => {
       this.subcatdata = response.json().result.sub_category;
-
     }, err => {
       console.log(err)
     })
   }
 
-
+  pageNav;
   showCategories = false;
   showSubCategories = false;
   showInput = true;
   showInput1 = false;
+  showDetails = false;
+  showSubscriptionData = false;
+  showInputs = true;
   subCatId;
   id;
   subName;
@@ -65,6 +84,7 @@ export class ProductsComponent implements OnInit {
   brands = [];
   offers = [];
   prices = [];
+  wishList = [];
   items = {
     quantity: 1
   };
@@ -81,7 +101,11 @@ export class ProductsComponent implements OnInit {
   offersFilter = [];
   sortData = [];
   idforrefine;
-
+  prodId;
+  product;
+  firstPic;
+  specificProd;
+  weak;
   //sub sub categories
   showsubSubCat(index, subId) {
     this.selectedCat = index;
@@ -116,8 +140,8 @@ export class ProductsComponent implements OnInit {
       id_category: lastId,
       _session: localStorage.session,
       pincode: "560075",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.getLastCatData(inData).subscribe(response => {
@@ -151,8 +175,8 @@ export class ProductsComponent implements OnInit {
       id_subcategory: id,
       _session: localStorage.session,
       wh_pincode: "560078",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       lang: "en",
     }
     this.loginService.getProducts(inData).subscribe(response => {
@@ -177,8 +201,15 @@ export class ProductsComponent implements OnInit {
     this.showInput1 = true;
   }
 
-  showProduxtDetails() {
-    this.router.navigate(["/product_details"]);
+  showProductDetails() {
+    this.showDetails = true;
+    this.productDetails();
+    // let navigationExtras: NavigationExtras = {
+    //   queryParams: {
+    //     proId: proId
+    //   }
+    // }
+    // this.router.navigate(["/product_details"], navigationExtras);
   }
 
 
@@ -189,6 +220,7 @@ export class ProductsComponent implements OnInit {
       thisObj.items.quantity = 0;
     }
     if (name === data.name) {
+      thisObj.showInputs = true;
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
@@ -258,6 +290,7 @@ export class ProductsComponent implements OnInit {
         return obj.name === 'Brand';
       });
       this.brands = this.brandsFilter[0].Brand;
+      console.log(this.brands);
 
       //offers
       this.offersFilter = _.filter(response.json().refine, function (obj) {
@@ -322,5 +355,93 @@ export class ProductsComponent implements OnInit {
     })
   }
 
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
+
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
+      }
+
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  //get product details
+
+  productDetails() {
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      products: this.subCatId,
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+    }
+    this.loginService.productDetails(inData).subscribe(response => {
+      this.product = response.json().product;
+      console.log(this.product);
+      for (var i = 0; i < this.product.length; i++) {
+        if (this.product[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
+          this.product[i].sku[0].percentage = this.percentage;
+        }
+      }
+
+      for (var i = 0; i < this.product.length; i++) {
+        this.firstPic = this.url + this.product[i].pic[0].pic;
+      }
+      this.specificProd = response.json().specific_product[0].product;
+      for (var i = 0; i < this.specificProd.length; i++) {
+        this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
+      }
+      for (var i = 0; i < this.specificProd.length; i++) {
+        if (this.specificProd[i].sku[0].mrp !== undefined) {
+          this.percentage = 100 - ((this.specificProd[i].sku[0].selling_price) / (this.specificProd[i].sku[0].mrp) * 100)
+          this.specificProd[i].sku[0].percentage = this.percentage;
+          console.log(this.specificProd[i].sku[0].percentage)
+        }
+      }
+    }, err => {
+      console.log(err);
+    })
+  }
+
+  showSubscribeDetails() {
+    this.showSubscriptionData = !this.showSubscriptionData;
+  }
+
+  subscribe(weak) {
+    this.weak = weak
+  }
+
+  subscribeData(productId, sku, check) {
+    var inData = {
+      "day": this.weak,
+      "id_product": productId,
+      "id_sku": sku,
+      "is_alternate": "1",
+      "is_doorbellring": "1",
+      "pay_type": "COD",
+      "quantity": "1",
+      "start_date": "Sun, 26 Aug 2018",
+      "subscription_type": check
+    }
+    this.loginService.productSubscription(inData).subscribe(response => {
+      swal("subscribed", '', 'success');
+    })
+  }
 
 }

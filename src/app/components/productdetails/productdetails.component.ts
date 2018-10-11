@@ -28,6 +28,8 @@ export class ProductdetailsComponent implements OnInit {
   items = {
     quantity: 1
   }
+  wishList = [];
+
   constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
     this.route.queryParams.subscribe(params => {
       this.prodId = params.proId;
@@ -56,11 +58,16 @@ export class ProductdetailsComponent implements OnInit {
   }
 
   submit() {
-    console.log(this.data + '   ' + this.email);
+    console.log(this.data + ' ' + this.email);
   }
 
-  showProduxtDetails() {
-    this.router.navigate(["/product_details"]);
+  showProductDetails(proId) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
   }
 
   collapse() {
@@ -117,69 +124,94 @@ export class ProductdetailsComponent implements OnInit {
 
   subscribe(weak) {
     this.weak = weak
-    }
+  }
   subscribeData(productId, sku, check) {
     var inData = {
-    "day": this.weak,
-    "id_product": productId,
-    "id_sku": sku,
-    "is_alternate": "1",
-    "is_doorbellring": "1",
-    "pay_type": "COD",
-    "quantity": "1",
-    "start_date": "Sun, 26 Aug 2018",
-    "subscription_type": check
+      "day": this.weak,
+      "id_product": productId,
+      "id_sku": sku,
+      "is_alternate": "1",
+      "is_doorbellring": "1",
+      "pay_type": "COD",
+      "quantity": "1",
+      "start_date": "Sun, 26 Aug 2018",
+      "subscription_type": check
     }
     this.loginService.productSubscription(inData).subscribe(response => {
-    swal("subscribed", '', 'success');
+      swal("subscribed", '', 'success');
     })
+  }
+
+  itemDecrease(id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (thisObj.items.quantity === 1) {
+      return;
     }
+    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+    this.getCart(thisObj.items.quantity, id, skuId);
+  }
 
-    itemDecrease(id, skuId, index) {
-        this.selected = index;
-        let thisObj = this;
-        if (thisObj.items.quantity === 1) {
-          return;
-        }
-        thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-        this.getCart(thisObj.items.quantity, id, skuId);
+
+  getCart(quantity, id, skuId) {
+    if (quantity === 0) {
+      this.quantity = 1;
+    } else {
+      this.quantity = quantity
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      id_product: id,
+      id_sku: skuId,
+      op: "modify",
+      quantity: JSON.stringify(this.quantity),
+      wh_pincode: "560078",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+    }
+    this.loginService.getCart(inData).subscribe(response => {
+      this.subSubCatData = response.json();
+      swal('Item added to cart', '', 'success');
+    }, err => {
+      swal(err.json().message, '', 'error');
+    })
+  }
+  itemIncrease(data, name, id, skuId, index) {
+    this.selected = index;
+    let thisObj = this;
+    if (localStorage.name !== name) {
+      thisObj.items.quantity = 0;
+    }
+    if (name === data.name) {
+      thisObj.showInputs = true;
+      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('name', name);
+    }
+  }
+
+  wish(id) {
+    var inData = {
+      _session: localStorage.session,
+      _id: this.id,
+      id_product: id,
+      op: "create",
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
+      "lang": "en"
+
+    }
+    this.loginService.wish(inData).subscribe(response => {
+      if (response.json().status === "failure") {
+        swal("Wishlist already added. Please try again.", "", "error")
+      } else {
+        this.wishList = response.json();
+        swal("Added to wish list", "", "success")
       }
 
-      getCart(quantity, id, skuId) {
-        if (quantity === 0) {
-          this.quantity = 1;
-        } else {
-          this.quantity = quantity
-        }
-        var inData = {
-          _id: this.id,
-          _session: localStorage.session,
-          id_product: id,
-          id_sku: skuId,
-          op: "modify",
-          quantity: JSON.stringify(this.quantity),
-          wh_pincode: "560078",
-          parent_warehouseid: localStorage.parent_warehouseid,
-          id_warehouse: JSON.parse(localStorage.id_warehouse, )
-        }
-        this.loginService.getCart(inData).subscribe(response => {
-          this.subSubCatData = response.json();
-          swal('Item added to cart', '', 'success');
-        }, err => {
-          swal(err.json().message, '', 'error');
-        })
-      }
-      itemIncrease(data, name, id, skuId, index) {
-        this.selected = index;
-        let thisObj = this;
-        if (localStorage.name !== name) {
-          thisObj.items.quantity = 0;
-        }
-        if (name === data.name) {
-          thisObj.showInputs = true;
-          thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-          thisObj.getCart(thisObj.items.quantity, id, skuId);
-          localStorage.setItem('name', name);
-        }
-      }
+    }, err => {
+      console.log(err)
+    })
+  }
 }

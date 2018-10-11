@@ -1,19 +1,18 @@
-<app-multicarousel></app-multicarousel>
 <div class="mdl-card mdl-shadow--2dp">
 
   <div class="mdl-card__supporting-text">
 
     <div class="mdl-stepper-horizontal-alternative">
-      <div class="mdl-stepper-step active-step step-done">
-        <div class="mdl-stepper-circle" (click)="order()">
+      <div class="mdl-stepper-step active-step step-done" (click)="order()">
+        <div class="mdl-stepper-circle">
           <span>1</span>
         </div>
         <div class="mdl-stepper-title">Order Summary</div>
         <div class="mdl-stepper-bar-left"></div>
         <div class="mdl-stepper-bar-right"></div>
       </div>
-      <div class="mdl-stepper-step active-step editable-step">
-        <div class="mdl-stepper-circle" (click)="delAdd()">
+      <div class="mdl-stepper-step active-step editable-step" (click)="delAdd()">
+        <div class="mdl-stepper-circle">
           <span>2</span>
         </div>
         <div class="mdl-stepper-title">Delivery Address</div>
@@ -21,16 +20,16 @@
         <div class="mdl-stepper-bar-left"></div>
         <div class="mdl-stepper-bar-right"></div>
       </div>
-      <div class="mdl-stepper-step active-step editable-step">
-        <div class="mdl-stepper-circle" (click)="delOpt()">
+      <div class="mdl-stepper-step active-step editable-step" (click)="delOpt()">
+        <div class="mdl-stepper-circle">
           <span>3</span>
         </div>
         <div class="mdl-stepper-title">Delivery Options</div>
         <div class="mdl-stepper-bar-left"></div>
         <div class="mdl-stepper-bar-right"></div>
       </div>
-      <div class="mdl-stepper-step active-step editable-step">
-        <div class="mdl-stepper-circle" (click)="paymentMethod()">
+      <div class="mdl-stepper-step active-step editable-step" (click)="paymentMethod()">
+        <div class="mdl-stepper-circle">
           <span>4</span>
         </div>
         <div class="mdl-stepper-title">Payment Method</div>
@@ -46,7 +45,7 @@
   <div class="row">
     <br />
     <h4>ORDER SUMMARY</h4>
-    <table class="table prod-table" *ngFor = "let summary of cartSummary">
+    <table class="table prod-table" *ngFor="let summary of cartSummary">
       <thead class="table-header">
         <tr>
           <th scope="col" width="40%" class="table-headings">Item Description</th>
@@ -62,10 +61,10 @@
             <img [src]="url + cartData.image" class="prod-image">
             <p>
               <strong>{{summary.name}}</strong>
-              </p>
+            </p>
             <!-- <span>1</span> -->
           </td>
-          <td class="table-price"  *ngFor="let sku of cartData.sku">
+          <td class="table-price" *ngFor="let sku of cartData.sku">
             <p>
               <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
               <br />
@@ -119,11 +118,11 @@
     <div class="col-lg-4 input-button">
       <form>
         <input type="text" class="form-control input-field" placeholder="PROMO CODE" [(ngModel)]="coupon" name="coupon">
-         </form>
+      </form>
     </div>
     <div class="col-lg-4 input-button">
-        <button type="button" class="btn apply-btn" (click)="postPromo(coupon)">APPLY</button>
-   
+      <button type="button" class="btn apply-btn" (click)="postPromo(coupon)">APPLY</button>
+
     </div>
     <div>
       <hr class="dash" />
@@ -160,22 +159,25 @@
       <h4>DELIVERY ADDRESS</h4>
     </div>
     <div class="col-lg-6">
-      <button type="button" class="btn adress-btn">ADD NEW ADDRESS</button>
+      <button type="button" class="btn adress-btn" data-toggle="modal" data-target="#elegantModalFormdata">ADD NEW
+        ADDRESS</button>
     </div>
   </div>
+
+
   <div class="row address-bar">
-    <div class="col-lg-3 home-address">
+    <div class="col-lg-3 home-address" *ngFor="let item of getAddress">
       <div class="office">
         <p>
-          <strong>Home </strong>
+          <strong>{{item.type}} </strong>
         </p>
         <p>
-          <strong>Michael Palmer</strong>
+          <strong>{{item.name}}</strong>
         </p>
         <div class="address-details">
-          <p>552 Isaiah Villages</p>
-          <p>BTM Layout</p>
-          <p>Bengaluru 560029</p>
+          <p>{{item.address1}}</p>
+          <p>{{item.landmark}}</p>
+          <p>{{item.state}}&nbsp; {{item.pincode}}</p>
         </div>
       </div>
       <div class="row deliver-btn">
@@ -184,27 +186,8 @@
         </p>
       </div>
     </div>
-    <div class="col-lg-3 home-address">
-      <div class="office">
-        <p>
-          <strong>Office </strong>
-        </p>
-        <p>
-          <strong>Paul Simon</strong>
-        </p>
-        <div class="address-details">
-          <p>393 Pauline Haven Apt. 482</p>
-          <p>JP Nagar</p>
-          <p>Bengaluru 560029</p>
-        </div>
-      </div>
-      <div class="row deliver-btn2">
-        <p>
-          <strong>DELIVER HERE </strong>
-        </p>
-      </div>
-    </div>
   </div>
+
   <div class="row">
     <div class="col-lg-6">
     </div>
@@ -227,18 +210,18 @@
     </div>
     <br />
     <div class="row">
-        <div class="col-lg-2"></div>
+      <div class="col-lg-2"></div>
       <div class="col-lg-4">
-        <span>Dates: 
+        <span>Dates:
           <select>
             <option *ngFor="let time of dateSlot">{{time.date}}</option>
           </select></span>
       </div>
       <div class="col-lg-4">
-            <span>Times: 
-              <select>
-                <option *ngFor="let time of timeSlot">{{time.time}}</option>
-            </select></span>
+        <span>Times:
+          <select>
+            <option *ngFor="let time of timeSlot">{{time.time}}</option>
+          </select></span>
       </div>
       <!-- <div class="col-lg-2 edit-time">
         <i class="fa fa-pencil" aria-hidden="true"></i>
@@ -295,9 +278,9 @@
       <div class="col-lg-6">
         <img src="assets/images/money.png" class="image"> &nbsp; &nbsp;
         <span>
-            <strong>
-                   Cash On Delivery
-            </strong> 
+          <strong>
+            Cash On Delivery
+          </strong>
         </span>
       </div>
       <div class="col-lg-6 right-arrow">
@@ -312,4 +295,100 @@
       <button type="button" class="btn pay-btn" (click)="cartCheckout(summarySum.grand_total)">PROCEED AND PAY</button>
     </div>
   </div>
+</div>
+
+<div class="modal fade right" id="elegantModalFormdata" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-side modal-top-right" role="document">
+    <!--Content-->
+    <div class="modal-content form-elegant">
+      <!--Header-->
+      <div class="modal-header text-center">
+        <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
+          <strong>ADD NEW ADDRESS</strong>
+        </h3>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <!--Body-->
+      <div class="modal-body mx-4">
+        <!--Body-->
+        <!-- Default inline 1-->
+
+
+        <form>
+          <ul _ngcontent-c1="" class="title-list">
+            <li _ngcontent-c1="" *ngFor="let mr of list">
+              <div _ngcontent-c1="">
+                <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
+                <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">{{mr.value}}</label>
+              </div>
+            </li>
+            <!-- <li _ngcontent-c1="">
+              <div _ngcontent-c1="">
+                <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
+                <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
+              </div>
+            </li>
+            <li _ngcontent-c1="">
+              <div _ngcontent-c1="">
+                <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
+                <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
+              </div>
+            </li>
+            <li _ngcontent-c1="">
+              <div _ngcontent-c1="">
+                <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
+                <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
+              </div>
+            </li> -->
+          </ul>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name</label>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name"
+              [(ngModel)]="addData.name" name="name">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Flot/House/Office No</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
+              [(ngModel)]="addData.phone" name="phone">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Steet Name</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
+              name="phone">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Taluka</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
+              name="taluk">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">District</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
+              name="district">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">State</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
+              name="state">
+          </div>
+          <div class="form-group">
+            <label for="exampleInputPassword1">Pincode</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
+              name="pincode">
+          </div>
+          Address Type:
+          <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
+          <button type="submit" class="btn btn-primary" (click)="buttonType('OFFICE')">Office</button>
+          <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
+        </form>
+      </div>
+      <!--/.Content-->
+    </div>
+  </div>
+  <!-- Modal -->
+  <!--Accordion wrapper-->
+
 </div>

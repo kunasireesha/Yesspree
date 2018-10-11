@@ -8,7 +8,7 @@
                 <li (click)="myaddress()" [ngClass]="{'active':deliveryAddress}">My Addresses</li>
                 <li (click)="myorders()" [ngClass]="{'active':myOrders1 || myOrders2}">My Orders</li>
                 <li (click)="mycartData()" [ngClass]="{'active':mycart}">My Cart</li>
-                <li (click)="mysubscriptionData()" [ngClass]="{'active':mysubscription}">My Subscriptions</li>
+                <li (click)="mysubscriptionData()" [ngClass]="{'active':mysubscription || unsubscribe}">My Subscriptions</li>
                 <li (click)="myoffers()" [ngClass]="{'active':offers}">Offers</li>
                 <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
                 <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
@@ -146,7 +146,7 @@
             </div>
             <div class="col-md-12" *ngIf="orders.length==0">
                 <h3 class="text-center nodata">No Data Found</h3>
-              </div>
+            </div>
         </div>
         
         
@@ -271,7 +271,7 @@
                                 <h4>MY SUBSCRIPTIONS</h4>
                             </div>
                             <div class="col-lg-6">
-                                <div class="row" id="btn-group">
+                                <div class="row">
                                     <div class="col-lg-6">
                                         <button type="button" class="btn active-btn" (click)="subscriptionActive()">ACTIVE</button>
                                     </div>
@@ -872,7 +872,7 @@
                                                     </div>
                                                     <div class="coupon-image">
                                                         <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
-                                                        <p>PromoCode:<strong> {{offer.promo_code}}</strong></p>
+                                                        <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5">
