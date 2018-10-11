@@ -700,6 +700,7 @@ strike {
 
 .smiley-icons {
   text-align: center;
+  cursor: pointer;
 }
 
 .smiley-image {
