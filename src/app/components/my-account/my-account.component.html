@@ -271,7 +271,7 @@
                                 <h4>MY SUBSCRIPTIONS</h4>
                             </div>
                             <div class="col-lg-6">
-                                <div class="row">
+                                <div class="row" id="btn-group">
                                     <div class="col-lg-6">
                                         <button type="button" class="btn active-btn" (click)="subscriptionActive()">ACTIVE</button>
                                     </div>
@@ -872,7 +872,7 @@
                                                     </div>
                                                     <div class="coupon-image">
                                                         <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
-                                                        <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
+                                                        <p>PromoCode:<strong> {{offer.promo_code}}</strong></p>
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-5">

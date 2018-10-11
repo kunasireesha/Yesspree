@@ -617,12 +617,20 @@ strike {
   margin-bottom: 30px;
 }
 
-.active-btn {
+/* .active-btn {
   background-color: #4a4a4a;
   color: #fff212;
   box-shadow: none;
   width: 70%;
+} */
+.active-btn{
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #000000;
+    box-shadow: none;
+    width: 70%;  
 }
+
 
 .cancel-btn {
   background-color: #ffffff;

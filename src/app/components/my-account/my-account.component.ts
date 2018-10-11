@@ -554,6 +554,8 @@ export class MyAccountComponent implements OnInit {
     }
     subscriptionCancel() {
         this.mysubscription = false; 
+        this.unsubscribe = true;
+
         var inData = {
             "type": "Cancelled",
             "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
@@ -562,7 +564,7 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.subscriptionCancel(inData).subscribe(response => { 
             this.ordersData = response.json().orders; 
-            this.unsubscribe = true;
+            
             
         }) 
     }
