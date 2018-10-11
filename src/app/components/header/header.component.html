@@ -271,8 +271,8 @@
                       name="email" required>
                   </div>
                   <div class="form-group  col-md-8">
-                    <input type="text" class="form-control input-field" placeholder="Mobile Number *" [(ngModel)]="formData.forMobile"
-                      name="forMobile" required>
+                    <input myNumberOnly type="text" class="form-control input-field" placeholder="Mobile Number *" [(ngModel)]="formData.forMobile"
+                      name="forMobile" maxlength="10" required>
                   </div>
                   <div class="form-group  col-md-8">
                     <input type="password" class="form-control input-field" placeholder="Password *" [(ngModel)]="formData.password"
