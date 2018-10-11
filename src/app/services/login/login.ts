@@ -223,6 +223,7 @@ export class DataService {
     subscriptionStatus(params):Observable<any>{
         return this.postInputParams(params,'subscription/status')
     }
-
-
+    rateus(params):Observable<any>{
+        return this.postInputParams(params,'admin')
+    }
 }
