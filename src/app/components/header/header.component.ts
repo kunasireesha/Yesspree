@@ -506,7 +506,7 @@ export class HeaderComponent implements OnInit {
       start: 0
     }
     this.loginService.searchProducts(inData).subscribe(response => {
-      if (response.json().product === undefined) {
+      if (response.json().product[0] === undefined) {
         let navigationExtras: NavigationExtras = {
           queryParams: {
             proId: ''
