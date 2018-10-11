@@ -23,6 +23,8 @@ export class ProductsComponent implements OnInit {
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.id;
         this.subName = params.name;
+        this.catName = this.subName;
+
       });
       this.getProducts(this.subCatId);
     }
@@ -71,9 +73,9 @@ export class ProductsComponent implements OnInit {
   pageNav;
   shownodata = false;
   showCategories = false;
-  showCat=false;
-  showsubcat=false;
-  showlastcat=false;
+  showCat = true;
+  showsubcat = false;
+  showlastcat = false;
   showSubCategories = false;
   showInput = true;
   showInput1 = false;
@@ -145,7 +147,7 @@ export class ProductsComponent implements OnInit {
 
   //last categories
   showLastCat(index, lastId) {
-    
+
     this.selectedLastCat = index;
     this.showSubCategories = true;
     var inData = {
@@ -170,25 +172,25 @@ export class ProductsComponent implements OnInit {
 
   subcatName;
   lastcatName;
-  showCateProd(id,name) {
-    this.showCat=true;
+  showCateProd(id, name) {
+    this.showCat = true;
     this.catName = name;
-    this.showlastcat=false;
-    this.showsubcat=false;   
+    this.showlastcat = false;
+    this.showsubcat = false;
     this.getProducts(id);
   }
 
-  getSubcatProd(id,name) {
+  getSubcatProd(id, name) {
     this.subcatName = name;
-    this.showsubcat=true;
-    this.showlastcat=false; 
+    this.showsubcat = true;
+    this.showlastcat = false;
     this.getProducts(id);
   }
 
-  getLastProd(id,name) {
+  getLastProd(id, name) {
     this.lastcatName = name;
-    this.showlastcat=true;
-   
+    this.showlastcat = true;
+
     this.getProducts(id);
   }
 

@@ -3,7 +3,7 @@
   <h3>{{catName}}</h3>
   <div class="row">
     <div class="col-md-4 mt-3" *ngFor="let item of childCat">
-      <div class="deals view zoom" (click)="showSubData(item._id)">
+      <div class="deals view zoom" (click)="showSubData(item)">
         <img [src]="url + item.pic" class="img-fluid headShake ">
         <h5>{{item.name}}</h5>
       </div>
