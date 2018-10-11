@@ -454,7 +454,7 @@ export class ProductsComponent implements OnInit {
     this.weak = weak
   }
 
-  subscribeData(productId, sku, check) {
+  subscribeData(productId, sku) {
     var inData = {
       "day": this.weak,
       "id_product": productId,
@@ -464,11 +464,26 @@ export class ProductsComponent implements OnInit {
       "pay_type": "COD",
       "quantity": "1",
       "start_date": "Sun, 26 Aug 2018",
-      "subscription_type": check
+      "subscription_type":this.emailFormArray
     }
     this.loginService.productSubscription(inData).subscribe(response => {
       swal("subscribed", '', 'success');
     })
   }
+  emailFormArray: Array<any> = [];
+  categories = [ 
+    {name :"Every Day", id: 1},
+    {name :"Alternate Days", id: 2},
+    {name :"Once a weak", id: 3},
+  ];
+  onChange(email:string, isChecked: boolean) {
+    if(isChecked) {
+      this.emailFormArray.push(email);
+      console.log(this.emailFormArray);
+    } else {
+      let index = this.emailFormArray.indexOf(email);
+      this.emailFormArray.splice(index,1);
+    }
+}
 
 }

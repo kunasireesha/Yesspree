@@ -292,27 +292,17 @@
         <input type="checkbox" name="vehicle1" value="Bike"> Once a week</p>
         </div> -->
                 <div class="col-lg-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="offer1" [(ngModel)]="checked">
-                    <label class="form-check-label popup-label" for="offer1">Every Day</label>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="offer2">
-                    <label class="form-check-label popup-label" for="offer2">Alternate days</label>
-                  </div>
-                </div>
-                <div class="col-lg-3">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="" id="offer3">
-                    <label class="form-check-label popup-label" for="offer3">Once a week</label>
+                  <div class="form-check" *ngFor="let cat of categories">
+                    <input class="form-check-input" (change)="onChange(cat.name, $event.target.checked)" name="{{ cat.name }}" type="checkbox" id="{{cat.name}}">
+                    <label class="form-check-label" for="{{cat.name}}">
+                        {{cat.name}}
+                    </label>
                   </div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-lg-12">
-                  <button class="btn btn-black subs" (click)="subscribeData(item._id,sku._id,checked)">Subscribe</button>
+                  <button class="btn btn-black subs" (click)="subscribeData(item._id,sku._id)">Subscribe</button>
                 </div>
               </div>
             </div>
