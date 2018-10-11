@@ -1,892 +1,900 @@
 <br />
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-1"></div>
-        <div class="col-lg-2">
-            <ul class="account-list">
-                <li (click)="myaccount()" [ngClass]="{'active':myaccountData}"> My Account </li>
-                <li (click)="myaddress()" [ngClass]="{'active':deliveryAddress}">My Addresses</li>
-                <li (click)="myorders()" [ngClass]="{'active':myOrders1 || myOrders2}">My Orders</li>
-                <li (click)="mycartData()" [ngClass]="{'active':mycart}">My Cart</li>
-                <li (click)="mysubscriptionData()" [ngClass]="{'active':mysubscription || unsubscribe}">My Subscriptions</li>
-                <li (click)="myoffers()" [ngClass]="{'active':offers}">Offers</li>
-                <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
-                <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
-                <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
-                <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
-                <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
-            </ul>
+
+  <div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2">
+      <ul class="account-list">
+        <li (click)="myaccount()" [ngClass]="{'active':myaccountData}"> My Account </li>
+        <li (click)="myaddress()" [ngClass]="{'active':deliveryAddress}">My Addresses</li>
+        <li (click)="myorders()" [ngClass]="{'active':myOrders1 || myOrders2}">My Orders</li>
+        <li (click)="mycartData()" [ngClass]="{'active':mycart}">My Cart</li>
+        <li (click)="mysubscriptionData()" [ngClass]="{'active':mysubscription || unsubscribe}">My Subscriptions</li>
+        <li (click)="myoffers()" [ngClass]="{'active':offers}">Offers</li>
+        <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
+        <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
+        <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
+        <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
+        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
+      </ul>
+    </div>
+    <div class="col-lg-8 account-details" *ngIf="myaccountData">
+      <div class="row ">
+        <div class="col-lg-4">
+          <h5>
+            <strong>MY ACCOUNT</strong>
+          </h5>
+          <img src="..assets/images/user.jpg" class="profile-image">
+          <p>
+            <strong>{{mydata.first_name}} {{mydata.last_name}}</strong>
+          </p>
+          <p>{{mydata.email}}</p>
+          <p>{{mydata.mobile}}</p>
         </div>
-        <div class="col-lg-8 account-details" *ngIf="myaccountData">
-            <div class="row ">
-                <div class="col-lg-4">
-                    <h5>
-                        <strong>MY ACCOUNT</strong>
-                    </h5>
-                    <img src="..assets/images/user.jpg" class="profile-image">
-                    <p>
-                        <strong>{{mydata.first_name}} {{mydata.last_name}}</strong>
-                    </p>
-                    <p>{{mydata.email}}</p>
-                    <p>{{mydata.mobile}}</p>
-                </div>
-                <div class="col-lg-8 input-details">
-                    <form>
-                        <div class="form-group">
-                            <label for="exampleInputFname">First Name</label>
-                            <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname"
-                            placeholder="Paresh Kumar" [(ngModel)]="mydata.first_name" name="firstName">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputLname">Last Name</label>
-                            <input type="Name" class="form-control input-field" id="exampleInputLname" aria-describedby="Lname"
-                            [(ngModel)]="mydata.last_name" name="lastName" placeholder="Paresh Kumar">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputEmail1">Email ID</label>
-                            <input type="email" class="form-control input-field" id="exampleInputid" aria-describedby="emailHelp"
-                            [(ngModel)]="mydata.email" name="email" placeholder="Email ID">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputdob">DOB</label>
-                            <input type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
-                            placeholder="Date of Birth">
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleInputNumber">Mobile Number</label>
-                            <input type="text" class="form-control input-field" id="exampleInputNumber" aria-describedby="emailHelp"
-                            [(ngModel)]="mydata.mobile" name="mobile" placeholder="+91 9876543210">
-                        </div>
-                        <button type="button" class="btn update-btn" (click)="update()">UPDATE</button>
-                    </form>
-                </div>
+        <div class="col-lg-8 input-details">
+          <form>
+            <div class="form-group">
+              <label for="exampleInputFname">First Name</label>
+              <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname"
+                placeholder="Paresh Kumar" [(ngModel)]="mydata.first_name" name="firstName">
             </div>
+            <div class="form-group">
+              <label for="exampleInputLname">Last Name</label>
+              <input type="Name" class="form-control input-field" id="exampleInputLname" aria-describedby="Lname"
+                [(ngModel)]="mydata.last_name" name="lastName" placeholder="Paresh Kumar">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputEmail1">Email ID</label>
+              <input type="email" class="form-control input-field" id="exampleInputid" aria-describedby="emailHelp"
+                [(ngModel)]="mydata.email" name="email" placeholder="Email ID">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputdob">DOB</label>
+              <input type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
+                placeholder="Date of Birth">
+            </div>
+            <div class="form-group">
+              <label for="exampleInputNumber">Mobile Number</label>
+              <input type="text" class="form-control input-field" id="exampleInputNumber" aria-describedby="emailHelp"
+                [(ngModel)]="mydata.mobile" name="mobile" placeholder="+91 9876543210">
+            </div>
+            <button type="button" class="btn update-btn" (click)="update()">UPDATE</button>
+          </form>
         </div>
-        
-        <!-- Delivery Address -->
-        
-        <div class="col-lg-9 account-details" *ngIf="deliveryAddress">
-            <div class="row delivery-address-bar">
-                <div class="col-lg-6">
-                    <h4>DELIVERY ADDRESS</h4>
-                </div>
-                <div class="col-lg-6">
-                    <button type="button" class="btn adress-btn" data-toggle="modal" data-target="#elegantModalForm">ADD NEW
-                        ADDRESS
-                    </button>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 home-address" *ngFor="let item of getAddress">
-                    <div class="office">
-                        <p>
-                            <strong>{{item.type}} </strong>
-                        </p>
-                        <p>
-                            <strong>{{item.name}}</strong>
-                        </p>
-                        <div class="address-details">
-                            <p>{{item.address1}}</p>
-                            <p>{{item.landmark}}</p>
-                            <p>{{item.state}}&nbsp; {{item.pincode}}</p>
-                        </div>
-                    </div>
-                    <div class="deliver-btn">
-                        <p>
-                            <strong>DELIVER HERE </strong>
-                        </p>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6">
-                            <button type="button" class="btn edit-btn" (click)="editAdd(item)" data-toggle="modal" data-target="#editModalForm">EDIT</button>
-                        </div>
-                        <div class="col-lg-6">
-                            <button type="button" class="btn delete-btn" (click)="deleteAdd(item._id)">DELETE</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+      </div>
+    </div>
+
+    <!-- Delivery Address -->
+
+    <div class="col-lg-9 account-details" *ngIf="deliveryAddress">
+      <div class="row delivery-address-bar">
+        <div class="col-lg-6">
+          <h4>DELIVERY ADDRESS</h4>
         </div>
-        
-        <!-- my orders 1 -->
-        
-        <div class="col-lg-9 order-details" *ngIf="myOrders1">
-            <h4> MY ORDERS</h4>
-            <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems()">
-                <div class="row order-time">
-                    <div class="col-lg-6">
-                        <p>{{item.order.delivery_slot_time}}</p>
-                    </div>
-                    <div class="col-lg-6 order-id" *ngFor="let data of item.cart">
-                        <p>Order ID :{{data.id_order}}</p>
-                    </div>
-                </div>
-                <div class="row" *ngFor="let data of item.cart">
-                    <div>
-                        <img [src]="url + data.product_pic" class="ashirvaad-image" style="padding-left:20px;">
-                    </div>
-                    <div class="prod-name">
-                        <p>
-                            <strong>{{data.product_name}}</strong>
-                        </p>
-                        <p>{{data.size}}</p>
-                        <p>Quantity : {{data.dispatch_quantity}}</p>
-                    </div>
-                </div>
-                <div class="row order-status">
-                    <div class="col-lg-6 ">
-                        <p>Status:
-                            <span>{{item.order.order_status}}</span>
-                        </p>
-                    </div>
-                    <div class=" col-lg-6 delivery-time">
-                        <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-md-12" *ngIf="orders.length==0">
-                <h3 class="text-center nodata">No Data Found</h3>
-            </div>
+        <div class="col-lg-6">
+          <button type="button" class="btn adress-btn" data-toggle="modal" data-target="#elegantModalForm">ADD NEW
+            ADDRESS
+          </button>
         </div>
-        
-        
-        <!-- my cart -->
-        <div class="col-lg-9 cart-details" *ngIf="mycart">
-            <div class="row cart-buttons">
-                <div class="col-lg-4">
-                    <h4>MY CART ({{cartCount}})</h4>
-                </div>
-                <div class="col-lg-8">
-                    <div class="row">
-                        <div class="col-lg-4">
-                            <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
-                        </div>
-                        <div class="col-lg-4">
-                            <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-                        </div>
-                        <div class="col-lg-4">
-                            <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
-                        </div>
-                    </div>
-                </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-4 home-address" *ngFor="let item of getAddress">
+          <div class="office">
+            <p>
+              <strong>{{item.type}} </strong>
+            </p>
+            <p>
+              <strong>{{item.name}}</strong>
+            </p>
+            <div class="address-details">
+              <p>{{item.address1}}</p>
+              <p>{{item.landmark}}</p>
+              <p>{{item.state}}&nbsp; {{item.pincode}}</p>
             </div>
-            <div class="table-responsive">
-                <table class="table prod-table">
-                    <thead class="table-header">
-                        <tr>
-                            <th scope="col" width="40%" class="table-headings">Item Description</th>
-                            <th scope="col" width="15%" class="table-headings">Unit Price</th>
-                            <th scope="col" width="15%" class="table-headings">Quantity</th>
-                            <th scope="col" width="15%" class="table-headings">Subtotal</th>
-                            <th scope="col" width="15%" class="table-headings">Savings</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr *ngFor="let cartDetails of mycart">
-                            <td class="table-data" *ngFor="let skuSize of cartDetails.sku">
-                                <img [src]="url + cartDetails.image" class="prod-image">
-                                <p>
-                                    <strong>{{cartDetails.name}} </strong>
-                                    <br />100% Pure</p>
-                                    <span>{{skuSize.size}}</span>
-                                </td>
-                                <td class="table-price" *ngFor="let skuSize of cartDetails.sku">
-                                    <p>
-                                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
-                                        <br />
-                                        <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.selling_price}}
-                                    </p>
-                                </td>
-                                <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
-                                    <p>
+          </div>
+          <div class="deliver-btn">
+            <p>
+              <strong>DELIVER HERE </strong>
+            </p>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn edit-btn" (click)="editAdd(item)" data-toggle="modal" data-target="#editModalForm">EDIT</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn delete-btn" (click)="deleteAdd(item._id)">DELETE</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- my orders 1 -->
+
+    <div class="col-lg-9 order-details" *ngIf="myOrders1">
+      <h4> MY ORDERS</h4>
+      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems()">
+        <div class="row order-time">
+          <div class="col-lg-6">
+            <p>{{item.order.delivery_slot_time}}</p>
+          </div>
+          <div class="col-lg-6 order-id" *ngFor="let data of item.cart">
+            <p>Order ID :{{data.id_order}}</p>
+          </div>
+        </div>
+        <div class="row" *ngFor="let data of item.cart">
+          <div>
+            <img [src]="url + data.product_pic" class="ashirvaad-image" style="padding-left:20px;">
+          </div>
+          <div class="prod-name">
+            <p>
+              <strong>{{data.product_name}}</strong>
+            </p>
+            <p>{{data.size}}</p>
+            <p>Quantity : {{data.dispatch_quantity}}</p>
+          </div>
+        </div>
+        <div class="row order-status">
+          <div class="col-lg-6 ">
+            <p>Status:
+              <span>{{item.order.order_status}}</span>
+            </p>
+          </div>
+          <div class=" col-lg-6 delivery-time">
+            <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="orders.length==0">
+        <h3 class="text-center nodata">No Data Found</h3>
+      </div>
+    </div>
+
+
+    <!-- my cart -->
+    <div class="col-lg-9 cart-details" *ngIf="mycart">
+      <div class="row cart-buttons">
+        <div class="col-lg-4">
+          <h4>MY CART ({{cartCount}})</h4>
+        </div>
+        <div class="col-lg-8">
+          <div class="row">
+            <div class="col-lg-4">
+              <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
+            </div>
+
+            <div class="col-lg-4">
+              <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+            </div>
+            <div class="col-lg-4">
+              <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
+            </div>
+          </div>
+
+          <div class="col-md-12" *ngIf="orders.length==0">
+            <h3 class="text-center nodata">No Data Found</h3>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table prod-table">
+          <thead class="table-header">
+            <tr>
+              <th scope="col" width="40%" class="table-headings">Item Description</th>
+              <th scope="col" width="15%" class="table-headings">Unit Price</th>
+              <th scope="col" width="15%" class="table-headings">Quantity</th>
+              <th scope="col" width="15%" class="table-headings">Subtotal</th>
+              <th scope="col" width="15%" class="table-headings">Savings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let cartDetails of mycart">
+              <td class="table-data" *ngFor="let skuSize of cartDetails.sku">
+                <img [src]="url + cartDetails.image" class="prod-image">
+                <p>
+                  <strong>{{cartDetails.name}} </strong>
+                  <br />100% Pure</p>
+                <span>{{skuSize.size}}</span>
+              </td>
+              <td class="table-price" *ngFor="let skuSize of cartDetails.sku">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
+                  <br />
+                  <i class="fa fa-strikethrought" aria-hidden="true"></i>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.selling_price}}
+                </p>
+              </td>
+              <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
+                <div class="quantity buttons_added">
+                  <input type="button" value="-" class="minus" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
+                  <input type="number" step="1" min="1" max="" name="quantity" value="{{skuSize.mycart}}" title="Qty"
+                    class="input-text qty text" size="4" pattern="" inputmode="" disabled>
+                  <input type="button" value="+" class="plus" (click)="itemIncrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
+                </div>
+                <!-- <p>
                                         <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
                                         <span>|{{skuSize.mycart}}|</span>
                                         <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
-                                    </p>
-                                </td>
-                                <td class="table-total">
-                                    <p>
-                                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.selling_price}}
-                                    </p>
-                                </td>
-                                <td class="table-savings">
-                                    <p>
-                                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.mrp-cartDetails.selling_price}}
-                                    </p>
-                                    <span>
-                                        You Save {{(100-(cartDetails.selling_price/cartDetails.mrp)*100)}}%
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr class="table-border">
-                                <td class="mrp-rate">
-                                    <h5>Total MRP</h5>
-                                </td>
-                                <td></td>
-                                <td></td>
-                                <td class="table-total">
-                                    <p>
-                                        <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
-                                    </td>
-                                    <td class="table-savings">
-                                        <p>
-                                            <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
-                                            
-                                        </p>
-                                        <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}% </span>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-6 text-center">
-                            <h5>
-                                <strong>Total to Pay</strong>
-                            </h5>
-                        </div>
-                        <div class="col-lg-6 total-mrp">
-                            <p>
-                                <strong>
-                                    <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row check-butons">
-                            <div class="col-lg-6">
-                                <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-                            </div>
-                            <div class="col-lg-6">
-                                <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- my subscription -->
-                    <!-- my subscription -->
-                    <div class="col-lg-9 subscriptions" *ngIf="mysubscription">
-                        <div class="row header-btns">
-                            <div class="col-lg-6">
-                                <h4>MY SUBSCRIPTIONS</h4>
-                            </div>
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn active-btn" (click)="subscriptionActive()">ACTIVE</button>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <button type="button" class="btn cancel-btn" (click)="subscriptionCancel()">CANCELLED</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <hr>
-                        <div class="">
-                            <div class="row" *ngFor="let item of subscribedOrders">
-                                <div class="col-lg-3">
-                                    <img [src]="url + item.order.product_pic" class="onion-image">
-                                </div>
-                                <div class="col-lg-9">
-                                    <h5>
-                                        <strong>{{item.product_name}}</strong>
-                                    </h5>
-                                    <p class="monthly-subscription">Subscribed for monthly @
-                                        <strong>
-                                            <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
-                                        </p>
-                                        <p class="saving-rupees">
-                                            You Saved
-                                            <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
-                                        </p>
-                                        <p class="cancel-plan">
-                                            <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
-                                        </p>
-                                    </div>
-                                </div>                              
-                            </div>
-                            <!-- <div class="row" *ngIf="!subscribeactive">
+                                    </p> -->
+              </td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.selling_price}}
+                </p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.mrp-cartDetails.selling_price}}
+                </p>
+                <span>
+                  You Save {{(100-(cartDetails.selling_price/cartDetails.mrp)*100)}}%
+                </span>
+              </td>
+            </tr>
+            <tr class="table-border">
+              <td class="mrp-rate">
+                <h5>Total MRP</h5>
+              </td>
+              <td></td>
+              <td></td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
+
+                </p>
+                <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}% </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 text-center">
+          <h5>
+            <strong>Total to Pay</strong>
+          </h5>
+        </div>
+        <div class="col-lg-6 total-mrp">
+          <p>
+            <strong>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+          </p>
+        </div>
+      </div>
+      <div class="row check-butons">
+        <div class="col-lg-6">
+          <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+        </div>
+        <div class="col-lg-6">
+          <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- my subscription -->
+    <!-- my subscription -->
+    <div class="col-lg-9 subscriptions" *ngIf="mysubscription">
+      <div class="row header-btns">
+        <div class="col-lg-6">
+          <h4>MY SUBSCRIPTIONS</h4>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn active-btn" (click)="subscriptionActive()">ACTIVE</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn cancel-btn" (click)="subscriptionCancel()">CANCELLED</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="">
+        <div class="row" *ngFor="let item of subscribedOrders">
+          <div class="col-lg-3">
+            <img [src]="url + item.order.product_pic" class="onion-image">
+          </div>
+          <div class="col-lg-9">
+            <h5>
+              <strong>{{item.product_name}}</strong>
+            </h5>
+            <p class="monthly-subscription">Subscribed for monthly @
+              <strong>
+                <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
+            </p>
+            <p class="saving-rupees">
+              You Saved
+              <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
+            </p>
+            <p class="cancel-plan">
+              <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
+            </p>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="row" *ngIf="!subscribeactive">
+>>>>>>> 7bdfd37876319c7dde520597f078d68d2a67a696
                                 <p>No data Found</p>
                             </div> -->
-                            <hr>
-                        </div>
-                        <div class="col-lg-9 subscriptions" *ngIf="unsubscribe">
-                            <div class="row header-btns">
-                                <div class="col-lg-6">
-                                    <h4>MY SUBSCRIPTIONS</h4>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <button type="button" class="btn active-btn active" (click)="subscriptionActive()">ACTIVE</button>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <button type="button" class="btn cancel-btn" (click)="subscriptionCancel()">CANCELLED</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="" *ngIf="unsubscribe">
-                                <div class="row" *ngFor="let item of ordersData">
-                                    <div class="col-lg-3">
-                                        <img [src]="url + item.order.product_pic" class="onion-image">
-                                    </div>
-                                    <div class="col-lg-9">
-                                        <h5>
-                                            <strong>{{item.product_name}}</strong>
-                                        </h5>
-                                        <p class="monthly-subscription">Subscribed for monthly @
-                                            <strong>
-                                                <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
-                                            </p>
-                                            <p class="saving-rupees">
-                                                You Saved
-                                                <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
-                                            </p>
-                                            <!-- <p class="cancel-plan">
+      <hr>
+    </div>
+    <div class="col-lg-9 subscriptions" *ngIf="unsubscribe">
+      <div class="row header-btns">
+        <div class="col-lg-6">
+          <h4>MY SUBSCRIPTIONS</h4>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn active-btn active" (click)="subscriptionActive()">ACTIVE</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn cancel-btn" (click)="subscriptionCancel()">CANCELLED</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr>
+      <div class="" *ngIf="unsubscribe">
+        <div class="row" *ngFor="let item of ordersData">
+          <div class="col-lg-3">
+            <img [src]="url + item.order.product_pic" class="onion-image">
+          </div>
+          <div class="col-lg-9">
+            <h5>
+              <strong>{{item.product_name}}</strong>
+            </h5>
+            <p class="monthly-subscription">Subscribed for monthly @
+              <strong>
+                <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.grand_total}}</strong>
+            </p>
+            <p class="saving-rupees">
+              You Saved
+              <i class="fa fa-rupee" aria-hidden="true"></i>{{item.order.total_selling_discount}}
+            </p>
+            <!-- <p class="cancel-plan">
                                                 <a (click)="subscriptionStatus(item.order.order_no)">Cancel Plan</a>
                                             </p> -->
-                                        </div>
-                                    </div>                                                            
-                                </div>
-                                <!-- <div class="row" *ngIf="!subscribeactive">
-                                    <p>No data Found</p>
-                                </div> -->
-                                <hr>
-                            </div>
-                            <!-- offers -->
-                            <div class="col-lg-9" *ngIf="offers">
-                                <div class="row">
-                                    <div class="col-lg-6">
-                                        <div class="cust-offers">
-                                            <img src="assets/images/paytm.jpg" class="offer-image">
-                                            <p>
-                                                <strong>Pay With Paytm </strong>
-                                            </p>
-                                            <p>Get Rs.250 cashback Shop for Rs.499 & above</p>
-                                            <p>Promocode:MK250</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-6">
-                                        <div class="cust-offers">
-                                            <img src="assets/images/mobiviki.png" class="offer-image">
-                                            <p>
-                                                <strong>Pay With Mobiwik </strong>
-                                            </p>
-                                            <p>Get 20% Additional cashback</p>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="col-lg-12">
-                                        <figure class="kotakimg">
-                                            <img src="..assets/images/kotak.png" />
-                                        </figure>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <!-- rate us -->
-                            <div class="col-lg-9 rating-bar" *ngIf="rateUs">
-                                <h4>
-                                    <strong>RATE US</strong>
-                                </h4>
-                                <div class="row rating-us">
-                                    <div class="col-lg-12 feedback-rating">
-                                        <h5>
-                                            <strong>Rate Us</strong>
-                                        </h5>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12 feedback-rating">
-                                        <p>
-                                            How did you like shoping with Yespree?
-                                        </p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="row smiley-icons">
-                                    <div class="col-lg-4">
-                                        <img src="assets/images/happy.png" class="smiley-image">
-                                        <p>Happy</p>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <img src="assets/images/good.png" class="smiley-image">
-                                        <p>Good</p>
-                                    </div>
-                                    <div class="col-lg-4">
-                                        <img src="assets/images/not_good.png" class="smiley-image">
-                                        <p>Not Good</p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="feedback-header">
-                                    <h5>
-                                        <strong>Feedback</strong>
-                                    </h5>
-                                </div>
-                                <div class="cust-feedback">
-                                    <p>Your valuable feedback will help us to improve our service</p>
-                                    <p>(Optional)</p>
-                                </div>
-                                <div class="submit-btn-block">
-                                    <button type="button" class="btn submit-btn">SUBMIT</button>
-                                </div>
-                            </div>
-                            
-                            <!-- notifications -->
-                            <div class="col-lg-9 notification" *ngIf="mynotifiactions">
-                                <h4>
-                                    <strong>NOTIFICATIONS</strong>
-                                </h4>
-                                <div class="row notifications-bar">
-                                    <div class="col-lg-3">
-                                        <div class="form-check">
-                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                                        </div>
-                                        <div class="chakki-img">
-                                            <img src="..assets/images/chakki.jpg" alt="Chakki-img">
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-9 notification-details">
-                                        <h6>
-                                            <strong>Flat 50% OFF for Chakki Whole Wheat Atta</strong>
-                                        </h6>
-                                        <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                            a gallery.</p>
-                                            <span>an hour ago</span>
-                                        </div>
-                                    </div>
-                                    <div class="row notifications-bar">
-                                        <div class="col-lg-3">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
-                                            </div>
-                                            <img src="..assets/images/vegetable.jpg" width="100%">
-                                        </div>
-                                        <div class="col-lg-9 notification-details">
-                                            <h6>
-                                                <strong>Get vegetables with huge discounts on your door step</strong>
-                                            </h6>
-                                            <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                                a gallery.</p>
-                                                <span>one day ago</span>
-                                            </div>
-                                        </div>
-                                        <div class="row notifications-bar">
-                                            <div class="col-lg-3">
-                                                <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3">
-                                                </div>
-                                                <div class="veg-img">
-                                                    <img src="..assets/images/vegetable2.jpg">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-9 vegetable-details">
-                                                <h6>
-                                                    <strong>Get vegetables with huge discounts on your door step</strong>
-                                                </h6>
-                                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
-                                                    a gallery.</p>
-                                                    <span>18 Mar 2018</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        <!-- Modal -->
-                                        <div class="modal fade right" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                                        aria-hidden="true">
-                                        <div class="modal-dialog modal-side modal-top-right" role="document">
-                                            <!--Content-->
-                                            <div class="modal-content form-elegant">
-                                                <!--Header-->
-                                                <div class="modal-header text-center">
-                                                    <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
-                                                        <strong>ADD NEW ADDRESS</strong>
-                                                    </h3>
-                                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <!--Body-->
-                                                <div class="modal-body mx-4">
-                                                    <!--Body-->
-                                                    <!-- Default inline 1-->
-                                                    
-                                                    
-                                                    <form>
-                                                        <ul _ngcontent-c1="" class="title-list">
-                                                            <li _ngcontent-c1="">
-                                                                <div _ngcontent-c1="">
-                                                                    <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
-                                                                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
-                                                                </div>
-                                                            </li>
-                                                            <li _ngcontent-c1="">
-                                                                <div _ngcontent-c1="">
-                                                                    <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
-                                                                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
-                                                                </div>
-                                                            </li>
-                                                            <li _ngcontent-c1="">
-                                                                <div _ngcontent-c1="">
-                                                                    <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
-                                                                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
-                                                                </div>
-                                                            </li>
-                                                            <li _ngcontent-c1="">
-                                                                <div _ngcontent-c1="">
-                                                                    <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
-                                                                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputEmail1">Name</label>
-                                                            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                            placeholder="Name" [(ngModel)]="addData.name" name="name">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Flot/House/Office No</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
-                                                            [(ngModel)]="addData.phone" name="phone">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Steet Name</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
-                                                            name="phone">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Taluka</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
-                                                            name="taluk">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">District</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
-                                                            name="district">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">State</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
-                                                            name="state">
-                                                        </div>
-                                                        <div class="form-group">
-                                                            <label for="exampleInputPassword1">Pincode</label>
-                                                            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
-                                                            name="pincode">
-                                                        </div>
-                                                        Address Type:
-                                                        <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
-                                                        <button type="submit" class="btn btn-primary" (click)="buttonType('OFFICE')">Office</button>
-                                                        <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
-                                                    </form>
-                                                </div>
-                                                <!--/.Content-->
-                                            </div>
-                                        </div>
-                                        <!-- Modal -->
-                                        <!--Accordion wrapper-->
-                                        
-                                    </div>
-                                    
-                                    
-                                    <!-- edit address -->
-                                    <div class="modal fade right" id="editModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                                    aria-hidden="true">
-                                    <div class="modal-dialog modal-side modal-top-right" role="document">
-                                        <!--Content-->
-                                        <div class="modal-content form-elegant">
-                                            <!--Header-->
-                                            <div class="modal-header text-center">
-                                                <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
-                                                    <strong>EDIT ADDRESS</strong>
-                                                </h3>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearData()">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <!--Body-->
-                                            <div class="modal-body mx-4">
-                                                <!--Body-->
-                                                <!-- Default inline 1-->
-                                                <form>
-                                                    <ul _ngcontent-c1="" class="title-list">
-                                                        <li _ngcontent-c1="">
-                                                            <div _ngcontent-c1="">
-                                                                <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
-                                                                <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
-                                                            </div>
-                                                        </li>
-                                                        <li _ngcontent-c1="">
-                                                            <div _ngcontent-c1="">
-                                                                <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
-                                                                <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
-                                                            </div>
-                                                        </li>
-                                                        <li _ngcontent-c1="">
-                                                            <div _ngcontent-c1="">
-                                                                <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
-                                                                <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
-                                                            </div>
-                                                        </li>
-                                                        <li _ngcontent-c1="">
-                                                            <div _ngcontent-c1="">
-                                                                <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
-                                                                <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
-                                                            </div>
-                                                        </li>
-                                                    </ul>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputEmail1">Name</label>
-                                                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                                                        placeholder="Name" [(ngModel)]="addData.name" name="name">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">Flot/House/Office No</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
-                                                        [(ngModel)]="addData.phone" name="phone">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">Steet Name</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
-                                                        name="phone">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">Taluka</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
-                                                        name="taluk">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">District</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
-                                                        name="district">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">State</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
-                                                        name="state">
-                                                    </div>
-                                                    <div class="form-group">
-                                                        <label for="exampleInputPassword1">Pincode</label>
-                                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
-                                                        name="pincode">
-                                                    </div>
-                                                    Address Type:
-                                                    <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
-                                                    <button type="submit" class="btn btn-primary" (click)="buttonType('OFFICE')">Office</button>
-                                                    <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="updateAdd()">Update</button>
-                                                </form>
-                                            </div>
-                                            <!--/.Content-->
-                                        </div>
-                                    </div>
-                                    <!-- Modal -->
-                                    <!--Accordion wrapper-->
-                                </div>
-                                
-                                
-                                <!-- wish list -->
-                                <div class="col-lg-9 notification" *ngIf="wishlist">
-                                    <div class="row">
-                                        <div class="col-lg-6">
-                                            <h4>MY WISHlIST ({{wishCount}} ITEMS)</h4>
-                                        </div>
-                                        <div class="col-lg-6">
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <table class="table prod-table wish">
-                                            <thead class="table-header">
-                                                <tr>
-                                                    <th scope="col" width="40%" class="table-headings">Item Description</th>
-                                                    <th scope="col" width="15%" class="table-headings">Unity Price</th>
-                                                    <th scope="col" width="15%" class="table-headings">Quantity</th>
-                                                    <th scope="col" width="15%" class="table-headings">Subtotal</th>
-                                                    <th scope="col" width="15%" class="table-headings">Savings</th>
-                                                    <th scope="col" width="15%" class="table-headings">Delete</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr *ngFor="let item of WishList">
-                                                    <td class="table-data">
-                                                        <img src="{{item.image}}" class="prod-image">
-                                                        <p>
-                                                            <strong>{{item.name}} </strong>
-                                                        </p>
-                                                        <!-- <span>10kg</span> -->
-                                                    </td>
-                                                    <td class="table-price"  *ngFor="let sku of item.sku">
-                                                        <p>
-                                                            <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
-                                                                <i class="fa fa-rupee" aria-hidden="true"></i>
-                                                                {{sku.mrp}}
-                                                            </strike><br />
-                                                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
-                                                        </p>
-                                                    </td>
-                                                    <td class="table-quanities" *ngFor="let sku of item.sku">
-                                                        <p>
-                                                            <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
-                                                            <span>|{{sku.mycart}}|</span>
-                                                            <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
-                                                        </p>
-                                                    </td>
-                                                    <td class="table-total">
-                                                        <p>
-                                                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
-                                                        </p>
-                                                    </td>
-                                                    <td class="table-savings">
-                                                        <p>
-                                                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.mrp-item.selling_price}}
-                                                        </p>
-                                                        <span>
-                                                            You Save {{(100-(item.selling_price/item.mrp)*100)}}%
-                                                        </span>
-                                                    </td>
-                                                    <td class="table-delete">
-                                                        <p> 
-                                                            <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(item._id,sku._id)"></i>
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                                <tr class="table-border">
-                                                    <td class="mrp-rate">
-                                                        <h5>Total MRP</h5>
-                                                    </td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td class="table-total">
-                                                        <p>
-                                                            <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
-                                                        </td>
-                                                        <td class="table-savings">
-                                                            <p>
-                                                                <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
-                                                            </p>
-                                                            <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}} %</span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            </table>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-lg-6 text-center">
-                                                <h5>
-                                                    <strong>Total to Pay</strong>
-                                                </h5>
-                                            </div>
-                                            <div class="col-lg-6 total-mrp">
-                                                <p>
-                                                    <strong>
-                                                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-lg-6">
-                                                    <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
-                                                </div>
-                                                <div class="col-lg-6">
-                                                    <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        
-                                        
-                                        <!-- wish list -->
-                                        
-                                        <!-- share screen -->
-                                        
-                                        <div class="col-lg-9" *ngIf="sharescreen">
-                                            
-                                            <div class="row">
-                                                <div class="col-lg-12">
-                                                    <div class="cust-share">
-                                                        <h5>
-                                                            <strong>SHARE</strong>
-                                                        </h5>
-                                                        <figure class="shareimg text-center">
-                                                            <img src="..assets/images/share.png" alt="SHARE" />
-                                                            <figcaption>
-                                                                <p>Invite a Friend</p>
-                                                                <p>Friend Signup</p>
-                                                                <p>Get Cashback</p>
-                                                            </figcaption>
-                                                            <h5>
-                                                                <strong>Your Referral Code</strong>
-                                                            </h5>
-                                                            <h6>
-                                                                <span class="dotborder">YES00012</span>
-                                                            </h6>
-                                                            <a href="">Get Referral Link</a>
-                                                        </figure>
-                                                        
-                                                        <h5>
-                                                            <strong>SHARE VIA</strong>
-                                                        </h5>
-                                                        <br />
-                                                        <ul class="share-via">
-                                                            <li>
-                                                                <!-- <i class="fa fa-whatsapp" aria-hidden="true"></i> -->
-                                                                <img src="assets/images/watsapp.png" width="50px" height="50px">
-                                                                
-                                                                <p class="social">Whatsapp</p>
-                                                            </li>
-                                                            <li>
-                                                                
-                                                                <img src="assets/images/facebook.png" width="50px" height="50px">
-                                                                
-                                                                <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
-                                                                <p class="social">Facebook</p>
-                                                            </li>
-                                                            <li>
-                                                                
-                                                                <img src="assets/images/message.jpg" width="50px" height="50px">
-                                                                
-                                                                <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> -->
-                                                                <p class="social">Message</p>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-9 notification" *ngIf="coupon">
-                                            <h4>
-                                                coupons
-                                            </h4>
-                                            <div class="row notifications-bar" *ngFor="let offer of coupons">
-                                                <div class="col-lg-4">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-                                                    </div>
-                                                    <div class="coupon-image">
-                                                        <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
-                                                        <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
-                                                    </div>
-                                                </div>
-                                                <div class="col-lg-5">
-                                                    <div class="validity">
-                                                        <p>validity Start From: <b>{{offer.validity_start}}</b></p>
-                                                        <p>Validity end: <b>{{offer.validity_end}}</b></p>
-                                                    </div>
-                                                    
-                                                </div>
-                                                <div class="col-lg-3">
-                                                    <p>Updated Data: <b>{{offer.updated}}</b></p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- offers -->
+    <div class="col-lg-9" *ngIf="offers">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="cust-offers">
+            <img src="assets/images/paytm.jpg" class="offer-image">
+            <p>
+              <strong>Pay With Paytm </strong>
+            </p>
+            <p>Get Rs.250 cashback Shop for Rs.499 & above</p>
+            <p>Promocode:MK250</p>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="cust-offers">
+            <img src="assets/images/mobiviki.png" class="offer-image">
+            <p>
+              <strong>Pay With Mobiwik </strong>
+            </p>
+            <p>Get 20% Additional cashback</p>
+          </div>
+        </div>
+
+        <div class="col-lg-12">
+          <figure class="kotakimg">
+            <img src="..assets/images/kotak.png" />
+          </figure>
+        </div>
+      </div>
+    </div>
+
+    <!-- rate us -->
+    <div class="col-lg-9 rating-bar" *ngIf="rateUs">
+      <h4>
+        <strong>RATE US</strong>
+      </h4>
+      <div class="row rating-us">
+        <div class="col-lg-12 feedback-rating">
+          <h5>
+            <strong>Rate Us</strong>
+          </h5>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 feedback-rating">
+          <p>
+            How did you like shoping with Yespree?
+          </p>
+        </div>
+      </div>
+      <hr>
+      <div class="row smiley-icons">
+        <div class="col-lg-4">
+          <img src="assets/images/happy.png" class="smiley-image">
+          <p>Happy</p>
+        </div>
+        <div class="col-lg-4">
+          <img src="assets/images/good.png" class="smiley-image">
+          <p>Good</p>
+        </div>
+        <div class="col-lg-4">
+          <img src="assets/images/not_good.png" class="smiley-image">
+          <p>Not Good</p>
+        </div>
+      </div>
+      <hr>
+      <div class="feedback-header">
+        <h5>
+          <strong>Feedback</strong>
+        </h5>
+      </div>
+      <div class="cust-feedback">
+        <p>Your valuable feedback will help us to improve our service</p>
+        <p>(Optional)</p>
+      </div>
+      <div class="submit-btn-block">
+        <button type="button" class="btn submit-btn">SUBMIT</button>
+      </div>
+    </div>
+
+    <!-- notifications -->
+    <div class="col-lg-9 notification" *ngIf="mynotifiactions">
+      <h4>
+        <strong>NOTIFICATIONS</strong>
+      </h4>
+      <div class="row notifications-bar">
+        <div class="col-lg-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+          </div>
+          <div class="chakki-img">
+            <img src="..assets/images/chakki.jpg" alt="Chakki-img">
+          </div>
+        </div>
+        <div class="col-lg-9 notification-details">
+          <h6>
+            <strong>Flat 50% OFF for Chakki Whole Wheat Atta</strong>
+          </h6>
+          <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            a gallery.</p>
+          <span>an hour ago</span>
+        </div>
+      </div>
+      <div class="row notifications-bar">
+        <div class="col-lg-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+          </div>
+          <img src="..assets/images/vegetable.jpg" width="100%">
+        </div>
+        <div class="col-lg-9 notification-details">
+          <h6>
+            <strong>Get vegetables with huge discounts on your door step</strong>
+          </h6>
+          <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            a gallery.</p>
+          <span>one day ago</span>
+        </div>
+      </div>
+      <div class="row notifications-bar">
+        <div class="col-lg-3">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option3">
+          </div>
+          <div class="veg-img">
+            <img src="..assets/images/vegetable2.jpg">
+          </div>
+        </div>
+        <div class="col-lg-9 vegetable-details">
+          <h6>
+            <strong>Get vegetables with huge discounts on your door step</strong>
+          </h6>
+          <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took
+            a gallery.</p>
+          <span>18 Mar 2018</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade right" id="elegantModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-side modal-top-right" role="document">
+        <!--Content-->
+        <div class="modal-content form-elegant">
+          <!--Header-->
+          <div class="modal-header text-center">
+            <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
+              <strong>ADD NEW ADDRESS</strong>
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body mx-4">
+            <!--Body-->
+            <!-- Default inline 1-->
+
+
+            <form>
+              <ul _ngcontent-c1="" class="title-list">
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
+                  </div>
+                </li>
+              </ul>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Name" [(ngModel)]="addData.name" name="name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Flot/House/Office No</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
+                  [(ngModel)]="addData.phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Steet Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
+                  name="phone">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Taluka</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
+                  name="taluk">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">District</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
+                  name="district">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">State</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
+                  name="state">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Pincode</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
+                  name="pincode">
+              </div>
+              Address Type:
+              <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
+              <button type="submit" class="btn btn-primary" (click)="buttonType('OFFICE')">Office</button>
+              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
+            </form>
+          </div>
+          <!--/.Content-->
+        </div>
+      </div>
+      <!-- Modal -->
+      <!--Accordion wrapper-->
+
+    </div>
+
+
+    <!-- edit address -->
+    <div class="modal fade right" id="editModalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-side modal-top-right" role="document">
+        <!--Content-->
+        <div class="modal-content form-elegant">
+          <!--Header-->
+          <div class="modal-header text-center">
+            <h3 class="modal-title w-100 dark-grey-text font-weight-bold my-3" id="myModalLabel">
+              <strong>EDIT ADDRESS</strong>
+            </h3>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearData()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <!--Body-->
+          <div class="modal-body mx-4">
+            <!--Body-->
+            <!-- Default inline 1-->
+            <form>
+              <ul _ngcontent-c1="" class="title-list">
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
+                  </div>
+                </li>
+                <li _ngcontent-c1="">
+                  <div _ngcontent-c1="">
+                    <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
+                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
+                  </div>
+                </li>
+              </ul>
+              <div class="form-group">
+                <label for="exampleInputEmail1">Name</label>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  placeholder="Name" [(ngModel)]="addData.name" name="name">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Flot/House/Office No</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
+                  [(ngModel)]="addData.phone" name="phone">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Steet Name</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
+                  name="phone">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Taluka</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
+                  name="taluk">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">District</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
+                  name="district">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">State</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
+                  name="state">
+              </div>
+              <div class="form-group">
+                <label for="exampleInputPassword1">Pincode</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
+                  name="pincode">
+              </div>
+              Address Type:
+              <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
+              <button type="submit" class="btn btn-primary" (click)="buttonType('OFFICE')">Office</button>
+              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="updateAdd()">Update</button>
+            </form>
+          </div>
+          <!--/.Content-->
+        </div>
+      </div>
+      <!-- Modal -->
+      <!--Accordion wrapper-->
+    </div>
+
+
+    <!-- wish list -->
+    <div class="col-lg-9 notification" *ngIf="wishlist">
+      <div class="row">
+        <div class="col-lg-6">
+          <h4>MY WISHlIST ({{wishCount}} ITEMS)</h4>
+        </div>
+        <div class="col-lg-6">
+          <div class="row">
+            <div class="col-lg-6">
+              <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+            </div>
+            <div class="col-lg-6">
+              <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
+            </div>
+          </div>
+        </div>
+        <table class="table prod-table wish">
+          <thead class="table-header">
+            <tr>
+              <th scope="col" width="40%" class="table-headings">Item Description</th>
+              <th scope="col" width="15%" class="table-headings">Unity Price</th>
+              <th scope="col" width="15%" class="table-headings">Quantity</th>
+              <th scope="col" width="15%" class="table-headings">Subtotal</th>
+              <th scope="col" width="15%" class="table-headings">Savings</th>
+              <th scope="col" width="15%" class="table-headings">Delete</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of WishList">
+              <td class="table-data">
+                <img src="{{item.image}}" class="prod-image">
+                <p>
+                  <strong>{{item.name}} </strong>
+                </p>
+                <!-- <span>10kg</span> -->
+              </td>
+              <td class="table-price" *ngFor="let sku of item.sku">
+                <p>
+                  <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.mrp}}
+                  </strike><br />
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
+                </p>
+              </td>
+              <td class="table-quanities" *ngFor="let sku of item.sku">
+                <p>
+                  <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
+                  <span>|{{sku.mycart}}|</span>
+                  <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(WishList,item.name,item._id,sku._id,i,'wishList')"></i>
+                </p>
+              </td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.selling_price}}
+                </p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{item.mrp-item.selling_price}}
+                </p>
+                <span>
+                  You Save {{(100-(item.selling_price/item.mrp)*100)}}%
+                </span>
+              </td>
+              <td class="table-delete">
+                <p>
+                  <i class="fa fa-trash-o" aria-hidden="true" (click)="removeWish(item._id,sku._id)"></i>
+                </p>
+              </td>
+            </tr>
+            <tr class="table-border">
+              <td class="mrp-rate">
+                <h5>Total MRP</h5>
+              </td>
+              <td></td>
+              <td></td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
+                </p>
+                <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}} %</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 text-center">
+          <h5>
+            <strong>Total to Pay</strong>
+          </h5>
+        </div>
+        <div class="col-lg-6 total-mrp">
+          <p>
+            <strong>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6">
+          <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+        </div>
+        <div class="col-lg-6">
+          <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- wish list -->
+
+    <!-- share screen -->
+
+    <div class="col-lg-9" *ngIf="sharescreen">
+
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="cust-share">
+            <h5>
+              <strong>SHARE</strong>
+            </h5>
+            <figure class="shareimg text-center">
+              <img src="..assets/images/share.png" alt="SHARE" />
+              <figcaption>
+                <p>Invite a Friend</p>
+                <p>Friend Signup</p>
+                <p>Get Cashback</p>
+              </figcaption>
+              <h5>
+                <strong>Your Referral Code</strong>
+              </h5>
+              <h6>
+                <span class="dotborder">YES00012</span>
+              </h6>
+              <a href="">Get Referral Link</a>
+            </figure>
+
+            <h5>
+              <strong>SHARE VIA</strong>
+            </h5>
+            <br />
+            <ul class="share-via">
+              <li>
+                <!-- <i class="fa fa-whatsapp" aria-hidden="true"></i> -->
+                <img src="assets/images/watsapp.png" width="50px" height="50px">
+
+                <p class="social">Whatsapp</p>
+              </li>
+              <li>
+
+                <img src="assets/images/facebook.png" width="50px" height="50px">
+
+                <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
+                <p class="social">Facebook</p>
+              </li>
+              <li>
+
+                <img src="assets/images/message.jpg" width="50px" height="50px">
+
+                <!-- <i class="fa fa-commenting-o" aria-hidden="true"></i> -->
+                <p class="social">Message</p>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-9 notification" *ngIf="coupon">
+      <h4>
+        coupons
+      </h4>
+      <div class="row notifications-bar" *ngFor="let offer of coupons">
+        <div class="col-lg-4">
+          <div class="form-check">
+            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+          </div>
+          <div class="coupon-image">
+            <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
+            <p>PromoCode:<strong>{{offer.promo_code}}</strong></p>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="validity">
+            <p>validity Start From: <b>{{offer.validity_start}}</b></p>
+            <p>Validity end: <b>{{offer.validity_end}}</b></p>
+          </div>
+
+        </div>
+        <div class="col-lg-3">
+          <p>Updated Data: <b>{{offer.updated}}</b></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

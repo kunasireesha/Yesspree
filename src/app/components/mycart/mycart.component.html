@@ -1,123 +1,129 @@
 <div class="container">
-    <div class="row">
-        <div class="col-lg-6">
-            <h4>YOUR CART ({{cartCount}})</h4>
+  <div class="row">
+    <div class="col-lg-6">
+      <h4>YOUR CART ({{cartCount}})</h4>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <div class="col-lg-4">
+          <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
         </div>
-        <div class="col-lg-6">
-            <div class="row">
-                <div class="col-lg-4">
-                    <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
-                </div>
-                <div class="col-lg-4">
-                    <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPING</button>
-                </div>
-                <div class="col-lg-4">
-                    <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
-                </div>
-            </div>
+        <div class="col-lg-4">
+          <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPING</button>
         </div>
-        <table class="table prod-table">
-            <thead class="table-header">
-                <tr>
-                    <th scope="col" width="40%" class="table-headings">Item Description</th>
-                    <th scope="col" width="15%" class="table-headings">Unity Price</th>
-                    <th scope="col" width="15%" class="table-headings">Quantity</th>
-                    <th scope="col" width="15%" class="table-headings">Subtotal</th>
-                    <th scope="col" width="15%" class="table-headings">Savings</th>
-                    <th scope="col" width="15%" class="table-headings">Delete</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let cartItems of mycart">
-                    <td class="table-data">
-                        <img [src]="url + cartItems.image" class="prod-image">
-                        <p>
-                            <strong>{{cartItems.name}} </strong>
-                        </p>
-                        <!-- <span>10kg</span> -->
-                    </td>
-                    <td class="table-price" *ngFor="let sku of cartItems.sku">
-                        <p>
-                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{sku.mrp}}</strike>
-                            <br />
-                            <i class="fa fa-strikethrought" aria-hidden="true"></i>
-                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
-                        </p>
-                    </td>
-                    <td class="table-quanities" *ngFor="let sku of cartItems.sku">
-                        <p>
-                            <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i)"></i>
-                            <span>|{{sku.mycart}}|</span>
-                            <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)"></i>
-                        </p>
-                    </td>
-                    <td class="table-total">
-                        <p>
-                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
-                        </p>
-                    </td>
-                    <td class="table-savings">
-                        <p>
-                            <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.mrp-cartItems.selling_price}}
-                        </p>
-                        <span>
-                            You Save {{(100-(cartItems.selling_price/cartItems.mrp)*100)}}%
-                        </span>
-                    </td>
-                    <td class="table-delete" *ngFor="let sku of cartItems.sku">
-                        <p>
-                            <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
-                        </p>
-                    </td>
-                </tr>
-                <tr class="table-border">
-                    <td class="mrp-rate">
-                        <h5>Total MRP</h5>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td class="table-total">
-                        <p>
-                            <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
-                        </td>
-                        <td class="table-savings">
-                            <p>
-                                <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
-                            </p>
-                            <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}%</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="col-lg-4">
+          <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
         </div>
-        <div class="row">
-            <div class="col-lg-6 text-center">
-                <h5>
-                    <strong>Total to Pay</strong>
-                </h5>
+      </div>
+    </div>
+    <table class="table prod-table">
+      <thead class="table-header">
+        <tr>
+          <th scope="col" width="40%" class="table-headings">Item Description</th>
+          <th scope="col" width="15%" class="table-headings">Unity Price</th>
+          <th scope="col" width="15%" class="table-headings">Quantity</th>
+          <th scope="col" width="15%" class="table-headings">Subtotal</th>
+          <th scope="col" width="15%" class="table-headings">Savings</th>
+          <th scope="col" width="15%" class="table-headings">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let cartItems of mycart">
+          <td class="table-data">
+            <img [src]="url + cartItems.image" class="prod-image">
+            <p>
+              <strong>{{cartItems.name}} </strong>
+            </p>
+            <!-- <span>10kg</span> -->
+          </td>
+          <td class="table-price" *ngFor="let sku of cartItems.sku">
+            <p>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{sku.mrp}}</strike>
+              <br />
+              <i class="fa fa-strikethrought" aria-hidden="true"></i>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
+            </p>
+          </td>
+          <td class="table-quanities" *ngFor="let sku of cartItems.sku">
+            <div class="quantity buttons_added">
+              <input type="button" value="-" class="minus" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i)">
+              <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text"
+                size="4" pattern="" inputmode="" disabled>
+              <input type="button" value="+" class="plus" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)">
             </div>
-            <div class="col-lg-6 total-mrp">
-                <p>
-                    <strong>
-                        <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-lg-6">
-                    <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPING</button>
-                </div>
-                <div class="col-lg-6">
-                    <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
-                </div>
-            </div>
-            <div>
-                <img src="">
-            </div>
-            <div>
-                <div class="background-img">
-                    <!-- <h5>Last Minute Buys</h5> -->
-                    <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>
-                </div>
-            </div>
-        </div>
+            <!-- <p>
+              <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i)"></i>
+              <span class="text-center">{{sku.mycart}}</span>
+              <i class="fa fa-plus" aria-hidden="true" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)"></i>
+            </p> -->
+          </td>
+          <td class="table-total">
+            <p>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.selling_price}}
+            </p>
+          </td>
+          <td class="table-savings">
+            <p>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartItems.mrp-cartItems.selling_price}}
+            </p>
+            <span>
+              You Save {{(100-(cartItems.selling_price/cartItems.mrp)*100)}}%
+            </span>
+          </td>
+          <td class="table-delete" *ngFor="let sku of cartItems.sku">
+            <p>
+              <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartItems._id,sku._id)"></i>
+            </p>
+          </td>
+        </tr>
+        <tr class="table-border">
+          <td class="mrp-rate">
+            <h5>Total MRP</h5>
+          </td>
+          <td></td>
+          <td></td>
+          <td class="table-total">
+            <p>
+              <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
+          </td>
+          <td class="table-savings">
+            <p>
+              <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
+            </p>
+            <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}%</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col-lg-6 text-center">
+      <h5>
+        <strong>Total to Pay</strong>
+      </h5>
+    </div>
+    <div class="col-lg-6 total-mrp">
+      <p>
+        <strong>
+          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+      </p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-6">
+      <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPING</button>
+    </div>
+    <div class="col-lg-6">
+      <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
+    </div>
+  </div>
+  <div>
+    <img src="">
+  </div>
+  <div>
+    <div class="background-img">
+      <!-- <h5>Last Minute Buys</h5> -->
+      <p (click)="exploreCartCount()" style="cursor:pointer">Explore related items</p>
+    </div>
+  </div>
+</div>
