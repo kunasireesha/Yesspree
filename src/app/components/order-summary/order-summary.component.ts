@@ -158,7 +158,7 @@ export class OrderSummaryComponent implements OnInit {
       swal('order placed successfully', '', 'success');
       }
       else{
-        swal('order failed', '', 'error');
+        swal(response.json().message, '', 'error');
       }
       
       this.router.navigate(["/"]);
