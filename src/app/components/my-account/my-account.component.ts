@@ -3,6 +3,8 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { empty } from 'rxjs';
+import { FacebookService, UIParams, UIResponse } from 'ngx-facebook';
+
 
 @Component({
     selector: 'app-my-account',
@@ -101,7 +103,7 @@ export class MyAccountComponent implements OnInit {
     }
 
 
-    constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
+    constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, private fb: FacebookService) {
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
             this.id = JSON.parse(localStorage.userId);
         } else {
@@ -697,5 +699,17 @@ export class MyAccountComponent implements OnInit {
         }, err => {
             console.log(err)
         })
+    }
+
+
+    sharedata(url: string) {
+        let params: UIParams = {
+            href: 'https://github.com/zyra/ngx-facebook',
+            method: 'share'
+        };
+
+        this.fb.ui(params)
+            .then((res: UIResponse) => console.log(res))
+            .catch((e: any) => console.error(e));
     }
 }

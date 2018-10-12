@@ -14,6 +14,8 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database'
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
+import { FacebookModule } from 'ngx-facebook';
+
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
@@ -39,6 +41,8 @@ import { BannerNavigationComponent } from './components/banner-navigation/banner
 // directive
 import { NumberOnlyDirective } from './directives/number';
 import { AuthServices } from './services/auth.service';
+import { MyComponentOrService } from './services/facebook';
+
 //services need to mention in providers
 
 export function getAuthServiceConfigs() {
@@ -85,7 +89,8 @@ var firebaseConfig = {
     CategoriesComponent,
     RecProductsComponent,
     BannerNavigationComponent,
-    NumberOnlyDirective
+    NumberOnlyDirective,
+
 
   ],
   imports: [
@@ -104,6 +109,7 @@ var firebaseConfig = {
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
+    FacebookModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',
@@ -243,7 +249,7 @@ var firebaseConfig = {
     ], { useHash: true })
   ],
   schemas: [NO_ERRORS_SCHEMA],
-  providers: [DataService, AuthServices, {
+  providers: [DataService, AuthServices, MyComponentOrService, {
     provide: AuthServiceConfig,
     useFactory: getAuthServiceConfigs
   }],
