@@ -109,7 +109,7 @@
   </h3>
   <br />
   <!--  -->
-  <div class="products" *ngIf="showProducts">
+  <div class="products">
     <div class="row items">
       <div class="col-md-3 item" *ngFor="let recPro of products;let i =index">
         <div *ngFor="let sku of recPro.sku">
@@ -173,7 +173,8 @@
     <div class="col-md-6">
       <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-          <div class="carousel-item" *ngFor="let item of slidingbanner;let i = index" [ngClass]="{'active':i==0}"  (click)="bannerNav(item.type,item.target)">
+          <div class="carousel-item" *ngFor="let item of slidingbanner;let i = index" [ngClass]="{'active':i==0}"
+            (click)="bannerNav(item.type,item.target)">
             <img class="d-block w-100" [src]="url+item.pic" alt="First slide">
           </div>
         </div>
@@ -224,7 +225,7 @@
   </h3>
   <br />
   <!-- -->
-  <div class="products" *ngIf="showProducts1">
+  <div class="products">
     <div class="row items">
 
       <div class="col-md-3 item" *ngFor="let recPro1 of products1;let i = index">

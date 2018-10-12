@@ -82,7 +82,8 @@
               <option selected *ngFor="let villageName of village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
-          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search">
+          <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search"
+            name="search">
           <div class="input-group-append search-append">
             <button class="btn " type="button" id="button-addon2" (click)="searchProducts(search)">Search</button>
           </div>
@@ -643,6 +644,4 @@
   </div>
 </div>
 
-<!-- <div *ngFor="let data of geodata | async">
-  {{ data | async }}
-</div> -->
+

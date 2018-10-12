@@ -299,10 +299,10 @@ export class CategoriesComponent implements OnInit {
       console.log(err)
     })
   }
-  showProductDetails(proId) {
+  showProductDetails(prod) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId
+        proId: prod.id_product
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);

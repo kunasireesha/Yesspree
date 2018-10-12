@@ -24,16 +24,19 @@ export class ProductsComponent implements OnInit {
         this.subCatId = params.id;
         this.subName = params.name;
         this.catName = this.subName;
-
       });
       this.getProducts(this.subCatId);
+      this.getsubCetData();
     }
     if (this.pageNav === 'details') {
       this.showDetails = true;
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.proId;
+        this.subName = params.name;
         this.productDetails();
+        this.getsubCetData();
       });
+
     }
 
   }
@@ -53,7 +56,11 @@ export class ProductsComponent implements OnInit {
     } else {
       this.id = ''
     }
+    this.getsubCetData();
 
+  }
+
+  getsubCetData() {
     var inData = {
       _id: this.id,
       id_category: this.subCatId,
@@ -124,6 +131,7 @@ export class ProductsComponent implements OnInit {
   selectedskusize;
   //sub sub categories
   showsubSubCat(index, subId) {
+
     this.selectedCat = index;
     this.showCategories = true;
     var inData = {
@@ -137,6 +145,7 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.getSubSubCatData(inData).subscribe(response => {
       this.subSubCatData = response.json().result.sub_category;
+
     }, err => {
       console.log(err)
     })
@@ -175,6 +184,7 @@ export class ProductsComponent implements OnInit {
   subcatName;
   lastcatName;
   showCateProd(id, name) {
+    this.showDetails = false;
     this.showCat = true;
     this.catName = name;
     this.showlastcat = false;
@@ -230,15 +240,15 @@ export class ProductsComponent implements OnInit {
     this.showInput1 = true;
   }
 
-  showProductDetails() {
+  showProductDetails(proId) {
     this.showDetails = true;
-    this.productDetails();
-    // let navigationExtras: NavigationExtras = {
-    //   queryParams: {
-    //     proId: proId
-    //   }
-    // }
-    // this.router.navigate(["/product_details"], navigationExtras);
+
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: proId._id
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
   }
 
 
@@ -426,8 +436,12 @@ export class ProductsComponent implements OnInit {
         if (this.product[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
           this.product[i].sku[0].percentage = this.percentage;
+
         }
+
       }
+      this.subName = this.product[0].category;
+
 
       for (var i = 0; i < this.product.length; i++) {
         this.firstPic = this.url + this.product[i].pic[0].pic;

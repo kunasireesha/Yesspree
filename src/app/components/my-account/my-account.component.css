@@ -23,21 +23,29 @@
   margin-bottom: 10%;
 }
 
+.activerate {
+  background-color: green;
+}
+
 .profile-image {
   width: 100%;
   height: 50%;
   margin-top: 20%;
 }
+
 .coupon-image p {
-    padding-top: 10px;
+  padding-top: 10px;
 }
-.validity p{
-    padding-top: 30px;
+
+.validity p {
+  padding-top: 30px;
 }
-strong{
-    color:green;
-    padding-top: 5px;
+
+strong {
+  color: green;
+  padding-top: 5px;
 }
+
 .account-details h5 {
   margin-top: 30px;
 }
@@ -617,20 +625,22 @@ strike {
   margin-bottom: 30px;
 }
 
-.active-btn{
-    color: #fff212;
-    background-color: #4a4a4a;
-    border-color: #000000;
-    box-shadow: none;
-    width: 70%;  
+.active-btn {
+  color: #fff212;
+  background-color: #4a4a4a;
+  border-color: #000000;
+  box-shadow: none;
+  width: 70%;
 }
-.active-btn:hover{
-    color: #fff212;
-    background-color: #4a4a4a;
+
+.active-btn:hover {
+  color: #fff212;
+  background-color: #4a4a4a;
 }
-.active-btn:focused{
-    color: #fff212;
-    background-color: #4a4a4a;
+
+.active-btn:focused {
+  color: #fff212;
+  background-color: #4a4a4a;
 }
 
 .cancel-btn {
@@ -645,9 +655,10 @@ strike {
   color: #fff212;
   background-color: #4a4a4a;
 }
-.cancel-btn:focused{
-    color: #fff212;
-    background-color: #4a4a4a;
+
+.cancel-btn:focused {
+  color: #fff212;
+  background-color: #4a4a4a;
 }
 
 .header-btns {
