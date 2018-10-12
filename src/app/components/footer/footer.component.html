@@ -5,18 +5,11 @@
         <div class="row">
           <div class="col-md-6">
             <h3>Categories</h3>
-            <div class="row">
-              <!-- <div class="col-md-12" *ngFor="let items of categoryDatas">
-                   <p>{{items.name}}</p>
-              </div> -->
+            <div class="row">           
               <div class="col-md-6" *ngFor="let item of categoryNames let i =index"
               [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }" >
                 <ul>
-                  <li (click)="showSubcategorie(item._id,item.name,i)">{{item.name}} </li>
-                  <!-- <li>Vegetables & Fruits</li>
-                  <li>Pet Care</li>
-                  <li>Poultry</li>
-                  <li>Office & Study Needs</li> -->
+                  <li (click)="showSubcategorie(item._id,item.name,i)">{{item.name}} </li>                 
                 </ul>
               </div>
             </div>
@@ -73,4 +66,9 @@
       </div>
     </div>
   </div>
-</div>
+</div> 
+
+
+
+
+    

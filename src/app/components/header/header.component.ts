@@ -280,9 +280,6 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-
-
-
   // forgot password
   openForgotpassword() {
     this.showModal = true;
