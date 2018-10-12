@@ -1,7 +1,7 @@
 import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
-
+import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-mycart',
@@ -26,7 +26,7 @@ export class MycartComponent implements OnInit {
   }
   summary
   quantity
-  constructor(public loginService: DataService, ) {
+  constructor(public loginService: DataService, public router: Router,) {
   }
 
   orders = [];
@@ -135,5 +135,12 @@ export class MycartComponent implements OnInit {
       swal("item removed successfully", '', 'success');
       this.getCart();
     })
+  }
+  checkoutCart(){
+  if(this.id == ''){
+    swal("Login and try again","","error");
+  } else {
+    this.router.navigate(["/orderSummary"]);
+  }
   }
 }
