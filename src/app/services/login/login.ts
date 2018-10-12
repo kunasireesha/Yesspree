@@ -226,4 +226,7 @@ export class DataService {
     rateus(params):Observable<any>{
         return this.postInputParams(params,'admin')
     }
+    checkoutaddress(params):Observable<any>{
+        return this.postAuthorizationInputParams(params,'customer/address')
+    }
 }

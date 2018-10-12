@@ -65,9 +65,9 @@ export class ProductsComponent implements OnInit {
       _id: this.id,
       id_category: this.subCatId,
       _session: localStorage.session,
-      pincode: "560075",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2",
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
     this.loginService.getSubcatData(inData).subscribe(response => {
@@ -138,7 +138,7 @@ export class ProductsComponent implements OnInit {
       _id: this.id,
       id_category: subId,
       _session: localStorage.session,
-      pincode: "560075",
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
       "parent_warehouseid": localStorage.parent_warehouseid,
       "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
@@ -165,7 +165,7 @@ export class ProductsComponent implements OnInit {
       _id: this.id,
       id_category: lastId,
       _session: localStorage.session,
-      pincode: "560075",
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
       "parent_warehouseid": localStorage.parent_warehouseid,
       "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
@@ -213,7 +213,7 @@ export class ProductsComponent implements OnInit {
       _id: this.id,
       id_subcategory: id,
       _session: localStorage.session,
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       "parent_warehouseid": localStorage.parent_warehouseid,
       "id_warehouse": localStorage.id_warehouse,
       lang: "en",
@@ -292,7 +292,7 @@ export class ProductsComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }

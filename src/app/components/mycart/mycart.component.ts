@@ -22,11 +22,11 @@ export class MycartComponent implements OnInit {
   items;
   selected;
   sku = {
-    mycart: 0 
+    mycart: 0
   }
   summary
   quantity
-  constructor(public loginService: DataService, public router: Router,) {
+  constructor(public loginService: DataService, public router: Router, ) {
   }
 
   orders = [];
@@ -65,8 +65,8 @@ export class MycartComponent implements OnInit {
     console.log(data);
     this.selected = index;
     let thisObj = this;
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
@@ -76,18 +76,18 @@ export class MycartComponent implements OnInit {
     this.getCart();
   }
 
-  itemDecrease(data,id, skuId, index,mycart) {
+  itemDecrease(data, id, skuId, index, mycart) {
     this.selected = index;
     let thisObj = this;
     // if (this.sku.mycart === 1) {
     //   return;
     // }
-    for(var i=0;i<data.length;i++){
-      if(data[i].name === name){
+    for (var i = 0; i < data.length; i++) {
+      if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
-    this.sku.mycart = Math.floor(this.sku.mycart - 1 );
+    this.sku.mycart = Math.floor(this.sku.mycart - 1);
     this.addCart(this.sku.mycart, id, skuId);
   }
   addCart(quantity, id, skuId) {
@@ -103,7 +103,7 @@ export class MycartComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
@@ -136,11 +136,11 @@ export class MycartComponent implements OnInit {
       this.getCart();
     })
   }
-  checkoutCart(){
-  if(this.id == ''){
-    swal("Login and try again","","error");
-  } else {
-    this.router.navigate(["/orderSummary"]);
-  }
+  checkoutCart() {
+    if (this.id == '') {
+      swal("Login and try again", "", "error");
+    } else {
+      this.router.navigate(["/orderSummary"]);
+    }
   }
 }

@@ -114,7 +114,7 @@ export class RecProductsComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
@@ -156,8 +156,8 @@ export class RecProductsComponent implements OnInit {
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
-  } 
-  
+  }
+
   wish(id) {
     var inData = {
       _session: localStorage.session,

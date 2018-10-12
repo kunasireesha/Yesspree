@@ -30,10 +30,10 @@ export class CategoriesComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     var inData = {
       id_category: this.catId,
-      pincode: "500074",
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
       "lang": "en",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2"
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
 
     }
     this.loginService.getSubcat(inData).subscribe(response => {
@@ -82,11 +82,13 @@ export class CategoriesComponent implements OnInit {
   slidingbanner = [];
 
   ngOnInit() {
+    console.log(localStorage.wh_pincode);
+    console.log(localStorage.pincode)
 
     this.getChildCat();
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
-      this.id = JSON.parse(localStorage.userId)
+      this.id = JSON.parse(localStorage.userId);
     } else {
       this.id = 0
     }
@@ -95,9 +97,9 @@ export class CategoriesComponent implements OnInit {
       device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
-      pincode: "560075"
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
@@ -201,7 +203,7 @@ export class CategoriesComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }

@@ -45,7 +45,7 @@ export class BannerNavigationComponent implements OnInit {
         "brand": this.target,
         "count": 20,
         "start": 0,
-        "wh_pincode": "560078",
+        "wh_pincode": localStorage.wh_pincode,
         "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
@@ -70,7 +70,7 @@ export class BannerNavigationComponent implements OnInit {
         "search": this.target,
         "count": 20,
         "start": 0,
-        "wh_pincode": "560078",
+        "wh_pincode": localStorage.wh_pincode,
         "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
@@ -95,7 +95,7 @@ export class BannerNavigationComponent implements OnInit {
         "category": this.target,
         "count": 20,
         "start": 0,
-        "wh_pincode": "560078",
+        "wh_pincode": localStorage.wh_pincode,
         "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
@@ -119,7 +119,7 @@ export class BannerNavigationComponent implements OnInit {
         "sku": this.target,
         "count": 20,
         "start": 0,
-        "wh_pincode": "560078",
+        "wh_pincode": localStorage.wh_pincode,
         "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
         "id_warehouse": JSON.parse(localStorage.id_warehouse),
         "lang": "en"
@@ -175,7 +175,7 @@ export class BannerNavigationComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: JSON.parse(localStorage.parent_warehouseid),
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }

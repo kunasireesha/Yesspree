@@ -153,8 +153,14 @@ export class OrderSummaryComponent implements OnInit {
       orders: this.orders
     }
     this.loginService.checkOut(inData).subscribe(response => {
-      this.checkout = response.json();
+      if(response.json().message === 'success'){
+        this.checkout = response.json();
       swal('order placed successfully', '', 'success');
+      }
+      else{
+        swal(response.json().message, '', 'error');
+      }
+      
       this.router.navigate(["/"]);
     }, err => {
       console.log(err)
@@ -226,4 +232,16 @@ export class OrderSummaryComponent implements OnInit {
       mrs: 'Mrs.'
     }
   }
+  
+  checkoutDelivery(id){
+      var inData = {
+        "op":"update",
+        "id_address":id,
+        "selected":"1"
+      }
+      this.loginService.checkoutaddress(inData).subscribe(reponse => {
+        swal("address selected", "", "success");
+      })
+  }
+
 }

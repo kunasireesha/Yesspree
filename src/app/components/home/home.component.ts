@@ -69,10 +69,10 @@ export class HomeComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     var inData = {
       id_category: this.catId,
-      pincode: "500074",
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
       "lang": "en",
-      "parent_warehouseid": "1",
-      "id_warehouse": "2"
+      "parent_warehouseid": localStorage.parent_warehouseid,
+      "id_warehouse": localStorage.id_warehouse,
 
     }
     this.loginService.getSubcat(inData).subscribe(response => {
@@ -104,7 +104,7 @@ export class HomeComponent implements OnInit {
       lang: "en",
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
-      pincode: "560075"
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
@@ -131,9 +131,9 @@ export class HomeComponent implements OnInit {
         this.squrBanner = response.json().result.banner[6].bannerdata;
       }
       if (response.json().result.banner[7].bannerdata.length !== '' || response.json().result.banner[7].bannerdata.length !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
-        this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
-        this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
-        this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
+        this.offerBanner1 = response.json().result.banner[7].bannerdata[0] || '';
+        this.offerBanner2 = response.json().result.banner[7].bannerdata[1] || '';
+        this.offerBanner3 = response.json().result.banner[7].bannerdata[2] || '';
       }
 
       //recommended products 
@@ -238,7 +238,7 @@ export class HomeComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }

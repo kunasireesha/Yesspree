@@ -34,14 +34,31 @@ export class MyAccountComponent implements OnInit {
     subscribe = false;
     discount;
     cancelPlan;
+    sharedData;
     ngOnInit() {
-
+        this.url = AppSettings.imageUrl;
 
         // this.getCart();
 
         // this.getWishlist();
         localStorage.getItem;
         this.url = AppSettings.imageUrl;
+        //dashboard
+        var inData = {
+            _id: this.id,
+            device_type: "web",
+            _session: localStorage.session,
+            lang: "en",
+            parent_warehouseid: localStorage.parent_warehouseid,
+            id_warehouse: localStorage.id_warehouse,
+            pincode: "560075"
+        }
+        this.loginService.getDashboardData(inData).subscribe(response => {
+            this.sharedData = response.json().reffer;
+        }, err => {
+            console.log(err)
+
+        });
     }
 
     public itemsList: Object[] = [
@@ -615,7 +632,7 @@ export class MyAccountComponent implements OnInit {
             id_sku: skuId,
             op: "modify",
             quantity: JSON.stringify(this.quantity),
-            wh_pincode: "560078",
+            wh_pincode: localStorage.wh_pincode,
             parent_warehouseid: localStorage.parent_warehouseid,
             id_warehouse: JSON.parse(localStorage.id_warehouse, )
         }

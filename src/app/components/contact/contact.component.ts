@@ -23,9 +23,9 @@ export class ContactComponent implements OnInit {
       device_type: "desktop",
       _session: localStorage.session,
       lang: "en",
-      parent_warehouseid: "1",
-      id_warehouse: "2",
-      pincode: "560075"
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.contactData = response.json().contactus;

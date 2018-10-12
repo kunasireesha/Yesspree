@@ -90,6 +90,9 @@ export class HeaderComponent implements OnInit {
   summary;
   postalCode;
   currentLocation
+  getPin;
+  id_warehouse;
+  parent_warehouseid;
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -98,20 +101,9 @@ export class HeaderComponent implements OnInit {
   randomkey;
   ngOnInit() {
 
-
-
-
-
-
-
-
-
-
-
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
       localStorage.setItem('id_warehouse', "2");
       localStorage.setItem('parent_warehouseid', "1");
-
     }
 
     this.geoLocation();
@@ -131,16 +123,17 @@ export class HeaderComponent implements OnInit {
     if (localStorage.userData !== undefined) {
       this.userMobile = JSON.parse(localStorage.userMobile);
     }
-    localStorage.getItem('id_warehouse');
+
+
     //for dashboard data
     var inData = {
       _id: this.id,
-      device_type: "desktop",
+      device_type: "web",
       _session: localStorage.session,
       lang: "en",
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
-      pincode: "560075"
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
@@ -149,17 +142,24 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     });
+
+
+
+
+
   }
 
 
   postVillageName() {
     var inData = {
-      wh_pincode: "560078"
+      wh_pincode: localStorage.wh_pincode
     }
     this.loginService.postVillageName(inData).subscribe(response => {
       this.village = response.json().result;
-      // localStorage.setItem('id_warehouse', this.village[0].id_warehouse);
-      // localStorage.setItem('parent_warehouseid', this.village[0].parent_warehouseid);
+      this.id_warehouse = response.json().id_warehouse;
+      this.parent_warehouseid = response.json().parent_warehouseid;
+      localStorage.setItem('id_warehouse', this.id_warehouse);
+      localStorage.setItem('parent_warehouseid', this.parent_warehouseid);
     }, err => {
       console.log(err)
     })
@@ -170,6 +170,7 @@ export class HeaderComponent implements OnInit {
       if (data === villageData[i].pincode) {
         localStorage.setItem('id_warehouse', villageData[i].id_warehouse);
         localStorage.setItem('parent_warehouseid', villageData[i].parent_warehouseid);
+        localStorage.setItem('pincode', villageData[i].pincode)
       }
     }
   }
@@ -501,7 +502,6 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
-
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.latlocation = position.coords.latitude;
@@ -511,14 +511,9 @@ export class HeaderComponent implements OnInit {
         geocoder.geocode({ 'location': latlng }, (results, status) => {
           if (status == google.maps.GeocoderStatus.OK) {
             let result = results[0];
-            if (results[0]) {
-              for (var i = 0; i < results[0].address_components.length; i++) {
-                var postalCode = results[0].address_components[i].types;
-                console.log("postalCode", postalCode)
-              }
-            }
-            this.pincode = result;
-            console.log("manmohan", this.pincode)
+            this.getPin = JSON.parse(results[0].address_components[5].long_name);
+            localStorage.setItem('wh_pincode', this.getPin);
+            this.postVillageName();
             let rsltAdrComponent = result.address_components;
             let resultLength = rsltAdrComponent.length;
             if (result != null) {
@@ -533,13 +528,6 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  getVillage() {
-    var inData = {
-      "wh_pincode": "560078",
-    }
-
-
-  }
   searchProducts(event) {
     var inData = {
       _id: this.id,
@@ -654,7 +642,7 @@ export class HeaderComponent implements OnInit {
       id_sku: skuId,
       op: "modify",
       quantity: JSON.stringify(this.quantity),
-      wh_pincode: "560078",
+      wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }

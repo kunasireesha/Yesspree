@@ -530,7 +530,7 @@
 
 
             <form>
-              <ul _ngcontent-c1="" class="title-list">
+              <!-- <ul _ngcontent-c1="" class="title-list">
                 <li _ngcontent-c1="">
                   <div _ngcontent-c1="">
                     <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
@@ -555,7 +555,7 @@
                     <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
                   </div>
                 </li>
-              </ul>
+              </ul> -->
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -626,7 +626,7 @@
             <!--Body-->
             <!-- Default inline 1-->
             <form>
-              <ul _ngcontent-c1="" class="title-list">
+              <!-- <ul _ngcontent-c1="" class="title-list">
                 <li _ngcontent-c1="">
                   <div _ngcontent-c1="">
                     <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
@@ -651,7 +651,7 @@
                     <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
                   </div>
                 </li>
-              </ul>
+              </ul> -->
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -829,7 +829,7 @@
               <strong>SHARE</strong>
             </h5>
             <figure class="shareimg text-center">
-              <img src="..assets/images/share.png" alt="SHARE" />
+              <img [src]="url+ sharedData?.image" alt="SHARE" />
               <figcaption>
                 <p>Invite a Friend</p>
                 <p>Friend Signup</p>
@@ -839,7 +839,7 @@
                 <strong>Your Referral Code</strong>
               </h5>
               <h6>
-                <span class="dotborder">YES00012</span>
+                <span class="dotborder">{{sharedData?.ref_code}}</span>
               </h6>
               <a href="">Get Referral Link</a>
             </figure>

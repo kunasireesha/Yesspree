@@ -43,7 +43,7 @@ export class FooterComponent implements OnInit {
       lang: "en",
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
-      pincode: "560075"
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.categoryNames = response.json().result.category;
