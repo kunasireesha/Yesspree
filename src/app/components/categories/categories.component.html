@@ -61,8 +61,8 @@
   <div class="products">
     <div class="row items">
       <div class="col-md-3 item" *ngFor="let topProd of topProductsdata;let i = index">
-        <div *ngFor="let sku of topProd.sku">
-          <div class="card" (click)="showProduxtDetails()">
+        <div *ngFor="let sku of topProd.sku;let j = index">
+          <div class="card" (click)="showProduxtDetails()" *ngIf="i<=4">
             <a (click)="wish(topProd._id)">
               <i class="fa fa-heart" aria-hidden="true"></i>
             </a>

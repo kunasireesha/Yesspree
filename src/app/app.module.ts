@@ -15,6 +15,7 @@ import { AngularFireDatabaseModule } from 'angularfire2/database'
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FacebookModule } from 'ngx-facebook';
+import { MatSelectModule } from '@angular/material/select';
 
 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -104,6 +105,7 @@ var firebaseConfig = {
     AngularFontAwesomeModule,
     FormsModule,
     ReactiveFormsModule,
+    MatSelectModule,
     SocialLoginModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
