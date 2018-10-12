@@ -8,7 +8,7 @@ import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
 import { AuthServices } from '../../services/auth.service';
-import {} from 'googlemaps';
+import { } from 'googlemaps';
 
 @Component({
   selector: 'app-header',
@@ -97,6 +97,17 @@ export class HeaderComponent implements OnInit {
 
   randomkey;
   ngOnInit() {
+
+
+
+
+
+
+
+
+
+
+
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
       localStorage.setItem('id_warehouse', "2");
       localStorage.setItem('parent_warehouseid', "1");
@@ -137,7 +148,6 @@ export class HeaderComponent implements OnInit {
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
-
     });
   }
 
@@ -362,9 +372,9 @@ export class HeaderComponent implements OnInit {
     var inData = {
       email: this.formData.forMobile
     }
-    if(this.formData.forMobile === '') {
+    if (this.formData.forMobile === '') {
       swal("Fill the field", "", "warning");
-    } else{
+    } else {
       this.loginService.forgot(inData).subscribe(response => {
         if (response.json().status === "failure") {
           swal("Please enter valid number", " ", "error");
@@ -381,37 +391,37 @@ export class HeaderComponent implements OnInit {
         swal(err.message, "", "error")
       })
     }
-    
+
   }
   checkOtp(action) {
     var inData = {
       otp: (this.formData.otp),
       email: this.formData.forMobile
     }
-    if(this.formData.otp === '') {
+    if (this.formData.otp === '') {
       swal("Fill the field", "", "warning");
-    } else  {
+    } else {
       this.loginService.checkOtp(inData).subscribe(response => {
         if (response.json().status === "failure") {
           swal(response.json().message, " ", "error");
         } else {
-        swal("Otp verified successfully", "", "success");
-        this.showOtp = false;
-        if (action === 'forgotpswrd') {
-          this.changepw = true;
-        } else {
-          this.changepw = false;
-          swal("Registered succeessfully", "", "success");
-          this.onCloseCancel();
-          this.clearFields();
+          swal("Otp verified successfully", "", "success");
+          this.showOtp = false;
+          if (action === 'forgotpswrd') {
+            this.changepw = true;
+          } else {
+            this.changepw = false;
+            swal("Registered succeessfully", "", "success");
+            this.onCloseCancel();
+            this.clearFields();
+          }
         }
-        }
-        
+
       }, err => {
         swal("Failed", "", "error")
       })
     }
-    
+
   }
 
 
@@ -494,53 +504,44 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
+
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(position => {
         this.latlocation = position.coords.latitude;
         this.lanLocation = position.coords.longitude;
-        var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
-
-        this.loginService.getLocation(inData).subscribe(response => {
-          console.log(response);
-        })
+        var latlng = { lat: this.latlocation, lng: this.lanLocation };
+        let geocoder = new google.maps.Geocoder();
+        geocoder.geocode({ 'location': latlng }, (results, status) => {
+          if (status == google.maps.GeocoderStatus.OK) {
+            let result = results[0];
+            if (results[0]) {
+              for (var i = 0; i < results[0].address_components.length; i++) {
+                var postalCode = results[0].address_components[i].types;
+                console.log("postalCode", postalCode)
+              }
+            }
+            this.pincode = result;
+            console.log("manmohan", this.pincode)
+            let rsltAdrComponent = result.address_components;
+            let resultLength = rsltAdrComponent.length;
+            if (result != null) {
+              //  console.log(rsltAdrComponent[resultLength-5].short_name)
+            } else {
+              window.alert('Geocoder failed due to: ' + status);
+            }
+          }
+        });
       });
+
     }
-    if(navigator.geolocation){
-      navigator.geolocation.getCurrentPosition(position => {
-          this.latlocation=position.coords.latitude;
-          this.lanLocation=position.coords.longitude;
-          var latlng = { lat: this.latlocation, lng:this.lanLocation };
-         let geocoder = new google.maps.Geocoder();
-       geocoder.geocode(  {'location':latlng}, (results, status) => {
-       if (status == google.maps.GeocoderStatus.OK) {
-       let result = results[0];
-       if (results[0]) {
-        for(var i=0; i<results[0].address_components.length; i++)
-        {
-            var postalCode = results[0].address_components[i].types;
-            console.log("postalCode",postalCode)
-         }
-     }
-       this.pincode = result;
-       console.log("manmohan",this.pincode )
-       let rsltAdrComponent = result.address_components;
-       let resultLength = rsltAdrComponent.length;
-       if (result != null) {
-      //  console.log(rsltAdrComponent[resultLength-5].short_name)
-       } else {
-       window.alert('Geocoder failed due to: ' + status);
-       }
-       }
-       });
-       });     
-   
   }
-}
 
   getVillage() {
     var inData = {
       "wh_pincode": "560078",
     }
+
+
   }
   searchProducts(event) {
     var inData = {

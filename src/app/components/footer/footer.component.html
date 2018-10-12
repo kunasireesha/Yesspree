@@ -9,8 +9,7 @@
               <!-- <div class="col-md-12" *ngFor="let items of categoryDatas">
                    <p>{{items.name}}</p>
               </div> -->
-              <div class="col-md-6" *ngFor="let item of categoryNames let i =index"
-              [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }" >
+              <div class="col-md-6" *ngFor="let item of categoryNames let i =index" [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }">
                 <ul>
                   <li (click)="showSubcategorie(item._id,item.name,i)">{{item.name}} </li>
                   <!-- <li>Vegetables & Fruits</li>
