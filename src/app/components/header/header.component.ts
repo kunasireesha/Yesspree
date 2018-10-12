@@ -272,9 +272,6 @@ export class HeaderComponent implements OnInit {
       }
     );
   }
-
-
-
   // forgot password
   openForgotpassword() {
     this.showModal = true;
@@ -499,7 +496,6 @@ export class HeaderComponent implements OnInit {
         this.latlocation = position.coords.latitude;
         this.lanLocation = position.coords.longitude;
         var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
-
         this.loginService.getLocation(inData).subscribe(response => {
           console.log(response);
         })

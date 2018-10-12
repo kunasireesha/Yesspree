@@ -100,7 +100,7 @@
   </nav>
 </div>
 <!-- carousel new -->
-<div class="container-fluid">
+ <div class="container-fluid">
   <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
     <div class="carousel-inner row w-100 mx-auto" role="listbox">
       <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i =index"
@@ -582,7 +582,6 @@
         </div>
 
         <div class="row  bac-shadw" *ngFor="let cartItems of mycart;let i = index">
-
           <div class="col-lg-3">
             <div class="ashirvadimg">
               <img [src]="url + cartItems.image" alt="ashirvad" />
@@ -640,7 +639,6 @@
         <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
       </div>
     </div>
-
   </div>
 </div>
 
