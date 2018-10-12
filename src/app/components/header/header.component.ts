@@ -8,6 +8,7 @@ import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
 import { AuthServices } from '../../services/auth.service';
+import {} from 'googlemaps';
 
 @Component({
   selector: 'app-header',
@@ -24,9 +25,8 @@ export class HeaderComponent implements OnInit {
   mycart = [];
   search: string;
   mycartImg: string;
-
   productId;
-
+  pincode;
   cartCount;
   constructor(
     public loginService: DataService,
@@ -88,7 +88,8 @@ export class HeaderComponent implements OnInit {
   latlocation;
   lanLocation;
   summary;
-
+  postalCode;
+  currentLocation
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -504,7 +505,37 @@ export class HeaderComponent implements OnInit {
         })
       });
     }
+    if(navigator.geolocation){
+      navigator.geolocation.getCurrentPosition(position => {
+          this.latlocation=position.coords.latitude;
+          this.lanLocation=position.coords.longitude;
+          var latlng = { lat: this.latlocation, lng:this.lanLocation };
+         let geocoder = new google.maps.Geocoder();
+       geocoder.geocode(  {'location':latlng}, (results, status) => {
+       if (status == google.maps.GeocoderStatus.OK) {
+       let result = results[0];
+       if (results[0]) {
+        for(var i=0; i<results[0].address_components.length; i++)
+        {
+            var postalCode = results[0].address_components[i].types;
+            console.log("postalCode",postalCode)
+         }
+     }
+       this.pincode = result;
+       console.log("manmohan",this.pincode )
+       let rsltAdrComponent = result.address_components;
+       let resultLength = rsltAdrComponent.length;
+       if (result != null) {
+      //  console.log(rsltAdrComponent[resultLength-5].short_name)
+       } else {
+       window.alert('Geocoder failed due to: ' + status);
+       }
+       }
+       });
+       });     
+   
   }
+}
 
   getVillage() {
     var inData = {
