@@ -491,16 +491,6 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latlocation = position.coords.latitude;
-        this.lanLocation = position.coords.longitude;
-        var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
-        this.loginService.getLocation(inData).subscribe(response => {
-          console.log(response);
-        })
-      });
-    }
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(position => {
           this.latlocation=position.coords.latitude;

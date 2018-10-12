@@ -228,6 +228,7 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.topProductsdata = response.json().product;
+      console.log(this.topProductsdata);
       for (var i = 0; i < this.topProductsdata.length; i++) {
         if (this.topProductsdata[i].sku[0].mrp !== undefined) {
           this.percentage = 100 - (this.topProductsdata[i].sku[0].selling_price / this.topProductsdata[i].sku[0].mrp) * 100
