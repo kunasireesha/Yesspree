@@ -833,6 +833,9 @@ figcaption p {
 .offer-image {
   width: 100%;
 }
+figure.shareimg img {
+  height: 450px;
+}
 
 .cust-offers {
   box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.15);

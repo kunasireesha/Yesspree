@@ -90,6 +90,9 @@ export class HeaderComponent implements OnInit {
   summary;
   postalCode;
   currentLocation
+  getPin;
+  id_warehouse;
+  parent_warehouseid;
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -102,9 +105,9 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('parent_warehouseid', "1");
 
     }
-
+ 
     this.geoLocation();
-    this.postVillageName();
+    this.postVillageName(this.getPin);
 
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -124,7 +127,7 @@ export class HeaderComponent implements OnInit {
     //for dashboard data
     var inData = {
       _id: this.id,
-      device_type: "desktop",
+      device_type: "web",
       _session: localStorage.session,
       lang: "en",
       parent_warehouseid: localStorage.parent_warehouseid,
@@ -142,14 +145,19 @@ export class HeaderComponent implements OnInit {
   }
 
 
-  postVillageName() {
+  postVillageName(pin) {
     var inData = {
-      wh_pincode: "560078"
+      wh_pincode:  pin
     }
     this.loginService.postVillageName(inData).subscribe(response => {
       this.village = response.json().result;
-      // localStorage.setItem('id_warehouse', this.village[0].id_warehouse);
-      // localStorage.setItem('parent_warehouseid', this.village[0].parent_warehouseid);
+      console.log(this.village)
+      this.id_warehouse = response.json().id_warehouse;
+      this.parent_warehouseid = response.json().parent_warehouseid;
+     if(this.village.length == 0){
+      localStorage.setItem('id_warehouse', this.id_warehouse);
+      localStorage.setItem('parent_warehouseid',this.parent_warehouseid);
+     }
     }, err => {
       console.log(err)
     })
@@ -494,17 +502,6 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latlocation = position.coords.latitude;
-        this.lanLocation = position.coords.longitude;
-        var inData = "key=" + 'AIzaSyAfJTVKnpLl0ULuuwDuix-9ANpyQhP6mfc' + "&latlng=" + this.latlocation + "," + this.lanLocation + "&sensor=" + 'true'
-
-        this.loginService.getLocation(inData).subscribe(response => {
-          console.log(response);
-        })
-      });
-    }
     if(navigator.geolocation){
       navigator.geolocation.getCurrentPosition(position => {
           this.latlocation=position.coords.latitude;
@@ -514,15 +511,8 @@ export class HeaderComponent implements OnInit {
        geocoder.geocode(  {'location':latlng}, (results, status) => {
        if (status == google.maps.GeocoderStatus.OK) {
        let result = results[0];
-       if (results[0]) {
-        for(var i=0; i<results[0].address_components.length; i++)
-        {
-            var postalCode = results[0].address_components[i].types;
-            console.log("postalCode",postalCode)
-         }
-     }
-       this.pincode = result;
-       console.log("manmohan",this.pincode )
+       this.getPin = JSON.parse(results[0].address_components[5].long_name);
+       this.postVillageName(this.getPin);
        let rsltAdrComponent = result.address_components;
        let resultLength = rsltAdrComponent.length;
        if (result != null) {
@@ -536,12 +526,8 @@ export class HeaderComponent implements OnInit {
    
   }
 }
+  
 
-  getVillage() {
-    var inData = {
-      "wh_pincode": "560078",
-    }
-  }
   searchProducts(event) {
     var inData = {
       _id: this.id,

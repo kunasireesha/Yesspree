@@ -131,9 +131,9 @@ export class HomeComponent implements OnInit {
         this.squrBanner = response.json().result.banner[6].bannerdata;
       }
       if (response.json().result.banner[7].bannerdata.length !== '' || response.json().result.banner[7].bannerdata.length !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
-        this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
-        this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
-        this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
+        this.offerBanner1 = response.json().result.banner[7].bannerdata[0] || '';
+        this.offerBanner2 = response.json().result.banner[7].bannerdata[1]  || '';
+        this.offerBanner3 = response.json().result.banner[7].bannerdata[2] || '';
       }
 
       //recommended products 
