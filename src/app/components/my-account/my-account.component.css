@@ -27,6 +27,18 @@
   background-color: green;
 }
 
+.type {
+  background-color: #ececec !important;
+  color: black !important;
+  border: none !important;
+  border-radius: 0px !important;
+}
+
+button#id:active {
+  background: #fff212 !important;
+
+}
+
 .profile-image {
   width: 100%;
   height: 50%;
@@ -64,6 +76,7 @@ strong {
   border: none !important;
   border-radius: 0px !important;
 }
+
 
 /* Delivery Address */
 
@@ -833,6 +846,7 @@ figcaption p {
 .offer-image {
   width: 100%;
 }
+
 figure.shareimg img {
   height: 450px;
 }

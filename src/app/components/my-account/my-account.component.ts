@@ -116,7 +116,9 @@ export class MyAccountComponent implements OnInit {
         taluk: '',
         district: '',
         state: '',
-        pincode: ''
+        pincode: '',
+        city: '',
+        locality: ''
     }
 
 
@@ -400,14 +402,14 @@ export class MyAccountComponent implements OnInit {
             name: this.addData.name,
             phone: JSON.parse(localStorage.userData).mobile,
             address1: this.addData.address1,
-            city: "hyd",
+            city: this.addData.city,
             state: this.addData.state,
             person_prefix: JSON.parse(localStorage.userData).person_prefix,
             taluk: this.addData.taluk,
             district: this.addData.district,
             lat: "5550",
             lon: "123",
-            landmark: "hyd",
+            landmark: this.addData.locality,
             selected: true,
             type: this.type,
             country: "India"
@@ -431,6 +433,8 @@ export class MyAccountComponent implements OnInit {
             district: '',
             state: '',
             pincode: '',
+            city: '',
+            locality: ''
         }
     }
 
@@ -484,6 +488,8 @@ export class MyAccountComponent implements OnInit {
                     district: this.getAddress[i].district,
                     state: this.getAddress[i].state,
                     pincode: this.getAddress[i].pincode,
+                    city: this.getAddress[i].city,
+                    locality: this.getAddress[i].landmark
                 }
             }
         }
