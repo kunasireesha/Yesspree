@@ -104,8 +104,8 @@ export class HeaderComponent implements OnInit {
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
       localStorage.setItem('id_warehouse', "2");
       localStorage.setItem('parent_warehouseid', "1");
-    }
 
+    }
     this.geoLocation();
     this.postVillageName();
 
@@ -393,8 +393,8 @@ export class HeaderComponent implements OnInit {
   }
   checkOtp(action) {
     var inData = {
-      otp: (this.formData.otp),
-      email: this.formData.forMobile
+      otp: JSON.parse(this.formData.otp),
+      email: JSON.parse(this.formData.forMobile)
     }
     if (this.formData.otp === '') {
       swal("Fill the field", "", "warning");
@@ -474,7 +474,7 @@ export class HeaderComponent implements OnInit {
 
   resendOtp() {
     var inData = {
-      mobile: localStorage.getItem("mobile")
+      mobile: JSON.parse(localStorage.getItem("userMobile"))
     }
     this.loginService.resendOtp(inData).subscribe(response => {
       swal("OTP sent successfully", '', "success");
@@ -502,30 +502,33 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latlocation = position.coords.latitude;
-        this.lanLocation = position.coords.longitude;
-        var latlng = { lat: this.latlocation, lng: this.lanLocation };
-        let geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'location': latlng }, (results, status) => {
-          if (status == google.maps.GeocoderStatus.OK) {
-            let result = results[0];
-            this.getPin = JSON.parse(results[0].address_components[5].long_name);
-            localStorage.setItem('wh_pincode', this.getPin);
-            this.postVillageName();
-            let rsltAdrComponent = result.address_components;
-            let resultLength = rsltAdrComponent.length;
-            if (result != null) {
-              //  console.log(rsltAdrComponent[resultLength-5].short_name)
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          }
-        });
-      });
+    localStorage.setItem('id_warehouse', "2");
+    localStorage.setItem('parent_warehouseid', "1");
+    localStorage.setItem('wh_pincode', '560078');
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(position => {
+    //     this.latlocation = position.coords.latitude;
+    //     this.lanLocation = position.coords.longitude;
+    //     var latlng = { lat: this.latlocation, lng: this.lanLocation };
+    //     let geocoder = new google.maps.Geocoder();
+    //     geocoder.geocode({ 'location': latlng }, (results, status) => {
+    //       if (status == google.maps.GeocoderStatus.OK) {
+    //         let result = results[0];
+    //         this.getPin = JSON.parse(results[0].address_components[5].long_name);
+    //         localStorage.setItem('wh_pincode', this.getPin);
+    //         this.postVillageName();
+    //         let rsltAdrComponent = result.address_components;
+    //         let resultLength = rsltAdrComponent.length;
+    //         if (result != null) {
+    //           //  console.log(rsltAdrComponent[resultLength-5].short_name)
+    //         } else {
+    //           window.alert('Geocoder failed due to: ' + status);
+    //         }
+    //       }
+    //     });
+    //   });
 
-    }
+    // }
   }
 
   searchProducts(event) {
@@ -595,6 +598,7 @@ export class HeaderComponent implements OnInit {
 
   //add to cart
   itemIncrease(data, name, id, skuId, index) {
+    alert(index)
     this.selected = index;
     let thisObj = this;
     // if (localStorage.cartName !== name) {
@@ -614,6 +618,7 @@ export class HeaderComponent implements OnInit {
   }
 
   itemDecrease(data, name, id, skuId, index) {
+    alert(index)
     this.selected = index;
     let thisObj = this;
     // if (this.sku.mycart === 1) {
@@ -644,7 +649,7 @@ export class HeaderComponent implements OnInit {
       quantity: JSON.stringify(this.quantity),
       wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
-      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal('Item added to cart', '', 'success');

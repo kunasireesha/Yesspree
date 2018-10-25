@@ -32,7 +32,7 @@
           <p>{{mydata.mobile}}</p>
         </div>
         <div class="col-lg-8 input-details">
-          <form>
+          <form name="myform">
             <div class="form-group">
               <label for="exampleInputFname">First Name</label>
               <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname"
@@ -51,12 +51,15 @@
             <div class="form-group">
               <label for="exampleInputdob">DOB</label>
               <input type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
-                placeholder="Date of Birth">
+                [(ngModel)]="mydata.dob" placeholder="Date of Birth" name="dob" [pattern]="dobValidation" required #dob="ngModel">
+              <!-- <div *ngIf="dob.errors?.pattern">
+                User name not valid.
+              </div> -->
             </div>
             <div class="form-group">
               <label for="exampleInputNumber">Mobile Number</label>
-              <input type="text" class="form-control input-field" id="exampleInputNumber" aria-describedby="emailHelp"
-                [(ngModel)]="mydata.mobile" name="mobile" placeholder="+91 9876543210">
+              <input myNumberOnly type="text" class="form-control input-field" id="exampleInputNumber" aria-describedby="emailHelp"
+                [(ngModel)]="mydata.mobile" name="mobile" placeholder="+91 9876543210" maxlength="10" required>
             </div>
             <button type="button" class="btn update-btn" (click)="update()">UPDATE</button>
           </form>
@@ -164,7 +167,7 @@
             </div>
 
             <div class="col-lg-4">
-              <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+              <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
             </div>
             <div class="col-lg-4">
               <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
@@ -267,7 +270,7 @@
       </div>
       <div class="row check-butons">
         <div class="col-lg-6">
-          <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+          <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
           <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
@@ -318,7 +321,6 @@
         </div>
       </div>
       <!-- <div class="row" *ngIf="!subscribeactive">
->>>>>>> 7bdfd37876319c7dde520597f078d68d2a67a696
                                 <p>No data Found</p>
                             </div> -->
       <hr>
@@ -412,7 +414,7 @@
       <div class="row">
         <div class="col-lg-12 feedback-rating">
           <p>
-            How did you like shoping with Yespree?
+            How did you like shopping with Yespree?
           </p>
         </div>
       </div>
@@ -559,7 +561,7 @@
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
-                  placeholder="Name" [(ngModel)]="addData.name" name="name">
+                  placeholder="Name" [(ngModel)]="addData.name" name="name" pattern="[a-zA-Z]+" ng-pattern-restrict>
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Flot/House/Office No</label>
@@ -588,8 +590,8 @@
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Pincode</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
-                  name="pincode">
+                <input myNumberOnly type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode"
+                  [(ngModel)]="addData.pincode" name="pincode" maxlength="6" required>
               </div>
               Address Type:
               <button type="submit" class="btn btn-primary" (click)="buttonType('HOME')">Home</button>
@@ -710,7 +712,7 @@
         <div class="col-lg-6">
           <div class="row">
             <div class="col-lg-6">
-              <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+              <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
             </div>
             <div class="col-lg-6">
               <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
@@ -807,7 +809,7 @@
       </div>
       <div class="row">
         <div class="col-lg-6">
-          <button type="button" class="btn cart-btn">CONTINUE SHOPING</button>
+          <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
           <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>

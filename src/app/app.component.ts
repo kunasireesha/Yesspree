@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
       this.randomkey = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
       localStorage.setItem('session', this.randomkey)
     }
+
+    localStorage.setItem('id_warehouse', "2");
+    localStorage.setItem('parent_warehouseid', "1");
+    localStorage.setItem('wh_pincode', '560078');
   }
 
   constructor(

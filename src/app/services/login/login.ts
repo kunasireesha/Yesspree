@@ -220,13 +220,13 @@ export class DataService {
     filterData(params): Observable<any> {
         return this.postInputParams(params, 'item/filterdata');
     }
-    subscriptionStatus(params):Observable<any>{
-        return this.postInputParams(params,'subscription/status')
+    subscriptionStatus(params): Observable<any> {
+        return this.postInputParams(params, 'subscription/status')
     }
-    rateus(params):Observable<any>{
-        return this.postInputParams(params,'admin')
+    rateus(params): Observable<any> {
+        return this.postInputParams(params, 'admin')
     }
-    checkoutaddress(params):Observable<any>{
-        return this.postAuthorizationInputParams(params,'customer/address')
+    checkoutaddress(params): Observable<any> {
+        return this.postAuthorizationInputParams(params, 'customer/address')
     }
 }
