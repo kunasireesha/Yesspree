@@ -1,77 +1,77 @@
 <div class="container deals_section" *ngIf="!showbrands">
-    <h3>RECOMMENDED PRODUCTS
-      <!-- <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span> -->
-    </h3>
-    <br />
-    <div class="products">
-      <div class="row items">
-  
-        <div class="col-md-3 item" *ngFor="let data of products;let i =index">
-          <div *ngFor="let sku of data.sku">
-            <div  class="card" (click)="showProduxtDetails()">
-              <a (click)="wish(data._id)">
-                <i class="fa fa-heart" aria-hidden="true"></i>
-              </a>
-              <img class="img-fluid product-img" [src]="data.image" alt="Card image cap" (click)="showProductDetails(recPro.id_product)">
-              <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
-              <div class="card-block">
-                <h5>{{data.name}} </h5>
-                <p>{{sku.size}}</p>
-                <div class="row  item-price">
-                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                    <span class="price">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.selling_price}}</span>
-                    <strike *ngIf="sku.mrp!==undefined">
-                      <i class="fa fa-rupee" aria-hidden="true"></i>
-                      {{sku.mrp}}
-                    </strike>
-                  </div>
-                  <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
-                    <span class="saveMney">you save {{sku.percentage}} %</span>
-                  </div>
+  <h3>RECOMMENDED PRODUCTS
+    <!-- <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span> -->
+  </h3>
+  <br />
+  <div class="products">
+    <div class="row items">
+
+      <div class="col-md-3 item" *ngFor="let sku of skudata;let i =index">
+        <div>
+          <div class="card" (click)="showProduxtDetails()">
+            <a (click)="wish(sku._id)">
+              <i class="fa fa-heart" aria-hidden="true"></i>
+            </a>
+            <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku.id_product)">
+            <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
+            <div class="card-block">
+              <h5>{{sku.productName}} </h5>
+              <p>{{sku.size}}</p>
+              <div class="row  item-price">
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                  <span class="price">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.selling_price}}</span>
+                  <strike *ngIf="sku.mrp!==undefined">
+                    <i class="fa fa-rupee" aria-hidden="true"></i>
+                    {{sku.mrp}}
+                  </strike>
+                </div>
+                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
+                  <span class="saveMney">you save {{sku.percentage}} %</span>
                 </div>
               </div>
-              <br />
-              <div class="row prdct-length">
-                  <div class="col-md-4">
-                    <span *ngIf="showInput && i == selected" (click)="itemDecrease(data._id,sku._id,i)">
-                      <i class="fa fa-minus" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                  <div class="col-md-4 quantity">
-                    <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,data._id,sku._id)">Add</span>
-                    <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
-                    <!-- <span *ngIf="showInput && i == selected">{{items.quantity}}</span> -->
-                  </div>
-                  <div class="col-md-4">
-                    <span class="plus" (click)="itemIncrease(data,data.name,data._id,sku._id,i)">
-                      <i class="fa fa-plus" aria-hidden="true"></i>
-                    </span>
-                  </div>
-                </div>
+            </div>
+            <br />
+            <div class="row prdct-length">
+              <div class="col-md-4">
+                <span *ngIf="showInput && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
+                  <i class="fa fa-minus" aria-hidden="true"></i>
+                </span>
+              </div>
+              <div class="col-md-4 quantity">
+                <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
+                <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
+                <!-- <span *ngIf="showInput && i == selected">{{items.quantity}}</span> -->
+              </div>
+              <div class="col-md-4">
+                <span class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </span>
+              </div>
             </div>
           </div>
         </div>
-  
-        <div class="col-12">
-          <h3 class="text-center nodata" *ngIf="products.length==0 && !showbrands">No Data Found</h3>
-        </div>
-  
       </div>
+
+      <div class="col-12">
+        <h3 class="text-center nodata" *ngIf="products.length==0 && !showbrands">No Data Found</h3>
+      </div>
+
     </div>
   </div>
-   
-   
-    <div class="container deals_section brands" *ngIf="showbrands">
-      <h3 class="text-center"><strong>{{title}}</strong></h3>
-      <div class="row">
-        <div class="col-md-3 mt-3" *ngFor="let item of brands">
-          <div class="deals view zoom">
-            <img [src]="url + item.pic" class="img-fluid headShake " alt="{{item.brand}}">
-            <h5>{{item.brand_en}}</h5>
-          </div>
+</div>
+
+
+<div class="container deals_section brands" *ngIf="showbrands">
+  <h3 class="text-center"><strong>{{title}}</strong></h3>
+  <div class="row">
+    <div class="col-md-3 mt-3" *ngFor="let item of brands">
+      <div class="deals view zoom">
+        <img [src]="url + item.pic" class="img-fluid headShake " alt="{{item.brand}}">
+        <h5>{{item.brand_en}}</h5>
       </div>
+    </div>
   </div>
 </div>
 

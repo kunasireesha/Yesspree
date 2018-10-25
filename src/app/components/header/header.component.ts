@@ -104,10 +104,11 @@ export class HeaderComponent implements OnInit {
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
       localStorage.setItem('id_warehouse', "2");
       localStorage.setItem('parent_warehouseid', "1");
+
     }
 
     this.geoLocation();
-    this.postVillageName();
+    this.postVillageName(localStorage.wh_pincode);
 
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -142,24 +143,19 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     });
-
-
-
-
-
   }
 
 
-  postVillageName() {
+  postVillageName(pin) {
     var inData = {
-      wh_pincode: localStorage.wh_pincode
+      wh_pincode: pin
     }
     this.loginService.postVillageName(inData).subscribe(response => {
       this.village = response.json().result;
       this.id_warehouse = response.json().id_warehouse;
       this.parent_warehouseid = response.json().parent_warehouseid;
-      localStorage.setItem('id_warehouse', this.id_warehouse);
-      localStorage.setItem('parent_warehouseid', this.parent_warehouseid);
+      // localStorage.setItem('id_warehouse', this.id_warehouse);
+      // localStorage.setItem('parent_warehouseid', this.parent_warehouseid);
     }, err => {
       console.log(err)
     })
@@ -502,30 +498,33 @@ export class HeaderComponent implements OnInit {
 
 
   geoLocation() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(position => {
-        this.latlocation = position.coords.latitude;
-        this.lanLocation = position.coords.longitude;
-        var latlng = { lat: this.latlocation, lng: this.lanLocation };
-        let geocoder = new google.maps.Geocoder();
-        geocoder.geocode({ 'location': latlng }, (results, status) => {
-          if (status == google.maps.GeocoderStatus.OK) {
-            let result = results[0];
-            this.getPin = JSON.parse(results[0].address_components[5].long_name);
-            localStorage.setItem('wh_pincode', this.getPin);
-            this.postVillageName();
-            let rsltAdrComponent = result.address_components;
-            let resultLength = rsltAdrComponent.length;
-            if (result != null) {
-              //  console.log(rsltAdrComponent[resultLength-5].short_name)
-            } else {
-              window.alert('Geocoder failed due to: ' + status);
-            }
-          }
-        });
-      });
+    localStorage.setItem('id_warehouse', "2");
+    localStorage.setItem('parent_warehouseid', "1");
+    localStorage.setItem('wh_pincode', '560078');
+    // if (navigator.geolocation) {
+    //   navigator.geolocation.getCurrentPosition(position => {
+    //     this.latlocation = position.coords.latitude;
+    //     this.lanLocation = position.coords.longitude;
+    //     var latlng = { lat: this.latlocation, lng: this.lanLocation };
+    //     let geocoder = new google.maps.Geocoder();
+    //     geocoder.geocode({ 'location': latlng }, (results, status) => {
+    //       if (status == google.maps.GeocoderStatus.OK) {
+    //         let result = results[0];
+    //         this.getPin = JSON.parse(results[0].address_components[5].long_name);
+    //         localStorage.setItem('wh_pincode', this.getPin);
+    //         this.postVillageName(this.getPin);
+    //         let rsltAdrComponent = result.address_components;
+    //         let resultLength = rsltAdrComponent.length;
+    //         if (result != null) {
+    //           //  console.log(rsltAdrComponent[resultLength-5].short_name)
+    //         } else {
+    //           window.alert('Geocoder failed due to: ' + status);
+    //         }
+    //       }
+    //     });
+    //   });
 
-    }
+    // }
   }
 
   searchProducts(event) {
@@ -581,7 +580,7 @@ export class HeaderComponent implements OnInit {
       console.log(this.mycart);
       for (var i = 0; i < this.mycart.length; i++) {
         if (this.mycart[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100
+          this.percentage = Math.round(100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100);
           this.mycart[i].sku[0].percentage = this.percentage;
         }
       }

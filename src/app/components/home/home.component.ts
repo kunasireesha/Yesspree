@@ -87,6 +87,8 @@ export class HomeComponent implements OnInit {
   slidingbanner = [];
   percentage;
   percentage1;
+  skudata = [];
+  skudataproducts1 = [];
   randomkey;
 
   ngOnInit() {
@@ -202,16 +204,17 @@ export class HomeComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(data, name, id, skuId, index) {
+  itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (localStorage.name !== name) {
+    if (localStorage.size !== size || localStorage.name !== name) {
       thisObj.items.quantity = 0;
     }
-    if (name === data.name) {
+    if (name === data.productName) {
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('size', size);
       localStorage.setItem('name', name);
     }
   }
@@ -225,6 +228,7 @@ export class HomeComponent implements OnInit {
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
   }
+
   getCart(quantity, id, skuId) {
     if (quantity === 0) {
       this.quantity = 1;
@@ -290,11 +294,16 @@ export class HomeComponent implements OnInit {
     this.loginService.recProducts(inData).subscribe(response => {
       this.products = response.json().product;
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-          this.products[i].sku[0].percentage = this.percentage;
+        for (var j = 0; j < this.products[i].sku.length; j++) {
+          if (this.products[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
+            this.products[i].sku[j].percentage = Math.round(this.percentage);
+            this.products[i].sku[j].productName = this.products[i].name;
+          }
+          this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
+          this.skudata.push(this.products[i].sku[j]);
+          this.products[i].image = this.url + this.products[i].pic[0].pic;
         }
-        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
 
 
@@ -317,12 +326,17 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.products1 = response.json().product;
-      for (var i = 0; i < this.products.length; i++) {
-        if (this.products1[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp) * 100
-          this.products1[i].sku[0].percentage = this.percentage;
+      for (var i = 0; i < this.products1.length; i++) {
+        for (var j = 0; j < this.products1[i].sku.length; j++) {
+          if (this.products1[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.products1[i].sku[j].selling_price / this.products1[i].sku[j].mrp) * 100
+            this.products1[i].sku[j].percentage = Math.round(this.percentage);
+            this.products1[i].sku[j].productName = this.products1[i].name;
+          }
+          this.products1[i].sku[j].image = this.url + this.products1[i].pic[0].pic;
+          this.skudataproducts1.push(this.products[i].sku[j]);
+          this.products1[i].image = this.url + this.products1[i].pic[0].pic;
         }
-        this.products1[i].image = this.url + this.products1[i].pic[0].pic;
       }
     }, error => {
 

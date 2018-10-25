@@ -103,7 +103,7 @@
 <div class="container-fluid">
   <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
     <div class="carousel-inner row w-100 mx-auto" role="listbox">
-      <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i =index"
+      <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i=index"
         [ngClass]="{'active':i == 0 ,'catActive' : i == selectedCat }">
         <div class="panel panel-default">
           <div class="panel-thumbnail">
@@ -113,9 +113,7 @@
             <p>{{item.name}}</p>
           </div>
         </div>
-
       </div>
-
     </div>
     <a class="carousel-control-prev" href="#carouselExample" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon leftIcon" aria-hidden="true"></span>
