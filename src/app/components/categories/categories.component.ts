@@ -235,15 +235,6 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.topProductsdata = response.json().product;
-<<<<<<< HEAD
-      if (this.topProductsdata.length !== 0) {
-        for (var i = 0; i < this.topProductsdata.length; i++) {
-          if (this.topProductsdata[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.topProductsdata[i].sku[0].selling_price / this.topProductsdata[i].sku[0].mrp) * 100
-            this.topProductsdata[i].sku[0].percentage = this.percentage;
-          }
-          this.topProductsdata[i].image = this.url + this.topProductsdata[i].pic[0].pic;
-=======
       for (var i = 0; i < this.topProductsdata.length; i++) {
         for (var j = 0; j < this.topProductsdata[i].sku.length; j++) {
           if (this.topProductsdata[i].sku[j].mrp !== undefined) {
@@ -253,7 +244,6 @@ export class CategoriesComponent implements OnInit {
           }
           this.topProductsdata[i].sku[j].image = this.url + this.topProductsdata[i].pic[0].pic;
           this.skudata.push(this.topProductsdata[i].sku[j]);
->>>>>>> d281cb89d0c5436076258fa63a7164e8acd1cb7b
         }
       }
     }, error => {
@@ -275,15 +265,6 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.allProductsdata = response.json().product;
-<<<<<<< HEAD
-      if (this.allProductsdata.length !== 0) {
-        for (var i = 0; i < this.allProductsdata.length; i++) {
-          if (this.allProductsdata[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.allProductsdata[i].sku[0].selling_price / this.allProductsdata[i].sku[0].mrp) * 100
-            this.allProductsdata[i].sku[0].percentage = this.percentage;
-          }
-          this.allProductsdata[i].image = this.url + this.allProductsdata[i].pic[0].pic;
-=======
       for (var i = 0; i < this.allProductsdata.length; i++) {
         for (var j = 0; j < this.allProductsdata[i].sku.length; j++) {
           if (this.allProductsdata[i].sku[j].mrp !== undefined) {
@@ -293,7 +274,6 @@ export class CategoriesComponent implements OnInit {
           }
           this.allProductsdata[i].sku[j].image = this.url + this.allProductsdata[i].pic[0].pic;
           this.allskudata.push(this.allProductsdata[i].sku[j]);
->>>>>>> d281cb89d0c5436076258fa63a7164e8acd1cb7b
         }
       }
     }, error => {
