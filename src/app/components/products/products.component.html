@@ -45,7 +45,7 @@
         </ol>
         <!--/.Indicators-->
         <!--Slides-->
-        <div class="carousel-inner" role="listbox">
+        <!-- <div class="carousel-inner" role="listbox">
           <div class="carousel-item active">
             <div class="view">
               <img class="d-block w-100" src="assets/images/atta.jpg" alt="First slide">
@@ -57,7 +57,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <!--Mask color-->
+           
             <div class="view">
               <img class="d-block w-100" src="assets/images/atta.jpg" alt="Second slide">
               <div class="mask"></div>
@@ -68,7 +68,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <!--Mask color-->
+          
             <div class="view">
               <img class="d-block w-100" src="assets/images/atta.jpg" alt="Third slide">
               <div class="mask "></div>
@@ -78,7 +78,7 @@
               <p>RICH SOURCE OF ESSENTIAL VITAMINS</p>
             </div>
           </div>
-        </div>
+        </div> -->
         <!--/.Slides-->
         <!--Controls-->
         <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
@@ -92,7 +92,7 @@
         <!--/.Controls-->
       </div>
       <br />
-      <div class="row trending">
+      <!-- <div class="row trending">
         <div class="col-md-3">
           <h4>TRENDING
             <br /> UPTO 60%</h4>
@@ -113,9 +113,9 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
       <br />
-      <div class="row bestprices">
+      <!-- <div class="row bestprices">
         <div class="col-md-3">
           <H4>BEST PRICES
             <br /> UPTO 80%</H4>
@@ -138,9 +138,8 @@
             </div>
           </div>
         </div>
-      </div>
+      </div> -->
 
-      <br />
 
       <p>
         <a routerLink="/">Home</a>&nbsp;&nbsp;>&nbsp;
@@ -171,16 +170,16 @@
       </h6>
       <br />
       <div class="row cust-response">
-        <div class="col-md-6 col-lg-3 col-xs-12 item" *ngFor="let prod of products;let i = index">
-          <div *ngFor="let sku of prod.sku">
-            <div class="card" (click)="showProduxtDetails()">
-              <a (click)="wish(prod._id)">
+        <div class="col-md-6 col-lg-3 col-xs-12 item" *ngFor="let sku of skudata;let i = index">
+          <div>
+            <div class="card">
+              <a (click)="wish(sku.id_product)">
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
-              <img class="img-fluid product-img" [src]="prod.image" alt="Card image cap" (click)="showProductDetails(prod)">
+              <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
               <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
               <div class="card-block">
-                <h5>{{prod.name}} </h5>
+                <h5>{{sku.productName}} </h5>
                 <p>{{sku.size}}</p>
                 <div class="row  item-price">
                   <div class="col-md-6 col-sm-12 col-xs-12">
@@ -199,16 +198,16 @@
                 <br />
                 <div class="row prdct-length">
                   <div class="col-md-4">
-                    <span *ngIf="showInput && i == selected" (click)="itemDecrease(prod._id,sku._id,i)">
+                    <span *ngIf="showInput && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
                       <i class="fa fa-minus" aria-hidden="true"></i>
                     </span>
                   </div>
                   <div class="col-md-4 quantity">
-                    <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,prod._id,sku._id)">Add</span>
+                    <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
                     <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
                   </div>
                   <div class="col-md-4">
-                    <span class="plus" (click)="itemIncrease(prod,prod.name,prod._id,sku._id,i)">
+                    <span class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
                       <i class="fa fa-plus" aria-hidden="true"></i>
                     </span>
                   </div>
@@ -332,16 +331,16 @@
       <br />
       <div class="products">
         <div class="row items">
-          <div class="col-md-3 item" *ngFor="let item of specificProd; let i = index">
-            <div class="card" (click)="showProduxtDetails()">
-              <div *ngFor="let sku of item.sku">
-                <a (click)="wish(item._id)">
+          <div class="col-md-3 item" *ngFor="let sku of skuspecificdata; let i = index">
+            <div class="card">
+              <div>
+                <a (click)="wish(sku.id_product)">
                   <i class="fa fa-heart" aria-hidden="true"></i>
                 </a>
-                <img class="img-fluid product-img" [src]="item.image" alt="Card image cap" (click)="showProductDetails(item)">
+                <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
                 <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
                 <div class="card-block">
-                  <h5>{{item.name}} </h5>
+                  <h5>{{sku.productName}} </h5>
                   <p>{{sku.size}}</p>
                   <div class="row item-price">
                     <div class="col-md-6 col-sm-12 col-xs-12">
@@ -359,16 +358,16 @@
                   <br />
                   <div class="row prdct-length">
                     <div class="col-md-4">
-                      <span *ngIf="showInputs && i == selected" (click)="itemDecrease(item._id,sku._id,i)">
+                      <span *ngIf="showInputs && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
                         <i class="fa fa-minus" aria-hidden="true"></i>
                       </span>
                     </div>
                     <div class="col-md-4 quantity">
-                      <span class="add text-center" *ngIf="showInputs && selected!==i" (click)="getCart(items.quantity,item._id,sku._id)">Add</span>
+                      <span class="add text-center" *ngIf="showInputs && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
                       <span *ngIf="showInputs && i == selected">{{items.quantity}}</span>
                     </div>
                     <div class="col-md-4">
-                      <span class="plus" (click)="itemIncrease(item,item.name,item._id,sku._id,i)">
+                      <span class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
                         <i class="fa fa-plus" aria-hidden="true"></i>
                       </span>
                     </div>

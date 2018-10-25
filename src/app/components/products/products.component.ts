@@ -206,6 +206,7 @@ export class ProductsComponent implements OnInit {
     this.getProducts(id);
   }
 
+  skudata = [];
   //get products
   getProducts(id) {
     this.idforrefine = localStorage.setItem('subid', id);
@@ -221,11 +222,15 @@ export class ProductsComponent implements OnInit {
     this.loginService.getProducts(inData).subscribe(response => {
       this.products = response.json().product;
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-          this.products[i].sku[0].percentage = this.percentage;
+        for (var j = 0; j < this.products[i].sku.length; j++) {
+          if (this.products[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
+            this.products[i].sku[j].percentage = Math.round(this.percentage);
+            this.products[i].sku[j].productName = this.products[i].name;
+          }
+          this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
+          this.skudata.push(this.products[i].sku[j]);
         }
-        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
     }, err => {
       console.log(err)
@@ -252,20 +257,39 @@ export class ProductsComponent implements OnInit {
   }
 
 
-  itemIncrease(data, name, id, skuId, index) {
+  // itemIncrease(data, name, id, skuId, index) {
+  //   this.selected = index;
+  //   let thisObj = this;
+  //   if (localStorage.catname !== name) {
+  //     thisObj.items.quantity = 0;
+  //   }
+  //   if (name === data.name) {
+  //     thisObj.showInputs = true;
+  //     thisObj.showInput = true;
+  //     thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+  //     thisObj.getCart(thisObj.items.quantity, id, skuId);
+  //     localStorage.setItem('catname', name);
+  //   }
+  // }
+
+
+  //add to cart
+  itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (localStorage.catname !== name) {
+    if (localStorage.size !== size || localStorage.name !== name) {
       thisObj.items.quantity = 0;
     }
-    if (name === data.name) {
+    if (name === data.productName) {
       thisObj.showInputs = true;
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
-      localStorage.setItem('catname', name);
+      localStorage.setItem('size', size);
+      localStorage.setItem('name', name);
     }
   }
+
 
   itemDecrease(id, skuId, index) {
     this.selected = index;
@@ -383,11 +407,15 @@ export class ProductsComponent implements OnInit {
     this.loginService.getProducts(inData).subscribe(response => {
       this.products = response.json().product;
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-          this.products[i].sku[0].percentage = this.percentage;
+        for (var j = 0; j < this.products[i].sku.length; j++) {
+          if (this.products[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
+            this.products[i].sku[j].percentage = Math.round(this.percentage);
+            this.products[i].sku[j].productName = this.products[i].name;
+          }
+          this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
+          this.skudata.push(this.products[i].sku[j]);
         }
-        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
     }, err => {
       swal(err.json().message, '', 'error');
@@ -419,7 +447,7 @@ export class ProductsComponent implements OnInit {
   }
 
   //get product details
-
+  skuspecificdata = [];
   productDetails() {
     var inData = {
       _id: this.id,
@@ -431,10 +459,10 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
-      console.log(this.product);
+
       for (var i = 0; i < this.product.length; i++) {
         if (this.product[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100)
+          this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100));
           this.product[i].sku[0].percentage = this.percentage;
 
         }
@@ -447,14 +475,18 @@ export class ProductsComponent implements OnInit {
         this.firstPic = this.url + this.product[i].pic[0].pic;
       }
       this.specificProd = response.json().specific_product[0].product;
+      // for (var i = 0; i < this.specificProd.length; i++) {
+      //   this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
+      // }
       for (var i = 0; i < this.specificProd.length; i++) {
-        this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
-      }
-      for (var i = 0; i < this.specificProd.length; i++) {
-        if (this.specificProd[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - ((this.specificProd[i].sku[0].selling_price) / (this.specificProd[i].sku[0].mrp) * 100)
-          this.specificProd[i].sku[0].percentage = this.percentage;
-          console.log(this.specificProd[i].sku[0].percentage)
+        for (var j = 0; j < this.specificProd[i].sku.length; j++) {
+          if (this.specificProd[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.specificProd[i].sku[j].selling_price / this.specificProd[i].sku[j].mrp) * 100
+            this.specificProd[i].sku[j].percentage = Math.round(this.percentage);
+            this.specificProd[i].sku[j].productName = this.specificProd[i].name;
+          }
+          this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
+          this.skuspecificdata.push(this.specificProd[i].sku[j]);
         }
       }
     }, err => {

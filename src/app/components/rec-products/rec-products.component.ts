@@ -35,6 +35,7 @@ export class RecProductsComponent implements OnInit {
     quantity: 1
   }
   selected;
+  skudata = [];
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -85,13 +86,26 @@ export class RecProductsComponent implements OnInit {
     this.loginService.recProducts(inData).subscribe(response => {
       this.products = response.json().product;
       this.brands = response.json().brands;
+
       for (var i = 0; i < this.products.length; i++) {
-        if (this.products[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-          this.products[i].sku[0].percentage = this.percentage;
+        for (var j = 0; j < this.products[i].sku.length; j++) {
+          if (this.products[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
+            this.products[i].sku[j].percentage = Math.round(this.percentage);
+            this.products[i].sku[j].productName = this.products[i].name;
+          }
+          this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
+          this.skudata.push(this.products[i].sku[j]);
         }
-        this.products[i].image = this.url + this.products[i].pic[0].pic;
       }
+
+      // for (var i = 0; i < this.products.length; i++) {
+      //   if (this.products[i].sku[0].mrp !== undefined) {
+      //     this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+      //     this.products[i].sku[0].percentage = this.percentage;
+      //   }
+      //   this.products[i].image = this.url + this.products[i].pic[0].pic;
+      // }
 
 
     }, error => {
@@ -126,19 +140,23 @@ export class RecProductsComponent implements OnInit {
     })
   }
 
-  itemIncrease(data, name, id, skuId, index) {
+
+  itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (localStorage.name !== name) {
+    if (localStorage.size !== size || localStorage.name !== name) {
       thisObj.items.quantity = 0;
     }
-    if (name === data.name) {
+    if (name === data.productName) {
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('size', size);
       localStorage.setItem('name', name);
     }
   }
+
+
 
   itemDecrease(id, skuId, index) {
     this.selected = index;

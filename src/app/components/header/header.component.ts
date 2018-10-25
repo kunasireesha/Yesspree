@@ -107,7 +107,7 @@ export class HeaderComponent implements OnInit {
 
     }
     this.geoLocation();
-    this.postVillageName();
+    this.postVillageName(localStorage.wh_pincode);
 
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -142,24 +142,19 @@ export class HeaderComponent implements OnInit {
     }, err => {
       console.log(err)
     });
-
-
-
-
-
   }
 
 
-  postVillageName() {
+  postVillageName(pin) {
     var inData = {
-      wh_pincode: localStorage.wh_pincode
+      wh_pincode: pin
     }
     this.loginService.postVillageName(inData).subscribe(response => {
       this.village = response.json().result;
       this.id_warehouse = response.json().id_warehouse;
       this.parent_warehouseid = response.json().parent_warehouseid;
-      localStorage.setItem('id_warehouse', this.id_warehouse);
-      localStorage.setItem('parent_warehouseid', this.parent_warehouseid);
+      // localStorage.setItem('id_warehouse', this.id_warehouse);
+      // localStorage.setItem('parent_warehouseid', this.parent_warehouseid);
     }, err => {
       console.log(err)
     })
@@ -516,7 +511,7 @@ export class HeaderComponent implements OnInit {
     //         let result = results[0];
     //         this.getPin = JSON.parse(results[0].address_components[5].long_name);
     //         localStorage.setItem('wh_pincode', this.getPin);
-    //         this.postVillageName();
+    //         this.postVillageName(this.getPin);
     //         let rsltAdrComponent = result.address_components;
     //         let resultLength = rsltAdrComponent.length;
     //         if (result != null) {
@@ -584,7 +579,7 @@ export class HeaderComponent implements OnInit {
       console.log(this.mycart);
       for (var i = 0; i < this.mycart.length; i++) {
         if (this.mycart[i].sku[0].mrp !== undefined) {
-          this.percentage = 100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100
+          this.percentage = Math.round(100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100);
           this.mycart[i].sku[0].percentage = this.percentage;
         }
       }

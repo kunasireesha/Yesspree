@@ -121,24 +121,26 @@ export class CategoriesComponent implements OnInit {
       }
 
       if (response.json().result.banner[7].bannerdata.length !== '' || response.json().result.banner[7].bannerdata.length !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
-        this.offerBanner1 = response.json().result.banner[7].bannerdata[0];
-        this.offerBanner2 = response.json().result.banner[7].bannerdata[1];
-        this.offerBanner3 = response.json().result.banner[7].bannerdata[2];
+        this.offerBanner1 = response.json().result.banner[7].bannerdata[0] || '';
+        this.offerBanner2 = response.json().result.banner[7].bannerdata[1] || '';
+        this.offerBanner3 = response.json().result.banner[7].bannerdata[2] || '';
       }
 
-      if (response.json().result.specific_product[0] !== undefined) {
-        if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
-          this.products = response.json().result.specific_product[0].product;
-          this.slidingbanner = response.json().result.banner[5].bannerdata;
-          for (var i = 0; i < this.products.length; i++) {
-            this.productImage = this.products[i].pic[0].pic;
+      if (response.json().result.specific_product !== undefined) {
+        if (response.json().result.specific_product[0] !== undefined) {
+          if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+            this.products = response.json().result.specific_product[0].product;
+            this.slidingbanner = response.json().result.banner[5].bannerdata;
+            for (var i = 0; i < this.products.length; i++) {
+              this.productImage = this.products[i].pic[0].pic;
+            }
           }
         }
-      }
 
-      if (response.json().result.specific_product[1] !== undefined) {
-        if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
-          this.products1 = response.json().result.specific_product[1].product;
+        if (response.json().result.specific_product[1] !== undefined) {
+          if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
+            this.products1 = response.json().result.specific_product[1].product;
+          }
         }
       }
     }, err => {
@@ -165,17 +167,20 @@ export class CategoriesComponent implements OnInit {
 
 
   //add to cart
-  itemIncrease(data, name, id, skuId, index) {
+
+
+  itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (localStorage.catname !== name) {
+    if (localStorage.size !== size || localStorage.name !== name) {
       thisObj.items.quantity = 0;
     }
-    if (name === data.name) {
+    if (name === data.productName) {
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
-      localStorage.setItem('catname', name);
+      localStorage.setItem('size', size);
+      localStorage.setItem('name', name);
     }
   }
 
@@ -214,7 +219,7 @@ export class CategoriesComponent implements OnInit {
     })
   }
 
-
+  skudata = [];
   //get dashbrd top products
   getTopProducts() {
     var inData = {
@@ -230,6 +235,7 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.topProductsdata = response.json().product;
+<<<<<<< HEAD
       if (this.topProductsdata.length !== 0) {
         for (var i = 0; i < this.topProductsdata.length; i++) {
           if (this.topProductsdata[i].sku[0].mrp !== undefined) {
@@ -237,13 +243,24 @@ export class CategoriesComponent implements OnInit {
             this.topProductsdata[i].sku[0].percentage = this.percentage;
           }
           this.topProductsdata[i].image = this.url + this.topProductsdata[i].pic[0].pic;
+=======
+      for (var i = 0; i < this.topProductsdata.length; i++) {
+        for (var j = 0; j < this.topProductsdata[i].sku.length; j++) {
+          if (this.topProductsdata[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.topProductsdata[i].sku[j].selling_price / this.topProductsdata[i].sku[j].mrp) * 100
+            this.topProductsdata[i].sku[j].percentage = Math.round(this.percentage);
+            this.topProductsdata[i].sku[j].productName = this.topProductsdata[i].name;
+          }
+          this.topProductsdata[i].sku[j].image = this.url + this.topProductsdata[i].pic[0].pic;
+          this.skudata.push(this.topProductsdata[i].sku[j]);
+>>>>>>> d281cb89d0c5436076258fa63a7164e8acd1cb7b
         }
       }
     }, error => {
-
     })
   }
 
+  allskudata = [];
   getAllProducts() {
     var inData = {
       "_id": this.id,
@@ -258,6 +275,7 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.recProducts(inData).subscribe(response => {
       this.allProductsdata = response.json().product;
+<<<<<<< HEAD
       if (this.allProductsdata.length !== 0) {
         for (var i = 0; i < this.allProductsdata.length; i++) {
           if (this.allProductsdata[i].sku[0].mrp !== undefined) {
@@ -265,6 +283,17 @@ export class CategoriesComponent implements OnInit {
             this.allProductsdata[i].sku[0].percentage = this.percentage;
           }
           this.allProductsdata[i].image = this.url + this.allProductsdata[i].pic[0].pic;
+=======
+      for (var i = 0; i < this.allProductsdata.length; i++) {
+        for (var j = 0; j < this.allProductsdata[i].sku.length; j++) {
+          if (this.allProductsdata[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.allProductsdata[i].sku[j].selling_price / this.allProductsdata[i].sku[j].mrp) * 100
+            this.allProductsdata[i].sku[j].percentage = Math.round(this.percentage);
+            this.allProductsdata[i].sku[j].productName = this.allProductsdata[i].name;
+          }
+          this.allProductsdata[i].sku[j].image = this.url + this.allProductsdata[i].pic[0].pic;
+          this.allskudata.push(this.allProductsdata[i].sku[j]);
+>>>>>>> d281cb89d0c5436076258fa63a7164e8acd1cb7b
         }
       }
     }, error => {

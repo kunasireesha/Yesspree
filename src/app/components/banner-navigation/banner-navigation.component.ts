@@ -30,6 +30,7 @@ export class BannerNavigationComponent implements OnInit {
       this.target = params.target
     })
   }
+  skudata = [];
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
@@ -53,16 +54,20 @@ export class BannerNavigationComponent implements OnInit {
       this.loginService.brands(inData).subscribe(response => {
         this.brandData = response.json().product;
         for (var i = 0; i < this.brandData.length; i++) {
-          if (this.brandData[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
-            this.brandData[i].sku[0].percentage = this.percentage;
+          for (var j = 0; j < this.brandData[i].sku.length; j++) {
+            if (this.brandData[i].sku[j].mrp !== undefined) {
+              this.percentage = 100 - (this.brandData[i].sku[j].selling_price / this.brandData[i].sku[j].mrp) * 100
+              this.brandData[i].sku[j].percentage = Math.round(this.percentage);
+              this.brandData[i].sku[j].productName = this.brandData[i].name;
+            }
+            this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
+            this.skudata.push(this.brandData[i].sku[j]);
           }
-          this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
         }
-        // console.log(this.brandData)
       }, error => {
-
       })
+
+
     } else if (this.type === 'search') {
       var params2 = {
         "_id": this.id,
@@ -78,11 +83,15 @@ export class BannerNavigationComponent implements OnInit {
       this.loginService.searchAll(params2).subscribe(response => {
         this.brandData = response.json().product;
         for (var i = 0; i < this.brandData.length; i++) {
-          if (this.brandData[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
-            this.brandData[i].sku[0].percentage = this.percentage;
+          for (var j = 0; j < this.brandData[i].sku.length; j++) {
+            if (this.brandData[i].sku[j].mrp !== undefined) {
+              this.percentage = 100 - (this.brandData[i].sku[j].selling_price / this.brandData[i].sku[j].mrp) * 100
+              this.brandData[i].sku[j].percentage = Math.round(this.percentage);
+              this.brandData[i].sku[j].productName = this.brandData[i].name;
+            }
+            this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
+            this.skudata.push(this.brandData[i].sku[j]);
           }
-          this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
         }
       }, error => {
 
@@ -103,12 +112,18 @@ export class BannerNavigationComponent implements OnInit {
       this.loginService.category(params1).subscribe(response => {
         this.brandData = response.json().product;
         for (var i = 0; i < this.brandData.length; i++) {
-          if (this.brandData[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
-            this.brandData[i].sku[0].percentage = this.percentage;
+          for (var j = 0; j < this.brandData[i].sku.length; j++) {
+            if (this.brandData[i].sku[j].mrp !== undefined) {
+              this.percentage = 100 - (this.brandData[i].sku[j].selling_price / this.brandData[i].sku[j].mrp) * 100
+              this.brandData[i].sku[j].percentage = Math.round(this.percentage);
+              this.brandData[i].sku[j].productName = this.brandData[i].name;
+            }
+            this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
+            this.skudata.push(this.brandData[i].sku[j]);
           }
-          this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
         }
+        console.log(this.skudata);
+
       }, error => {
 
       })
@@ -127,11 +142,15 @@ export class BannerNavigationComponent implements OnInit {
       this.loginService.skuInfo(params).subscribe(response => {
         this.brandData = response.json().product;
         for (var i = 0; i < this.brandData.length; i++) {
-          if (this.brandData[i].sku[0].mrp !== undefined) {
-            this.percentage = 100 - (this.brandData[i].sku[0].selling_price / this.brandData[i].sku[0].mrp) * 100
-            this.brandData[i].sku[0].percentage = this.percentage;
+          for (var j = 0; j < this.brandData[i].sku.length; j++) {
+            if (this.brandData[i].sku[j].mrp !== undefined) {
+              this.percentage = 100 - (this.brandData[i].sku[j].selling_price / this.brandData[i].sku[j].mrp) * 100
+              this.brandData[i].sku[j].percentage = Math.round(this.percentage);
+              this.brandData[i].sku[j].productName = this.brandData[i].name;
+            }
+            this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
+            this.skudata.push(this.brandData[i].sku[j]);
           }
-          this.brandData[i].image = this.url + this.brandData[i].pic[0].pic;
         }
       }, error => {
 
@@ -139,16 +158,17 @@ export class BannerNavigationComponent implements OnInit {
     }
   }
   //add to cart
-  itemIncrease(data, name, id, skuId, index) {
+  itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (localStorage.name !== name) {
+    if (localStorage.size !== size || localStorage.name !== name) {
       thisObj.items.quantity = 0;
     }
-    if (name === data.name) {
+    if (name === data.productName) {
       thisObj.showInput = true;
       thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
       thisObj.getCart(thisObj.items.quantity, id, skuId);
+      localStorage.setItem('size', size);
       localStorage.setItem('name', name);
     }
   }
