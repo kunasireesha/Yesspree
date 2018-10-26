@@ -321,7 +321,13 @@ export class ProductsComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal('Item added to cart', '', 'success');
+      swal("Item added to cart", "", "success", {
+        buttons: ["", "Okay"],
+      }).then((value) => {
+        if (value === true) {
+          window.location.reload();
+        }
+      });
     }, err => {
       swal(err.json().message, '', 'error');
     })

@@ -108,8 +108,15 @@ export class MycartComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal('Item added to cart', '', 'success');
+      swal("Item added to cart", "", "success", {
+        buttons: ["", "Okay"],
+      }).then((value) => {
+        if (value === true) {
+          window.location.reload();
+        }
+      });
       this.getCart();
+
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -132,7 +139,14 @@ export class MycartComponent implements OnInit {
       id_sku: sku
     }
     this.loginService.removeCart(inData).subscribe(response => {
-      swal("item removed successfully", '', 'success');
+      swal("item removed successfully", '', 'success', {
+        buttons: ["", "Okay"],
+      }).then((value) => {
+        if (value === true) {
+          window.location.reload();
+        }
+      });
+
       this.getCart();
     })
   }
