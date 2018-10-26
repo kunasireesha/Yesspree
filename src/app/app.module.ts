@@ -41,6 +41,8 @@ import { SearchProductComponent } from './search-product/search-product.componen
 import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
 // directive
 import { NumberOnlyDirective } from './directives/number';
+import { AlphabetsOnly } from './directives/number';
+import { AlphaNumericOnly } from './directives/number';
 import { AuthServices } from './services/auth.service';
 import { MyComponentOrService } from './services/facebook';
 
@@ -91,6 +93,8 @@ var firebaseConfig = {
     RecProductsComponent,
     BannerNavigationComponent,
     NumberOnlyDirective,
+    AlphaNumericOnly,
+    AlphabetsOnly
 
 
   ],
