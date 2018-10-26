@@ -106,7 +106,8 @@ export class MyAccountComponent implements OnInit {
         first_name: '',
         last_name: '',
         email: '',
-        mobile: ''
+        mobile: '',
+        dob: ''
     };
     type;
     addData = {
@@ -121,6 +122,7 @@ export class MyAccountComponent implements OnInit {
         locality: ''
     }
 
+    dobValidation = "/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/"
 
     constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, private fb: FacebookService) {
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -374,8 +376,8 @@ export class MyAccountComponent implements OnInit {
             first_name: this.mydata.first_name,
             last_name: this.mydata.last_name,
             email: this.mydata.email,
-            mobile: this.mydata.mobile
-
+            mobile: this.mydata.mobile,
+            birthday: this.mydata.dob
         }
         this.loginService.update(inData).subscribe(response => {
             swal("Updated successfully", '', "success");
@@ -640,7 +642,7 @@ export class MyAccountComponent implements OnInit {
             quantity: JSON.stringify(this.quantity),
             wh_pincode: localStorage.wh_pincode,
             parent_warehouseid: localStorage.parent_warehouseid,
-            id_warehouse: JSON.parse(localStorage.id_warehouse, )
+            id_warehouse: JSON.parse(localStorage.id_warehouse)
         }
         this.loginService.getCart(inData).subscribe(response => {
 

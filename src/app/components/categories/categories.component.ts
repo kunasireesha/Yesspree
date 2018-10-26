@@ -210,7 +210,7 @@ export class CategoriesComponent implements OnInit {
       quantity: JSON.stringify(this.quantity),
       wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
-      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
 
