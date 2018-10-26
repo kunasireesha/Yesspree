@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-lg-6">
-      <h4>YOUR CART ({{cartCount}})</h4>
+      <h4>MY CART ({{cartCount}} ITEMS)</h4>
     </div>
     <div class="col-lg-6">
       <div class="row">
@@ -20,7 +20,7 @@
       <thead class="table-header">
         <tr>
           <th scope="col" width="40%" class="table-headings">Item Description</th>
-          <th scope="col" width="15%" class="table-headings">Unity Price</th>
+          <th scope="col" width="15%" class="table-headings">Unit price</th>
           <th scope="col" width="15%" class="table-headings">Quantity</th>
           <th scope="col" width="15%" class="table-headings">Subtotal</th>
           <th scope="col" width="15%" class="table-headings">Savings</th>
@@ -38,15 +38,15 @@
           </td>
           <td class="table-price" *ngFor="let sku of cartItems.sku">
             <p>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{sku.mrp}}</strike>
-              <br />
               <i class="fa fa-strikethrought" aria-hidden="true"></i>
               <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
+              <br />
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{sku.mrp}}</strike>
             </p>
           </td>
           <td class="table-quanities" *ngFor="let sku of cartItems.sku">
             <div class="quantity buttons_added">
-              <input type="button" value="-" class="minus" (click)="itemDecrease(mycart,cartItems.id_product,sku._id,i)">
+              <input type="button" value="-" class="minus" (click)="itemDecrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)">
               <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text"
                 size="4" pattern="" inputmode="" disabled>
               <input type="button" value="+" class="plus" (click)="itemIncrease(mycart,cartItems.name,cartItems.id_product,sku._id,i)">

@@ -691,7 +691,6 @@ export class MyAccountComponent implements OnInit {
             this.summaryselPri = response.json().summary.selling_price;
             this.summarymrpPrice = response.json().summary.mrp;
             this.savePer = (100 - (this.summaryselPri / this.summarymrpPrice) * 100).toFixed(0);
-            alert(this.savePer)
         }, err => {
             console.log(err)
         })
@@ -718,7 +717,6 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
-            console.log(this.orders);
         }, err => {
             console.log(err)
         })

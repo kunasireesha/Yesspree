@@ -158,12 +158,12 @@
     <div class="col-lg-9 cart-details" *ngIf="mycart">
       <div class="row cart-buttons">
         <div class="col-lg-4">
-          <h4>MY CART ({{cartCount}})</h4>
+          <h4>MY CART ({{cartCount}} ITEMS)</h4>
         </div>
         <div class="col-lg-8">
           <div class="row">
             <div class="col-lg-4">
-              <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
+              <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
             </div>
 
             <div class="col-lg-4">
@@ -184,7 +184,7 @@
           <thead class="table-header">
             <tr>
               <th scope="col" width="40%" class="table-headings">Item Description</th>
-              <th scope="col" width="15%" class="table-headings">Unit Price</th>
+              <th scope="col" width="15%" class="table-headings">Unit price</th>
               <th scope="col" width="15%" class="table-headings">Quantity</th>
               <th scope="col" width="15%" class="table-headings">Subtotal</th>
               <th scope="col" width="15%" class="table-headings">Savings</th>
@@ -196,15 +196,15 @@
                 <img [src]="url + cartDetails.image" class="prod-image">
                 <p>
                   <strong>{{cartDetails.name}} </strong>
-                  <br />100% Pure</p>
+                </p>
                 <span>{{skuSize.size}}</span>
               </td>
               <td class="table-price" *ngFor="let skuSize of cartDetails.sku">
                 <p>
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
-                  <br />
                   <i class="fa fa-strikethrought" aria-hidden="true"></i>
                   <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.selling_price}}
+                  <br />
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
                 </p>
               </td>
               <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
@@ -236,7 +236,7 @@
             </tr>
             <tr class="table-border">
               <td class="mrp-rate">
-                <h5>Total MRP</h5>
+                <h6>Total MRP</h6>
               </td>
               <td></td>
               <td></td>
@@ -744,7 +744,7 @@
           <thead class="table-header">
             <tr>
               <th scope="col" width="40%" class="table-headings">Item Description</th>
-              <th scope="col" width="15%" class="table-headings">Unity Price</th>
+              <th scope="col" width="15%" class="table-headings">Unit price</th>
               <th scope="col" width="15%" class="table-headings">Quantity</th>
               <th scope="col" width="15%" class="table-headings">Subtotal</th>
               <th scope="col" width="15%" class="table-headings">Savings</th>
@@ -762,11 +762,12 @@
               </td>
               <td class="table-price" *ngFor="let sku of item.sku">
                 <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
+                  <br />
                   <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
                     <i class="fa fa-rupee" aria-hidden="true"></i>
                     {{sku.mrp}}
-                  </strike><br />
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{sku.selling_price}}
+                  </strike>
                 </p>
               </td>
               <td class="table-quanities" *ngFor="let sku of item.sku">
