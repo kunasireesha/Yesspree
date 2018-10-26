@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
     public catSer: CatListServices,
     public authService: AuthServices
   ) {
+    this.cartCount = localStorage.cartCount;
 
   }
   otpData;
@@ -138,7 +139,8 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      this.cartCount = response.json().summary.cart_count;
+      localStorage.setItem('cartCount', response.json().summary.cart_count)
+      this.cartCount = localStorage.cartCount;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -646,8 +648,15 @@ export class HeaderComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse, )
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal('Item added to cart', '', 'success');
+      swal("Item added to cart", "", "success", {
+        buttons: ["", "Okay"],
+      }).then((value) => {
+        if (value === true) {
+          window.location.reload();
+        }
+      });
       this.getCart();
+
     }, err => {
       swal(err.json().message, '', 'error');
     })

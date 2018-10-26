@@ -248,7 +248,13 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
-      swal('Item added to cart', '', 'success');
+      swal("Item added to cart", "", "success", {
+        buttons: ["", "Okay"],
+      }).then((value) => {
+        if (value === true) {
+          window.location.reload();
+        }
+      });
     }, err => {
       swal(err.json().message, '', 'error');
     })

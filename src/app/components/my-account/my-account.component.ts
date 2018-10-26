@@ -643,15 +643,23 @@ export class MyAccountComponent implements OnInit {
             id_warehouse: JSON.parse(localStorage.id_warehouse, )
         }
         this.loginService.getCart(inData).subscribe(response => {
-            swal('Item added to cart', '', 'success');
+
             if (action === 'wishList') {
                 this.wishlist = true;
                 this.mycart = false;
                 this.getWishlist();
+                swal("Item added to wishlist", "", "success")
             } else if (action === 'mycart') {
                 this.wishlist = false;
                 this.mycart = true;
                 this.getCart();
+                swal("Item added to cart", "", "success", {
+                    buttons: ["", "Okay"],
+                }).then((value) => {
+                    if (value === true) {
+                        window.location.reload();
+                    }
+                });
             }
         }, err => {
             swal(err.json().message, '', 'error');
