@@ -593,7 +593,6 @@ export class HeaderComponent implements OnInit {
 
   //add to cart
   itemIncrease(data, name, id, skuId, index) {
-    alert(index)
     this.selected = index;
     let thisObj = this;
     // if (localStorage.cartName !== name) {

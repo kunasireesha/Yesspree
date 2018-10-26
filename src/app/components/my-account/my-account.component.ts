@@ -35,6 +35,10 @@ export class MyAccountComponent implements OnInit {
     discount;
     cancelPlan;
     sharedData;
+    summaryselPri;
+    summarymrpPrice;
+    savePer;
+    showPer;
     ngOnInit() {
         this.url = AppSettings.imageUrl;
 
@@ -676,6 +680,10 @@ export class MyAccountComponent implements OnInit {
             this.mycart = response.json().cart;
             this.skuData = response.json().cart.sku;
             this.summary = response.json().summary;
+            this.summaryselPri = response.json().summary.selling_price;
+            this.summarymrpPrice = response.json().summary.mrp;
+            this.savePer = (100 - (this.summaryselPri / this.summarymrpPrice) * 100).toFixed(0);
+            alert(this.savePer)
         }, err => {
             console.log(err)
         })

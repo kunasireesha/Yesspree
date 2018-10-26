@@ -249,7 +249,8 @@
                   <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
 
                 </p>
-                <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}}% </span>
+                <!-- <span> You Save {{!isNaN(savePer) ? 0 : savePer}} % </span> -->
+                <span>{{savePer}}</span>
               </td>
             </tr>
           </tbody>
