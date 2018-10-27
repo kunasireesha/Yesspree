@@ -32,7 +32,7 @@
                 <a class="dropdown-item" routerLink="ordersfirst">
                   <i class="fa fa-first-order"></i>&nbsp; My Orders</a>
                 <a class="dropdown-item" routerLink="/myAccountcart">
-                  <i class="fa fa-cart-arrow-down" aria-hidden="true"></i>
+                  <i class="fas fa-shopping-cart" aria-hidden="true"></i>
                   My Cart
                 </a>
                 <a class="dropdown-item" routerLink="/mysubscription">
@@ -47,12 +47,12 @@
                 <a class="dropdown-item" routerLink="/mynotifiactions">
                   <i class="fa fa-bell-o" aria-hidden="true"></i>
                   &nbsp; Notifications</a>
-                <a class="dropdown-item" routerLink="/wishlist">
+                <!-- <a class="dropdown-item" routerLink="/wishlist">
                   <i class="fa fa-heart" aria-hidden="true"></i>
                   &nbsp; WishList</a>
                 <a class="dropdown-item" routerLink="/coupon">
                   <i class="fa fa-trophy" aria-hidden="true"></i>
-                  &nbsp; Coupons</a>
+                  &nbsp; Coupons</a> -->
                 <a class="dropdown-item" (click)="logout()">
                   <i class="fa fa-sign-out" aria-hidden="true"></i>
                   &nbsp; Logout</a>
@@ -162,7 +162,7 @@
                   x
                 </button>
               </div>
-              <h3 class="text-center">SIGN IN</h3>
+              <h6 class="text-center signIn">SIGN IN</h6>
               <form class="login-form">
                 <div class="row justify-content-md-center">
                   <div class="form-group col-md-8">
@@ -174,7 +174,7 @@
                       name="password" required>
                   </div>
                   <div class="form-group col-md-8">
-                    <button type="submit" class="btn  submit-button" (click)="login()">Signin</button>
+                    <button type="submit" class="btn  submit-button" (click)="login()">Sign In</button>
                   </div>
                   <div class="col-md-8 text-center">
                     <a (click)="openForgotpassword()">Forgot Password?</a>
@@ -235,13 +235,9 @@
                   <button class="btn button cross-btn" (click)="onCloseCancel()">
                     x
                   </button>
-                </div>
-                <div class="col-lg-10 p-0 signup">
-                  <h5 class="text-center">SIGN UP</h5>
-                </div>
+                </div>>
               </div>
-
-
+              <h6 class="text-center signIn">SIGN UP</h6>
               <form class="login-form">
                 <ul class="title-list">
                   <li class="prefixData">
@@ -486,7 +482,7 @@
                   x
                 </button>
               </div>
-              <h3 class="text-center">CHANGE password-popup</h3>
+              <h3 class="text-center">Change Password</h3>
               <form class="login-form">
                 <div class="row justify-content-md-center">
                   <div class="form-group mt-3 col-md-8">
@@ -551,7 +547,7 @@
         <div class="row">
           <div class="col-8">
             <div class="t-mrp">
-              <p>Total MRP</p>
+              <h6>Total MRP</h6>
               <p>Your Total Savings </p>
             </div>
           </div>
@@ -573,7 +569,7 @@
               <p>
                 <strong>Total to Pay</strong>
               </p>
-              <p>(Inclusive all taxes)</p>
+              <h6>(Inclusive all taxes)</h6>
             </div>
           </div>
           <div class="col-4">
@@ -600,7 +596,7 @@
               </p>
               <div class="row" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-3">
-                  <p>{{sku.size}}</p>
+                  <span class="sk-size">{{sku.size}}</span>
                 </div>
                 <div class="col-md-2">
                   <p class="green-text">
@@ -623,7 +619,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <p>Subscribe</p>
+                  <button class="btn btn-success subscribe">Subscribe</button>
                 </div>
                 <div class="col-md-8">
                   <div class="num-bac">

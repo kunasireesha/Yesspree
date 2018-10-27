@@ -76,7 +76,7 @@ export class MycartComponent implements OnInit {
     this.getCart();
   }
 
-  itemDecrease(data, id, skuId, index, mycart) {
+  itemDecrease(data, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
     // if (this.sku.mycart === 1) {
@@ -105,16 +105,17 @@ export class MycartComponent implements OnInit {
       quantity: JSON.stringify(this.quantity),
       wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
-      id_warehouse: JSON.parse(localStorage.id_warehouse, )
+      id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // , {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
       this.getCart();
 
     }, err => {

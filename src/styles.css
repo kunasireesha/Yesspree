@@ -130,10 +130,10 @@ body {
   font-weight: 800;
 }
 
-.quantity.buttons_added .minus:hover,
+/* .quantity.buttons_added .minus:hover,
 .quantity.buttons_added .plus:hover {
   background: #eeeeee;
-}
+} */
 
 .quantity input::-webkit-outer-spin-button,
 .quantity input::-webkit-inner-spin-button {

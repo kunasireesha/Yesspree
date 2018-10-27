@@ -177,7 +177,7 @@
                 <i class="fa fa-heart" aria-hidden="true"></i>
               </a>
               <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
-              <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
+              <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
               <div class="card-block">
                 <h5>{{sku.productName}} </h5>
                 <p>{{sku.size}}</p>
@@ -257,7 +257,8 @@
 
             <p>
               <button type="button" class="btn btn-black">ADD TO WISHLIST</button>
-              <button type="button" class="btn btn-black" (click)="showSubscribeDetails()">SUBSCRIBE</button>
+              <button type="button" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-border':showSubscriptionData}"
+                (click)="showSubscribeDetails()">SUBSCRIBE</button>
 
               <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct._id,detailsproduct.id_product)">-</button>
               <button type="button" class="btn btn-yellow qty">{{items.quantity}}</button>
@@ -291,14 +292,13 @@
         <p>
         <input type="checkbox" name="vehicle1" value="Bike"> Once a week</p>
         </div> -->
-                <div class="col-lg-3">
-                  <div class="form-check" *ngFor="let cat of categories">
-                    <input class="form-check-input" (change)="onChange(cat.name, $event.target.checked)" name="{{ cat.name }}"
-                      type="checkbox" id="{{cat.name}}">
-                    <label class="form-check-label" for="{{cat.name}}">
-                      {{cat.name}}
-                    </label>
-                  </div>
+                <div class="col-lg-12">
+                  <ul class="title-list">
+                    <li class="prefixData" *ngFor="let cat of categories">
+                      <a (click)="checkPrefix(cat.name)"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix===cat.name}"></i>
+                        {{cat.name}}</a>
+                    </li>
+                  </ul>
                 </div>
               </div>
               <div class="row">
@@ -329,7 +329,6 @@
       <p> Made with superior quality wheat</p>
       <p> Made with superior quality wheat</p>
       <h3>Similar Products</h3>
-      <br />
       <div class="products">
         <div class="row items">
           <div class="col-md-3 item" *ngFor="let sku of skuspecificdata; let i = index">
@@ -339,7 +338,58 @@
                   <i class="fa fa-heart" aria-hidden="true"></i>
                 </a>
                 <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
-                <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap">
+                <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
+                <div class="card-block">
+                  <h5>{{sku.productName}} </h5>
+                  <p>{{sku.size}}</p>
+                  <div class="row item-price">
+                    <div class="col-md-6 col-sm-12 col-xs-12">
+                      <span class="price">
+                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                        {{sku.selling_price}}</span>
+                      <strike *ngIf="sku.mrp!==undefined">
+                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                        {{sku.mrp}}</strike>
+                    </div>
+                    <div class="col-md-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
+                      <span class="saveMney">you save {{sku.percentage}}%</span>
+                    </div>
+                  </div>
+                  <br />
+                  <div class="row prdct-length">
+                    <div class="col-md-4">
+                      <span *ngIf="showInputs && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
+                        <i class="fa fa-minus" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                    <div class="col-md-4 quantity">
+                      <span class="add text-center" *ngIf="showInputs && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
+                      <span *ngIf="showInputs && i == selected">{{items.quantity}}</span>
+                    </div>
+                    <div class="col-md-4">
+                      <span class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
+                        <i class="fa fa-plus" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- like products -->
+      <h3>You may also like</h3>
+      <div class="products">
+        <div class="row items">
+          <div class="col-md-3 item" *ngFor="let sku of skulikedata; let i = index">
+            <div class="card">
+              <div>
+                <a (click)="wish(sku.id_product)">
+                  <i class="fa fa-heart" aria-hidden="true"></i>
+                </a>
+                <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+                <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
                 <div class="card-block">
                   <h5>{{sku.productName}} </h5>
                   <p>{{sku.size}}</p>

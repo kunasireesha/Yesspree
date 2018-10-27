@@ -35,6 +35,7 @@
   box-shadow: none;
 }
 
+
 .table-header {
   background-color: #373435;
   color: #ffffff;
@@ -143,7 +144,9 @@
   float: right;
   box-shadow: none;
 }
-
+.prod-size {
+  margin-left: 120px;
+}
 .modal.fade:not(.in).left .modal-dialog {
   -webkit-transform: translate3d(-25%, 0, 0);
   transform: translate3d(-25%, 0, 0);
