@@ -227,40 +227,41 @@
     <div class="col-md-9 items productDetails" *ngIf="showDetails">
       <p>
         <a routerLink="/">Home</a>&nbsp;&nbsp;>&nbsp;
-        <a>{{product[0].category}}</a>
+        <a>{{detailsproduct.category}}</a>
       </p>
       <br />
       <div class="row">
         <div class="col-md-3 itemdetails">
-          <img _ngcontent-c5="" class="img-fluid prod_img" src="{{firstPic}}">
+          <img _ngcontent-c5="" class="img-fluid prod_img" [src]="detailsproduct.image">
         </div>
-        <div class="col-md-9 itemdetails" *ngFor="let item of product">
-          <div *ngFor="let sku of item.sku">
-            <h5>{{item.name}}</h5>
+        <div class="col-md-9 itemdetails">
+          <div>
+              
+            <h5>{{detailsproduct.productName}}</h5>
             <p> More by
-              <strong> {{item.name}}</strong>
+              <strong> {{detailsproduct.productName}}</strong>
             </p>
-            <p class="item_details_save"> You Save {{sku.percentage}}%</p>
+            <p class="item_details_save"> You Save {{detailsproduct.percentage}}%</p>
             <p>
               <strong>Price</strong>
-              <span class="item_details_price">: {{sku.selling_price}} </span>
+              <span class="item_details_price">: {{detailsproduct.selling_price}} </span>
             </p>
             <p>
               <strong>Deducted</strong>
-              <span class="item_details_deduct">: Rs.{{sku.mrp-sku.selling_price}} </span>
+              <span class="item_details_deduct">: Rs.{{detailsproduct.mrp-detailsproduct.selling_price}} </span>
             </p>
             <p> Available in </p>
-            <p>
-              <span class="item_details_quantity" (click)="skusize(sku.size)" [ngClass]="{'activedeails': selectedskusize == sku.size}">{{sku.size}}</span>
+            <p *ngFor="let sku of skus" class="skus-size">
+              <span class="item_details_quantity" (click)="skusize(sku)" [ngClass]="{'activedeails': selectedskusize == sku.size}">{{sku.size}}</span>
             </p>
 
             <p>
               <button type="button" class="btn btn-black">ADD TO WISHLIST</button>
               <button type="button" class="btn btn-black" (click)="showSubscribeDetails()">SUBSCRIBE</button>
 
-              <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(item._id,sku._id,i)">-</button>
+              <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct._id,detailsproduct.id_product)">-</button>
               <button type="button" class="btn btn-yellow qty">{{items.quantity}}</button>
-              <button type="button" class="btn btn-yellow add" (click)="itemIncrease(item,item.name,item._id,sku._id,i)">+</button>
+              <button type="button" class="btn btn-yellow add" (click)="detailsitemIncrease(detailsproduct,detailsproduct.productName,detailsproduct.id_product,detailsproduct._id)">+</button>
             </p>
             <br />
             <div class="cust-subscribe" *ngIf="showSubscriptionData">
@@ -302,7 +303,7 @@
               </div>
               <div class="row">
                 <div class="col-lg-12">
-                  <button class="btn btn-black subs" (click)="subscribeData(item._id,sku._id)">Subscribe</button>
+                  <button class="btn btn-black subs" (click)="subscribeData(detailsproduct._id,detailsproduct.id_product)">Subscribe</button>
                 </div>
               </div>
             </div>

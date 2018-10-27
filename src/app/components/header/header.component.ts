@@ -463,31 +463,43 @@ export class HeaderComponent implements OnInit {
   }
   //logout
   logout() {
-    if (localStorage.issocial === 'true') {
-      localStorage.removeItem("userData");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("key");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("issocial");
-      localStorage.removeItem('authkey');
 
-      swal("Successfully log out", '', "success");
-      this.showProfile = false;
-      this.showLogin = true;
-      this.router.navigate(["/"]);
-      this.authService.logout();
-    } else if (localStorage.issocial === 'false') {
-      localStorage.removeItem("userData");
-      localStorage.removeItem("userId");
-      localStorage.removeItem("key");
-      localStorage.removeItem("userName");
-      localStorage.removeItem("issocial");
-      localStorage.removeItem('authkey');
-      swal("Successfully log out", '', "success");
-      this.showProfile = false;
-      this.showLogin = true;
-      this.router.navigate(["/"]);
-    }
+    localStorage.removeItem("userData");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("key");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("issocial");
+    localStorage.removeItem('authkey');
+    swal("Successfully log out", '', "success");
+    this.showProfile = false;
+    this.showLogin = true;
+    this.router.navigate(["/"]);
+
+    // if (localStorage.issocial === 'true') {
+    //   localStorage.removeItem("userData");
+    //   localStorage.removeItem("userId");
+    //   localStorage.removeItem("key");
+    //   localStorage.removeItem("userName");
+    //   localStorage.removeItem("issocial");
+    //   localStorage.removeItem('authkey');
+
+    //   swal("Successfully log out", '', "success");
+    //   this.showProfile = false;
+    //   this.showLogin = true;
+    //   this.router.navigate(["/"]);
+    //   this.authService.logout();
+    // } else if (localStorage.issocial === 'false') {
+    //   localStorage.removeItem("userData");
+    //   localStorage.removeItem("userId");
+    //   localStorage.removeItem("key");
+    //   localStorage.removeItem("userName");
+    //   localStorage.removeItem("issocial");
+    //   localStorage.removeItem('authkey');
+    //   swal("Successfully log out", '', "success");
+    //   this.showProfile = false;
+    //   this.showLogin = true;
+    //   this.router.navigate(["/"]);
+    // }
 
   }
 

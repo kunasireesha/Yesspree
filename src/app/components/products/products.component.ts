@@ -274,6 +274,18 @@ export class ProductsComponent implements OnInit {
 
 
   //add to cart
+detailsitemIncrease(data, size, name, id, skuId ){
+  let thisObj = this;
+  thisObj.showInputs = true;
+  thisObj.showInput = true;
+  thisObj.items.quantity = thisObj.items.quantity + 1;
+  thisObj.getCart(thisObj.items.quantity, id, skuId);
+  localStorage.setItem('size', size);
+  localStorage.setItem('name', name);
+}
+
+
+
   itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
@@ -283,7 +295,7 @@ export class ProductsComponent implements OnInit {
     if (name === data.productName) {
       thisObj.showInputs = true;
       thisObj.showInput = true;
-      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
+      thisObj.items.quantity = thisObj.items.quantity + 1;
       thisObj.getCart(thisObj.items.quantity, id, skuId);
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
@@ -318,11 +330,11 @@ export class ProductsComponent implements OnInit {
       quantity: JSON.stringify(this.quantity),
       wh_pincode: localStorage.wh_pincode,
       parent_warehouseid: localStorage.parent_warehouseid,
-      id_warehouse: JSON.parse(localStorage.id_warehouse)
+      id_warehouse: localStorage.id_warehouse
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
+        buttons: ['',"Okay"],
       }).then((value) => {
         if (value === true) {
           window.location.reload();
@@ -455,6 +467,8 @@ export class ProductsComponent implements OnInit {
 
   //get product details
   skuspecificdata = [];
+  detailsproduct;
+  skus=[];
   productDetails() {
     var inData = {
       _id: this.id,
@@ -467,15 +481,31 @@ export class ProductsComponent implements OnInit {
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
 
-      for (var i = 0; i < this.product.length; i++) {
-        if (this.product[i].sku[0].mrp !== undefined) {
-          this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100));
-          this.product[i].sku[0].percentage = this.percentage;
-        }
-      }
+      
+      this.percentage = 100 - (this.product[0].sku[0].selling_price / this.product[0].sku[0].mrp) * 100
+      this.product[0].sku[0].productName=this.product[0].name;
+      this.product[0].sku[0].percentage=Math.round(this.percentage);
+      this.product[0].sku[0].image=this.url + this.product[0].pic[0].pic;
+      this.product[0].sku[0].category=this.product[0].category;
+this.detailsproduct=this.product[0].sku[0];
+console.log(this.detailsproduct);
+
+
+for (var i = 0; i < this.product.length; i++) {
+  for(var j=0;j<this.product[i].sku.length;j++){
+  if (this.product[i].sku[j].mrp !== undefined) {
+    this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[j].mrp) * 100));
+    this.product[i].sku[j].productName=this.product[i].name;
+    this.product[i].sku[j].percentage=Math.round(this.percentage);
+    this.product[i].sku[j].image=this.url + this.product[i].pic[0].pic;
+    this.product[i].sku[j].category=this.product[i].category;
+  }
+  this.skus.push(this.product[i].sku[j]);
+}
+}
+
 
       this.subName = this.product[0].category;
-
       for (var i = 0; i < this.product.length; i++) {
         this.firstPic = this.url + this.product[i].pic[0].pic;
       }
@@ -509,7 +539,8 @@ export class ProductsComponent implements OnInit {
   }
 
   skusize(size) {
-    this.selectedskusize = size;
+    this.detailsproduct=size;
+    // this.selectedskusize = size;
   }
 
   subscribeData(productId, sku) {
