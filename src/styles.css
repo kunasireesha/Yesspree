@@ -146,3 +146,13 @@ body {
 .quantity.buttons_added .plus:focus {
   outline: none;
 }
+
+.aash {
+  color: #b1b1b1;
+}
+
+
+.checkbox-custom .checkbox-custom-label:before,
+.radio-custom .radio-custom-label:before {
+  background: #b1b1b1 !important;
+}

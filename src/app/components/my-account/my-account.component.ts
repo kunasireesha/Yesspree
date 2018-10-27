@@ -27,7 +27,7 @@ export class MyAccountComponent implements OnInit {
     ordersData;
     skuData = []
     sku = {
-        mycart: 0
+        mycart: 1
     }
     unsubscribe = false;
     summary
@@ -114,6 +114,7 @@ export class MyAccountComponent implements OnInit {
         dob: ''
     };
     type;
+
     addData = {
         name: '',
         phone: '',
@@ -171,7 +172,7 @@ export class MyAccountComponent implements OnInit {
                 "lang": "en"
             }
             this.loginService.notificationsData(nParams).subscribe(response => {
-                this.notificationList = response.json();
+                this.notificationList = response.json().result;
                 console.log(this.notificationList)
             }, error => {
 
@@ -530,6 +531,8 @@ export class MyAccountComponent implements OnInit {
             swal(err.message, "", "error");
         })
     }
+    percentage;
+    skudata = [];
     getWishlist() {
         var inData = {
             "_id": this.id,
@@ -543,12 +546,25 @@ export class MyAccountComponent implements OnInit {
         this.loginService.getWishlist(inData).subscribe(response => {
             this.WishList = response.json().result;
             this.summary = response.json().summary;
+
             for (var i = 0; i < this.WishList.length; i++) {
-                this.WishList[i].image = this.url + this.WishList[i].pic[0].pic;
+                if (this.WishList[i].sku !== undefined) {
+                    for (var j = 0; j < this.WishList[i].sku.length; j++) {
+                        if (this.WishList[i].sku[j].mrp !== undefined) {
+                            this.percentage = 100 - (this.WishList[i].sku[j].selling_price / parseInt(this.WishList[i].sku[j].mrp)) * 100
+                            this.WishList[i].sku[j].percentage = Math.round(this.percentage);
+                            this.WishList[i].sku[j].productName = this.WishList[i].name;
+                        }
+                        this.WishList[i].sku[j].image = this.url + this.WishList[i].pic[0].pic;
+                        this.WishList[i].sku[j].selected = false;
+                        this.skudata.push(this.WishList[i].sku[j]);
+
+                    }
+                }
             }
             this.wishCount = this.WishList.length;
             this.grandTotal = response.json().summary.grand_total;
-            console.log(this.WishList);
+            console.log(this.skudata);
         }, error => {
             console.log(error);
         })
@@ -750,5 +766,20 @@ export class MyAccountComponent implements OnInit {
         this.fb.ui(params)
             .then((res: UIResponse) => console.log(res))
             .catch((e: any) => console.error(e));
+    }
+
+
+    onChange(sku, isChecked: boolean) {
+        if (isChecked) {
+            sku.push({ selected: isChecked });
+            //   this.typeArray.push(email);
+            //   console.log(this.emailFormArray);
+        } else {
+            //   let index = this.emailFormArray.indexOf(email);
+            //   let index1 = this.typeArray.indexOf(email);
+            //   this.emailFormArray.splice(index, 1);
+            //   this.typeArray.splice(index1, 1);
+            //   console.log(this.typeArray);
+        }
     }
 }

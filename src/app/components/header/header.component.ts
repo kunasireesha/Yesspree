@@ -232,25 +232,29 @@ export class HeaderComponent implements OnInit {
         email: this.formData.email,
         mobile: this.formData.forMobile,
         password: this.formData.password,
-        person_prefix: this.formData.password,
+        person_prefix: this.prefix,
         referred_code: this.formData.referalCode
       }
 
       this.loginService.requestOtp(inData).subscribe(response => {
         this.otpData = response.data;
-        swal("Otp Sent to your mobile number", " ", "success");
-        this.showForgotPassword = false;
-        // this.showLoginandRegistration = false;
-        this.showRegistration = false
-        this.showModal = true;
-        this.showOpacity = true;
-        this.showOtp = false;
-        this.showOtpForRegister = true;
 
+        if (response.json().status === 'failure') {
+          swal(response.json().message, '', 'error');
+        } else {
+          swal("Otp Sent to your mobile number", " ", "success");
+          this.showForgotPassword = false;
+          // this.showLoginandRegistration = false;
+          this.showRegistration = false
+          this.showModal = true;
+          this.showOpacity = true;
+          this.showOtp = false;
+          this.showOtpForRegister = true;
+        }
       }, err => {
-        if (err.status === 400) {
+        if (err.json().status === 400) {
           // this.msg = this.translate.instant("common.loginErrMsg");
-          swal(err.message, " ", "error").then((value) => {
+          swal(err.json().message, " ", "error").then((value) => {
 
           });
         };
@@ -275,8 +279,6 @@ export class HeaderComponent implements OnInit {
     this.socialAuthService.signIn(socialPlatformProvider).then(
       (userData) => {
         console.log(socialPlatform + " sign in data : ", userData);
-
-
       }
     );
   }
@@ -372,7 +374,7 @@ export class HeaderComponent implements OnInit {
     } else {
       this.loginService.forgot(inData).subscribe(response => {
         if (response.json().status === "failure") {
-          swal("Please enter valid number", " ", "error");
+          swal(response.json().message, " ", "error");
         } else {
           this.forData = response.json().result[0];
           this.showForgotPassword = false;
@@ -380,10 +382,10 @@ export class HeaderComponent implements OnInit {
           this.showModal = true;
           this.showOpacity = true;
           this.showOtp = true;
-          swal("Otp sent succeessfully", " ", "success");
+          swal(response.json().message, " ", "success");
         }
       }, err => {
-        swal(err.message, "", "error")
+        swal(err.json().message, "", "error")
       })
     }
 
@@ -400,23 +402,40 @@ export class HeaderComponent implements OnInit {
         if (response.json().status === "failure") {
           swal(response.json().message, " ", "error");
         } else {
-          swal("Otp verified successfully", "", "success");
+          swal(response.json().message, "", "success");
           this.showOtp = false;
           if (action === 'forgotpswrd') {
             this.changepw = true;
           } else {
             this.changepw = false;
-            swal("Registered succeessfully", "", "success");
-            this.onCloseCancel();
+            swal(response.json().message, "", "success");
+
             this.clearFields();
+            this.showSignin = true;
+            this.showForgotPassword = false;
+            this.showRegistration = false
+            this.showModal = true;
+            this.showOpacity = true;
+            this.showOtp = false;
+            this.showOtpForRegister = false;
           }
         }
 
       }, err => {
-        swal("Failed", "", "error")
+        swal(err.json().message, "", "error")
       })
     }
 
+  }
+  mr;
+  mrs;
+  prefix;
+  mrsprefix;
+  checkPrefix(prefixVAlue) {
+    this.prefix = prefixVAlue;
+  }
+  checkmrsPrefix(prefixVAlue) {
+    this.mrsprefix = prefixVAlue;
   }
 
 
@@ -431,11 +450,15 @@ export class HeaderComponent implements OnInit {
       birthday: ''
     }
     this.loginService.updatePw(inData).subscribe(response => {
-      swal("Password changed", "", "success");
-      this.onCloseCancel();
-      this.formData.forMobile = '';
+      if (response.json().status === "failure") {
+        swal(response.json().message, '', 'error');
+      } else {
+        swal("Password changed", "", "success");
+        this.onCloseCancel();
+        this.formData.forMobile = '';
+      }
     }, err => {
-      swal(err.message, "", "error")
+      swal(err.json().message, "", "error")
     })
   }
   //logout
@@ -474,9 +497,13 @@ export class HeaderComponent implements OnInit {
       mobile: JSON.parse(localStorage.getItem("userMobile"))
     }
     this.loginService.resendOtp(inData).subscribe(response => {
-      swal("OTP sent successfully", '', "success");
+      if (response.json().status === "failure") {
+        swal(response.json().message, '', 'error');
+      } else {
+        swal(response.json().message, '', "success");
+      }
     }, err => {
-      swal(err.message, '', "error");
+      swal(err.json().message, '', "error");
     })
   }
   selectedCat;
@@ -616,7 +643,6 @@ export class HeaderComponent implements OnInit {
   itemDecrease(data, name, id, skuId, index) {
     alert(index)
     this.selected = index;
-    let thisObj = this;
     // if (this.sku.mycart === 1) {
     //   return;
     // }
@@ -648,15 +674,18 @@ export class HeaderComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
-      this.getCart();
-
+      if (response.json().status === "failure") {
+        swal(response.json().message, '', 'error');
+      } else {
+        swal("Item added to cart", "", "success", {
+          buttons: ["", "Okay"],
+        }).then((value) => {
+          if (value === true) {
+            window.location.reload();
+          }
+        });
+        this.getCart();
+      }
     }, err => {
       swal(err.json().message, '', 'error');
     })

@@ -153,14 +153,20 @@ export class OrderSummaryComponent implements OnInit {
       orders: this.orders
     }
     this.loginService.checkOut(inData).subscribe(response => {
-      if(response.json().message === 'success'){
+      if (response.json().message === 'success') {
         this.checkout = response.json();
-      swal('order placed successfully', '', 'success');
+        swal("order placed successfully", "", "success", {
+          buttons: ["", "Okay"],
+        }).then((value) => {
+          if (value === true) {
+            window.location.reload();
+          }
+        });
       }
-      else{
+      else {
         swal(response.json().message, '', 'error');
       }
-      
+
       this.router.navigate(["/"]);
     }, err => {
       console.log(err)
@@ -232,16 +238,16 @@ export class OrderSummaryComponent implements OnInit {
       mrs: 'Mrs.'
     }
   }
-  
-  checkoutDelivery(id){
-      var inData = {
-        "op":"update",
-        "id_address":id,
-        "selected":"1"
-      }
-      this.loginService.checkoutaddress(inData).subscribe(reponse => {
-        swal("address selected", "", "success");
-      })
+
+  checkoutDelivery(id) {
+    var inData = {
+      "op": "update",
+      "id_address": id,
+      "selected": "1"
+    }
+    this.loginService.checkoutaddress(inData).subscribe(reponse => {
+      swal("address selected", "", "success");
+    })
   }
 
 }

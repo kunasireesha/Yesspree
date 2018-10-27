@@ -250,7 +250,7 @@ export class ProductsComponent implements OnInit {
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId._id
+        proId: proId.id_product
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -423,6 +423,7 @@ export class ProductsComponent implements OnInit {
           this.skudata.push(this.products[i].sku[j]);
         }
       }
+
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -470,12 +471,10 @@ export class ProductsComponent implements OnInit {
         if (this.product[i].sku[0].mrp !== undefined) {
           this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[0].mrp) * 100));
           this.product[i].sku[0].percentage = this.percentage;
-
         }
-
       }
-      this.subName = this.product[0].category;
 
+      this.subName = this.product[0].category;
 
       for (var i = 0; i < this.product.length; i++) {
         this.firstPic = this.url + this.product[i].pic[0].pic;
@@ -545,17 +544,16 @@ export class ProductsComponent implements OnInit {
     { name: "Alternate Days", selected: false },
     { name: "Once a weak", selected: false },
   ];
+
   onChange(email: string, isChecked: boolean) {
     if (isChecked) {
       this.emailFormArray.push({ 'type': email, selected: isChecked });
       this.typeArray.push(email);
-      console.log(this.emailFormArray);
     } else {
       let index = this.emailFormArray.indexOf(email);
       let index1 = this.typeArray.indexOf(email);
       this.emailFormArray.splice(index, 1);
       this.typeArray.splice(index1, 1);
-      console.log(this.typeArray);
     }
   }
 

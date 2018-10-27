@@ -100,7 +100,22 @@
   </nav>
 </div>
 <!-- carousel new -->
-<div class="container-fluid">
+
+<div class="row">
+  <div class="col-md-2 col-lg-1" *ngFor="let item of categoryData;let i=index">
+    <div class="panel panel-default" *ngIf="i<12">
+      <div class="panel-thumbnail">
+        <a class="thumb" (click)="showSubcategorie(item._id,item.name,i)">
+          <img class="img-fluid mx-auto d-block catImg" [src]="url + item.pic" alt="{{item.name}}">
+        </a>
+        <p>{{item.name}}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="container-fluid">
   <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="9000">
     <div class="carousel-inner row w-100 mx-auto" role="listbox">
       <div class="carousel-item col-md-3 col-lg-3 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i=index"
@@ -124,7 +139,7 @@
       <span class="sr-only">Next</span>
     </a>
   </div>
-</div>
+</div> -->
 
 <br />
 <hr class="horizantal">
@@ -215,40 +230,36 @@
         <div class="container login-tab modal-box" *ngIf="showRegistration">
           <div class="row">
             <div class="col-md-6">
-              <div class="col-lg-2 p-0 ">
-                <button class="btn button cross-btn" (click)="onCloseCancel()">
-                  x
-                </button>
+              <div class="row">
+                <div class="col-lg-2 p-0 signup">
+                  <button class="btn button cross-btn" (click)="onCloseCancel()">
+                    x
+                  </button>
+                </div>
+                <div class="col-lg-10 p-0 signup">
+                  <h5 class="text-center">SIGN UP</h5>
+                </div>
               </div>
               <h6 class="text-center signIn">SIGN UP</h6>
               <form class="login-form">
                 <ul class="title-list">
-                  <li>
-                    <div>
-                      <input id="radio-1" class="radio-custom" name="radio-group" type="radio" checked>
-                      <label for="radio-1" class="radio-custom-label">Mr.</label>
-                    </div>
+                  <li class="prefixData">
+                    <a (click)="checkPrefix('mr')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix==='mr'}"></i>
+                      Mr.</a>
+                  </li>
+                  <li class="prefixData">
+                    <a (click)="checkPrefix('mrs')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrsPrefix':prefix==='mrs'}"></i>
+                      Mrs.</a>
+                  </li>
+                  <li class="prefixData">
+                    <a (click)="checkPrefix('miss')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemissPrefix':prefix==='miss'}"></i>
+                      Miss</a>
+                  </li>
+                  <li class="prefixData">
+                    <a (click)="checkPrefix('msa')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemsaPrefix':prefix==='msa'}"></i>
+                      M/S</a>
+                  </li>
 
-
-                  </li>
-                  <li>
-                    <div>
-                      <input id="radio-2" class="radio-custom" name="radio-group" type="radio">
-                      <label for="radio-2" class="radio-custom-label">Mrs.</label>
-                    </div>
-                  </li>
-                  <li>
-                    <div>
-                      <input id="radio-3" class="radio-custom" name="radio-group" type="radio">
-                      <label for="radio-3" class="radio-custom-label">Miss</label>
-                    </div>
-                  </li>
-                  <li>
-                    <div>
-                      <input id="radio-4" class="radio-custom" name="radio-group" type="radio">
-                      <label for="radio-4" class="radio-custom-label">M/S</label>
-                    </div>
-                  </li>
                 </ul>
                 <div class="row justify-content-md-center">
                   <div class="form-group mt-3 col-md-8">

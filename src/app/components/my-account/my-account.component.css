@@ -23,6 +23,30 @@
   margin-bottom: 10%;
 }
 
+.checkbox input {
+  cursor: pointer;
+
+}
+
+.modal-header {
+  height: 85px;
+
+}
+
+.address-form input {
+  border: none;
+  border-bottom: 1px solid #c7c7c7;
+  margin-top: -10px;
+}
+
+.address-form label {
+  padding-left: 3%;
+}
+
+.address-form input:focus {
+  box-shadow: none;
+}
+
 .activerate {
   background-color: green;
 }
@@ -882,5 +906,6 @@ figure.shareimg img {
 }
 
 .chakki-img img {
-  width: 100%;
+  height: 140px;
+  width: 70%;
 }
