@@ -9,7 +9,7 @@ import { FacebookService, UIParams, UIResponse } from 'ngx-facebook';
 @Component({
     selector: 'app-my-account',
     templateUrl: './my-account.component.html',
-    styleUrls: ['./my-account.component.css']
+    styleUrls: ['./my-account.component.less']
 })
 export class MyAccountComponent implements OnInit {
     feedback: any;
@@ -39,6 +39,7 @@ export class MyAccountComponent implements OnInit {
     summarymrpPrice;
     savePer;
     showPer;
+    background;
     ngOnInit() {
         this.url = AppSettings.imageUrl;
 
@@ -781,5 +782,16 @@ export class MyAccountComponent implements OnInit {
             //   this.typeArray.splice(index1, 1);
             //   console.log(this.typeArray);
         }
+    }
+    //radio buttons
+    mr;
+    mrs;
+    prefix;
+    mrsprefix;
+    checkPrefix(prefixVAlue) {
+        this.prefix = prefixVAlue;
+    }
+    checkmrsPrefix(prefixVAlue) {
+        this.mrsprefix = prefixVAlue;
     }
 }

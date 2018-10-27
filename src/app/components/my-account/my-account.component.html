@@ -14,8 +14,8 @@
         <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
         <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
-        <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
-        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
+        <!-- <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
+        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li> -->
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -119,7 +119,7 @@
       <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems()">
         <div class="row order-time">
           <div class="col-lg-6">
-            <p>{{item.order.delivery_slot_time}}</p>
+            <p>Placed On :{{item.order.delivery_slot_time}}</p>
           </div>
           <div class="col-lg-6 order-id" *ngFor="let data of item.cart">
             <p>Order ID :{{data.id_order}}</p>
@@ -138,12 +138,12 @@
           </div>
         </div>
         <div class="row order-status">
-          <div class="col-lg-6 ">
+          <div class="col-lg-4 ">
             <p>Status:
               <span>{{item.order.order_status}}</span>
             </p>
           </div>
-          <div class=" col-lg-6 delivery-time">
+          <div class=" col-lg-8 delivery-time">
             <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
           </div>
         </div>
@@ -373,6 +373,7 @@
       <div class="row">
         <div class="col-lg-6">
           <div class="cust-offers">
+            <h5>OFFERS</h5>
             <img src="assets/images/paytm.jpg" class="offer-image">
             <p>
               <strong>Pay With Paytm </strong>
@@ -525,7 +526,25 @@
                   </div>
                 </li>
               </ul> -->
+              <ul class="title-list">
+                <li class="prefixData">
+                  <a (click)="checkPrefix('mr')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix==='mr'}"></i>
+                    Mr.</a>
+                </li>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('mrs')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrsPrefix':prefix==='mrs'}"></i>
+                    Mrs.</a>
+                </li>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('miss')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemissPrefix':prefix==='miss'}"></i>
+                    Miss</a>
+                </li>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('msa')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemsaPrefix':prefix==='msa'}"></i>
+                    M/S</a>
+                </li>
 
+              </ul>
               <div class="form-group address-form">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" alphabetsOnly id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -571,8 +590,9 @@
                 <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.locality" name="locality">
               </div>
               Address Type:
-              <button type="submit" class="btn type" (click)="buttonType('HOME')" id="home">Home</button>
-              <button type="submit" class="btn type" (click)="buttonType('OFFICE')">Office</button>
+              <button type="submit" class="btn type" [ngStyle]="{'background-color':type == 'HOME' ? 'yellow'  :  ''}"
+                id="home" (click)="buttonType('HOME')">Home</button>
+              <button type="submit" class="btn type" (click)="buttonType('OFFICE')" [ngStyle]="{'background-color':type == 'OFFICE' ? 'yellow'  :  ''}">Office</button>
               <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
             </form>
           </div>
@@ -859,12 +879,11 @@
             </h5>
             <br />
             <ul class="share-via">
-              <!-- <li>
-                <i class="fa fa-whatsapp" aria-hidden="true"></i>
+              <li>
                 <img src="assets/images/watsapp.png" width="50px" height="50px">
 
                 <p class="social">Whatsapp</p>
-              </li> -->
+              </li>
               <li>
 
                 <img src="assets/images/facebook.png" width="50px" height="50px" (click)="sharedata()">
@@ -872,13 +891,11 @@
                 <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
                 <p class="social">Facebook</p>
               </li>
-              <!-- <li>
+              <li>
 
                 <img src="assets/images/message.jpg" width="50px" height="50px">
-
-                <i class="fa fa-commenting-o" aria-hidden="true"></i>
                 <p class="social">Message</p>
-              </li> -->
+              </li>
             </ul>
           </div>
         </div>

@@ -29,12 +29,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let cartItems of mycart">
-          <td class="table-data">
+          <td class="table-data" *ngFor="let sku of cartItems.sku">
             <img [src]="url + cartItems.image" class="prod-image">
             <p>
               <strong>{{cartItems.name}} </strong>
             </p>
-            <!-- <span>10kg</span> -->
+            <span class="prod-size">{{sku.size}}</span>
           </td>
           <td class="table-price" *ngFor="let sku of cartItems.sku">
             <p>

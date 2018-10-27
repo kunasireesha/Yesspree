@@ -40,7 +40,7 @@ export class ProductsComponent implements OnInit {
     }
 
   }
-
+  prefix;
   ngOnInit() {
     if (this.subCatId === '') {
       this.shownodata = true;
@@ -129,6 +129,7 @@ export class ProductsComponent implements OnInit {
   catName;
   alternateid;
   selectedskusize;
+  likeProd = [];
   //sub sub categories
   showsubSubCat(index, subId) {
 
@@ -455,6 +456,7 @@ export class ProductsComponent implements OnInit {
 
   //get product details
   skuspecificdata = [];
+  skulikedata = [];
   productDetails() {
     var inData = {
       _id: this.id,
@@ -479,7 +481,8 @@ export class ProductsComponent implements OnInit {
       for (var i = 0; i < this.product.length; i++) {
         this.firstPic = this.url + this.product[i].pic[0].pic;
       }
-      this.specificProd = response.json().specific_product[0].product;
+      this.specificProd = response.json().similar_data.product;
+      this.likeProd = response.json().specific_product[0].product;
       // for (var i = 0; i < this.specificProd.length; i++) {
       //   this.specificProd[i].image = this.url + this.specificProd[i].pic[0].pic;
       // }
@@ -492,6 +495,17 @@ export class ProductsComponent implements OnInit {
           }
           this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
           this.skuspecificdata.push(this.specificProd[i].sku[j]);
+        }
+      }
+      for (var i = 0; i < this.likeProd.length; i++) {
+        for (var j = 0; j < this.likeProd[i].sku.length; j++) {
+          if (this.likeProd[i].sku[j].mrp !== undefined) {
+            this.percentage = 100 - (this.likeProd[i].sku[j].selling_price / this.likeProd[i].sku[j].mrp) * 100
+            this.likeProd[i].sku[j].percentage = Math.round(this.percentage);
+            this.likeProd[i].sku[j].productName = this.likeProd[i].name;
+          }
+          this.likeProd[i].sku[j].image = this.url + this.likeProd[i].pic[0].pic;
+          this.skulikedata.push(this.likeProd[i].sku[j]);
         }
       }
     }, err => {
@@ -513,12 +527,18 @@ export class ProductsComponent implements OnInit {
   }
 
   subscribeData(productId, sku) {
-    for (var i = 0; i < this.emailFormArray.length; i++) {
-      if (this.emailFormArray[i].type === 'Alternate Days') {
-        this.alternateid = 1
-      } else {
-        this.alternateid = 0
-      }
+    // for (var i = 0; i < this.emailFormArray.length; i++) {
+    //   if (this.emailFormArray[i].type === 'Alternate Days') {
+    //     this.alternateid = 1
+    //   } else {
+    //     this.alternateid = 0
+    //   }
+    // }
+    alert(this.prefix == 'Alternate Days');
+    if (this.prefix == 'Alternate Days') {
+      this.alternateid = 1;
+    } else {
+      this.alternateid = 0;
     }
 
     var inData = {
@@ -530,31 +550,34 @@ export class ProductsComponent implements OnInit {
       "pay_type": "COD",
       "quantity": this.selectedskusize,
       "start_date": new Date(),
-      "subscription_type": this.typeArray.join(',')
+      "subscription_type": this.prefix
     }
     this.loginService.productSubscription(inData).subscribe(response => {
       swal("subscribed", '', 'success');
     })
   }
+  checkPrefix(prefixVAlue) {
+    this.prefix = prefixVAlue;
+  }
 
-  emailFormArray: Array<any> = [{ type: '', selected: false }];
-  typeArray: Array<any> = [];
+  // emailFormArray: Array<any> = [{ type: '', selected: false }];
+  // typeArray: Array<any> = [];
   categories = [
     { name: "Every Day", selected: false },
     { name: "Alternate Days", selected: false },
     { name: "Once a weak", selected: false },
   ];
 
-  onChange(email: string, isChecked: boolean) {
-    if (isChecked) {
-      this.emailFormArray.push({ 'type': email, selected: isChecked });
-      this.typeArray.push(email);
-    } else {
-      let index = this.emailFormArray.indexOf(email);
-      let index1 = this.typeArray.indexOf(email);
-      this.emailFormArray.splice(index, 1);
-      this.typeArray.splice(index1, 1);
-    }
-  }
+  // onChange(email: string, isChecked: boolean) {
+  //   if (isChecked) {
+  //     this.emailFormArray.push({ 'type': email, selected: isChecked });
+  //     this.typeArray.push(email);
+  //   } else {
+  //     let index = this.emailFormArray.indexOf(email);
+  //     let index1 = this.typeArray.indexOf(email);
+  //     this.emailFormArray.splice(index, 1);
+  //     this.typeArray.splice(index1, 1);
+  //   }
+  // }
 
 }
