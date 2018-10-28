@@ -516,9 +516,9 @@ h6 {
         padding: 12px;
         width: 202px;
     }
-   .btn-black .active {
-       border:3px solid yellow;
-   }
+    .btn-black:not([disabled]):not(.disabled).active, .btn-black:not([disabled]):not(.disabled):active {
+        border:3px solid yellow !important;
+    }
     .btn-yellow {
         border-radius: 0px;
         margin: 0px;

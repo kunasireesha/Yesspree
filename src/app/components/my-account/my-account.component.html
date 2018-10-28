@@ -116,16 +116,16 @@
 
     <div class="col-lg-9 order-details" *ngIf="myOrders1">
       <h4> MY ORDERS</h4>
-      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems()">
+      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems(item.order._id)">
         <div class="row order-time">
           <div class="col-lg-6">
             <p>Placed On :{{item.order.delivery_slot_time}}</p>
           </div>
-          <div class="col-lg-6 order-id" *ngFor="let data of item.cart">
-            <p>Order ID :{{data.id_order}}</p>
+          <div class="col-lg-6 order-id">
+            <p>Order ID :{{item.order._id}}</p>
           </div>
         </div>
-        <div class="row" *ngFor="let data of item.cart">
+        <!-- <div class="row" *ngFor="let data of item.cart">
           <div>
             <img [src]="url + data.product_pic" class="ashirvaad-image" style="padding-left:20px;">
           </div>
@@ -136,8 +136,8 @@
             <p>{{data.size}}</p>
             <p>Quantity : {{data.dispatch_quantity}}</p>
           </div>
-        </div>
-        <div class="row order-status">
+        </div> -->
+        <!-- <div class="row order-status">
           <div class="col-lg-4 ">
             <p>Status:
               <span>{{item.order.order_status}}</span>
@@ -147,12 +147,49 @@
             <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
           </div>
         </div>
-      </div>
-      <div class="col-md-12" *ngIf="orders.length==0">
+      </div> -->
+      <!-- <div class="col-md-12" *ngIf="orders.length==0">
         <h3 class="text-center nodata">No Data Found</h3>
+      </div> -->
+    </div>
+    </div>
+    <!-- order 2 -->
+    <div class="col-lg-9 order-details" *ngIf="myOrders2">
+      <h4> MY ORDERS</h4>
+      <div class="prod-details" *ngFor="let ordData of ordersData2">
+        <div class="row order-time">
+          <div class="col-lg-6">
+            <p>Placed On:{{post.delivery_slot_time}}</p>
+          </div>
+          <div class="col-lg-6 order-id">
+            <p>Order ID :{{ordData.id_order}}</p>
+          </div>
+        </div>
+        <div class="row">
+          <div>
+            <img [src]="url + ordData.product_pic" class="ashirvaad-image" style="padding-left:20px;">
+          </div>
+          <div class="prod-name">
+            <p>
+              <strong>{{ordData.product_name}}</strong>
+            </p>
+            <p>{{ordData.size}}</p>
+            <p>Quantity : {{ordData.dispatch_quantity}}</p>
+          </div>
+        </div>
+         <div class="row order-status">
+          <div class="col-lg-4 ">
+            <p>Status:
+              <span>{{ordstatus.order_status}}</span>
+            </p>
+          </div>
+           <div class=" col-lg-8 delivery-time">
+            <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
+          </div>
+        </div>
       </div>
     </div>
-
+ <!-- order 2 -->
 
     <!-- my cart -->
     <div class="col-lg-9 cart-details" *ngIf="mycart">

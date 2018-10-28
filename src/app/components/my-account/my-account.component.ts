@@ -115,7 +115,7 @@ export class MyAccountComponent implements OnInit {
         dob: ''
     };
     type;
-
+    orderId;
     addData = {
         name: '',
         phone: '',
@@ -319,11 +319,40 @@ export class MyAccountComponent implements OnInit {
         this.sharescreen = false;
         this.wishlist = false;
     }
+    ordersData2=[];
+    post;
+    ordstatus;
+    showOrderItems(ordId) {
+        this.orderId  = ordId;
+        var inData = {
+            type: 'Present',
+            parent_warehouseid: localStorage.parent_warehouseid,
+            id_warehouse: localStorage.id_warehouse,
+            "lang": "en"
 
-    showOrderItems() {
+        }
+        this.loginService.myorders(inData).subscribe(response => {
+            this.orders = response.json().orders;
+            for(var i=0;i<this.orders.length;i++){
+                for(var j=0;j<this.orders[i].cart.length;j++){
+if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
+    this.post  =   this.orders[i].order;
+    this.ordstatus = this.orders[i].order;
+    this.orders[i].cart[j].cartData = this.orders[i].cart;
+    this.ordersData2 = this.orders[i].cart[j].cartData;
+    console.log(this.orders[i].cart[j].cartData);
+}
+                }
+            }
+        }, err => {
+            console.log(err)
+        })
+        this.ordersData2 = [];
         this.myOrders2 = true;
         this.myOrders1 = false;
+        // this.ordersDetails();
     }
+    // this.ordersData2 =[];
 
     share() {
         this.deliveryAddress = false;
@@ -743,6 +772,14 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
+//             for(var i=0;i<this.orders.length;i++){
+//                 for(var j=0;j<this.orders[i].cart.length;j++){
+// if(JSON.parse(this.orderId) == this.orders[i].cart.id_order){
+//     this.orders[i].cart[j].cartData = this.orders[i].cart[j];
+//     console.log(this.orders[i].cart[j].cartData);
+// }
+//                 }
+//             }
         }, err => {
             console.log(err)
         })
