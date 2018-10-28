@@ -82,6 +82,7 @@
               <option selected *ngFor="let villageName of village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
             </select>
           </div>
+          <span><i class="fal fa-map-marker-alt"></i></span>
           <input type="text" class="form-control" aria-label="Text input with dropdown button" [(ngModel)]="search"
             name="search">
           <div class="input-group-append search-append">
