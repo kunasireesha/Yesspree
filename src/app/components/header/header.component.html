@@ -626,7 +626,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe">Subscribe</button>
+                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="subscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
                 </div>
                 <div class="col-md-8">
                   <div class="num-bac">

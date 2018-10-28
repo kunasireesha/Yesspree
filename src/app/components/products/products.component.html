@@ -12,6 +12,8 @@
         <p [ngClass]="{'active':showCategories}">
           <a>
             <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
+            <i class="fa fa-plus" aria-hidden="true" *ngIf="showCategories && i!==selectedCat" (click)="showsubSubCat(i,cat._id)"></i>
+            
             <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories && i==selectedCat" (click)="closesubSubCat()"></i>
           </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id,cat.name)">{{cat.name}}</span>
         </p>
@@ -20,7 +22,11 @@
           <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories}">
             <a>
               <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
-              <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories" (click)="closeLastCat()"></i>
+             
+              <i class="fa fa-plus" aria-hidden="true" *ngIf="showSubCategories && ii!==selectedLastCat" (click)="showLastCat(ii,subcat._id)"></i>
+              
+             
+              <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories && ii == selectedLastCat" (click)="closeLastCat()"></i>
             </a> &nbsp;&nbsp;
             <span (click)="getSubcatProd(subcat._id,subcat.name)">{{subcat.name}}</span>
           </p>
@@ -299,8 +305,18 @@
                         {{cat.name}}</a>
                     </li>
                   </ul>
+                  
+                  
+             
+                </div>
+               
+                <div class="col-lg-12" style="margin-left:2%;margin-top:2%">
+                  <p style="margin-left:0%">Start Date</p>
+                  <input type="date" name="startDate" [(ngModel)]="startDate" >
+                  <br/>
                 </div>
               </div>
+              
               <div class="row">
                 <div class="col-lg-12">
                   <button class="btn btn-black subs" (click)="subscribeData(detailsproduct._id,detailsproduct.id_product)">Subscribe</button>

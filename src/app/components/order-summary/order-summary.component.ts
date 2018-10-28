@@ -105,7 +105,7 @@ export class OrderSummaryComponent implements OnInit {
     }
     this.loginService.postPromo(inData).subscribe(response => {
       this.Promo = response.json();
-      if (response.status === "success") {
+      if (response.json().status === "success") {
         swal('promo applied successfully', '', 'success');
       }
       else {
