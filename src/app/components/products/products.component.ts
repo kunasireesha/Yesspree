@@ -210,6 +210,7 @@ export class ProductsComponent implements OnInit {
   skudata = [];
   //get products
   getProducts(id) {
+    this.skudata=[];
     this.idforrefine = localStorage.setItem('subid', id);
     var inData = {
       _id: this.id,
@@ -394,6 +395,7 @@ detailsitemIncrease(data, size, name, id, skuId ){
 
   checkBrands(value) {
     this.brandValue = value;
+    console.log(this.brandValue);
   }
 
   checkOffers(value) {
@@ -408,7 +410,13 @@ detailsitemIncrease(data, size, name, id, skuId ){
     this.filter(id, value);
   }
 
+  clearAll(){
+    this.offersValue = this.priceValue = this.brandValue='';
+     
+  }
+
   filter(id, value) {
+    this.skudata=[];
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -425,6 +433,7 @@ detailsitemIncrease(data, size, name, id, skuId ){
     }
     this.loginService.getProducts(inData).subscribe(response => {
       this.products = response.json().product;
+      swal('Applied Successfully','','success');
       for (var i = 0; i < this.products.length; i++) {
         for (var j = 0; j < this.products[i].sku.length; j++) {
           if (this.products[i].sku[j].mrp !== undefined) {
@@ -443,6 +452,10 @@ detailsitemIncrease(data, size, name, id, skuId ){
   }
 
   wish(id) {
+    if(localStorage.authkey===undefined){
+      swal('Please Login','','warning');
+      return;
+    }
     var inData = {
       _session: localStorage.session,
       _id: this.id,
@@ -484,15 +497,13 @@ detailsitemIncrease(data, size, name, id, skuId ){
     }
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
-
-      
       this.percentage = 100 - (this.product[0].sku[0].selling_price / this.product[0].sku[0].mrp) * 100
       this.product[0].sku[0].productName=this.product[0].name;
       this.product[0].sku[0].percentage=Math.round(this.percentage);
       this.product[0].sku[0].image=this.url + this.product[0].pic[0].pic;
       this.product[0].sku[0].category=this.product[0].category;
-this.detailsproduct=this.product[0].sku[0];
-console.log(this.detailsproduct);
+      this.detailsproduct=this.product[0].sku[0];
+      console.log(this.detailsproduct);
 
 
 for (var i = 0; i < this.product.length; i++) {
@@ -556,7 +567,7 @@ for (var i = 0; i < this.product.length; i++) {
 
   skusize(size) {
     this.detailsproduct=size;
-    // this.selectedskusize = size;
+    this.selectedskusize = size.size;
   }
 
   subscribeData(productId, sku) {

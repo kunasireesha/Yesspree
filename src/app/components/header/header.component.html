@@ -90,11 +90,17 @@
         </div>
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
-        <button class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
+        <button *ngIf="cartCount==0" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
 
           <i class="fas fa-shopping-cart"></i> My Cart
           ( {{cartCount}} )
         </button>
+
+        <button *ngIf="cartCount!==0" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getCart()">
+            
+                      <i class="fas fa-shopping-cart"></i> 
+                     <span class="home-cart"> {{cartCount}} </span> <i class="fa fa-inr" aria-hidden="true"></i> {{grandTotal}}
+                    </button>
       </form>
     </div>
   </nav>
@@ -102,8 +108,8 @@
 <!-- carousel new -->
 
 <div class="row">
-  <div class="col-md-2 col-lg-1" *ngFor="let item of categoryData;let i=index">
-    <div class="panel panel-default" *ngIf="i<12">
+  <div class="col-md-2 col-lg-2" *ngFor="let item of categoryData;let i=index">
+    <div class="panel panel-default" *ngIf="i<6">
       <div class="panel-thumbnail">
         <a class="thumb" (click)="showSubcategorie(item._id,item.name,i)">
           <img class="img-fluid mx-auto d-block catImg" [src]="url + item.pic" alt="{{item.name}}">
@@ -539,7 +545,7 @@
     <div class="modal-content cust-mheader">
       <div class="modal-header mcart">
         <h5 class="modal-title" id="exampleModalLabel">My cart ( {{mycart.length}} items)</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>

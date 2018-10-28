@@ -162,6 +162,7 @@
             Refine By
           </button>
           <select (change)="changeSort(idforrefine,$event.target.value)">
+            <option>Sort By..</option>
             <option *ngFor="let data of sortData" value="{{data.name}}">{{data.name}}
             </option>
 
@@ -251,12 +252,12 @@
               <span class="item_details_deduct">: Rs.{{detailsproduct.mrp-detailsproduct.selling_price}} </span>
             </p>
             <p> Available in </p>
-            <p *ngFor="let sku of skus" class="skus-size">
+            <p *ngFor="let sku of skus,let i=index" class="skus-size">
               <span class="item_details_quantity" (click)="skusize(sku)" [ngClass]="{'activedeails': selectedskusize == sku.size}">{{sku.size}}</span>
             </p>
 
             <p>
-              <button type="button" class="btn btn-black">ADD TO WISHLIST</button>
+              <button type="button" class="btn btn-black" (click)="wish(detailsproduct.id_product)">ADD TO WISHLIST</button>
               <button type="button" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-border':showSubscriptionData}"
                 (click)="showSubscribeDetails()">SUBSCRIBE</button>
 
@@ -473,9 +474,13 @@
                           <td>{{item.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.name}}"
-                                name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)">
-                              <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.name}}"></label>
+                              <p>
+                                <a class="checkbox-brand" (click)="checkBrands(item.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':brandValue==item.name}"></i></a>
+                              </p>
+                                  
+                              <!-- <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.name}}" -->
+                                <!-- name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)"> -->
+                              <!-- <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.name}}"></label> -->
                             </div>
                           </td>
                         </tr>
@@ -493,10 +498,12 @@
                           <td>{{price.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" value="{{price.value}}" id="{{price.name}}"
-                                name="selected" [(ngModel)]="price.selected" (change)="checkPrice(price.value)">
-                              <label class="form-check-label popup-label" [(ngModel)]="price.selected" for="{{price.name}}"></label>
-                            </div>
+
+                                <p>
+                                    <a class="checkbox-brand" (click)="checkPrice(price.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':priceValue==price.name}"></i></a>
+                                  </p>
+
+                               </div>
                           </td>
                         </tr>
                       </tbody>
@@ -513,10 +520,10 @@
                           <td>{{offer.name}}</td>
                           <td>
                             <div class="form-check">
-                              <input class="form-check-input" type="radio" value="{{offer.value}}" id="{{offer.name}}"
-                                name="selected" [(ngModel)]="offer.selected" (change)="checkOffers(offer.value)">
-                              <label class="form-check-label popup-label" [(ngModel)]="offer.selected" for="{{offer.name}}"></label>
-                            </div>
+                                <p>
+                                    <a class="checkbox-brand" (click)="checkOffers(offer.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':offersValue==offer.name}"></i></a>
+                                  </p>
+ </div>
                           </td>
                         </tr>
                       </tbody>
@@ -531,7 +538,7 @@
 
       </div>
       <div class="modal-footer cust-modalfooter">
-        <input class="btn refinbtn1" type="reset" value="CLEAR ALL" flex-start>
+        <input class="btn refinbtn1" type="reset" value="CLEAR ALL" flex-start (click)="clearAll()">
         <input class="btn refinbtn" type="submit" value="DONE" data-dismiss="modal" (click)="filter(idforrefine,'')">
       </div>
     </div>

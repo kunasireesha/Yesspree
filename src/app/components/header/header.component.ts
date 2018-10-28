@@ -138,8 +138,10 @@ export class HeaderComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      localStorage.setItem('cartCount', response.json().summary.cart_count)
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal',response.json().summary.grand_total)
       this.cartCount = localStorage.cartCount;
+      this.grandTotal=localStorage.grandtotal;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -653,15 +655,16 @@ export class HeaderComponent implements OnInit {
   }
 
   itemDecrease(data, name, id, skuId, index) {
-    alert(index)
+   
     this.selected = index;
-    // if (this.sku.mycart === 1) {
-    //   return;
-    // }
+   
     for (var i = 0; i < data.length; i++) {
       if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
+    }
+    if (this.sku.mycart === 1 ) {
+      return;
     }
     this.sku.mycart = Math.floor(this.sku.mycart - 1);
     this.addCart(this.sku.mycart, id, skuId);

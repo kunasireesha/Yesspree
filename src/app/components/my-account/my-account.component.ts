@@ -503,6 +503,15 @@ export class MyAccountComponent implements OnInit {
         }
     }
 
+     //radio buttons
+     mr;
+     mrs;
+     prefix;
+    
+     checkPrefix(prefixVAlue) {
+         this.prefix = prefixVAlue;
+     }
+    
     //update address    
     updateAdd() {
         var inData = {
@@ -514,7 +523,7 @@ export class MyAccountComponent implements OnInit {
             address1: this.addData.address1,
             city: this.editData.city,
             state: this.addData.state,
-            person_prefix: this.editData.person_prefix,
+            person_prefix: this.prefix,
             taluk: this.addData.taluk,
             district: this.addData.district,
             lat: this.editData.lat,
@@ -642,9 +651,9 @@ export class MyAccountComponent implements OnInit {
                 this.sku.mycart = parseInt(data[i].sku[0].mycart);
             }
         }
-        // if(this.sku.mycart === 0) {
-        //   return;
-        // }
+        if(this.sku.mycart === 1) {
+          return;
+        }
         this.sku.mycart = Math.floor(this.sku.mycart - 1);
         this.addCart(this.sku.mycart, id, skuId, action);
     }
@@ -783,15 +792,5 @@ export class MyAccountComponent implements OnInit {
             //   console.log(this.typeArray);
         }
     }
-    //radio buttons
-    mr;
-    mrs;
-    prefix;
-    mrsprefix;
-    checkPrefix(prefixVAlue) {
-        this.prefix = prefixVAlue;
-    }
-    checkmrsPrefix(prefixVAlue) {
-        this.mrsprefix = prefixVAlue;
-    }
+   
 }
