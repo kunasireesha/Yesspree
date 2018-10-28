@@ -569,6 +569,7 @@ for (var i = 0; i < this.product.length; i++) {
     this.detailsproduct=size;
     this.selectedskusize = size.size;
   }
+  startDate;
 
   subscribeData(productId, sku) {
     // for (var i = 0; i < this.emailFormArray.length; i++) {
@@ -578,14 +579,19 @@ for (var i = 0; i < this.product.length; i++) {
     //     this.alternateid = 0
     //   }
     // }
-    alert(this.prefix == 'Alternate Days');
+  
     if (this.prefix == 'Alternate Days') {
       this.alternateid = 1;
     } else {
       this.alternateid = 0;
     }
+    if(this.selectedskusize==='' || this.selectedskusize===undefined){
+      swal('Please select size','','error');
+      return;
+    }
 
     var inData = {
+      
       "day": this.weak,
       "id_product": productId,
       "id_sku": sku,
@@ -593,11 +599,15 @@ for (var i = 0; i < this.product.length; i++) {
       "is_doorbellring": "1",
       "pay_type": "COD",
       "quantity": this.selectedskusize,
-      "start_date": new Date(),
+      "start_date": new Date(this.startDate),
       "subscription_type": this.prefix
     }
     this.loginService.productSubscription(inData).subscribe(response => {
-      swal("subscribed", '', 'success');
+      if(response.json().status===200){
+      swal(response.json().message, '', 'success');
+    }else{
+      swal(response.json().message,'','error');
+    }
     })
   }
   checkPrefix(prefixVAlue) {

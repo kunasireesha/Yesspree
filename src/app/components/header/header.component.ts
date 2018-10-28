@@ -633,6 +633,16 @@ export class HeaderComponent implements OnInit {
     })
   }
 
+  subscribe(id,name){
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        proId: id,
+        name:name
+      }
+    }
+    this.router.navigate(["/product_details"], navigationExtras);
+  }
+
 
   //add to cart
   itemIncrease(data, name, id, skuId, index) {
