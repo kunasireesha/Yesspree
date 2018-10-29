@@ -139,9 +139,9 @@ export class HeaderComponent implements OnInit {
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
       localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal',response.json().summary.grand_total)
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
       this.cartCount = localStorage.cartCount;
-      this.grandTotal=localStorage.grandtotal;
+      this.grandTotal = localStorage.grandtotal;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -603,6 +603,7 @@ export class HeaderComponent implements OnInit {
   }
 
 
+
   grandPer;
   savedMoney;
   quantity;
@@ -633,11 +634,11 @@ export class HeaderComponent implements OnInit {
     })
   }
 
-  subscribe(id,name){
+  subscribe(id, name) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
         proId: id,
-        name:name
+        name: name
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -665,15 +666,15 @@ export class HeaderComponent implements OnInit {
   }
 
   itemDecrease(data, name, id, skuId, index) {
-   
+
     this.selected = index;
-   
+
     for (var i = 0; i < data.length; i++) {
       if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
       }
     }
-    if (this.sku.mycart === 1 ) {
+    if (this.sku.mycart === 1) {
       return;
     }
     this.sku.mycart = Math.floor(this.sku.mycart - 1);
