@@ -210,7 +210,7 @@ export class ProductsComponent implements OnInit {
   skudata = [];
   //get products
   getProducts(id) {
-    this.skudata=[];
+    this.skudata = [];
     this.idforrefine = localStorage.setItem('subid', id);
     var inData = {
       _id: this.id,
@@ -276,15 +276,15 @@ export class ProductsComponent implements OnInit {
 
 
   //add to cart
-detailsitemIncrease(data, size, name, id, skuId ){
-  let thisObj = this;
-  thisObj.showInputs = true;
-  thisObj.showInput = true;
-  thisObj.items.quantity = thisObj.items.quantity + 1;
-  thisObj.getCart(thisObj.items.quantity, id, skuId);
-  localStorage.setItem('size', size);
-  localStorage.setItem('name', name);
-}
+  detailsitemIncrease(data, size, name, id, skuId) {
+    let thisObj = this;
+    thisObj.showInputs = true;
+    thisObj.showInput = true;
+    thisObj.items.quantity = thisObj.items.quantity + 1;
+    thisObj.getCart(thisObj.items.quantity, id, skuId);
+    localStorage.setItem('size', size);
+    localStorage.setItem('name', name);
+  }
 
 
 
@@ -336,7 +336,7 @@ detailsitemIncrease(data, size, name, id, skuId ){
     }
     this.loginService.getCart(inData).subscribe(response => {
       swal("Item added to cart", "", "success", {
-        buttons: ['',"Okay"],
+        buttons: ['', "Okay"],
       }).then((value) => {
         if (value === true) {
           window.location.reload();
@@ -410,13 +410,13 @@ detailsitemIncrease(data, size, name, id, skuId ){
     this.filter(id, value);
   }
 
-  clearAll(){
-    this.offersValue = this.priceValue = this.brandValue='';
-     
+  clearAll() {
+    this.offersValue = this.priceValue = this.brandValue = '';
+
   }
 
   filter(id, value) {
-    this.skudata=[];
+    this.skudata = [];
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -433,7 +433,7 @@ detailsitemIncrease(data, size, name, id, skuId ){
     }
     this.loginService.getProducts(inData).subscribe(response => {
       this.products = response.json().product;
-      swal('Applied Successfully','','success');
+      swal('Applied Successfully', '', 'success');
       for (var i = 0; i < this.products.length; i++) {
         for (var j = 0; j < this.products[i].sku.length; j++) {
           if (this.products[i].sku[j].mrp !== undefined) {
@@ -452,8 +452,8 @@ detailsitemIncrease(data, size, name, id, skuId ){
   }
 
   wish(id) {
-    if(localStorage.authkey===undefined){
-      swal('Please Login','','warning');
+    if (localStorage.authkey === undefined) {
+      swal('Please Login', '', 'warning');
       return;
     }
     var inData = {
@@ -483,7 +483,7 @@ detailsitemIncrease(data, size, name, id, skuId ){
   skuspecificdata = [];
 
   detailsproduct;
-  skus=[];
+  skus = [];
 
   skulikedata = [];
   productDetails() {
@@ -498,26 +498,26 @@ detailsitemIncrease(data, size, name, id, skuId ){
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
       this.percentage = 100 - (this.product[0].sku[0].selling_price / this.product[0].sku[0].mrp) * 100
-      this.product[0].sku[0].productName=this.product[0].name;
-      this.product[0].sku[0].percentage=Math.round(this.percentage);
-      this.product[0].sku[0].image=this.url + this.product[0].pic[0].pic;
-      this.product[0].sku[0].category=this.product[0].category;
-      this.detailsproduct=this.product[0].sku[0];
+      this.product[0].sku[0].productName = this.product[0].name;
+      this.product[0].sku[0].percentage = Math.round(this.percentage);
+      this.product[0].sku[0].image = this.url + this.product[0].pic[0].pic;
+      this.product[0].sku[0].category = this.product[0].category;
+      this.detailsproduct = this.product[0].sku[0];
       console.log(this.detailsproduct);
 
 
-for (var i = 0; i < this.product.length; i++) {
-  for(var j=0;j<this.product[i].sku.length;j++){
-  if (this.product[i].sku[j].mrp !== undefined) {
-    this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[j].mrp) * 100));
-    this.product[i].sku[j].productName=this.product[i].name;
-    this.product[i].sku[j].percentage=Math.round(this.percentage);
-    this.product[i].sku[j].image=this.url + this.product[i].pic[0].pic;
-    this.product[i].sku[j].category=this.product[i].category;
-  }
-  this.skus.push(this.product[i].sku[j]);
-}
-}
+      for (var i = 0; i < this.product.length; i++) {
+        for (var j = 0; j < this.product[i].sku.length; j++) {
+          if (this.product[i].sku[j].mrp !== undefined) {
+            this.percentage = Math.round(100 - ((this.product[i].sku[0].selling_price) / (this.product[i].sku[j].mrp) * 100));
+            this.product[i].sku[j].productName = this.product[i].name;
+            this.product[i].sku[j].percentage = Math.round(this.percentage);
+            this.product[i].sku[j].image = this.url + this.product[i].pic[0].pic;
+            this.product[i].sku[j].category = this.product[i].category;
+          }
+          this.skus.push(this.product[i].sku[j]);
+        }
+      }
 
 
       this.subName = this.product[0].category;
@@ -566,7 +566,7 @@ for (var i = 0; i < this.product.length; i++) {
   }
 
   skusize(size) {
-    this.detailsproduct=size;
+    this.detailsproduct = size;
     this.selectedskusize = size.size;
   }
   startDate;
@@ -579,19 +579,19 @@ for (var i = 0; i < this.product.length; i++) {
     //     this.alternateid = 0
     //   }
     // }
-  
+
     if (this.prefix == 'Alternate Days') {
       this.alternateid = 1;
     } else {
       this.alternateid = 0;
     }
-    if(this.selectedskusize==='' || this.selectedskusize===undefined){
-      swal('Please select size','','error');
+    if (this.selectedskusize === '' || this.selectedskusize === undefined) {
+      swal('Please select size', '', 'error');
       return;
     }
 
     var inData = {
-      
+
       "day": this.weak,
       "id_product": productId,
       "id_sku": sku,
@@ -603,11 +603,11 @@ for (var i = 0; i < this.product.length; i++) {
       "subscription_type": this.prefix
     }
     this.loginService.productSubscription(inData).subscribe(response => {
-      if(response.json().status===200){
-      swal(response.json().message, '', 'success');
-    }else{
-      swal(response.json().message,'','error');
-    }
+      if (response.json().status === 200) {
+        swal(response.json().message, '', 'success');
+      } else {
+        swal(response.json().message, '', 'error');
+      }
     })
   }
   checkPrefix(prefixVAlue) {
