@@ -319,11 +319,25 @@ export class MyAccountComponent implements OnInit {
         this.sharescreen = false;
         this.wishlist = false;
     }
-    ordersData2=[];
+    ordersData2 = [];
     post;
     ordstatus;
-    showOrderItems(ordId) {
-        this.orderId  = ordId;
+    total_paid;
+    order_num;
+    place_on;
+    placeOn;
+    address;
+    order_status;
+
+
+    showOrderItems(ordId, total_count, orderNumber, placedOn, status) {
+        this.ordersData2 = [];
+        this.orderId = ordId;
+        this.place_on = new Date(placedOn);
+        this.placeOn = this.place_on.getDate() + '-' + this.place_on.getMonth() + '-' + this.place_on.getYear();
+        this.order_num = orderNumber;
+        this.total_paid = total_count;
+        this.order_status = status
         var inData = {
             type: 'Present',
             parent_warehouseid: localStorage.parent_warehouseid,
@@ -333,21 +347,25 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
-            for(var i=0;i<this.orders.length;i++){
-                for(var j=0;j<this.orders[i].cart.length;j++){
-if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
-    this.post  =   this.orders[i].order;
-    this.ordstatus = this.orders[i].order;
-    this.orders[i].cart[j].cartData = this.orders[i].cart;
-    this.ordersData2 = this.orders[i].cart[j].cartData;
-    console.log(this.orders[i].cart[j].cartData);
-}
+            for (var i = 0; i < this.orders.length; i++) {
+                for (var j = 0; j < this.orders[i].cart.length; j++) {
+                    if (JSON.parse(this.orderId) == this.orders[i].cart[j].id_order) {
+                        this.post = this.orders[i].order;
+                        this.ordstatus = this.orders[i].order;
+                        this.orders[i].cart[j].percentage = Math.round(100 - (this.orders[i].cart[j].selling_price / this.orders[i].cart[j].mrp * 100));
+                        // this.orders[i].cart[j].cartData = this.orders[i].cart;
+
+                        this.ordersData2.push(this.orders[i].cart[j]);
+
+                        this.address = this.orders[i].address;
+                    }
                 }
+
             }
         }, err => {
             console.log(err)
         })
-        this.ordersData2 = [];
+
         this.myOrders2 = true;
         this.myOrders1 = false;
         // this.ordersDetails();
@@ -532,15 +550,15 @@ if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
         }
     }
 
-     //radio buttons
-     mr;
-     mrs;
-     prefix;
-    
-     checkPrefix(prefixVAlue) {
-         this.prefix = prefixVAlue;
-     }
-    
+    //radio buttons
+    mr;
+    mrs;
+    prefix;
+
+    checkPrefix(prefixVAlue) {
+        this.prefix = prefixVAlue;
+    }
+
     //update address    
     updateAdd() {
         var inData = {
@@ -680,8 +698,8 @@ if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
                 this.sku.mycart = parseInt(data[i].sku[0].mycart);
             }
         }
-        if(this.sku.mycart === 1) {
-          return;
+        if (this.sku.mycart === 1) {
+            return;
         }
         this.sku.mycart = Math.floor(this.sku.mycart - 1);
         this.addCart(this.sku.mycart, id, skuId, action);
@@ -772,14 +790,10 @@ if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
         }
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
-//             for(var i=0;i<this.orders.length;i++){
-//                 for(var j=0;j<this.orders[i].cart.length;j++){
-// if(JSON.parse(this.orderId) == this.orders[i].cart.id_order){
-//     this.orders[i].cart[j].cartData = this.orders[i].cart[j];
-//     console.log(this.orders[i].cart[j].cartData);
-// }
-//                 }
-//             }
+            for (var i = 0; i < this.orders.length; i++) {
+                this.orders[i].itemName = this.orders[i].cart[0].product_name;
+                this.orders[i].size = this.orders[i].cart[0].size;
+            }
         }, err => {
             console.log(err)
         })
@@ -829,5 +843,5 @@ if(JSON.parse(this.orderId) == this.orders[i].cart[j].id_order){
             //   console.log(this.typeArray);
         }
     }
-   
+
 }

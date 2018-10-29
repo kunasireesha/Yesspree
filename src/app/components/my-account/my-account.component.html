@@ -14,8 +14,8 @@
         <li (click)="rateus()" [ngClass]="{'active':rateUs}">Rate Us</li>
         <li (click)="share()" [ngClass]="{'active':sharescreen}">Share</li>
         <li (click)="notificationsData()" [ngClass]="{'active':mynotifiactions}">Notifications</li>
-        <!-- <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
-        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li> -->
+        <li (click)="showWishList()" [ngClass]="{'active':wishlist}">WishList</li>
+        <li (click)="showCoupon()" [ngClass]="{'active':coupon}">Coupons</li>
       </ul>
     </div>
     <div class="col-lg-8 account-details" *ngIf="myaccountData">
@@ -113,10 +113,10 @@
     </div>
 
     <!-- my orders 1 -->
-
+    <!-- 
     <div class="col-lg-9 order-details" *ngIf="myOrders1">
       <h4> MY ORDERS</h4>
-      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems(item.order._id)">
+      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems(item.order._id,item.order.total_paid,item.order.order_no,item.order.added)">
         <div class="row order-time">
           <div class="col-lg-6">
             <p>Placed On :{{item.order.delivery_slot_time}}</p>
@@ -124,72 +124,225 @@
           <div class="col-lg-6 order-id">
             <p>Order ID :{{item.order._id}}</p>
           </div>
+
         </div>
-        <!-- <div class="row" *ngFor="let data of item.cart">
-          <div>
-            <img [src]="url + data.product_pic" class="ashirvaad-image" style="padding-left:20px;">
-          </div>
-          <div class="prod-name">
-            <p>
-              <strong>{{data.product_name}}</strong>
-            </p>
-            <p>{{data.size}}</p>
-            <p>Quantity : {{data.dispatch_quantity}}</p>
-          </div>
-        </div> -->
-        <!-- <div class="row order-status">
-          <div class="col-lg-4 ">
-            <p>Status:
-              <span>{{item.order.order_status}}</span>
-            </p>
-          </div>
-          <div class=" col-lg-8 delivery-time">
-            <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
-          </div>
+      </div>
+
+
+       <div class="row order-status">
+        <div class="col-lg-4 ">
+          <p>Status:
+            <span>{{item.order.order_status}}</span>
+          </p>
         </div>
-      </div> -->
-      <!-- <div class="col-md-12" *ngIf="orders.length==0">
+        <div class=" col-lg-8 delivery-time">
+          <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
+        </div>
+      </div>
+      <div class="col-md-12" *ngIf="orders.length==0">
         <h3 class="text-center nodata">No Data Found</h3>
-      </div> -->
-    </div>
-    </div>
-    <!-- order 2 -->
-    <div class="col-lg-9 order-details" *ngIf="myOrders2">
+      </div>
+
+    </div> -->
+
+
+
+    <div class="col-lg-9 order-details" *ngIf="myOrders1">
       <h4> MY ORDERS</h4>
-      <div class="prod-details" *ngFor="let ordData of ordersData2">
+      <div class="prod-details" *ngFor="let data of orders" (click)="showOrderItems(data.order._id,data.order.total_paid,data.order.order_no,data.order.added,data.order.order_status)">
         <div class="row order-time">
           <div class="col-lg-6">
-            <p>Placed On:{{post.delivery_slot_time}}</p>
+            <p>Placed On: {{data.order.added}}</p>
           </div>
           <div class="col-lg-6 order-id">
-            <p>Order ID :{{ordData.id_order}}</p>
+            <p>Order Id: {{data.order.order_no}}</p>
           </div>
         </div>
         <div class="row">
           <div>
-            <img [src]="url + ordData.product_pic" class="ashirvaad-image" style="padding-left:20px;">
+            <img src="assets/images/Aashirvaad.jpg" class="ashirvaad-image">
           </div>
           <div class="prod-name">
             <p>
-              <strong>{{ordData.product_name}}</strong>
+              <strong>{{data.itemName}} - 100% pure</strong>
             </p>
-            <p>{{ordData.size}}</p>
-            <p>Quantity : {{ordData.dispatch_quantity}}</p>
+            <p>{{data.size}}</p>
+            <p>Quantity : {{data.order.total_items}}</p>
           </div>
         </div>
-         <div class="row order-status">
-          <div class="col-lg-4 ">
+        <div class="row order-status">
+          <div class="col-lg-6 ">
             <p>Status:
-              <span>{{ordstatus.order_status}}</span>
+              <span>{{data.order.order_status}}</span>
             </p>
           </div>
-           <div class=" col-lg-8 delivery-time">
+          <div class=" col-lg-6 delivery-time">
             <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
           </div>
         </div>
       </div>
+
     </div>
- <!-- order 2 -->
+
+    <!-- order 2 -->
+
+
+    <div class="col-lg-9 order-summary" *ngIf="myOrders2">
+      <div>
+        <h4>MY ORDERS</h4>
+      </div>
+      <div class="row order-date-time">
+        <div class="col-lg-6 order-date">
+          <p>Placed On: &nbsp;&nbsp;{{placeOn}}</p>
+        </div>
+        <div class="col-lg-6 order-id">
+          <p>Order Id:&nbsp;&nbsp;{{order_num}}</p>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table class="table prod-table">
+          <thead class="table-header">
+            <tr>
+              <th scope="col" width="40%" class="table-headings">Item Description</th>
+              <th scope="col" width="15%" class="table-headings">Unit Price</th>
+              <th scope="col" width="15%" class="table-headings">Quantity</th>
+              <th scope="col" width="15%" class="table-headings">Subtotal</th>
+              <th scope="col" width="15%" class="table-headings">Savings</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let ordData of ordersData2">
+              <td class="table-data">
+                <img src="assets/images/Aashirvaad.jpg" class="prod-image">
+                <p>
+                  <strong>{{ordData.product_name}} - </strong>
+                  <br />100% Pure</p>
+                <span>{{ordData.size}}</span>
+              </td>
+              <td class="table-price">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ordData.selling_price}}
+                  <br />
+                  <i class="fa fa-strikethrought" aria-hidden="true"></i>
+                  <strike><i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ordData.mrp}}</strike>
+                </p>
+              </td>
+              <td class="table-quanity">
+                <div class="quantity">
+                  <span>{{ordData.quantity}}</span>
+                </div>
+              </td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{ordData.selling_price * ordData.quantity}}
+                </p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp; {{ordData.mrp - ordData.selling_price }}
+                </p>
+                <span>
+                  You Save {{ordData.percentage}} %
+                </span>
+              </td>
+            </tr>
+
+          </tbody>
+        </table>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 text-center">
+          <h5>
+            <strong>Total to Pay</strong>
+          </h5>
+        </div>
+        <div class="col-lg-6 total-mrp">
+          <p>
+            <strong>
+              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{total_paid}}</strong>
+          </p>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="ordr-status">
+
+            <h4>Order Status</h4>
+            <ul>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Placed'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='Placed'}">Placed</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Waiting for confirmation'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='Waiting for confirmation'}">Waiting for
+                confirmation</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Confirmed'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='Confirmed'}">Confirmed</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Picked up'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='Picked up'}">Picked up</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Ready for delivery'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='Ready for delivery'}">Ready for delivery</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='With Driver'}"></div>
+                <div class="vertical-line"></div>
+              </div>
+              <li class="status" [ngClass]="{'selected':order_status=='With Driver'}">With Driver</li>
+              <div class="mar-left">
+                <div class="circle" [ngClass]="{'status-selected':order_status=='Delivered'}"></div>
+
+              </div>
+              <li class="status-delivery" [ngClass]="{'selected':order_status=='Delivered'}">Delivered</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="ordr-status">
+            <h4>Delivery Address</h4>
+            <p>
+              <strong>{{address.type}}</strong>
+            </p>
+            <h5>
+              <strong>{{address.name}}</strong>
+            </h5>
+            <p>{{address.address1}}</p>
+            <p>{{address.address2}}</p>
+            <p>{{address.city}} {{address.pincode}}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- order 2 -->
 
     <!-- my cart -->
     <div class="col-lg-9 cart-details" *ngIf="mycart">

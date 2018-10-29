@@ -91,14 +91,16 @@
         </div>
       </div>
       <form class="form-inline my-2 my-lg-0 cart-btn">
-        <button *ngIf="cartCount==0" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+
+        <button *ngIf="cartCount=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
           (click)="getCart()">
 
           <i class="fas fa-shopping-cart"></i> My Cart
           ( {{cartCount}} )
         </button>
 
-        <button *ngIf="cartCount!==0" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+
+        <button *ngIf="cartCount!=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
           (click)="getCart()">
 
           <i class="fas fa-shopping-cart"></i>

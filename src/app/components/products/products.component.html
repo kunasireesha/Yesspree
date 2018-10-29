@@ -9,23 +9,23 @@
       <h5>{{subName}}</h5>
       <br />
       <div class="categories" *ngFor="let cat of subcatdata;let i = index">
-        <p [ngClass]="{'active':showCategories}">
+        <p [ngClass]="{'active':showCategories && i==selectedCat}">
           <a>
             <i class="fa fa-plus" aria-hidden="true" *ngIf="!showCategories" (click)="showsubSubCat(i,cat._id)"></i>
             <i class="fa fa-plus" aria-hidden="true" *ngIf="showCategories && i!==selectedCat" (click)="showsubSubCat(i,cat._id)"></i>
-            
+
             <i class="fa fa-minus" aria-hidden="true" *ngIf="showCategories && i==selectedCat" (click)="closesubSubCat()"></i>
           </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id,cat.name)">{{cat.name}}</span>
         </p>
         <!-- categories -->
         <div *ngFor="let subcat of subSubCatData;let ii = index">
-          <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories}">
+          <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories &&  ii == selectedLastCat}">
             <a>
               <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
-             
+
               <i class="fa fa-plus" aria-hidden="true" *ngIf="showSubCategories && ii!==selectedLastCat" (click)="showLastCat(ii,subcat._id)"></i>
-              
-             
+
+
               <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories && ii == selectedLastCat" (click)="closeLastCat()"></i>
             </a> &nbsp;&nbsp;
             <span (click)="getSubcatProd(subcat._id,subcat.name)">{{subcat.name}}</span>
@@ -243,7 +243,7 @@
         </div>
         <div class="col-md-9 itemdetails">
           <div>
-              
+
             <h5>{{detailsproduct.productName}}</h5>
             <p> More by
               <strong> {{detailsproduct.productName}}</strong>
@@ -264,7 +264,8 @@
 
             <p>
               <button type="button" class="btn btn-black" (click)="wish(detailsproduct.id_product)">ADD TO WISHLIST</button>
-              <button type="button" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-black.active':showSubscriptionData}"  (click)="showSubscribeDetails()">SUBSCRIBE</button>
+              <button type="button" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-black.active':showSubscriptionData}"
+                (click)="showSubscribeDetails()">SUBSCRIBE</button>
 
               <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct._id,detailsproduct.id_product)">-</button>
               <button type="button" class="btn btn-yellow qty">{{items.quantity}}</button>
@@ -305,18 +306,18 @@
                         {{cat.name}}</a>
                     </li>
                   </ul>
-                  
-                  
-             
+
+
+
                 </div>
-               
+
                 <div class="col-lg-12" style="margin-left:2%;margin-top:2%">
                   <p style="margin-left:0%">Start Date</p>
-                  <input type="date" name="startDate" [(ngModel)]="startDate" >
-                  <br/>
+                  <input type="date" name="startDate" [(ngModel)]="startDate">
+                  <br />
                 </div>
               </div>
-              
+
               <div class="row">
                 <div class="col-lg-12">
                   <button class="btn btn-black subs" (click)="subscribeData(detailsproduct._id,detailsproduct.id_product)">Subscribe</button>
@@ -490,11 +491,12 @@
                           <td>
                             <div class="form-check">
                               <p>
-                                <a class="checkbox-brand" (click)="checkBrands(item.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':brandValue==item.name}"></i></a>
+                                <a class="checkbox-brand" (click)="checkBrands(item.name)"><i class="fa fa-check"
+                                    aria-hidden="true" [ngClass]="{'checked':brandValue==item.name}"></i></a>
                               </p>
-                                  
+
                               <!-- <input class="form-check-input" type="radio" value="{{item.value}}" id="{{item.name}}" -->
-                                <!-- name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)"> -->
+                              <!-- name="selected" [(ngModel)]="item.selected" (change)="checkBrands(item.value)"> -->
                               <!-- <label class="form-check-label popup-label" [(ngModel)]="item.selected" for="{{item.name}}"></label> -->
                             </div>
                           </td>
@@ -514,11 +516,12 @@
                           <td>
                             <div class="form-check">
 
-                                <p>
-                                    <a class="checkbox-brand" (click)="checkPrice(price.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':priceValue==price.name}"></i></a>
-                                  </p>
+                              <p>
+                                <a class="checkbox-brand" (click)="checkPrice(price.name)"><i class="fa fa-check"
+                                    aria-hidden="true" [ngClass]="{'checked':priceValue==price.name}"></i></a>
+                              </p>
 
-                               </div>
+                            </div>
                           </td>
                         </tr>
                       </tbody>
@@ -535,10 +538,11 @@
                           <td>{{offer.name}}</td>
                           <td>
                             <div class="form-check">
-                                <p>
-                                    <a class="checkbox-brand" (click)="checkOffers(offer.name)"><i class="fa fa-check" aria-hidden="true" [ngClass]="{'checked':offersValue==offer.name}"></i></a>
-                                  </p>
- </div>
+                              <p>
+                                <a class="checkbox-brand" (click)="checkOffers(offer.name)"><i class="fa fa-check"
+                                    aria-hidden="true" [ngClass]="{'checked':offersValue==offer.name}"></i></a>
+                              </p>
+                            </div>
                           </td>
                         </tr>
                       </tbody>
