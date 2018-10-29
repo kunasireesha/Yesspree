@@ -265,7 +265,12 @@
             <p>
               <button type="button" class="btn btn-black" (click)="wish(detailsproduct.id_product)">ADD TO WISHLIST</button>
               <button type="button" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-black.active':showSubscriptionData}"
-                (click)="showSubscribeDetails()">SUBSCRIBE</button>
+                (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='0'">SUBSCRIBE</button>
+
+
+              <button type="button" *ngIf="detailsproduct.isSubscribe=='1'" [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-black.active':showSubscriptionData}"
+                (click)="showSubscribeDetails()" disabled>SUBSCRIBE</button>
+
 
               <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct._id,detailsproduct.id_product)">-</button>
               <button type="button" class="btn btn-yellow qty">{{items.quantity}}</button>
