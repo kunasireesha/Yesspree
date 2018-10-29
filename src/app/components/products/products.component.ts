@@ -502,6 +502,7 @@ export class ProductsComponent implements OnInit {
       this.product[0].sku[0].percentage = Math.round(this.percentage);
       this.product[0].sku[0].image = this.url + this.product[0].pic[0].pic;
       this.product[0].sku[0].category = this.product[0].category;
+      this.product[0].sku[0].isSubscribe = this.product[0].is_subscribe;
       this.detailsproduct = this.product[0].sku[0];
       console.log(this.detailsproduct);
 

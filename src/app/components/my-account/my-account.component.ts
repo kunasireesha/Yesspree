@@ -40,6 +40,8 @@ export class MyAccountComponent implements OnInit {
     savePer;
     showPer;
     background;
+    offersData = [];
+    lastpic;
     ngOnInit() {
         this.url = AppSettings.imageUrl;
 
@@ -60,6 +62,9 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.getDashboardData(inData).subscribe(response => {
             this.sharedData = response.json().reffer;
+            this.offersData = response.json().result.banner[7].bannerdata;
+            this.lastpic = this.offersData[2].pic
+
         }, err => {
             console.log(err)
 
