@@ -108,38 +108,50 @@
             <span> You Save {{(100-(summarySum.selling_price/summarySum.mrp)*100).toFixed(0)}}%</span>
           </td>
         </tr>
+        <tr class="table-border">
+          <td class="mrp-rate promo">
+            <h5>Have Promo Code</h5>
+          </td>
+          <td class="table-total" colspan="5">
+            <div class="row promo-code-bar">
+              <div class="col-lg-6 input-button">
+                <form>
+                  <input type="text" class="form-control input-field" placeholder="PROMO CODE" [(ngModel)]="coupon"
+                    name="coupon">
+                </form>
+              </div>
+              <div class="col-lg-6 input-button">
+                <button type="button" class="btn apply-btn" (click)="postPromo(coupon)">APPLY</button>
+              </div>
+              <div>
+                <hr class="dash" />
+              </div>
+            </div>
+          </td>
+
+        </tr>
+        <tr>
+          <td class="mrp-rate total">
+            <div class="col-lg-6 text-center">
+              <h5>
+                <strong>Total to Pay</strong>
+              </h5>
+            </div>
+          </td>
+          <td></td>
+          <td></td>
+          <td class="table-total">
+            <div class="total-mrp">
+              <p>
+                <strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.grand_total}}</strong>
+              </p>
+            </div>
+          </td>
+          <td></td>
+        </tr>
       </tbody>
     </table>
-  </div>
-  <div class="row promo-code-bar">
-    <div class="col-lg-4 promo-code">
-      <h5>Have Promo Code</h5>
-    </div>
-    <div class="col-lg-4 input-button">
-      <form>
-        <input type="text" class="form-control input-field" placeholder="PROMO CODE" [(ngModel)]="coupon" name="coupon">
-      </form>
-    </div>
-    <div class="col-lg-4 input-button">
-      <button type="button" class="btn apply-btn" (click)="postPromo(coupon)">APPLY</button>
-
-    </div>
-    <div>
-      <hr class="dash" />
-    </div>
-  </div>
-  <div class="row" *ngFor="let summary of cartSummary">
-    <div class="col-lg-6 text-center">
-      <h5>
-        <strong>Total to Pay</strong>
-      </h5>
-    </div>
-    <div class="col-lg-6 total-mrp">
-      <p>
-        <strong>
-          <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{summary.grand_total}}</strong>
-      </p>
-    </div>
   </div>
   <div class="row">
     <div class="col-lg-6">

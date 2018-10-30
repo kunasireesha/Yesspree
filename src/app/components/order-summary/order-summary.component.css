@@ -55,7 +55,15 @@
 .mrp-rate h5 {
   margin-top: 20px;
 }
-
+.mrp-rate.promo {
+  padding-top: 54px;
+    padding-left: 97px;
+}
+.mrp-rate.total {
+  color: black;
+  padding-left: 164px;
+  padding-top: 19px;
+}
 .next-btn {
   background-color: #4a4a4a;
   box-shadow: none;
