@@ -266,7 +266,7 @@
               <button type="button" class="btn btn-black" (click)="wish(detailsproduct.id_product)">ADD TO WISHLIST</button>
               <!-- [ngClass]="{'btn btn-black':!showSubscriptionData,'btn-black.active':showSubscriptionData}" -->
               <button type="button" class="btn btn-black" (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='0'">SUBSCRIBE</button>
-
+              <button type="button" class="btn btn-black" (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='0';showSubscriptionData">SUBSCRIBE</button>
 
               <button type="button" class="btn btn-black" *ngIf="detailsproduct.isSubscribe=='1'" (click)="showSubscribeDetails()"
                 disabled>SUBSCRIBE</button>
