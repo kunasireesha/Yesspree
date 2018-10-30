@@ -797,6 +797,7 @@ export class MyAccountComponent implements OnInit {
             this.orders = response.json().orders;
             for (var i = 0; i < this.orders.length; i++) {
                 this.orders[i].itemName = this.orders[i].cart[0].product_name;
+                this.orders[i].image = this.orders[i].cart[0].product_pic;
                 this.orders[i].size = this.orders[i].cart[0].size;
             }
         }, err => {

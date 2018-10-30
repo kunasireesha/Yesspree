@@ -112,38 +112,7 @@
       </div>
     </div>
 
-    <!-- my orders 1 -->
-    <!-- 
-    <div class="col-lg-9 order-details" *ngIf="myOrders1">
-      <h4> MY ORDERS</h4>
-      <div *ngFor="let item of orders" class="prod-details" (click)="showOrderItems(item.order._id,item.order.total_paid,item.order.order_no,item.order.added)">
-        <div class="row order-time">
-          <div class="col-lg-6">
-            <p>Placed On :{{item.order.delivery_slot_time}}</p>
-          </div>
-          <div class="col-lg-6 order-id">
-            <p>Order ID :{{item.order._id}}</p>
-          </div>
 
-        </div>
-      </div>
-
-
-       <div class="row order-status">
-        <div class="col-lg-4 ">
-          <p>Status:
-            <span>{{item.order.order_status}}</span>
-          </p>
-        </div>
-        <div class=" col-lg-8 delivery-time">
-          <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
-        </div>
-      </div>
-      <div class="col-md-12" *ngIf="orders.length==0">
-        <h3 class="text-center nodata">No Data Found</h3>
-      </div>
-
-    </div> -->
 
 
 
@@ -160,7 +129,7 @@
         </div>
         <div class="row">
           <div>
-            <img src="assets/images/Aashirvaad.jpg" class="ashirvaad-image">
+            <img [src]="url + '/' + data.image" class="ashirvaad-image">
           </div>
           <div class="prod-name">
             <p>
@@ -213,7 +182,7 @@
           <tbody>
             <tr *ngFor="let ordData of ordersData2">
               <td class="table-data">
-                <img src="assets/images/Aashirvaad.jpg" class="prod-image">
+                <img [src]="url + '/'+ ordData.product_pic" class="prod-image">
                 <p>
                   <strong>{{ordData.product_name}} - </strong>
                   <br />100% Pure</p>
