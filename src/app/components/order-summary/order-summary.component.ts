@@ -7,7 +7,7 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-order-summary',
   templateUrl: './order-summary.component.html',
-  styleUrls: ['./order-summary.component.css']
+  styleUrls: ['./order-summary.component.less']
 })
 export class OrderSummaryComponent implements OnInit {
   orderSu: boolean = true;
@@ -107,10 +107,13 @@ export class OrderSummaryComponent implements OnInit {
       this.Promo = response.json();
       if (response.json().status === "success") {
         swal('promo applied successfully', '', 'success');
+      } else if (response.json().status === "failure") {
+        swal(response.json().message, "", "error");
       }
-      else {
-        swal("invalid promo code", "", "error")
-      }
+      // else {
+      //   swal("please enter promo code", "", "warning");
+      // }
+
       console.log(this.Promo);
 
     });
@@ -237,6 +240,15 @@ export class OrderSummaryComponent implements OnInit {
       mr: 'Mr.',
       mrs: 'Mrs.'
     }
+  }
+
+  //radio buttons
+  mr;
+  mrs;
+  prefix;
+
+  checkPrefix(prefixVAlue) {
+    this.prefix = prefixVAlue;
   }
 
   checkoutDelivery(id) {

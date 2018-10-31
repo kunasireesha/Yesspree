@@ -578,13 +578,6 @@ export class ProductsComponent implements OnInit {
   startDate;
 
   subscribeData(productId, sku) {
-    // for (var i = 0; i < this.emailFormArray.length; i++) {
-    //   if (this.emailFormArray[i].type === 'Alternate Days') {
-    //     this.alternateid = 1
-    //   } else {
-    //     this.alternateid = 0
-    //   }
-    // }
 
     if (this.prefix == 'Alternate Days') {
       this.alternateid = 1;
@@ -595,9 +588,7 @@ export class ProductsComponent implements OnInit {
       swal('Please select size', '', 'error');
       return;
     }
-
     var inData = {
-
       "day": this.weak,
       "id_product": productId,
       "id_sku": sku,

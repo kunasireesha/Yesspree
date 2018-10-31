@@ -373,7 +373,7 @@ export class MyAccountComponent implements OnInit {
 
         this.myOrders2 = true;
         this.myOrders1 = false;
-        // this.ordersDetails();
+        // this.showOrderItems();
     }
     // this.ordersData2 =[];
 

@@ -139,6 +139,9 @@
 td.mrp-rate.total {
   color: inherit;
 }
+p.grand {
+  font-size: 18px;
+}
 .checkout-button {
   background-color: #4a4a4a;
   color: #fff212;
