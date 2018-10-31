@@ -111,7 +111,7 @@ export class HeaderComponent implements OnInit {
     this.postVillageName(localStorage.wh_pincode);
 
     this.url = AppSettings.imageUrl;
-    this.userMobile = JSON.parse(localStorage.userMobile);
+
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
       this.showProfile = true;
