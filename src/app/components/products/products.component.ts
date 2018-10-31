@@ -487,6 +487,8 @@ export class ProductsComponent implements OnInit {
 
   skulikedata = [];
   productDetails() {
+    this.skuspecificdata = [];
+    this.skulikedata = [];
     var inData = {
       _id: this.id,
       _session: localStorage.session,
@@ -567,8 +569,11 @@ export class ProductsComponent implements OnInit {
   }
 
   skusize(size) {
+
+    size.isSubscribe = this.detailsproduct.isSubscribe;
     this.detailsproduct = size;
     this.selectedskusize = size.size;
+
   }
   startDate;
 

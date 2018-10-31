@@ -136,7 +136,9 @@
   color: red;
   margin-left: -12px;
 }
-
+td.mrp-rate.total {
+  color: inherit;
+}
 .checkout-button {
   background-color: #4a4a4a;
   color: #fff212;
