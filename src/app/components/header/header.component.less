@@ -231,6 +231,7 @@
         width: 100%;
         background: #fff212;
         color: #000000;
+        font-size: 13px;
     }
 }
 
@@ -252,6 +253,9 @@
     color: #373435;
     font-weight: 600;
     text-align: center;
+    font-size: 13px;
+    padding-top: 8px;
+    position: relative;
 }
 
 .hr-sect::before,
@@ -291,6 +295,12 @@
     margin-top: 26px;
     text-align: center;
     border-bottom-left-radius: 5px;
+    background: #373435;
+    color: #ffffff;
+    margin-top: 60px;
+    text-align: center;
+    border-bottom-left-radius: 5px;
+    padding: 10px;
     p {
         width: 100%;
         padding: 4px 0px 8px 0px;
@@ -303,7 +313,15 @@
     background-image: url(/assets/images/pop-up-image.png);
     background-position: center;
     background-size: cover;
+    background-repeat: no-repeat; // height: -webkit-fill-available;
+}
+
+.otp-image {
+    background-image: url(/assets/images/pop-up-image.png);
+    background-position: center;
+    background-size: cover;
     background-repeat: no-repeat;
+    height: 560px;
 }
 
 .popup-logo {
@@ -335,6 +353,7 @@
     margin: 0px;
     padding: 0px;
     text-align: center;
+    margin-left: -5%;
     li {
         display: inline-block;
     }
@@ -395,15 +414,18 @@
 }
 
 .prefixData {
-    margin-left: 15px;
+    margin-left: 32px;
+    a {
+        font-size: 12px;
+    }
 }
 
 .prefix {
     background: #cccccc;
     border-radius: 22px;
-    width: 20px;
-    height: 21px;
-    padding: 3px;
+    width: 17px;
+    height: 17px;
+    padding: 2px;
     font-size: 13px;
     color: white;
 }
@@ -658,9 +680,22 @@
     padding: 14px 46px;
 }
 
+.play {
+    width: 57%;
+    height: 50px;
+    margin-left: 45%;
+}
+
+.app {
+    height: 50px;
+    width: 54%;
+    margin-right: 50%;
+}
+
 input,
 input[placeholder] {
     text-align: center;
+    color: gray !important;
 }
 
 .signIn {
@@ -669,7 +704,7 @@ input[placeholder] {
 }
 
 .account {
-    font-size: 12px;
+    font-size: 14px;
 }
 
 @media only screen and (min-width: 633px) {

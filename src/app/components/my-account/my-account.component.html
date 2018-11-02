@@ -50,7 +50,7 @@
             </div>
             <div class="form-group">
               <label for="exampleInputdob">DOB</label>
-              <input type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
+              <input myNumberOnly type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
                 [(ngModel)]="mydata.dob" placeholder="Date of Birth" name="dob" [pattern]="dobValidation" required #dob="ngModel">
               <!-- <div *ngIf="dob.errors?.pattern">
                 User name not valid.
@@ -121,10 +121,10 @@
       <div class="prod-details" *ngFor="let data of orders" (click)="showOrderItems(data.order._id,data.order.total_paid,data.order.order_no,data.order.added,data.order.order_status)">
         <div class="row order-time">
           <div class="col-lg-6">
-            <p>Placed On: {{data.order.added}}</p>
+            <p class="order-data"><span>Placed On:</span>&nbsp; {{data.order.added}}</p>
           </div>
           <div class="col-lg-6 order-id">
-            <p>Order Id: {{data.order.order_no}}</p>
+            <p class="order-data"><span>Order Id:</span>&nbsp; {{data.order.order_no}}</p>
           </div>
         </div>
         <div class="row">
@@ -136,7 +136,7 @@
               <strong>{{data.itemName}} - 100% pure</strong>
             </p>
             <p>{{data.size}}</p>
-            <p>Quantity : {{data.order.total_items}}</p>
+            <p class="order-data"><span>Quantity :</span>&nbsp; {{data.order.total_items}}</p>
           </div>
         </div>
         <div class="row order-status">
@@ -146,7 +146,9 @@
             </p>
           </div>
           <div class=" col-lg-6 delivery-time">
-            <p>Estimated Delivery: 02 April 2018, 4-8 PM</p>
+            <p class="order-data">
+              <span>Estimated Delivery:</span>&nbsp; 02 April 2018, 4-8 PM
+            </p>
           </div>
         </div>
       </div>
@@ -184,9 +186,9 @@
               <td class="table-data">
                 <img [src]="url + '/'+ ordData.product_pic" class="prod-image">
                 <p>
-                  <strong>{{ordData.product_name}} - </strong>
-                  <br />100% Pure</p>
-                <span>{{ordData.size}}</span>
+                  <strong>{{ordData.product_name}} </strong><br />
+                  <!-- <br />100% Pure</p> -->
+                  <span>{{ordData.size}}</span>
               </td>
               <td class="table-price">
                 <p>
@@ -215,22 +217,23 @@
                 </span>
               </td>
             </tr>
-
+            <tr>
+              <td class="mrp-rate total">
+                <h5>
+                  <strong>Total to Pay</strong>
+                </h5>
+              </td>
+              <td colspan="4">
+                <div class="total-mrp ord">
+                  <p class="grand">
+                    <strong>
+                      <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{total_paid}}</strong>
+                  </p>
+                </div>
+              </td>
+            </tr>
           </tbody>
         </table>
-      </div>
-      <div class="row">
-        <div class="col-lg-6 text-center">
-          <h5>
-            <strong>Total to Pay</strong>
-          </h5>
-        </div>
-        <div class="col-lg-6 total-mrp">
-          <p>
-            <strong>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{total_paid}}</strong>
-          </p>
-        </div>
       </div>
 
       <div class="row">
@@ -326,7 +329,7 @@
             </div>
 
             <div class="col-lg-4">
-              <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
+              <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPPING</button>
             </div>
             <div class="col-lg-4">
               <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
@@ -412,25 +415,30 @@
                 <span>{{savePer}}</span>
               </td>
             </tr>
+            <tr>
+              <td class="mrp-rate total">
+                <h5>
+                  <strong>Total to Pay</strong>
+                </h5>
+              </td>
+              <td></td>
+              <td></td>
+              <td>
+                <div class="total-mrp">
+                  <p class="grand">
+                    <strong>
+                      <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
+                  </p>
+                </div>
+              </td>
+              <td></td>
+            </tr>
           </tbody>
         </table>
       </div>
-      <div class="row">
-        <div class="col-lg-6 text-center">
-          <h5>
-            <strong>Total to Pay</strong>
-          </h5>
-        </div>
-        <div class="col-lg-6 total-mrp">
-          <p>
-            <strong>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-          </p>
-        </div>
-      </div>
       <div class="row check-butons">
         <div class="col-lg-6">
-          <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
+          <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
           <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
@@ -652,32 +660,7 @@
 
 
             <form>
-              <!-- <ul _ngcontent-c1="" class="title-list">
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
-                  </div>
-                </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
-                  </div>
-                </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
-                  </div>
-                </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
-                  </div>
-                </li>
-              </ul> -->
+
               <ul class="title-list">
                 <li class="prefixData">
                   <a (click)="checkPrefix('mr')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix==='mr'}"></i>
@@ -696,7 +679,7 @@
                     M/S</a>
                 </li>
 
-              </ul>
+              </ul><br />
               <div class="form-group address-form">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" alphabetsOnly id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -777,32 +760,25 @@
             <!--Body-->
             <!-- Default inline 1-->
             <form>
-              <!-- <ul _ngcontent-c1="" class="title-list">
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">Mr.</label>
-                  </div>
+              <ul class="title-list">
+                <li class="prefixData">
+                  <a (click)="checkPrefix('mr')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix==='mr'}"></i>
+                    Mr.</a>
                 </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
-                  </div>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('mrs')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrsPrefix':prefix==='mrs'}"></i>
+                    Mrs.</a>
                 </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
-                  </div>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('miss')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemissPrefix':prefix==='miss'}"></i>
+                    Miss</a>
                 </li>
-                <li _ngcontent-c1="">
-                  <div _ngcontent-c1="">
-                    <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
-                    <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
-                  </div>
+                <li class="prefixData">
+                  <a (click)="checkPrefix('msa')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemsaPrefix':prefix==='msa'}"></i>
+                    M/S</a>
                 </li>
-              </ul> -->
+
+              </ul>
               <div class="form-group">
                 <label for="exampleInputEmail1">Name</label>
                 <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
@@ -849,9 +825,11 @@
                   [(ngModel)]="addData.locality" name="locality">
               </div>
               Address Type:
-              <button type="submit" class="btn type" (click)="buttonType('HOME')">Home</button>
-              <button type="submit" class="btn type" (click)="buttonType('OFFICE')">Office</button>
-              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="updateAdd()">Update</button>
+              <button type="submit" class="btn type" [ngStyle]="{'background-color':type == 'HOME' ? 'yellow'  :  ''}"
+                id="home" (click)="buttonType('HOME')">Home</button>
+              <button type="submit" class="btn type" (click)="buttonType('OFFICE')" [ngStyle]="{'background-color':type == 'OFFICE' ? 'yellow'  :  ''}">Office</button>
+              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">UPDATE</button>
+
             </form>
           </div>
           <!--/.Content-->
@@ -871,7 +849,7 @@
         <div class="col-lg-6">
           <div class="row">
             <div class="col-lg-6">
-              <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
+              <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPPING</button>
             </div>
             <div class="col-lg-6">
               <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
@@ -961,6 +939,26 @@
               <td></td>
               <td class="table-total">
                 <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp}}</p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
+                </p>
+                <span> You Save {{(100-(summary.selling_price/summary.mrp)*100).toFixed(0)}} %</span>
+              </td>
+              <td></td>
+            </tr>
+
+            <tr class="total-pay">
+              <td></td>
+              <td class="mrp-rate">
+                <h5>Total to Pay</h5>
+              </td>
+              <td></td>
+              <td></td>
+              <td class="table-total">
+                <p class="grandtotal">
                   <i class="fa fa-inr" aria-hidden="true"></i>{{grandTotal}}</p>
               </td>
               <td class="table-savings">
@@ -974,27 +972,16 @@
           </tbody>
         </table>
       </div>
-      <div class="row">
-        <div class="col-lg-6 text-center">
-          <h5>
-            <strong>Total to Pay</strong>
-          </h5>
-        </div>
-        <div class="col-lg-6 total-mrp">
-          <p>
-            <strong>
-              <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{grandTotal}}</strong>
-          </p>
-        </div>
-      </div>
+
       <div class="row">
         <div class="col-lg-6">
-          <button type="button" class="btn cart-btn">CONTINUE SHOPPING</button>
+          <button type="button" class="btn cart-btn continue-shopping" routerLink="/">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
-          <button type="button" class="btn checkout-button" routerLink="/orderSummary">ADD TO CART</button>
+          <button type="button" class="btn checkout-button add-to-cart" routerLink="/orderSummary">ADD TO CART</button>
         </div>
       </div>
+      <br /><br />
     </div>
 
 
@@ -1048,7 +1035,7 @@
               </li>
               <li>
 
-                <img src="assets/images/message.jpg" width="50px" height="50px">
+                <img src="assets/images/ic_message.png" width="50px" height="50px">
                 <p class="social">Message</p>
               </li>
             </ul>

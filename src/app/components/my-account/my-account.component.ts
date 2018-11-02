@@ -373,7 +373,7 @@ export class MyAccountComponent implements OnInit {
 
         this.myOrders2 = true;
         this.myOrders1 = false;
-        // this.ordersDetails();
+        // this.showOrderItems();
     }
     // this.ordersData2 =[];
 
@@ -642,11 +642,14 @@ export class MyAccountComponent implements OnInit {
             "lang": "en"
         }
         this.loginService.deleteWish(inData).subscribe(response => {
-
-            console.log(response)
-            this.getWishlist();
+            if (response.json().status === "success") {
+                swal(response.json().message, '', 'success');
+                this.getWishlist();
+            } else {
+                swal(response.json().message, '', 'error');
+            }
         }, error => {
-
+            swal(error.json().message, '', 'error');
         })
     }
 

@@ -94,6 +94,7 @@ export class HeaderComponent implements OnInit {
   getPin;
   id_warehouse;
   parent_warehouseid;
+  disableforgot = false;
 
   clearFields() {
     this.formData.firstName = this.formData.lastName = this.formData.email = this.formData.forMobile = this.formData.password = this.formData.conpassword = this.formData.referalCode = ''
@@ -112,6 +113,7 @@ export class HeaderComponent implements OnInit {
 
     this.url = AppSettings.imageUrl;
 
+    // this.userMobile = JSON.parse(localStorage.userMobile);
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.showLogin = false;
       this.showProfile = true;
@@ -188,6 +190,8 @@ export class HeaderComponent implements OnInit {
   changepw = false;
   showOtpForRegister = false
   openSingin() {
+    this.formData.email = '';
+    this.formData.password = '';
     this.showModal = true;
     this.showSignin = true;
     this.showRegistration = false;
@@ -253,6 +257,7 @@ export class HeaderComponent implements OnInit {
           this.showOpacity = true;
           this.showOtp = false;
           this.showOtpForRegister = true;
+          this.formData.otp = '';
         }
       }, err => {
         if (err.json().status === 400) {
@@ -293,6 +298,7 @@ export class HeaderComponent implements OnInit {
     this.showOpacity = true;
     this.showOtp = false;
     this.showForgotPassword = true;
+    this.formData.forMobile = '';
   }
   //close popup
   onCloseCancel() {
@@ -369,6 +375,7 @@ export class HeaderComponent implements OnInit {
     }
   }
   forgot() {
+    this.disableforgot = true;
     var inData = {
       email: this.formData.forMobile
     }
@@ -376,6 +383,7 @@ export class HeaderComponent implements OnInit {
       swal("Fill the field", "", "warning");
     } else {
       this.loginService.forgot(inData).subscribe(response => {
+        this.disableforgot = false;
         if (response.json().status === "failure") {
           swal(response.json().message, " ", "error");
         } else {
@@ -385,18 +393,20 @@ export class HeaderComponent implements OnInit {
           this.showModal = true;
           this.showOpacity = true;
           this.showOtp = true;
+          this.formData.otp = '';
           swal(response.json().message, " ", "success");
         }
       }, err => {
-        swal(err.json().message, "", "error")
+        swal(err.json().message, "", "error");
+        this.disableforgot = false;
       })
     }
 
   }
   checkOtp(action) {
     var inData = {
-      otp: JSON.parse(this.formData.otp),
-      email: JSON.parse(this.formData.forMobile)
+      otp: this.formData.otp,
+      email: this.formData.forMobile
     }
     if (this.formData.otp === '') {
       swal("Fill the field", "", "warning");
@@ -443,6 +453,10 @@ export class HeaderComponent implements OnInit {
 
 
   updatePw() {
+    if (this.formData.newPw === '' || this.formData.newPw === undefined || this.formData.newPw === null) {
+      swal('Please Enter New Password', '', 'warning');
+      return;
+    }
     var inData = {
       first_name: this.forData.first_name,
       _id: this.forData._id,

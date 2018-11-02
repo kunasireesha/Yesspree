@@ -330,70 +330,75 @@
 
 
         <form>
-          <ul _ngcontent-c1="" class="title-list">
-            <li _ngcontent-c1="" *ngFor="let mr of list">
-              <div _ngcontent-c1="">
-                <input _ngcontent-c1="" checked="" class="radio-custom" id="radio-1" name="radio-group" type="radio">
-                <label _ngcontent-c1="" class="radio-custom-label" for="radio-1">{{mr.value}}</label>
-              </div>
+
+          <ul class="title-list">
+            <li class="prefixData">
+              <a (click)="checkPrefix('mr')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrPrefix':prefix==='mr'}"></i>
+                Mr.</a>
             </li>
-            <!-- <li _ngcontent-c1="">
-              <div _ngcontent-c1="">
-                <input _ngcontent-c1="" class="radio-custom" id="radio-2" name="radio-group" type="radio">
-                <label _ngcontent-c1="" class="radio-custom-label" for="radio-2">Mrs.</label>
-              </div>
+            <li class="prefixData">
+              <a (click)="checkPrefix('mrs')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemrsPrefix':prefix==='mrs'}"></i>
+                Mrs.</a>
             </li>
-            <li _ngcontent-c1="">
-              <div _ngcontent-c1="">
-                <input _ngcontent-c1="" class="radio-custom" id="radio-3" name="radio-group" type="radio">
-                <label _ngcontent-c1="" class="radio-custom-label" for="radio-3">Miss</label>
-              </div>
+            <li class="prefixData">
+              <a (click)="checkPrefix('miss')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemissPrefix':prefix==='miss'}"></i>
+                Miss</a>
             </li>
-            <li _ngcontent-c1="">
-              <div _ngcontent-c1="">
-                <input _ngcontent-c1="" class="radio-custom" id="radio-4" name="radio-group" type="radio">
-                <label _ngcontent-c1="" class="radio-custom-label" for="radio-4">M/S</label>
-              </div>
-            </li> -->
+            <li class="prefixData">
+              <a (click)="checkPrefix('msa')"><i class="fa fa-check prefix" aria-hidden="true" [ngClass]="{'activemsaPrefix':prefix==='msa'}"></i>
+                M/S</a>
+            </li>
+
           </ul>
-          <div class="form-group">
+          <br />
+          <div class="form-group address-form">
             <label for="exampleInputEmail1">Name</label>
-            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Name"
-              [(ngModel)]="addData.name" name="name">
+            <input type="text" class="form-control" alphabetsOnly id="exampleInputEmail1" aria-describedby="emailHelp"
+              [(ngModel)]="addData.name" name="name" pattern="[a-zA-Z]+" ng-pattern-restrict>
           </div>
-          <div class="form-group">
+          <div class="form-group address-form">
             <label for="exampleInputPassword1">Flot/House/Office No</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
-              [(ngModel)]="addData.phone" name="phone">
-          </div>
-          <div class="form-group">
-            <label for="exampleInputPassword1">Steet Name</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
+            <input type="text" alphanumericOnly class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.phone"
               name="phone">
           </div>
-          <div class="form-group">
+          <div class="form-group address-form">
+            <label for="exampleInputPassword1">Steet Name</label>
+            <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.address1"
+              name="phone">
+          </div>
+          <div class="form-group address-form">
             <label for="exampleInputPassword1">Taluka</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Taluka" [(ngModel)]="addData.taluk"
+            <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.taluk"
               name="taluk">
           </div>
-          <div class="form-group">
+          <div class="form-group address-form">
             <label for="exampleInputPassword1">District</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="District" [(ngModel)]="addData.district"
+            <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.district"
               name="district">
           </div>
-          <div class="form-group">
+          <div class="form-group address-form">
+            <label for="exampleInputPassword1">City</label>
+            <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.city"
+              name="city">
+          </div>
+          <div class="form-group address-form">
             <label for="exampleInputPassword1">State</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="State" [(ngModel)]="addData.state"
+            <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.state"
               name="state">
           </div>
-          <div class="form-group">
+          <div class="form-group address-form">
             <label for="exampleInputPassword1">Pincode</label>
-            <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Pincode" [(ngModel)]="addData.pincode"
-              name="pincode">
+            <input myNumberOnly type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.pincode"
+              name="pincode" maxlength="6" required>
+          </div>
+          <div class="form-group address-form">
+            <label for="exampleInputPassword1">Locality/Landmark</label>
+            <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.locality" name="locality">
           </div>
           Address Type:
-          <button type="submit" class="btn type" (click)="buttonType('HOME')">Home</button>
-          <button type="submit" class="btn type" (click)="buttonType('OFFICE')">Office</button>
+          <button type="submit" class="btn type" [ngStyle]="{'background-color':type == 'HOME' ? 'yellow'  :  ''}" id="home"
+            (click)="buttonType('HOME')">Home</button>
+          <button type="submit" class="btn type" (click)="buttonType('OFFICE')" [ngStyle]="{'background-color':type == 'OFFICE' ? 'yellow'  :  ''}">Office</button>
           <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
         </form>
       </div>
