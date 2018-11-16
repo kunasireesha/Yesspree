@@ -2,11 +2,13 @@ import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 
 @Component({
   selector: 'app-mycart',
   templateUrl: './mycart.component.html',
-  styleUrls: ['./mycart.component.css']
+  styleUrls: ['./mycart.component.css', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 })
 export class MycartComponent implements OnInit {
   userName: string;
@@ -26,7 +28,7 @@ export class MycartComponent implements OnInit {
   }
   summary
   quantity
-  constructor(public loginService: DataService, public router: Router, ) {
+  constructor(public loginService: DataService, public router: Router, public header: HeadercartComponent) {
   }
 
   orders = [];
@@ -35,10 +37,13 @@ export class MycartComponent implements OnInit {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
     } else {
-      this.id = ''
+      this.id = '0'
     }
     //   this.cartCheckout();
     this.getCart();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+    this.getDashboard();
   }
   getCart() {
     this.url = AppSettings.imageUrl;
@@ -52,8 +57,8 @@ export class MycartComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.mrp = response.json().summary.mrp;
-      this.grandTotal = response.json().summary.grand_total;
-      this.cartCount = response.json().summary.cart_count;
+      // this.grandTotal = response.json().summary.grand_total;
+      // this.cartCount = response.json().summary.cart_count;
       this.mycart = response.json().cart;
       this.summary = response.json().summary;
       console.log(this.mycart);
@@ -74,12 +79,13 @@ export class MycartComponent implements OnInit {
     thisObj.addCart(this.sku.mycart, id, skuId);
     localStorage.setItem('cartName', name);
     this.getCart();
+    this.getDashboard();
   }
 
   itemDecrease(data, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    
+
     for (var i = 0; i < data.length; i++) {
       if (data[i].name === name) {
         this.sku.mycart = parseInt(data[i].sku[0].mycart);
@@ -109,14 +115,15 @@ export class MycartComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-    }).then((value) => {
-        if (value === true) {
-            window.location.reload();
-        }
-    });
-      
+      swal("Item added to cart", "", "success")
+      //   swal("Item added to cart", "", "success", {
+      //     buttons: ["", "Okay"],
+      // }).then((value) => {
+      //     if (value === true) {
+      //         window.location.reload();
+      //     }
+      // });
+
       this.getCart();
 
     }, err => {
@@ -141,22 +148,65 @@ export class MycartComponent implements OnInit {
       id_sku: sku
     }
     this.loginService.removeCart(inData).subscribe(response => {
-      swal("item removed successfully", '', 'success', {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("item removed successfully", "", "success")
+      // swal("item removed successfully", '', 'success', {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
 
       this.getCart();
+      this.getDashboard();
     })
   }
   checkoutCart() {
-    if (this.id == '') {
+    if (this.id === '0') {
       swal("Login and try again", "", "error");
     } else {
       this.router.navigate(["/orderSummary"]);
     }
   }
+
+  //header
+
+  categoryData = [];
+  getHeadCart() {
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+
+  getDashboard() {
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
+  }
+
 }

@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 
 
 @Component({
   selector: 'app-banner-navigation',
   templateUrl: './banner-navigation.component.html',
-  styleUrls: ['./banner-navigation.component.css', '../product/product.component.less']
+  styleUrls: ['./banner-navigation.component.css', '../product/product.component.less', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 })
 export class BannerNavigationComponent implements OnInit {
   type;
@@ -24,7 +26,7 @@ export class BannerNavigationComponent implements OnInit {
   }
   quantity;
   subSubCatData;
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent) {
     this.route.queryParams.subscribe(params => {
       this.type = params.type
       this.target = params.target
@@ -66,6 +68,7 @@ export class BannerNavigationComponent implements OnInit {
         }
       }, error => {
       })
+
 
 
     } else if (this.type === 'search') {
@@ -156,6 +159,11 @@ export class BannerNavigationComponent implements OnInit {
 
       })
     }
+
+    this.getDashboard();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+
   }
   //add to cart
   itemIncrease(data, size, name, id, skuId, index) {
@@ -171,6 +179,7 @@ export class BannerNavigationComponent implements OnInit {
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
     }
+    this.getDashboard();
   }
 
   itemDecrease(id, skuId, index) {
@@ -201,13 +210,14 @@ export class BannerNavigationComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success", {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -243,5 +253,44 @@ export class BannerNavigationComponent implements OnInit {
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
+  }
+
+  cartCount;
+  grandTotal;
+  categoryData;
+  getHeadCart() {
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+  getDashboard() {
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
   }
 }

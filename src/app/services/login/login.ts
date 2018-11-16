@@ -44,6 +44,14 @@ export class DataService {
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }
 
+    postOtpParams(params, key, url) {
+        const headers = new Headers({
+            'Content-Type': "application/JSON",
+            'Authorization': key
+        });
+        return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
+    }
+
     //login
     login(params): Observable<any> {
         return this.postInputParams(params, 'customer/login');
@@ -62,8 +70,8 @@ export class DataService {
     forgot(email): Observable<any> {
         return this.postInputParams(email, 'customer/forgotpwd')
     }
-    resendOtp(email): Observable<any> {
-        return this.postInputParams(email, 'customer/resend_otp')
+    resendOtp(email, key): Observable<any> {
+        return this.postOtpParams(email, key, 'customer/resend_otp')
     }
     checkOtp(params): Observable<any> {
         return this.postInputParams(params, 'customer/otp');

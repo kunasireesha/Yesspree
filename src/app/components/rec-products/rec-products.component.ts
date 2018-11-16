@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
-
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
-  styleUrls: ['./rec-products.component.css', '../product/product.component.less', '../home/home.component.less']
+  styleUrls: ['./rec-products.component.css', '../product/product.component.less', '../home/home.component.less', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 
 })
 export class RecProductsComponent implements OnInit {
@@ -17,7 +18,7 @@ export class RecProductsComponent implements OnInit {
   showbrands = false;
   showproducts = false;
   noData = false;
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent) {
     this.route.queryParams.subscribe(params => {
       this.type = params.action;
       this.catId = params.catId
@@ -37,6 +38,7 @@ export class RecProductsComponent implements OnInit {
   selected;
   skudata = [];
   ngOnInit() {
+
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
@@ -111,6 +113,11 @@ export class RecProductsComponent implements OnInit {
     }, error => {
 
     })
+
+    this.getDashboard();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+
   }
 
   //add to cart
@@ -133,13 +140,14 @@ export class RecProductsComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success", {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
       this.items.quantity = this.quantity;
     }, err => {
       swal(err.json().message, '', 'error');
@@ -160,6 +168,9 @@ export class RecProductsComponent implements OnInit {
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
     }
+    this.getDashboard();
+
+
   }
 
 
@@ -205,5 +216,48 @@ export class RecProductsComponent implements OnInit {
       console.log(err)
     })
   }
+
+
+  //header
+  cartCount;
+  grandTotal;
+  categoryData = [];
+  getHeadCart() {
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+
+  getDashboard() {
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
+  }
+
 
 }

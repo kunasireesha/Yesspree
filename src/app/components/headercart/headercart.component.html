@@ -1,0 +1,50 @@
+<div class="cat-div">
+  <div class="container-fluid  main-menu">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light  ">
+      <a class="navbar-brand" routerLink="/">
+        <img src="assets/images/logo.png" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse  menu-list" id="navbarSupportedContent">
+        <div class="container navbar-nav pt-3">
+          <div class="input-group  search-menu mb-3">
+            <div class="input-group-prepend dropdown-append">
+              <img class="map-pointer" src="assets/images/ic_location_copy.png">
+              <select class="form-control location" id="exampleFormControlSelect1" (change)="changeVillageName($event.target.value,village)">
+                <option selected *ngFor="let villageName of village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
+              </select>
+            </div>
+            <form class="example" action="/action_page.php">
+              <input type="text" placeholder="" name="search" [(ngModel)]="search">
+              <button type="submit" (click)="searchProducts(search)">Search</button>
+            </form>
+
+          </div>
+        </div>
+        <form class="form-inline my-2 my-lg-0 cart-btn">
+
+          <button *ngIf="cartCount=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+            (click)="getCart()">
+
+            <i class="fas fa-shopping-cart"></i> My Cart
+            ( {{cartCount}} )
+          </button>
+
+
+          <button *ngIf="cartCount!=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+            (click)="getCart()">
+
+            <i class="fas fa-shopping-cart"></i>
+            <span class="home-cart"> {{cartCount}} </span> <i class="fa fa-inr" aria-hidden="true"></i> {{grandTotal}}
+          </button>
+        </form>
+      </div>
+    </nav>
+  </div>
+
+
+
+</div>

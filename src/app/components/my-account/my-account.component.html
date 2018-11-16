@@ -1,4 +1,57 @@
-<br />
+<!-- main menu -->
+<div class="cat-div">
+  <div class="container-fluid  main-menu">
+    <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
+      <a class="navbar-brand" routerLink="/">
+        <img src="assets/images/logo.png" alt="logo">
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse  menu-list" id="navbarSupportedContent">
+        <div class="container navbar-nav pt-3">
+          <div class="input-group  search-menu mb-3">
+            <div class="input-group-prepend dropdown-append">
+              <img class="map-pointer" src="assets/images/ic_location_copy.png">
+              <select class="form-control location" id="exampleFormControlSelect1" (change)="header.changeVillageName($event.target.value,village)">
+                <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
+              </select>
+            </div>
+            <form class="example" action="/action_page.php">
+              <input type="text" placeholder="" name="search" [(ngModel)]="search">
+              <button type="submit" (click)="searchProducts(search)">Search</button>
+            </form>
+
+          </div>
+        </div>
+        <form class="form-inline my-2 my-lg-0 cart-btn1">
+
+          <button *ngIf="cartCount=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+            (click)="getHeadCart()">
+
+            <i class="fas fa-shopping-cart"></i> My Cart
+            ( {{cartCount}} )
+          </button>
+
+
+          <button *ngIf="cartCount!=='0'" class="btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+            (click)="header.getCart()">
+
+            <i class="fas fa-shopping-cart"></i>
+            <span class="home-cart"> {{cartCount}} </span> <i class="fa fa-inr" aria-hidden="true"></i>
+            {{grandTotal}}
+          </button>
+        </form>
+      </div>
+    </nav>
+  </div>
+
+
+
+
+</div>
+
 <div class="container-fluid">
 
   <div class="row">
@@ -33,35 +86,47 @@
         </div>
         <div class="col-lg-8 input-details">
           <form name="myform">
-            <div class="form-group">
+            <div class="form-group accont-label">
+              <label for="exampleInputFname">First Name</label>
+              <input type="Name" class="form-control input-field accton-input" id="exampleInputFname" aria-describedby="Fname"
+                placeholder="" [(ngModel)]="mydata.first_name" name="firstName">
+            </div>
+            <div class="form-group accont-label">
+              <label for="exampleInputLname">Last Name</label>
+              <input type="Name" class="form-control input-field  accton-input" id="exampleInputLname" aria-describedby="Lname"
+                [(ngModel)]="mydata.last_name" name="lastName" placeholder="">
+            </div>
+            <!-- <div class="form-group">
               <label for="exampleInputFname">First Name</label>
               <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname"
                 placeholder="" [(ngModel)]="mydata.first_name" name="firstName">
-            </div>
-            <div class="form-group">
+            </div> -->
+            <div class="form-group accont-label">
               <label for="exampleInputLname">Last Name</label>
-              <input type="Name" class="form-control input-field" id="exampleInputLname" aria-describedby="Lname"
+              <input type="Name" class="form-control input-field  accton-input" id="exampleInputLname" aria-describedby="Lname"
                 [(ngModel)]="mydata.last_name" name="lastName" placeholder="">
             </div>
-            <div class="form-group">
+            <div class="form-group accont-label">
               <label for="exampleInputEmail1">Email ID</label>
-              <input type="email" class="form-control input-field" id="exampleInputid" aria-describedby="emailHelp"
+              <input type="email" class="form-control input-field  accton-input" id="exampleInputid" aria-describedby="emailHelp"
                 [(ngModel)]="mydata.email" name="email" placeholder="Email ID">
             </div>
-            <div class="form-group">
+            <div class="form-group accont-label">
               <label for="exampleInputdob">DOB</label>
-              <input myNumberOnly type="text" class="form-control input-field" id="exampleInputdob" aria-describedby="emaildob"
-                [(ngModel)]="mydata.dob" placeholder="Date of Birth" name="dob" [pattern]="dobValidation" required #dob="ngModel">
+              <input myNumberOnly type="text" class="form-control input-field accton-input" id="exampleInputdob"
+                aria-describedby="emaildob" [(ngModel)]="mydata.dob" placeholder="dd/mm/yyyy" name="dob" [pattern]="dobValidation"
+                required #dob="ngModel">
               <!-- <div *ngIf="dob.errors?.pattern">
                 User name not valid.
               </div> -->
             </div>
-            <div class="form-group">
+            <div class="form-group accont-label">
               <label for="exampleInputNumber">Mobile Number</label>
-              <input myNumberOnly type="text" class="form-control input-field" id="exampleInputNumber" aria-describedby="emailHelp"
-                [(ngModel)]="mydata.mobile" name="mobile" placeholder="Mobile" maxlength="10" required>
+              <input myNumberOnly type="text" class="form-control input-field accton-input" id="exampleInputNumber"
+                aria-describedby="emailHelp" [(ngModel)]="mydata.mobile" name="mobile" placeholder="Mobile" maxlength="10"
+                required>
             </div>
-            <button type="button" class="btn update-btn" (click)="update()">UPDATE</button>
+            <br /> <button type="button" class="btn update-btn" (click)="update()">UPDATE</button>
           </form>
         </div>
       </div>
@@ -96,7 +161,7 @@
             </div>
           </div>
           <div class="deliver-btn">
-            <p>
+            <p (click)="checkoutDelivery(item._id)">
               <strong>DELIVER HERE </strong>
             </p>
           </div>
@@ -118,20 +183,20 @@
 
     <div class="col-lg-9 order-details" *ngIf="myOrders1">
       <h4> MY ORDERS</h4>
-      <div class="prod-details" *ngFor="let data of orders" (click)="showOrderItems(data.order._id,data.order.total_paid,data.order.order_no,data.order.added,data.order.order_status)">
+      <div class="prod-details" *ngFor="let data of orders" (click)="showOrderItems(data.order._id,data.order.total_paid,data.order.order_no,data.order.added,data.order.order_status,data.order.total_mrp)">
         <div class="row order-time">
           <div class="col-lg-6">
-            <p class="order-data"><span>Placed On:</span>&nbsp; {{data.order.added}}</p>
+            <p class="order-data"><span>Placed On:</span>&nbsp; {{data.date}}</p>
           </div>
           <div class="col-lg-6 order-id">
             <p class="order-data"><span>Order Id:</span>&nbsp; {{data.order.order_no}}</p>
           </div>
         </div>
         <div class="row">
-          <div>
+          <div class="col-lg-2">
             <img [src]="url + '/' + data.image" class="ashirvaad-image">
           </div>
-          <div class="prod-name">
+          <div class="prod-name col-lg-10">
             <p>
               <strong>{{data.itemName}} - 100% pure</strong>
             </p>
@@ -159,9 +224,11 @@
 
 
     <div class="col-lg-9 order-summary" *ngIf="myOrders2">
+
       <div>
         <h4>MY ORDERS</h4>
       </div>
+      <a (click)="goBackOrders()">Back</a>
       <div class="row order-date-time">
         <div class="col-lg-6 order-date">
           <p>Placed On: &nbsp;&nbsp;{{placeOn}}</p>
@@ -215,6 +282,25 @@
                 <span>
                   You Save {{ordData.percentage}} %
                 </span>
+              </td>
+            </tr>
+            <tr class="table-border">
+              <td class="mrp-rate">
+                <h6>Total MRP</h6>
+              </td>
+              <td></td>
+              <td></td>
+              <td class="table-total">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{totalMrp}}</p>
+              </td>
+              <td class="table-savings">
+                <p>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{totalMrp-total_paid}}
+
+                </p>
+                <span> You Save {{mrpPrer}} % </span>
+
               </td>
             </tr>
             <tr>
@@ -301,19 +387,6 @@
     </div>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- order 2 -->
 
     <!-- my cart -->
@@ -325,7 +398,7 @@
         <div class="col-lg-8">
           <div class="row">
             <div class="col-lg-4">
-              <button type="button" class="btn cart-btn-empty">EMPTY CART</button>
+              <!-- <button type="button" class="btn cart-btn-empty">EMPTY CART</button> -->
             </div>
 
             <div class="col-lg-4">
@@ -345,36 +418,38 @@
         <table class="table prod-table">
           <thead class="table-header">
             <tr>
-              <th scope="col" width="40%" class="table-headings">Item Description</th>
-              <th scope="col" width="15%" class="table-headings">Unit price</th>
+              <th scope="col" width="30%" class="table-headings">Item Description</th>
+              <th scope="col" width="15%" class="table-headings">Unit Price</th>
               <th scope="col" width="15%" class="table-headings">Quantity</th>
               <th scope="col" width="15%" class="table-headings">Subtotal</th>
               <th scope="col" width="15%" class="table-headings">Savings</th>
+              <th scope="col" width="10%" class="table-headings">Delete</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let cartDetails of mycart">
+            <tr *ngFor="let cartDetails of mycartList">
               <td class="table-data" *ngFor="let skuSize of cartDetails.sku">
                 <img [src]="url + cartDetails.image" class="prod-image">
                 <p>
-                  <strong>{{cartDetails.name}} </strong>
+                  <strong>{{cartDetails.name}} </strong><br />
+                  <span>{{skuSize.size}}</span>
                 </p>
-                <span>{{skuSize.size}}</span>
+
               </td>
               <td class="table-price" *ngFor="let skuSize of cartDetails.sku">
                 <p>
                   <i class="fa fa-strikethrought" aria-hidden="true"></i>
                   <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.selling_price}}
                   <br />
-                  <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;<strike>{{skuSize.mrp}}</strike>
+                  <strike> <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{skuSize.mrp}}</strike>
                 </p>
               </td>
               <td class="table-quanities" *ngFor="let skuSize of cartDetails.sku">
                 <div class="quantity buttons_added">
-                  <input type="button" value="-" class="minus" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
+                  <input type="button" value="-" class="minus" (click)="itemDecrease(mycartList,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
                   <input type="number" step="1" min="1" max="" name="quantity" value="{{skuSize.mycart}}" title="Qty"
                     class="input-text qty text" size="4" pattern="" inputmode="" disabled>
-                  <input type="button" value="+" class="plus" (click)="itemIncrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
+                  <input type="button" value="+" class="plus" (click)="itemIncrease(mycartList,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')">
                 </div>
                 <!-- <p>
                                         <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(mycart,cartDetails.name,cartDetails.id_product,skuSize._id,i,'mycart')"></i>
@@ -392,8 +467,13 @@
                   <i class="fa fa-inr" aria-hidden="true"></i>&nbsp;{{cartDetails.mrp-cartDetails.selling_price}}
                 </p>
                 <span>
-                  You Save {{(100-(cartDetails.selling_price/cartDetails.mrp)*100)}}%
+                  You Save {{cartDetails.percentageValue}}%
                 </span>
+              </td>
+              <td class="table-delete" *ngFor="let skuSize of cartDetails.sku">
+                <p>
+                  <i class="fa fa-trash-o" aria-hidden="true" (click)="removeCart(cartDetails._id,skuSize._id)"></i>
+                </p>
               </td>
             </tr>
             <tr class="table-border">
@@ -411,12 +491,13 @@
                   <i class="fa fa-inr" aria-hidden="true"></i>{{summary.mrp-summary.selling_price}}
 
                 </p>
-                <!-- <span> You Save {{!isNaN(savePer) ? 0 : savePer}} % </span> -->
-                <span>{{savePer}}</span>
+                <span> You Save {{savePer}} % </span>
+
               </td>
+              <td></td>
             </tr>
             <tr>
-              <td class="mrp-rate total">
+              <td class="mrp-rate total cart-mrp">
                 <h5>
                   <strong>Total to Pay</strong>
                 </h5>
@@ -432,13 +513,14 @@
                 </div>
               </td>
               <td></td>
+              <td></td>
             </tr>
           </tbody>
         </table>
       </div>
       <div class="row check-butons">
         <div class="col-lg-6">
-          <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPPING</button>
+          <button type="button" class="btn cart-btn2" routerLink="/">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
           <button type="button" class="btn checkout-button" routerLink="/orderSummary">CHECKOUT</button>
@@ -576,23 +658,24 @@
       <div class="row">
         <div class="col-lg-12 feedback-rating">
           <p>
-            How did you like shopping with Yespree?
+            How did you like shopping with Yesspree?
           </p>
         </div>
       </div>
       <hr>
       <div class="row smiley-icons">
-        <div class="col-lg-4">
-          <img src="assets/images/happy.png" class="smiley-image" (click)="ratings('Happy')" [ngClass]="{'activerate' : rating === 'Happy'}">
-          <p>Happy</p>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <a><img src="assets/images/happy.png" class="smiley-image happy" (click)="ratings('Happy')" [ngClass]="{'activerate' : rating === 'Happy'}"></a>
+          <br />
+          <p class="happy-p">Happy</p>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
           <img src="assets/images/good.png" class="smiley-image" (click)="ratings('Good')" [ngClass]="{'activerate' : rating === 'Good'}">
           <p>Good</p>
         </div>
-        <div class="col-lg-4">
-          <img src="assets/images/not_good.png" class="smiley-image" (click)="ratings('Not Good')" [ngClass]="{'activerate' : rating === 'Not Good'}">
-          <p>Not Good</p>
+        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+          <img src="assets/images/not_good.png" class="smiley-image not-good" (click)="ratings('Not Good')" [ngClass]="{'activerate' : rating === 'Not Good'}"><br />
+          <p class="not-good-p">Not Good</p>
         </div>
       </div>
       <hr>
@@ -602,11 +685,10 @@
         </h5>
       </div>
       <div class="cust-feedback">
-        <div class="form-group">
-          <label for="usr">Feedback</label>
-          <input type="text" class="form-control" id="usr" [(ngModel)]="input" placeholder="Your valuable feedback will help us to improve our service">
+        <div class="form-group accont-label">
+          <!-- <label for="usr">Feedback</label> -->
+          <input type="text" class="form-control" id="usr" [(ngModel)]="input" placeholder="Your valuable feedback will help us to improve our service (Optional)">
         </div>
-        <p>(Optional)</p>
       </div>
       <div class="submit-btn-block">
         <button type="button" class="btn submit-btn" (click)="feedBack(input)">SUBMIT</button>
@@ -620,9 +702,9 @@
       </h4>
       <div class="row notifications-bar" *ngFor="let data of notificationList">
         <div class="col-lg-3">
-          <div class="form-check">
-            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-          </div>
+          <!-- <div class="form-check"> -->
+          <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+          <!-- </div> -->
           <div class="chakki-img">
             <img [src]="url + data.image" alt="">
           </div>
@@ -686,12 +768,12 @@
                   [(ngModel)]="addData.name" name="name" pattern="[a-zA-Z]+" ng-pattern-restrict>
               </div>
               <div class="form-group address-form">
-                <label for="exampleInputPassword1">Flot/House/Office No</label>
+                <label for="exampleInputPassword1">Flat/House/Office No</label>
                 <input type="text" alphanumericOnly class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.phone"
                   name="phone">
               </div>
               <div class="form-group address-form">
-                <label for="exampleInputPassword1">Steet Name</label>
+                <label for="exampleInputPassword1">Street Name</label>
                 <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.address1"
                   name="phone">
               </div>
@@ -728,7 +810,7 @@
               <button type="submit" class="btn type" [ngStyle]="{'background-color':type == 'HOME' ? 'yellow'  :  ''}"
                 id="home" (click)="buttonType('HOME')">Home</button>
               <button type="submit" class="btn type" (click)="buttonType('OFFICE')" [ngStyle]="{'background-color':type == 'OFFICE' ? 'yellow'  :  ''}">Office</button>
-              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
+              <br /><button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">CREATE</button>
             </form>
           </div>
           <!--/.Content-->
@@ -785,8 +867,8 @@
                   placeholder="Name" [(ngModel)]="addData.name" name="name">
               </div>
               <div class="form-group">
-                <label for="exampleInputPassword1">Flot/House/Office No</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flot/House/Office No"
+                <label for="exampleInputPassword1">Flat/House/Office No</label>
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flat/House/Office No"
                   [(ngModel)]="addData.phone" name="phone">
               </div>
               <div class="form-group">
@@ -828,7 +910,7 @@
               <button type="submit" class="btn type" [ngStyle]="{'background-color':type == 'HOME' ? 'yellow'  :  ''}"
                 id="home" (click)="buttonType('HOME')">Home</button>
               <button type="submit" class="btn type" (click)="buttonType('OFFICE')" [ngStyle]="{'background-color':type == 'OFFICE' ? 'yellow'  :  ''}">Office</button>
-              <button _ngcontent-c3="" class="btn update-btn" type="button" (click)="createAdd()">UPDATE</button>
+              <br /><button _ngcontent-c3="" class="btn update-btn" type="button" (click)="updateAdd()">UPDATE</button>
 
             </form>
           </div>
@@ -900,10 +982,10 @@
 
 
                 <div class="quantity buttons_added">
-                  <input type="button" value="-" class="minus" (click)="itemDecrease(WishList,sku.productName,sku.id_product,sku._id,i,'mycart')">
+                  <input type="button" value="-" class="minus" (click)="itemWishlistDecrease(WishList,sku.productName,sku.id_product,sku._id,i,'wishCart')">
                   <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text"
                     size="4" pattern="" inputmode="" disabled>
-                  <input type="button" value="+" class="plus" (click)="itemIncrease(WishList,sku.productName,sku.id_product,sku._id,i,'mycart')">
+                  <input type="button" value="+" class="plus" (click)="itemWishlistIncrease(WishList,sku.productName,sku.id_product,sku._id,i,'wishCart')">
                 </div>
                 <!-- <p>
                   <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,sku.productName,sku._id,sku._id,i,'wishList')"></i>
@@ -978,7 +1060,7 @@
           <button type="button" class="btn cart-btn continue-shopping" routerLink="/">CONTINUE SHOPPING</button>
         </div>
         <div class="col-lg-6">
-          <button type="button" class="btn checkout-button add-to-cart" routerLink="/orderSummary">ADD TO CART</button>
+          <button type="button" class="btn checkout-button add-to-cart" (click)="addTocart()">ADD TO CART</button>
         </div>
       </div>
       <br /><br />
@@ -1006,7 +1088,7 @@
                 <p class="share-text">Friend Signup</p>
                 <img src="assets/images/ic_cashback.png" class="share-img">
                 <p class="share-text">Get Cashback</p>
-              </figcaption>
+              </figcaption><br />
               <h5>
                 <strong>Your Referral Code</strong>
               </h5>
@@ -1045,13 +1127,13 @@
     </div>
     <div class="col-lg-9 notification" *ngIf="coupon">
       <h4>
-        coupons
+        Coupons
       </h4>
       <div class="row notifications-bar" *ngFor="let offer of coupons">
         <div class="col-lg-4">
-          <div class="form-check">
+          <!-- <div class="form-check">
             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
-          </div>
+          </div> -->
           <div class="coupon-image">
             <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
             <p>PromoCode:<strong> {{offer.promo_code}}</strong></p>
@@ -1059,14 +1141,124 @@
         </div>
         <div class="col-lg-4">
           <div class="validity">
-            <p>validity Start From: <b>{{offer.validity_start}}</b></p>
+            <p>Validity Start From: <b>{{offer.validity_start}}</b></p>
             <p>Validity end: <b>{{offer.validity_end}}</b></p>
           </div>
 
         </div>
         <div class="col-lg-4">
-          <p style="margin-top:30px">Updated Data: <b>{{offer.updated}}</b></p>
+          <p style="margin-top:30px">Updated Date: <b>{{offer.updated}}</b></p>
         </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade right" id="cust_mycart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-side modal-top-right" role="document">
+    <div class="modal-content cust-mheader">
+      <div class="modal-header mcart">
+        <h5 class="modal-title" id="exampleModalLabel">My cart ( {{header.mycart.length}} items)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-8">
+            <div class="t-mrp">
+              <h6>Total MRP</h6>
+              <p>Your Total Savings </p>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="rup">
+              <p>
+                <strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{header.mrp}}</strong>
+              </p>
+              <p class="green-text">
+                <i class="fa fa-inr" aria-hidden="true"></i> {{header.savedMoney}} ( {{header.grandPer}} % )</p>
+            </div>
+          </div>
+        </div>
+        <hr class="dtd-line">
+        <div class="row">
+          <div class="col-8">
+            <div class="totalpay">
+              <p>
+                <strong>Total to Pay</strong>
+              </p>
+              <h6>(Inclusive all taxes)</h6>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="rup">
+              <p>
+                <strong>
+                  <i class="fa fa-inr" aria-hidden="true"></i>{{header.grandTotal}}</strong>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row  bac-shadw" *ngFor="let cartItems of header.mycart;let i = index">
+          <div class="col-lg-3">
+            <div class="ashirvadimg">
+              <img [src]="url + cartItems.image" alt="ashirvad" />
+            </div>
+          </div>
+          <div class="col-lg-9">
+            <div class="atta">
+
+              <p>
+                <strong>{{cartItems.name | limitTo : 20}}</strong>
+              </p>
+              <div class="row" *ngFor="let sku of cartItems.sku">
+                <div class="col-md-3">
+                  <span class="sk-size">{{sku.size}}</span>
+                </div>
+                <div class="col-md-2">
+                  <p class="green-text">
+                    <i class="fa fa-inr" aria-hidden="true">{{cartItems.selling_price}}</i>
+                  </p>
+
+                </div>
+                <div class="col-md-2" *ngIf="sku.mrp!==undefined">
+                  <p class="red-text">
+                    <i class=" fa fa-inr" aria-hidden="true">
+                      <strike>{{cartItems.mrp}}</strike>
+                    </i>
+                  </p>
+
+                </div>
+                <div class="col-md-5" *ngIf="sku.mrp!==undefined">
+                  <p class="save">You Save {{sku.percentage}}%</p>
+                </div>
+              </div>
+
+              <div class="row sizes" *ngFor="let sku of cartItems.sku">
+                <div class="col-md-4">
+                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                </div>
+                <div class="col-md-8">
+                  <div class="quantity buttons_added product-added nav-cart">
+                    <input type="button" value="-" class="minus" (click)="itemHeaderDecrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
+
+                    <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty"
+                      class="input-text qty text product-input-quantity" size="4" pattern="" inputmode="" disabled>
+                    <input type="button" value="+" class="plus" (click)="itemHeaderIncrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer cust-modalfooter">
+        <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
       </div>
     </div>
   </div>

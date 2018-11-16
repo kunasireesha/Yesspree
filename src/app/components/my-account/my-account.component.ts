@@ -4,12 +4,14 @@ import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { empty } from 'rxjs';
 import { FacebookService, UIParams, UIResponse } from 'ngx-facebook';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 
 
 @Component({
     selector: 'app-my-account',
     templateUrl: './my-account.component.html',
-    styleUrls: ['./my-account.component.less']
+    styleUrls: ['../../components/header/header.component.less', './my-account.component.less'],
+    providers: [HeadercartComponent]
 })
 export class MyAccountComponent implements OnInit {
     feedback: any;
@@ -25,7 +27,8 @@ export class MyAccountComponent implements OnInit {
     cartCount;
     wishCount;
     ordersData;
-    skuData = []
+    skuData = [];
+    mycartList = [];
     sku = {
         mycart: 1
     }
@@ -69,6 +72,9 @@ export class MyAccountComponent implements OnInit {
             console.log(err)
 
         });
+        this.getDashboard();
+        this.header.geoLocation();
+        this.header.postVillageName(localStorage.wh_pincode);
     }
 
     public itemsList: Object[] = [
@@ -135,7 +141,7 @@ export class MyAccountComponent implements OnInit {
 
     dobValidation = "/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/"
 
-    constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, private fb: FacebookService) {
+    constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, private fb: FacebookService, public header: HeadercartComponent) {
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
             this.id = JSON.parse(localStorage.userId);
         } else {
@@ -333,15 +339,19 @@ export class MyAccountComponent implements OnInit {
     placeOn;
     address;
     order_status;
+    percentageOrder;
+    totalMrp;
+    mrpPrer;
 
-
-    showOrderItems(ordId, total_count, orderNumber, placedOn, status) {
+    showOrderItems(ordId, total_count, orderNumber, placedOn, status, mrp) {
         this.ordersData2 = [];
         this.orderId = ordId;
         this.place_on = new Date(placedOn);
         this.placeOn = this.place_on.getDate() + '-' + this.place_on.getMonth() + '-' + this.place_on.getYear();
         this.order_num = orderNumber;
         this.total_paid = total_count;
+        this.totalMrp = mrp;
+        this.mrpPrer = Math.round(100 - (this.total_paid / this.totalMrp * 100));
         this.order_status = status
         var inData = {
             type: 'Present',
@@ -357,7 +367,9 @@ export class MyAccountComponent implements OnInit {
                     if (JSON.parse(this.orderId) == this.orders[i].cart[j].id_order) {
                         this.post = this.orders[i].order;
                         this.ordstatus = this.orders[i].order;
-                        this.orders[i].cart[j].percentage = Math.round(100 - (this.orders[i].cart[j].selling_price / this.orders[i].cart[j].mrp * 100));
+                        this.percentageOrder = 100 - (this.orders[i].cart[j].selling_price / this.orders[i].cart[j].mrp * 100);
+
+                        this.orders[i].cart[j].percentage = Math.round(this.percentageOrder);
                         // this.orders[i].cart[j].cartData = this.orders[i].cart;
 
                         this.ordersData2.push(this.orders[i].cart[j]);
@@ -455,6 +467,21 @@ export class MyAccountComponent implements OnInit {
 
     //create address
     createAdd() {
+
+        if (this.addData.name === '' || this.addData.name === undefined || this.addData.name === null ||
+            this.addData.phone === '' || this.addData.phone === undefined || this.addData.phone === null ||
+            this.addData.address1 === '' || this.addData.address1 === undefined || this.addData.address1 === null ||
+            this.addData.taluk === '' || this.addData.taluk === undefined || this.addData.taluk === null ||
+            this.addData.district === '' || this.addData.district === undefined || this.addData.district === null ||
+            this.addData.city === '' || this.addData.city === undefined || this.addData.city === null ||
+            this.addData.state === '' || this.addData.state === undefined || this.addData.state === null ||
+            this.addData.pincode === '' || this.addData.pincode === undefined || this.addData.pincode === null ||
+            this.type === '' || this.type === undefined) {
+            swal('Fields are missing', '', 'warning');
+            return;
+        }
+
+
         var inData = {
             op: "create",
             pincode: this.addData.pincode,
@@ -537,6 +564,7 @@ export class MyAccountComponent implements OnInit {
 
     //edit address
     editAdd(item) {
+
         this.editData = item;
         for (var i = 0; i < this.getAddress.length; i++) {
             if (item._id === this.getAddress[i]._id) {
@@ -551,6 +579,7 @@ export class MyAccountComponent implements OnInit {
                     city: this.getAddress[i].city,
                     locality: this.getAddress[i].landmark
                 }
+                return;
             }
         }
     }
@@ -589,10 +618,25 @@ export class MyAccountComponent implements OnInit {
         this.loginService.updateAdd(inData).subscribe(response => {
             this.getAdd();
             swal("Updated successfully", "", "success");
+            this.clearData();
         }, err => {
             swal(err.message, "", "error");
         })
     }
+
+
+    checkoutDelivery(id) {
+        var inData = {
+            "op": "update",
+            "id_address": id,
+            "selected": "1"
+        }
+        this.loginService.checkoutaddress(inData).subscribe(reponse => {
+            swal("address selected", "", "success");
+        })
+    }
+
+
     percentage;
     skudata = [];
     getWishlist() {
@@ -712,6 +756,39 @@ export class MyAccountComponent implements OnInit {
         this.sku.mycart = Math.floor(this.sku.mycart - 1);
         this.addCart(this.sku.mycart, id, skuId, action);
     }
+
+
+
+    itemWishlistIncrease(data, name, id, skuId, index, action) {
+        this.selected = index;
+        let thisObj = this;
+
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name === name) {
+                this.sku.mycart = parseInt(data[i].sku[0].mycart);
+            }
+        }
+        this.sku.mycart = Math.floor(this.sku.mycart + 1);
+        thisObj.addCart(this.sku.mycart, id, skuId, action);
+        localStorage.setItem('cartName', name);
+
+    }
+
+
+    itemWishlistDecrease(data, name, id, skuId, index, action) {
+        this.selected = index;
+        for (var i = 0; i < data.length; i++) {
+            if (data[i].name === name) {
+                this.sku.mycart = parseInt(data[i].sku[0].mycart);
+            }
+        }
+        if (this.sku.mycart === 1) {
+            return;
+        }
+        this.sku.mycart = Math.floor(this.sku.mycart - 1);
+        this.addCart(this.sku.mycart, id, skuId, action);
+    }
+
     addCart(quantity, id, skuId, action) {
         if (quantity === 0) {
             this.quantity = 1;
@@ -740,18 +817,31 @@ export class MyAccountComponent implements OnInit {
                 this.wishlist = false;
                 this.mycart = true;
                 this.getCart();
-                swal("Item added to cart", "", "success", {
-                    buttons: ["", "Okay"],
-                }).then((value) => {
-                    if (value === true) {
-                        window.location.reload();
-                    }
-                });
+                swal("Item added to cart", "", "success")
+                // swal("Item added to cart", "", "success", {
+                //     buttons: ["", "Okay"],
+                // }).then((value) => {
+                //     if (value === true) {
+                //         window.location.reload();
+                //     }
+                // });
+            } else if (action === 'mywishListcart') {
+                this.wishlist = true;
+                this.mycart = false;
+                this.getCart();
+                swal("Item added to cart", "", "success")
+            } else if (action === 'wishCart') {
+                this.wishlist = true;
+                this.mycart = false;
+                this.getCart();
+                swal("Item added to cart", "", "success")
+
             }
         }, err => {
             swal(err.json().message, '', 'error');
         })
     }
+    // percentageValue;
     getCart() {
         this.url = AppSettings.imageUrl;
         var inData = {
@@ -766,12 +856,16 @@ export class MyAccountComponent implements OnInit {
             this.mrp = response.json().summary.mrp;
             this.grandTotal = response.json().summary.grand_total;
             this.cartCount = response.json().summary.cart_count;
-            this.mycart = response.json().cart;
+            this.mycartList = response.json().cart;
             this.skuData = response.json().cart.sku;
             this.summary = response.json().summary;
             this.summaryselPri = response.json().summary.selling_price;
             this.summarymrpPrice = response.json().summary.mrp;
+
             this.savePer = (100 - (this.summaryselPri / this.summarymrpPrice) * 100).toFixed(0);
+            for (var i = 0; i < this.mycartList.length; i++) {
+                this.mycartList[i].percentageValue = Math.round(100 - (this.mycartList[i].selling_price / this.mycartList[i].mrp) * 100);
+            }
         }, err => {
             console.log(err)
         })
@@ -788,6 +882,7 @@ export class MyAccountComponent implements OnInit {
             this.subscriptionActive();
         })
     }
+    date;
     ordersDetails() {
         var inData = {
             type: 'Present',
@@ -802,11 +897,31 @@ export class MyAccountComponent implements OnInit {
                 this.orders[i].itemName = this.orders[i].cart[0].product_name;
                 this.orders[i].image = this.orders[i].cart[0].product_pic;
                 this.orders[i].size = this.orders[i].cart[0].size;
+                this.date = new Date(this.orders[i].order.added);
+                this.orders[i].date = this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getYear();
             }
+            console.log(this.orders);
         }, err => {
             console.log(err)
         })
     }
+
+    goBackOrders() {
+
+        this.router.navigate(['/ordersfirst']);
+        this.deliveryAddress = false;
+        this.myaccountData = false;
+        this.myOrders1 = true;
+        this.myOrders2 = false;
+        this.mycart = false;
+        this.mysubscription = false;
+        this.offers = false;
+        this.rateUs = false;
+        this.mynotifiactions = false;
+        this.sharescreen = false;
+        this.wishlist = false;
+    }
+
     ratings(rate) {
         this.rating = rate;
     }
@@ -838,13 +953,17 @@ export class MyAccountComponent implements OnInit {
             .catch((e: any) => console.error(e));
     }
 
-
+    skuAdd = [];
     onChange(sku, isChecked: boolean) {
+        this.skuAdd = [];
         if (isChecked) {
-            sku.push({ selected: isChecked });
+            sku.selected = isChecked;
+            this.skuAdd.push(sku);
             //   this.typeArray.push(email);
             //   console.log(this.emailFormArray);
         } else {
+            sku.selected = isChecked;
+            this.skuAdd = [];
             //   let index = this.emailFormArray.indexOf(email);
             //   let index1 = this.typeArray.indexOf(email);
             //   this.emailFormArray.splice(index, 1);
@@ -853,4 +972,74 @@ export class MyAccountComponent implements OnInit {
         }
     }
 
+    addTocart() {
+        this.addCart(this.skuAdd[0].min_quantity === undefined ? parseInt(this.skuAdd[0].min_quantity) : '', this.skuAdd[0].id_product, this.skuAdd[0]._id, 'mywishListcart');
+    }
+
+
+    //header
+    // cartCount;
+    // grandTotal;
+    categoryData = [];
+    getHeadCart() {
+
+        this.header.getCart();
+    }
+
+    itemHeaderIncrease(cart, name, id, skuid, index) {
+        this.header.itemIncrease(cart, name, id, skuid, index);
+    }
+
+    itemHeaderDecrease(cart, name, id, skuid, index) {
+        this.header.itemDecrease(cart, name, id, skuid, index);
+    }
+    headerSubscribe(id, name) {
+        this.header.subscribe(id, name);
+    }
+
+    getDashboard() {
+        console.log(localStorage.wh_pincode);
+        console.log(this.id);
+        var inData = {
+            _id: this.id,
+            device_type: "web",
+            _session: localStorage.session,
+            lang: "en",
+            parent_warehouseid: localStorage.parent_warehouseid,
+            id_warehouse: localStorage.id_warehouse,
+            pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+        }
+        this.loginService.getDashboardData(inData).subscribe(response => {
+            localStorage.setItem('cartCount', response.json().summary.cart_count);
+            localStorage.setItem('grandtotal', response.json().summary.grand_total)
+            this.cartCount = localStorage.cartCount;
+            this.grandTotal = localStorage.grandtotal;
+            this.categoryData = response.json().result.category;
+
+        }, err => {
+            console.log(err)
+        });
+    }
+
+    removeCart(product, sku) {
+        var inData = {
+            _id: this.id,
+            _session: localStorage.session,
+            id_product: product,
+            id_sku: sku
+        }
+        this.loginService.removeCart(inData).subscribe(response => {
+            swal("item removed successfully", "", "success")
+            // swal("item removed successfully", '', 'success', {
+            //   buttons: ["", "Okay"],
+            // }).then((value) => {
+            //   if (value === true) {
+            //     window.location.reload();
+            //   }
+            // });
+
+            this.getCart();
+            this.getDashboard();
+        })
+    }
 }

@@ -101,6 +101,7 @@ export class HeaderComponent implements OnInit {
   }
 
   randomkey;
+
   ngOnInit() {
 
     if (localStorage.id_warehouse === undefined || localStorage.id_warehouse === '' || localStorage.id_warehouse === null) {
@@ -108,8 +109,6 @@ export class HeaderComponent implements OnInit {
       localStorage.setItem('parent_warehouseid', "1");
 
     }
-    this.geoLocation();
-    this.postVillageName(localStorage.wh_pincode);
 
     this.url = AppSettings.imageUrl;
 
@@ -127,9 +126,13 @@ export class HeaderComponent implements OnInit {
     if (localStorage.userData !== undefined) {
       this.userMobile = JSON.parse(localStorage.userMobile);
     }
-
+    this.getDashboard();
 
     //for dashboard data
+
+  }
+
+  getDashboard() {
     var inData = {
       _id: this.id,
       device_type: "web",
@@ -200,6 +203,23 @@ export class HeaderComponent implements OnInit {
     this.showForgotPassword = false;
     this.showOtpForRegister = false;
     this.changepw = false;
+    this.formData = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      conpassword: '',
+      referalCode: '',
+      otp: '',
+      lId: '',
+      pincode: '',
+      searchParam: '',
+      forEmail: '',
+      otpEmail: '',
+      forMobile: '',
+      newPw: ''
+    }
   }
   //registration link
   openRegistration() {
@@ -211,26 +231,51 @@ export class HeaderComponent implements OnInit {
     this.showForgotPassword = false;
     this.showOtpForRegister = false;
     this.changepw = false;
+    this.formData = {
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      password: '',
+      conpassword: '',
+      referalCode: '',
+      otp: '',
+      lId: '',
+      pincode: '',
+      searchParam: '',
+      forEmail: '',
+      otpEmail: '',
+      forMobile: '',
+      newPw: ''
+    }
   }
+  key;
 
   //show otp screen
   openOtpScreen() {
-    var validData = false;
-    if (this.formData.firstName === '' || this.formData.firstName === undefined || this.formData.firstName === null) {
-      validData = false
-    } else {
-      validData = true
+    var validData = true;
+    if (this.formData.firstName === '' || this.formData.firstName === undefined || this.formData.firstName === null ||
+      this.formData.email === '' || this.formData.email === undefined || this.formData.email === null ||
+      this.formData.password === '' || this.formData.password === undefined || this.formData.password === null ||
+      this.formData.conpassword === '' || this.formData.conpassword === undefined || this.formData.conpassword === null
+    ) {
+      swal('Required Fields are missing', '', 'warning');
+      validData = false;
+    }
+    if (this.formData.conpassword !== '' && this.formData.password !== '') {
+      if (this.formData.password !== this.formData.conpassword) {
+        swal('Password missmatching', '', 'warning');
+        validData = false;
+      }
     }
 
-    if (this.formData.password = this.formData.conpassword) {
-      validData = true;
-    } else if (this.formData.phone === '' || this.formData.phone === undefined || this.formData.phone === null) {
-      validData = false
-    } else if (this.formData.referalCode === '' || this.formData.referalCode === undefined || this.formData.referalCode === null) {
-      validData = false
-    } else {
-      validData = false
-    }
+    // if (this.formData.phone === '' || this.formData.phone === undefined || this.formData.phone === null) {
+    //   validData = false
+    // } else if (this.formData.referalCode === '' || this.formData.referalCode === undefined || this.formData.referalCode === null) {
+    //   validData = false
+    // } else {
+    //   validData = false
+    // }
 
     if (validData) {
       var inData = {
@@ -249,7 +294,7 @@ export class HeaderComponent implements OnInit {
         if (response.json().status === 'failure') {
           swal(response.json().message, '', 'error');
         } else {
-          swal("Otp Sent to your mobile number", " ", "success");
+          swal("OTP Sent to your mobile number", " ", "success");
           this.showForgotPassword = false;
           // this.showLoginandRegistration = false;
           this.showRegistration = false
@@ -258,6 +303,7 @@ export class HeaderComponent implements OnInit {
           this.showOtp = false;
           this.showOtpForRegister = true;
           this.formData.otp = '';
+          this.key = response.json().key;
         }
       }, err => {
         if (err.json().status === 400) {
@@ -267,8 +313,6 @@ export class HeaderComponent implements OnInit {
           });
         };
       });
-    } else {
-      swal("Required Fields are Missing", "", "warning");
     }
   }
 
@@ -323,20 +367,12 @@ export class HeaderComponent implements OnInit {
   login() {
     var validdata = false;
     this.changepw = false;
-    if (this.formData.phone === '' || this.formData.phone === undefined || this.formData.phone === null) {
-      this.errorObj.phoneErr = true;
+    if (this.formData.email === '' || this.formData.password === '') {
+      swal('Required Fields Missing', '', 'error');
+      validdata = false;
     } else {
-      this.errorObj.phoneErr = false;
       validdata = true;
     }
-
-    if (this.formData.password === '' || this.formData.password === undefined || this.formData.password === null) {
-      this.errorObj.passwordErr = true;
-    } else {
-      this.errorObj.passwordErr = false;
-      validdata = true;
-    }
-
 
     if (validdata) {
       var inData = {
@@ -358,6 +394,7 @@ export class HeaderComponent implements OnInit {
           localStorage.setItem("userMobile", response.json().result[0].mobile);
           localStorage.setItem('issocial', 'false');
           this.userName = JSON.parse(localStorage.userName);
+          this.userMobile = localStorage.userMobile;
           this.formData.email = this.formData.password = '';
           this.onCloseCancel();
           this.showProfile = true;
@@ -453,6 +490,10 @@ export class HeaderComponent implements OnInit {
 
 
   updatePw() {
+    if (this.prefix === undefined || this.prefix === '') {
+      swal('Please select prefix', '', 'warning');
+      return;
+    }
     if (this.formData.newPw === '' || this.formData.newPw === undefined || this.formData.newPw === null) {
       swal('Please Enter New Password', '', 'warning');
       return;
@@ -525,7 +566,7 @@ export class HeaderComponent implements OnInit {
     var inData = {
       mobile: JSON.parse(localStorage.getItem("userMobile"))
     }
-    this.loginService.resendOtp(inData).subscribe(response => {
+    this.loginService.resendOtp(inData, this.key).subscribe(response => {
       if (response.json().status === "failure") {
         swal(response.json().message, '', 'error');
       } else {
@@ -635,7 +676,6 @@ export class HeaderComponent implements OnInit {
       this.mrp = response.json().summary.mrp;
       this.grandTotal = response.json().summary.grand_total;
       this.mycart = response.json().cart;
-      console.log(this.mycart);
       for (var i = 0; i < this.mycart.length; i++) {
         if (this.mycart[i].sku[0].mrp !== undefined) {
           this.percentage = Math.round(100 - (this.mycart[i].sku[0].selling_price / this.mycart[i].sku[0].mrp) * 100);
@@ -718,13 +758,14 @@ export class HeaderComponent implements OnInit {
       if (response.json().status === "failure") {
         swal(response.json().message, '', 'error');
       } else {
-        swal("Item added to cart", "", "success", {
-          buttons: ["", "Okay"],
-        }).then((value) => {
-          if (value === true) {
-            window.location.reload();
-          }
-        });
+        swal("Item added to cart", "", "success")
+        // swal("Item added to cart", "", "success", {
+        //   buttons: ["", "Okay"],
+        // }).then((value) => {
+        //   if (value === true) {
+        //     window.location.reload();
+        //   }
+        // });
         this.getCart();
       }
     }, err => {

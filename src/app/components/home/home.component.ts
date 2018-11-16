@@ -2,24 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { CatListServices } from '../../services/catListService';
+import { catList } from '../../services/catList';
+import { HeadercartComponent } from '../../components/headercart/headercart.component';
 
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
-  styleUrls: ['./home.component.less', '../product/product.component.less']
+  styleUrls: ['./home.component.less', '../product/product.component.less', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 })
 export class HomeComponent implements OnInit {
 
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public catSer: CatListServices, public header: HeadercartComponent) {
     this.pageNav = this.route.snapshot.data[0]['page'];
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
     });
-
-
-
   }
+
   Village = [];
   dashboardData;
   skuid: string;
@@ -90,8 +92,17 @@ export class HomeComponent implements OnInit {
   skudata = [];
   skudataproducts1 = [];
   randomkey;
+  categoryData = [];
+  skuProducts = [];
+  images = [];
+  skuProducts1 = [];
+  catName = [];
+
 
   ngOnInit() {
+    this.url = AppSettings.imageUrl;
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
 
     this.url = AppSettings.imageUrl;
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -110,6 +121,32 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+      this.images = [{ name: 'assets/images/thumb1.png' },
+      { name: 'assets/images/thumb2.png' },
+      { name: 'assets/images/thumb3.png' },
+      { name: 'assets/images/thumb4.png' },
+      { name: 'assets/images/thumb5.png' },
+      { name: 'assets/images/thumb6.png' },
+      { name: 'assets/images/thumb1.png' },
+      { name: 'assets/images/thumb2.png' },
+      { name: 'assets/images/thumb3.png' },
+      { name: 'assets/images/thumb4.png' },
+      { name: 'assets/images/thumb5.png' },
+      { name: 'assets/images/thumb6.png' },]
+
+      for (var i = 0; i < this.categoryData.length; i++) {
+        this.images.push(this.url + this.categoryData[i].pic);
+        // this.images.push({ 'image': this.url + this.categoryData[i].pic, 'name': this.categoryData[i].name });
+        this.catName.push(this.categoryData[i].name);
+      }
+      // console.log(this.images);
+
       // this.skuid = response.json().result.specific_product[0].product[0].sku[0]._id;
       // this.categoryData = response.json().result.category;
       this.brandsData = response.json().result.brands;
@@ -139,20 +176,36 @@ export class HomeComponent implements OnInit {
       }
 
       //recommended products 
-      // if (response.json().result.specific_product[0] !== undefined) {
-      //   if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
-      //     this.products = response.json().result.specific_product[0].product;
-      //     for (var i = 0; i < this.products.length; i++) {
-      //       if (this.products[i].sku[0].mrp !== undefined) {
-      //         this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
-      //         this.products[i].sku[0].percentage = this.percentage;
-      //       }
-      //     }
-      //     this.showProducts = true;
-      //   } else {
-      //     this.showProducts = false;
-      //   }
-      // }
+      if (response.json().result.specific_product[0] !== undefined) {
+        if (response.json().result.specific_product[0].product.length !== '' || response.json().result.specific_product[0].product.length !== undefined || response.json().result.specific_product[0].product.length !== 0) {
+          this.products = response.json().result.specific_product[0].product;
+          // for (var i = 0; i < this.products.length; i++) {
+          //   if (this.products[i].sku[0].mrp !== undefined) {
+          //     this.percentage = 100 - (this.products[i].sku[0].selling_price / this.products[i].sku[0].mrp) * 100
+          //     this.products[i].sku[0].percentage = this.percentage;
+
+          //   }
+          // }
+
+
+
+          for (var i = 0; i < this.products.length; i++) {
+            for (var j = 0; j < this.products[i].sku.length; j++) {
+              if (this.products[i].sku[j].mrp !== undefined) {
+                this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
+                this.products[i].sku[j].percentage = Math.round(this.percentage);
+                this.products[i].sku[j].productName = this.products[i].name;
+              }
+              this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
+              this.skuProducts.push(this.products[i].sku[j]);
+            }
+          }
+
+          this.showProducts = true;
+        } else {
+          this.showProducts = false;
+        }
+      }
 
       if (response.json().result.banner[5].bannerdata.length !== '' || response.json().result.banner[5].bannerdata.length !== undefined || response.json().result.banner[5].bannerdata.length !== 0) {
 
@@ -164,32 +217,61 @@ export class HomeComponent implements OnInit {
       }
 
       //recommended products1 
-      // if (response.json().result.specific_product[1] !== undefined) {
-      //   if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
-      //     this.products1 = response.json().result.specific_product[1].product;
+      if (response.json().result.specific_product[1] !== undefined) {
+        if (response.json().result.specific_product[1].product.length !== '' || response.json().result.specific_product[1].product.length !== undefined || response.json().result.specific_product[1].product.length !== 0) {
+          this.products1 = response.json().result.specific_product[1].product;
 
-      //     for (var i = 0; i < this.products1.length; i++) {
-      //       if (this.products1[i].sku[0].mrp !== undefined) {
-      //         this.percentage1 = this.products1[i].sku[0].selling_price / this.products1[i].sku[0].mrp * 100
-      //         this.products1[i].sku[0].percentage = this.percentage1;
-      //       }
-      //     }
 
-      //     for (var i = 0; i < this.products1.length; i++) {
-      //       this.products1[i].image = this.url + this.products1[i].pic[0].pic;
-      //     }
-      //     this.showProducts1 = true;
-      //   } else {
-      //     this.showProducts1 = false;
-      //   }
-      // }
+          for (var i = 0; i < this.products1.length; i++) {
+            for (var j = 0; j < this.products1[i].sku.length; j++) {
+              if (this.products1[i].sku[j].mrp !== undefined) {
+                this.percentage = 100 - (this.products1[i].sku[j].selling_price / this.products1[i].sku[j].mrp) * 100
+                this.products1[i].sku[j].percentage = Math.round(this.percentage);
+                this.products1[i].sku[j].productName = this.products1[i].name;
+              }
+              this.products1[i].sku[j].image = this.url + this.products1[i].pic[0].pic;
+              this.skuProducts1.push(this.products1[i].sku[j]);
+            }
+          }
+
+          for (var i = 0; i < this.products1.length; i++) {
+            this.products1[i].image = this.url + this.products1[i].pic[0].pic;
+          }
+          this.showProducts1 = true;
+        } else {
+          this.showProducts1 = false;
+        }
+      }
     }, err => {
       console.log(err)
     })
 
-    this.viewSpecificProducts2();
-    this.viewSpecificProducts1();
+    // this.viewSpecificProducts2();
+    // this.viewSpecificProducts1();
   }
+
+  getDashboard() {
+    var inData = {
+      _id: this.id,
+      device_type: "desktop",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      this.dashboardData = response.json().result;
+      // localStorage.setItem('cartCount', response.json().summary.cart_count);
+      // localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
+      this.categoryData = response.json().result.category;
+    });
+
+  }
+
+
 
 
   showSubData(id) {
@@ -216,7 +298,9 @@ export class HomeComponent implements OnInit {
       thisObj.getCart(thisObj.items.quantity, id, skuId);
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
+      this.router.navigate(['/']);
     }
+    this.getDashboard();
   }
 
   itemDecrease(id, skuId, index) {
@@ -248,13 +332,14 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success", {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -283,72 +368,6 @@ export class HomeComponent implements OnInit {
       console.log(err)
     })
   }
-
-
-  viewSpecificProducts1() {
-    var inData = {
-      "_id": this.id,
-      "_session": localStorage.session,
-      "count": 4,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "start": 0,
-      "type": 'specific_product1',
-      "id_subcategory": ''
-    }
-    this.loginService.recProducts(inData).subscribe(response => {
-      this.products = response.json().product;
-      for (var i = 0; i < this.products.length; i++) {
-        for (var j = 0; j < this.products[i].sku.length; j++) {
-          if (this.products[i].sku[j].mrp !== undefined) {
-            this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
-            this.products[i].sku[j].percentage = Math.round(this.percentage);
-            this.products[i].sku[j].productName = this.products[i].name;
-          }
-          this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
-          this.skudata.push(this.products[i].sku[j]);
-          this.products[i].image = this.url + this.products[i].pic[0].pic;
-        }
-      }
-
-
-    }, error => {
-
-    })
-  }
-
-  viewSpecificProducts2() {
-    var inData = {
-      "_id": this.id,
-      "_session": localStorage.session,
-      "count": 4,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "start": 0,
-      "type": 'specific_product2',
-      "id_subcategory": ''
-    }
-    this.loginService.recProducts(inData).subscribe(response => {
-      this.products1 = response.json().product;
-      for (var i = 0; i < this.products1.length; i++) {
-        for (var j = 0; j < this.products1[i].sku.length; j++) {
-          if (this.products1[i].sku[j].mrp !== undefined) {
-            this.percentage = 100 - (this.products1[i].sku[j].selling_price / this.products1[i].sku[j].mrp) * 100
-            this.products1[i].sku[j].percentage = Math.round(this.percentage);
-            this.products1[i].sku[j].productName = this.products1[i].name;
-          }
-          this.products1[i].sku[j].image = this.url + this.products1[i].pic[0].pic;
-          this.skudataproducts1.push(this.products[i].sku[j]);
-          this.products1[i].image = this.url + this.products1[i].pic[0].pic;
-        }
-      }
-    }, error => {
-
-    })
-  }
-
 
 
   viewProducts(action) {
@@ -392,5 +411,59 @@ export class HomeComponent implements OnInit {
 
   }
 
+
+  //header
+  productId;
+  searchProducts(event) {
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      count: event.length,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      search: event,
+      start: 0
+    }
+    this.loginService.searchProducts(inData).subscribe(response => {
+      if (response.json().product[0] === undefined) {
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            proId: ''
+          }
+        }
+        this.router.navigate(["/product_details"], navigationExtras);
+      } else {
+        this.productId = response.json().product[0]._id;
+        let navigationExtras: NavigationExtras = {
+          queryParams: {
+            proId: this.productId
+          }
+        }
+        this.router.navigate(["/product_details"], navigationExtras);
+      }
+    }, err => {
+      console.log(err)
+    })
+  }
+
+  //header
+  cartCount;
+  grandTotal;
+  getHeadCart() {
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index, mycart) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index, mycart) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
 
 }

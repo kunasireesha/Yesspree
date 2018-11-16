@@ -4,22 +4,28 @@ import { AppSettings } from '../../config';
 import { Http, Headers } from '@angular/http';
 import * as _ from 'underscore';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
+import { HeaderComponent } from '../../components/header/header.component';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
+
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
-  styleUrls: ['./products.component.less']
+  styleUrls: ['./products.component.less', '../../components/header/header.component.less', '../../components/home/home.component.less'],
+  providers: [HeadercartComponent]
 })
 export class ProductsComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http) {
+  constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http, public header: HeadercartComponent) {
     this.pageNav = this.route.snapshot.data[0]['page'];
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
       this.id = 0
     }
+
     if (this.pageNav === 'items') {
+      this.showDetails = false;
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.id;
         this.subName = params.name;
@@ -27,21 +33,27 @@ export class ProductsComponent implements OnInit {
       });
       this.getProducts(this.subCatId);
       this.getsubCetData();
+
     }
     if (this.pageNav === 'details') {
       this.showDetails = true;
+
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.proId;
         this.subName = params.name;
         this.productDetails();
         this.getsubCetData();
+
       });
 
     }
 
+
   }
   prefix;
   ngOnInit() {
+    this.url = AppSettings.imageUrl;
+
     if (this.subCatId === '') {
       this.shownodata = true;
 
@@ -54,9 +66,12 @@ export class ProductsComponent implements OnInit {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId)
     } else {
-      this.id = ''
+      this.id = 0
     }
     this.getsubCetData();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+    this.getDashboard();
 
   }
 
@@ -301,7 +316,10 @@ export class ProductsComponent implements OnInit {
       thisObj.getCart(thisObj.items.quantity, id, skuId);
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
+
+      // this.header.ngOnInit();
     }
+    this.getDashboard();
   }
 
 
@@ -335,13 +353,14 @@ export class ProductsComponent implements OnInit {
       id_warehouse: localStorage.id_warehouse
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success", {
-        buttons: ['', "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success", {
+      //   buttons: ['', "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -484,6 +503,7 @@ export class ProductsComponent implements OnInit {
 
   detailsproduct;
   skus = [];
+  pics = [];
 
   skulikedata = [];
   productDetails() {
@@ -499,6 +519,7 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.productDetails(inData).subscribe(response => {
       this.product = response.json().product;
+      this.pics = this.product[0].pic;
       this.percentage = 100 - (this.product[0].sku[0].selling_price / this.product[0].sku[0].mrp) * 100
       this.product[0].sku[0].productName = this.product[0].name;
       this.product[0].sku[0].percentage = Math.round(this.percentage);
@@ -631,4 +652,47 @@ export class ProductsComponent implements OnInit {
   //   }
   // }
 
+  //header
+  cartCount;
+  grandTotal;
+  categoryData = [];
+  getHeadCart() {
+
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+
+  getDashboard() {
+    console.log(localStorage.wh_pincode);
+    console.log(this.id);
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
+  }
 }

@@ -9280,7 +9280,7 @@ table.table.btn-table td {
 }
 
 .btn-black {
-  background-color: #000 !important;
+  background-color: #373435 !important;
   color: #fff !important
 }
 
@@ -9687,7 +9687,7 @@ table th {
   border: 0;
   background-color: transparent;
   font-size: .9rem;
-  color: #212529
+  color: #373435
 }
 
 .chip,
@@ -10917,7 +10917,7 @@ table.table th {
 
 table.table a {
   margin: 0;
-  color: #212529
+  color: #373435
 }
 
 table.table .label-table {

@@ -2,15 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/router';
 import { AppSettings } from '../../config';
 import { DataService } from '../../services/login/login';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
-  styleUrls: ['./categories.component.less']
+  styleUrls: ['./categories.component.less', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService) {
+  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, public header: HeadercartComponent) {
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
       this.catName = params.name;
@@ -146,19 +148,19 @@ export class CategoriesComponent implements OnInit {
     }, err => {
       console.log(err)
     });
-
-
     this.getTopProducts();
     this.getAllProducts();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+    this.getDashboard();
   }
 
 
   showSubData(data) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        id: data._id,
-        name: data.name
-
+        id: this.catId,
+        name: this.catName
       }
     }
 
@@ -181,7 +183,12 @@ export class CategoriesComponent implements OnInit {
       thisObj.getCart(thisObj.items.quantity, id, skuId);
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
+      // this.header.ngOnInit();
+
     }
+    this.getDashboard();
+
+
   }
 
   itemDecrease(id, skuId, index) {
@@ -213,14 +220,14 @@ export class CategoriesComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-
-      swal("Item added to cart", "", "success", {
-        buttons: ["", "Okay"],
-      }).then((value) => {
-        if (value === true) {
-          window.location.reload();
-        }
-      });
+      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success", {
+      //   buttons: ["", "Okay"],
+      // }).then((value) => {
+      //   if (value === true) {
+      //     window.location.reload();
+      //   }
+      // });
 
     }, err => {
       swal(err.json().message, '', 'error');
@@ -329,6 +336,50 @@ export class CategoriesComponent implements OnInit {
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
+  }
+
+  //header
+  cartCount;
+  grandTotal;
+  categoryData = [];
+  getHeadCart() {
+
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+
+  getDashboard() {
+    console.log(localStorage.wh_pincode);
+    console.log(this.id);
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
   }
 
 }

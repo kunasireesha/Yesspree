@@ -47,7 +47,7 @@ export class FooterComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.categoryNames = response.json().result.category;
-      console.log(this.categoryNames);
+      // console.log(this.categoryNames);
     }, err => {
       console.log(err)
     })

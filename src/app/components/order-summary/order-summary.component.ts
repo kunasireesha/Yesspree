@@ -2,12 +2,14 @@ import { Router, NavigationExtras, ActivatedRoute } from '@angular/router';
 import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
+import { HeadercartComponent } from '../../components/headercart/headercart.component'
 
 
 @Component({
   selector: 'app-order-summary',
   templateUrl: './order-summary.component.html',
-  styleUrls: ['./order-summary.component.less']
+  styleUrls: ['./order-summary.component.less', '../../components/header/header.component.less'],
+  providers: [HeadercartComponent]
 })
 export class OrderSummaryComponent implements OnInit {
   orderSu: boolean = true;
@@ -19,7 +21,7 @@ export class OrderSummaryComponent implements OnInit {
   orderId: string;
   orders = [];
   data = {}
-  cart: string;
+  cart = [];
   checkout: string;
   userName: string;
   id: string;
@@ -39,7 +41,8 @@ export class OrderSummaryComponent implements OnInit {
     state: '',
     pincode: '',
     mr: 'Mr.',
-    mrs: 'Mrs.'
+    mrs: 'Mrs.',
+    city: ''
   }
   type;
   editData;
@@ -63,7 +66,7 @@ export class OrderSummaryComponent implements OnInit {
   }]
 
 
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent) {
     this.route.queryParams.subscribe(params => {
       this.promoCode = params.promoCode;
       console.log(params);
@@ -79,6 +82,9 @@ export class OrderSummaryComponent implements OnInit {
   ngOnInit() {
     this.url = AppSettings.imageUrl;
     this.checkoutSummary();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+    this.getDashboard();
   }
   order() {
     this.orderSu = true;
@@ -132,6 +138,10 @@ export class OrderSummaryComponent implements OnInit {
       this.orderId = response.json().orders[0].order_id;
       this.dateSlot = response.json().orders[0].deliveryslot;
       this.timeSlot = response.json().orders[0].deliveryslot[0].times;
+      for (var i = 0; i < this.cart.length; i++) {
+        this.cart[i].percentage = Math.round(100 - (this.cart[i].sku[0].selling_price / this.cart[i].sku[0].mrp * 100));
+        this.cart[i].size = this.cart[i].sku[0].size;
+      }
       this.summarySum = response.json().summary;
       console.log(this.orderId);
     }, err => {
@@ -158,13 +168,14 @@ export class OrderSummaryComponent implements OnInit {
     this.loginService.checkOut(inData).subscribe(response => {
       if (response.json().message === 'success') {
         this.checkout = response.json();
-        swal("order placed successfully", "", "success", {
-          buttons: ["", "Okay"],
-        }).then((value) => {
-          if (value === true) {
-            window.location.reload();
-          }
-        });
+        swal("Item added to cart", "", "success")
+        // swal("order placed successfully", "", "success", {
+        //   buttons: ["", "Okay"],
+        // }).then((value) => {
+        //   if (value === true) {
+        //     window.location.reload();
+        //   }
+        // });
       }
       else {
         swal(response.json().message, '', 'error');
@@ -198,6 +209,17 @@ export class OrderSummaryComponent implements OnInit {
 
 
   createAdd() {
+    if (this.addData.name === '' || this.addData.name === undefined || this.addData.name === null ||
+      this.addData.phone === '' || this.addData.phone === undefined || this.addData.phone === null ||
+      this.addData.address1 === '' || this.addData.address1 === undefined || this.addData.address1 === null ||
+      this.addData.taluk === '' || this.addData.taluk === undefined || this.addData.taluk === null ||
+      this.addData.district === '' || this.addData.district === undefined || this.addData.district === null ||
+      this.addData.city === '' || this.addData.city === undefined || this.addData.city === null ||
+      this.addData.state === '' || this.addData.state === undefined || this.addData.state === null ||
+      this.addData.pincode === '' || this.addData.pincode === undefined || this.addData.pincode === null) {
+      swal('Fileds are missing', '', 'warning');
+      return;
+    }
     var inData = {
       op: "create",
       pincode: this.addData.pincode,
@@ -238,7 +260,8 @@ export class OrderSummaryComponent implements OnInit {
       state: '',
       pincode: '',
       mr: 'Mr.',
-      mrs: 'Mrs.'
+      mrs: 'Mrs.',
+      city: ''
     }
   }
 
@@ -260,6 +283,47 @@ export class OrderSummaryComponent implements OnInit {
     this.loginService.checkoutaddress(inData).subscribe(reponse => {
       swal("address selected", "", "success");
     })
+  }
+
+  //header
+  cartCount;
+  grandTotal;
+  categoryData = [];
+  getHeadCart() {
+    this.header.getCart();
+  }
+
+  itemHeaderIncrease(cart, name, id, skuid, index) {
+    this.header.itemIncrease(cart, name, id, skuid, index);
+  }
+
+  itemHeaderDecrease(cart, name, id, skuid, index) {
+    this.header.itemDecrease(cart, name, id, skuid, index);
+  }
+  headerSubscribe(id, name) {
+    this.header.subscribe(id, name);
+  }
+
+  getDashboard() {
+    var inData = {
+      _id: this.id,
+      device_type: "web",
+      _session: localStorage.session,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      id_warehouse: localStorage.id_warehouse,
+      pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
+    }
+    this.loginService.getDashboardData(inData).subscribe(response => {
+      localStorage.setItem('cartCount', response.json().summary.cart_count);
+      localStorage.setItem('grandtotal', response.json().summary.grand_total)
+      this.cartCount = localStorage.cartCount;
+      this.grandTotal = localStorage.grandtotal;
+      this.categoryData = response.json().result.category;
+
+    }, err => {
+      console.log(err)
+    });
   }
 
 }

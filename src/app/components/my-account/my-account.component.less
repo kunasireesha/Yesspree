@@ -21,6 +21,8 @@
     box-shadow: none;
     width: 50%;
     margin-bottom: 10%;
+    display: block;
+    margin: auto;
 }
 
 .checkbox input {
@@ -39,9 +41,22 @@
     border-bottom: 2px gray solid;
     border-left: 2px gray solid;
     border-right: 2px gray solid;
-    .mrp-rate h5 {
-        font-weight: bold;
-        color: black;
+    .mrp-rate {
+        h5 {
+            font-weight: bold;
+            color: black;
+        }
+        h6 {
+            position: relative;
+            top: 35px;
+        }
+    }
+}
+
+.mrp-rate {
+    h6 {
+        position: relative;
+        top: 35px;
     }
 }
 
@@ -95,6 +110,7 @@
 
 .activerate {
     background-color: green !important;
+    border: 1px solid green;
 }
 
 .type {
@@ -111,7 +127,7 @@ button#id:active {
 .profile-image {
     width: 100%;
     height: 50%;
-    margin-top: 20%;
+    margin-top: 6%;
 }
 
 .coupon-image p {
@@ -130,12 +146,23 @@ strong {
     background: none;
 }
 
+.quantity.buttons_added .plus,
+.quantity.buttons_added .minus {
+    padding: 4px 8px 8px;
+    height: 33px;
+}
+
+.quantity .input-text.qty {
+    height: 33px;
+    width: 45px;
+}
+
 .account-details h5 {
     margin-top: 30px;
 }
 
 .input-details {
-    margin-top: 11%;
+    margin-top: 7%;
 }
 
 .input-field {
@@ -153,10 +180,11 @@ strong {
 
 .adress-btn {
     background-color: #ffffff;
-    color: #000000;
+    color: #373435;
     box-shadow: none;
-    border-color: #000000;
+    border-color: #373435;
     float: right;
+    margin-top: -3px;
 }
 
 .adress-btn:hover {
@@ -183,6 +211,8 @@ strong {
 
 .office {
     padding: 15px;
+    height: 281px;
+    overflow: auto;
 }
 
 .deliver-btn {
@@ -198,7 +228,7 @@ strong {
 }
 
 .deliver-btn2 {
-    color: #000000;
+    color: #373435;
     text-align: center;
     padding: 2px;
 }
@@ -222,9 +252,9 @@ strong {
 .edit-btn,
 .delete-btn {
     background-color: #ffffff;
-    color: #000000;
+    color: #373435;
     box-shadow: none;
-    border-color: #000000;
+    border-color: #373435;
     width: 100%;
     margin-bottom: 20px;
     margin-top: 30px;
@@ -297,7 +327,7 @@ strike {
 }
 
 .prod-name {
-    margin-left: -9%;
+    // margin-left: -9%;
 }
 
 .delivery-time p {
@@ -378,7 +408,7 @@ strong {
 }
 
 .ashirvaad-image {
-    width: 50%;
+    width: 80%;
     height: 80%;
     float: left;
 }
@@ -417,7 +447,7 @@ strong {
 }
 
 .quantity {
-    margin-top: 40px;
+    margin-top: 34px;
 }
 
 .input-field {
@@ -434,7 +464,7 @@ strong {
 }
 
 .mrp-rate h5 {
-    margin-top: 20px;
+    margin-top: 33px;
 }
 
 .dash {
@@ -473,6 +503,7 @@ strong {
 .table-data p {
     margin-top: 30px;
     font-size: 20px;
+    margin-left: 32%;
 }
 
 .table-data span {
@@ -522,6 +553,12 @@ strong {
     text-align: center;
 }
 
+.cart-mrp {
+    h5 {
+        margin-top: 20px;
+    }
+}
+
 .total-mrp {
     text-align: center;
     color: red;
@@ -568,18 +605,49 @@ strong {
 .cart-btn-empty {
     background-color: #ffffff;
     border-radius: none;
-    color: #000000;
+    color: #373435;
     box-shadow: none !important;
     border-color: #c6c6c6;
     padding: 6px 40px;
+    float: right;
+    margin-right: -34%;
 }
 
 .cart-btn {
-    background-color: #ffffff;
+    // background-color: #ffffff;
     border-radius: none;
-    color: #000000;
+    color: #373435;
     box-shadow: none !important;
     border-color: #c6c6c6;
+    height: 37px;
+    float: right;
+    margin-right: -11%;
+}
+
+.cart-btn1 {
+    border-radius: none;
+    color: #373435;
+    box-shadow: none !important;
+    border-color: #c6c6c6;
+    height: 37px;
+    float: right; // margin-right: -11%;
+}
+
+.cart-btn2 {
+    border-radius: none;
+    color: #373435;
+    box-shadow: none !important;
+    border-color: #c6c6c6;
+    height: 37px;
+}
+
+.btn-primary {
+    color: gray !important;
+}
+
+.quantity.buttons_added input,
+span {
+    color: #373435;
 }
 
 .cart-btn-empty:hover {
@@ -587,7 +655,8 @@ strong {
     color: #fff212;
 }
 
-.cart-btn:hover {
+.cart-btn:hover,
+.cart-btn2:hover {
     background-color: #4a4a4a;
     color: #fff212;
 }
@@ -595,13 +664,17 @@ strong {
 .cart-buttons {
     margin-top: 30px;
     margin-bottom: 30px;
+    h4 {
+        margin-top: 10px;
+    }
 }
 
 .checkout-btn {
     background-color: #4a4a4a;
     color: #fff212;
-    padding: 4% 25%;
+    padding: 2% 25%;
     box-shadow: none;
+    margin-left: 9%;
 }
 
 .table-header {
@@ -701,6 +774,14 @@ td.mrp-rate.total {
     color: inherit;
 }
 
+.grand {
+    strong {
+        position: relative;
+        top: 20px;
+        left: -20%;
+    }
+}
+
 .checkout-button {
     background-color: #4a4a4a;
     color: #fff212;
@@ -723,9 +804,10 @@ td.mrp-rate.total {
 .active-btn {
     color: #fff212;
     background-color: #4a4a4a;
-    border-color: #000000;
+    border-color: #373435;
     box-shadow: none;
     width: 70%;
+    float: right;
 }
 
 .active-btn:hover {
@@ -740,8 +822,8 @@ td.mrp-rate.total {
 
 .cancel-btn {
     background-color: #ffffff;
-    color: #000000;
-    border-color: #000000;
+    color: #373435;
+    border-color: #373435;
     box-shadow: none;
     width: 70%;
 }
@@ -810,7 +892,7 @@ td.mrp-rate.total {
 }
 
 .smiley-image {
-    width: 20%;
+    width: 25%;
 }
 
 .cust-feedback {
@@ -848,8 +930,12 @@ td.mrp-rate.total {
     margin-bottom: 30px;
 }
 
+input[type=radio]:not(:checked) {
+    opacity: 2 !important;
+}
+
 .notification h4 {
-    margin-top: 5%;
+    margin-top: 2%;
     margin-left: 5%;
 }
 
@@ -890,6 +976,10 @@ td.mrp-rate.total {
 
 figcaption p {
     display: inline-block;
+}
+
+figcaption {
+    margin-left: -17%;
 }
 
 p.share-text {
@@ -1025,7 +1115,7 @@ btn.active {
 .radio-custom:checked+.radio-custom-label:before {
     content: "\f00c";
     font-family: 'FontAwesome';
-    color: #000000;
+    color: #373435;
 }
 
 .checkbox-custom.checkbox-custom-label:before,
@@ -1060,4 +1150,112 @@ btn.active {
     padding: 3px;
     color: black;
     font-size: 13px;
+}
+
+.accont-label {
+    padding-left: 1% !important;
+    color: gray !important;
+}
+
+.accton-input {
+    font-weight: 600;
+    color: black !important;
+    text-align: left !important;
+}
+
+.accont-label input {
+    border: none;
+    border-bottom: 1px solid #c7c7c7;
+    margin-top: -10px;
+    padding-left: 1% !important;
+    color: #373435 !important;
+    text-align: left !important;
+}
+
+.accont-label label {
+    padding-left: 1%;
+}
+
+.accont-label input:focus {
+    box-shadow: none;
+}
+
+.happy {
+    float: right;
+}
+
+.happy-p {
+    position: relative;
+    top: 55%;
+    left: 49%;
+}
+
+.not-good {
+    float: left;
+}
+
+.not-good-p {
+    position: relative;
+    top: 54%;
+    left: -49%;
+}
+
+@media screen and (max-width:1400px) {
+    .happy-p {
+        top: 45%;
+    }
+}
+
+@media screen and (max-width:1200px) {
+    .happy-p {
+        top: 39%;
+    }
+    .not-good-p {
+        top: 43%;
+    }
+}
+
+@media screen and (max-width:868px) {
+    .happy-p {
+        top: 30%;
+    }
+    .not-good-p {
+        top: 35%;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .happy-p {
+        top: 25%;
+    }
+    .not-good-p {
+        top: 30%;
+    }
+}
+
+@media screen and (max-width:575px) {
+    .happy {
+        float: none;
+    }
+    .happy-p {
+        position: none;
+        top: 0%;
+        left: 0%;
+    }
+    .not-good-p {
+        position: none !important;
+        top: 0%;
+        left: 0%;
+    }
+    .not-good {
+        float: none;
+    }
+}
+
+.table-delete {
+    p {
+        font-size: 19px;
+        position: relative;
+        top: 29px;
+    }
 }

@@ -18,6 +18,10 @@ import { FacebookModule } from 'ngx-facebook';
 import { MatSelectModule } from '@angular/material/select';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLoginProvider, } from "angular-6-social-login";
+import { TruncatePipe } from './limitto';
+// import { SlickModule } from 'ngx-slick';
+import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+
 
 
 
@@ -37,12 +41,16 @@ import { CategoriesComponent } from './components/categories/categories.componen
 import { RecProductsComponent } from './components/rec-products/rec-products.component';
 import { SearchProductComponent } from './search-product/search-product.component';
 import { BannerNavigationComponent } from './components/banner-navigation/banner-navigation.component';
+
+import { HeadercartComponent } from './components/headercart/headercart.component';
 // directive
 import { NumberOnlyDirective } from './directives/number';
-import { AlphabetsOnly } from './directives/number';
+import { AlphabetsOnly, EmailOnly } from './directives/number';
 import { AlphaNumericOnly } from './directives/number';
 import { AuthServices } from './services/auth.service';
 import { MyComponentOrService } from './services/facebook';
+
+
 
 //services need to mention in providers
 
@@ -92,7 +100,10 @@ var firebaseConfig = {
     BannerNavigationComponent,
     NumberOnlyDirective,
     AlphaNumericOnly,
-    AlphabetsOnly
+    AlphabetsOnly,
+    EmailOnly,
+    TruncatePipe,
+    HeadercartComponent
 
 
   ],
@@ -114,6 +125,8 @@ var firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     FacebookModule.forRoot(),
+    // SlickModule.forRoot(),
+    Ng2CarouselamosModule,
     RouterModule.forRoot([
       {
         path: '',

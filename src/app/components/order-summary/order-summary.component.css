@@ -55,15 +55,18 @@
 .mrp-rate h5 {
   margin-top: 20px;
 }
+
 .mrp-rate.promo {
   padding-top: 54px;
-    padding-left: 97px;
+  padding-left: 97px;
 }
+
 .mrp-rate.total {
   color: black;
   padding-left: 164px;
   padding-top: 19px;
 }
+
 .next-btn {
   background-color: #4a4a4a;
   box-shadow: none;
@@ -171,9 +174,9 @@
 
 .adress-btn {
   background-color: #ffffff;
-  color: #000000;
+  color: #373435;
   box-shadow: none;
-  border-color: #000000;
+  border-color: #373435;
   float: right;
 }
 
@@ -195,6 +198,8 @@
 
 .office {
   padding: 15px;
+  height: 250px;
+  overflow: auto;
 }
 
 .deliver-btn {
@@ -208,7 +213,7 @@
 }
 
 .deliver-btn2 {
-  color: #000000;
+  color: #373435;
 }
 
 .deliver-btn2 p {
@@ -445,14 +450,17 @@
   right: 50%;
   margin-right: 20px;
 }
+
 .title-list {
   list-style: none;
   margin: 0px;
   padding: 0px;
   text-align: center;
-  li {
-      display: inline-block;
-  }
+
+}
+
+.title-list li {
+  display: inline-block;
 }
 
 .prefixData {
@@ -493,7 +501,7 @@
 .radio-custom:checked+.radio-custom-label:before {
   content: "\f00c";
   font-family: 'FontAwesome';
-  color: #000000;
+  color: #373435;
 }
 
 .checkbox-custom.checkbox-custom-label:before,
