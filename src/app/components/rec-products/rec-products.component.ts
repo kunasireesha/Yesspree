@@ -74,6 +74,13 @@ export class RecProductsComponent implements OnInit {
     }
 
 
+    this.getDashboard();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+    this.getRecProd();
+
+  }
+  getRecProd() {
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -96,6 +103,7 @@ export class RecProductsComponent implements OnInit {
             this.products[i].sku[j].percentage = Math.round(this.percentage);
             this.products[i].sku[j].productName = this.products[i].name;
           }
+          this.products[i].sku[j].wishlist = this.products[i].wishlist;
           this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
           this.skudata.push(this.products[i].sku[j]);
         }
@@ -113,13 +121,7 @@ export class RecProductsComponent implements OnInit {
     }, error => {
 
     })
-
-    this.getDashboard();
-    this.header.geoLocation();
-    this.header.postVillageName(localStorage.wh_pincode);
-
   }
-
   //add to cart
   quantity;
   getCart(quantity, id, skuId) {
@@ -194,6 +196,7 @@ export class RecProductsComponent implements OnInit {
   }
 
   wish(id) {
+    this.skudata = [];
     var inData = {
       _session: localStorage.session,
       _id: this.id,
@@ -211,7 +214,7 @@ export class RecProductsComponent implements OnInit {
         this.wishList = response.json();
         swal("Added to wish list", "", "success")
       }
-
+      this.getRecProd();
     }, err => {
       console.log(err)
     })

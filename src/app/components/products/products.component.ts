@@ -245,6 +245,7 @@ export class ProductsComponent implements OnInit {
             this.products[i].sku[j].percentage = Math.round(this.percentage);
             this.products[i].sku[j].productName = this.products[i].name;
           }
+          this.products[i].sku[j].wishlist = this.products[i].wishlist;
           this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
           this.skudata.push(this.products[i].sku[j]);
         }
@@ -460,6 +461,7 @@ export class ProductsComponent implements OnInit {
             this.products[i].sku[j].percentage = Math.round(this.percentage);
             this.products[i].sku[j].productName = this.products[i].name;
           }
+          this.products[i].sku[j].wishlist = this.products[i].wishlist;
           this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
           this.skudata.push(this.products[i].sku[j]);
         }
@@ -487,10 +489,12 @@ export class ProductsComponent implements OnInit {
     }
     this.loginService.wish(inData).subscribe(response => {
       if (response.json().status === "failure") {
-        swal("Wishlist already added. Please try again.", "", "error")
+        swal(response.json().message, "", "error")
       } else {
         this.wishList = response.json();
-        swal("Added to wish list", "", "success")
+        swal(response.json().message, "", "success");
+        this.productDetails();
+        this.filter()
       }
 
     }, err => {
@@ -560,6 +564,7 @@ export class ProductsComponent implements OnInit {
             this.specificProd[i].sku[j].percentage = Math.round(this.percentage);
             this.specificProd[i].sku[j].productName = this.specificProd[i].name;
           }
+          this.specificProd[i].sku[j].wishlist = this.specificProd[i].wishlist;
           this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
           this.skuspecificdata.push(this.specificProd[i].sku[j]);
         }
@@ -571,6 +576,7 @@ export class ProductsComponent implements OnInit {
             this.likeProd[i].sku[j].percentage = Math.round(this.percentage);
             this.likeProd[i].sku[j].productName = this.likeProd[i].name;
           }
+          this.likeProd[i].sku[j].wishlist = this.likeProd[i].wishlist;
           this.likeProd[i].sku[j].image = this.url + this.likeProd[i].pic[0].pic;
           this.skulikedata.push(this.likeProd[i].sku[j]);
         }

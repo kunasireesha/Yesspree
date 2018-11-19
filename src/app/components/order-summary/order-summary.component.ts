@@ -124,6 +124,9 @@ export class OrderSummaryComponent implements OnInit {
 
     });
   }
+  payOptions;
+  payMethod;
+  payType;
   checkoutSummary() {
     var inData = {
       _session: localStorage.session,
@@ -138,6 +141,7 @@ export class OrderSummaryComponent implements OnInit {
       this.orderId = response.json().orders[0].order_id;
       this.dateSlot = response.json().orders[0].deliveryslot;
       this.timeSlot = response.json().orders[0].deliveryslot[0].times;
+      this.payOptions = response.json().pay_options;
       for (var i = 0; i < this.cart.length; i++) {
         this.cart[i].percentage = Math.round(100 - (this.cart[i].sku[0].selling_price / this.cart[i].sku[0].mrp * 100));
         this.cart[i].size = this.cart[i].sku[0].size;
@@ -148,12 +152,19 @@ export class OrderSummaryComponent implements OnInit {
       swal(err.message, "", "error")
     })
   }
+  optType(opt, type) {
+    this.payType = opt;
+    this.payMethod = type;
+  }
   cartCheckout(grand) {
+    if (this.payType && this.payMethod === undefined) {
+      swal("Plese select payment option", "", "warning");
+    }
     this.data = {
       "id_order": JSON.stringify(this.orderId),
       "total_paid": JSON.stringify(grand),
-      "pay_type": "cod",
-      "pay_option": "COD",
+      "pay_type": this.payType,
+      "pay_option": this.payMethod,
       "express": 1
     }
     this.orders.push(this.data);

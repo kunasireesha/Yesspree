@@ -110,6 +110,11 @@ export class HomeComponent implements OnInit {
     } else {
       this.id = 0
     }
+    this.getData();
+    // this.viewSpecificProducts2();
+    // this.viewSpecificProducts1();
+  }
+  getData() {
     var inData = {
       _id: this.id,
       device_type: "desktop",
@@ -196,6 +201,7 @@ export class HomeComponent implements OnInit {
                 this.products[i].sku[j].percentage = Math.round(this.percentage);
                 this.products[i].sku[j].productName = this.products[i].name;
               }
+              this.products[i].sku[j].wishlist = this.products[i].wishlist;
               this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
               this.skuProducts.push(this.products[i].sku[j]);
             }
@@ -229,6 +235,7 @@ export class HomeComponent implements OnInit {
                 this.products1[i].sku[j].percentage = Math.round(this.percentage);
                 this.products1[i].sku[j].productName = this.products1[i].name;
               }
+              this.products1[i].sku[j].wishlist = this.products1[i].wishlist;
               this.products1[i].sku[j].image = this.url + this.products1[i].pic[0].pic;
               this.skuProducts1.push(this.products1[i].sku[j]);
             }
@@ -245,9 +252,6 @@ export class HomeComponent implements OnInit {
     }, err => {
       console.log(err)
     })
-
-    // this.viewSpecificProducts2();
-    // this.viewSpecificProducts1();
   }
 
   getDashboard() {
@@ -346,6 +350,8 @@ export class HomeComponent implements OnInit {
   }
 
   wish(id) {
+    this.skuProducts = [];
+    this.skuProducts1 = [];
     var inData = {
       _session: localStorage.session,
       _id: this.id,
@@ -358,12 +364,12 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.wish(inData).subscribe(response => {
       if (response.json().status === "failure") {
-        swal("Wishlist already added. Please try again.", "", "error")
+        swal(response.json().message, "", "error");
       } else {
         this.wishList = response.json();
-        swal("Added to wish list", "", "success")
+        swal(response.json().message, "", "success");
       }
-
+      this.getData();
     }, err => {
       console.log(err)
     })

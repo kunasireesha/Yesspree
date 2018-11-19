@@ -36,6 +36,14 @@ export class BannerNavigationComponent implements OnInit {
 
   ngOnInit() {
     this.url = AppSettings.imageUrl;
+    this.getAllData();
+    this.getDashboard();
+    this.header.geoLocation();
+    this.header.postVillageName(localStorage.wh_pincode);
+
+  }
+
+  getAllData() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
     } else {
@@ -62,6 +70,7 @@ export class BannerNavigationComponent implements OnInit {
               this.brandData[i].sku[j].percentage = Math.round(this.percentage);
               this.brandData[i].sku[j].productName = this.brandData[i].name;
             }
+            this.brandData[i].sku[j].wishlist = this.brandData[i].wishlist;
             this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
             this.skudata.push(this.brandData[i].sku[j]);
           }
@@ -92,6 +101,7 @@ export class BannerNavigationComponent implements OnInit {
               this.brandData[i].sku[j].percentage = Math.round(this.percentage);
               this.brandData[i].sku[j].productName = this.brandData[i].name;
             }
+            this.brandData[i].sku[j].wishlist = this.brandData[i].wishlist;
             this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
             this.skudata.push(this.brandData[i].sku[j]);
           }
@@ -121,6 +131,7 @@ export class BannerNavigationComponent implements OnInit {
               this.brandData[i].sku[j].percentage = Math.round(this.percentage);
               this.brandData[i].sku[j].productName = this.brandData[i].name;
             }
+            this.brandData[i].sku[j].wishlist = this.brandData[i].wishlist;
             this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
             this.skudata.push(this.brandData[i].sku[j]);
           }
@@ -151,6 +162,7 @@ export class BannerNavigationComponent implements OnInit {
               this.brandData[i].sku[j].percentage = Math.round(this.percentage);
               this.brandData[i].sku[j].productName = this.brandData[i].name;
             }
+            this.brandData[i].sku[j].wishlist = this.brandData[i].wishlist;
             this.brandData[i].sku[j].image = this.url + this.brandData[i].pic[0].pic;
             this.skudata.push(this.brandData[i].sku[j]);
           }
@@ -160,11 +172,8 @@ export class BannerNavigationComponent implements OnInit {
       })
     }
 
-    this.getDashboard();
-    this.header.geoLocation();
-    this.header.postVillageName(localStorage.wh_pincode);
-
   }
+
   //add to cart
   itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
@@ -224,6 +233,7 @@ export class BannerNavigationComponent implements OnInit {
   }
 
   wish(id) {
+    this.skudata = [];
     var inData = {
       _session: localStorage.session,
       _id: this.id,
@@ -235,11 +245,11 @@ export class BannerNavigationComponent implements OnInit {
 
     }
     this.loginService.wish(inData).subscribe(response => {
+      this.wishList = response.json();
+      swal(response.json().message, "", "success");
+      this.getAllData();
       if (response.json().status === "failure") {
-        swal("Wishlist already added. Please try again.", "", "error")
-      } else {
-        this.wishList = response.json();
-        swal("Added to wish list", "", "success")
+        swal(response.json().message, "", "error");
       }
 
     }, err => {

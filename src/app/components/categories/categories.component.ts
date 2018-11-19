@@ -257,8 +257,10 @@ export class CategoriesComponent implements OnInit {
             this.topProductsdata[i].sku[j].percentage = Math.round(this.percentage);
             this.topProductsdata[i].sku[j].productName = this.topProductsdata[i].name;
           }
+          this.topProductsdata[i].sku[j].wishlist = this.topProductsdata[i].wishlist;
           this.topProductsdata[i].sku[j].image = this.url + this.topProductsdata[i].pic[0].pic;
           this.skudata.push(this.topProductsdata[i].sku[j]);
+
         }
       }
     }, error => {
@@ -287,6 +289,7 @@ export class CategoriesComponent implements OnInit {
             this.allProductsdata[i].sku[j].percentage = Math.round(this.percentage);
             this.allProductsdata[i].sku[j].productName = this.allProductsdata[i].name;
           }
+          this.allProductsdata[i].sku[j].wishlist = this.allProductsdata[i].wishlist;
           this.allProductsdata[i].sku[j].image = this.url + this.allProductsdata[i].pic[0].pic;
           this.allskudata.push(this.allProductsdata[i].sku[j]);
         }
@@ -307,6 +310,8 @@ export class CategoriesComponent implements OnInit {
 
   }
   wish(id) {
+    this.allskudata = [];
+    this.skudata = [];
     var inData = {
       _session: localStorage.session,
       _id: this.id,
@@ -319,12 +324,13 @@ export class CategoriesComponent implements OnInit {
     }
     this.loginService.wish(inData).subscribe(response => {
       if (response.json().status === "failure") {
-        swal("Wishlist already added. Please try again.", "", "error")
+        swal(response.json().message, "", "error");
       } else {
         this.wishList = response.json();
-        swal("Added to wish list", "", "success")
+        swal(response.json().message, "", "success");
       }
-
+      this.getAllProducts();
+      this.getTopProducts();
     }, err => {
       console.log(err)
     })

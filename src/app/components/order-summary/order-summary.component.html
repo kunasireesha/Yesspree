@@ -437,51 +437,16 @@
   </div>
   <div class="payment-method">
     <h5>Choose Payment Method</h5>
-    <div class="row wallet">
+    <div class="row wallet" *ngFor="let item of payOptions">
       <div class="col-lg-6">
-        <img src="assets/images/wallet.png" class="image"> &nbsp; &nbsp;
-        <span>Wallet</span>
-      </div>
-      <div class="col-lg-4 offer-zone">
-        <span>2 Offers</span>
+        <img [src]="url + item.logo" class="image"> &nbsp; &nbsp;
+        <span (click)="optType(item.pay_option,item.type)">{{item.pay_option}}</span>
       </div>
       <div class="col-lg-2 right-arrow">
         <i class="fa fa-angle-right" aria-hidden="true"></i>
       </div>
     </div>
-    <div class="row wallet">
-      <div class="col-lg-6 credit-card">
-        <i class="fa fa-credit-card" aria-hidden="true"></i> &nbsp; &nbsp;
-        <span>
-          <strong>Debit / Credit Card</strong>
-        </span>
-      </div>
-      <div class="col-lg-6 right-arrow">
-        <i class="fa fa-angle-right " aria-hidden="true"></i>
-      </div>
-    </div>
-    <div class="row wallet">
-      <div class="col-lg-6">
-        <img src="assets/images/rupee.png" class="image"> &nbsp; &nbsp;
-        <span>Net Banking</span>
-      </div>
-      <div class="col-lg-6 right-arrow">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-      </div>
-    </div>
-    <div class="row  wallet-card">
-      <div class="col-lg-6">
-        <img src="assets/images/money.png" class="image"> &nbsp; &nbsp;
-        <span>
-          <strong>
-            Cash On Delivery
-          </strong>
-        </span>
-      </div>
-      <div class="col-lg-6 right-arrow">
-        <i class="fa fa-angle-right" aria-hidden="true"></i>
-      </div>
-    </div>
+
   </div>
   <div class="row">
     <div class="col-lg-6">

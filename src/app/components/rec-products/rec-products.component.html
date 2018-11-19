@@ -193,7 +193,8 @@
         <div>
           <div class="card" (click)="showProduxtDetails()">
             <a (click)="wish(sku._id)">
-              <i class="fa fa-heart" aria-hidden="true"></i>
+              <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
+              ':''}" aria-hidden="true"></i>
             </a>
             <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku.id_product)">
             <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
