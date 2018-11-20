@@ -494,7 +494,7 @@ export class ProductsComponent implements OnInit {
         this.wishList = response.json();
         swal(response.json().message, "", "success");
         this.productDetails();
-        this.filter()
+        // this.filter()
       }
 
     }, err => {
