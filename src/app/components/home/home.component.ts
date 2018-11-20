@@ -409,6 +409,9 @@ export class HomeComponent implements OnInit {
         console.log(response);
         swal("Explored successfully", "", "success");
       }, error => {
+        if (error.json().status === 400) {
+          swal(error.json().message, "", "error");
+        }
         console.log(error);
       })
     } else {
