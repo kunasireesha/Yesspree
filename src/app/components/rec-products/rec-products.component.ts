@@ -212,7 +212,7 @@ export class RecProductsComponent implements OnInit {
         swal("Wishlist already added. Please try again.", "", "error")
       } else {
         this.wishList = response.json();
-        swal("Added to wish list", "", "success")
+        swal("Wishlisted", "", "success")
       }
       this.getRecProd();
     }, err => {

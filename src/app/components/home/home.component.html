@@ -108,7 +108,7 @@
   </ol>
   <!--/.Indicators-->
   <!--Slides-->
-  <div class="carousel-inner main" role="listbox" data-interval="7000">
+  <div class="carousel-inner main" role="listbox" data-interval="700">
     <div class="carousel-item" *ngFor="let item of mainBanner;let i =index" [ngClass]="{'active':i==0}">
       <div class="view" (click)="bannerNav(item.type,item.target)">
         <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
@@ -519,7 +519,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">

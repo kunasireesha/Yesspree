@@ -39,7 +39,8 @@ export class ProductsComponent implements OnInit {
       this.showDetails = true;
 
       this.route.queryParams.subscribe(params => {
-        this.subCatId = params.proId;
+        this.productId = params.proId;
+        this.subCatId = params.catId
         this.subName = params.name;
         this.productDetails();
         this.getsubCetData();
@@ -51,6 +52,7 @@ export class ProductsComponent implements OnInit {
 
   }
   prefix;
+  productId;
   ngOnInit() {
     this.url = AppSettings.imageUrl;
 
@@ -268,7 +270,8 @@ export class ProductsComponent implements OnInit {
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId.id_product
+        proId: proId.id_product,
+        catId: this.subCatId
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -460,6 +463,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
             this.products[i].sku[j].percentage = Math.round(this.percentage);
             this.products[i].sku[j].productName = this.products[i].name;
+            this.products[i].sku[j].categoryId = this.products[i].id_category;
           }
           this.products[i].sku[j].wishlist = this.products[i].wishlist;
           this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
@@ -492,9 +496,9 @@ export class ProductsComponent implements OnInit {
         swal(response.json().message, "", "error")
       } else {
         this.wishList = response.json();
-        swal(response.json().message, "", "success");
+        swal("Wishlisted", "", "success");
         this.productDetails();
-        this.filter()
+        // this.filter()
       }
 
     }, err => {
@@ -506,17 +510,18 @@ export class ProductsComponent implements OnInit {
   skuspecificdata = [];
 
   detailsproduct;
-  skus = [];
+  skus;
   pics = [];
 
   skulikedata = [];
   productDetails() {
+    this.skus = [];
     this.skuspecificdata = [];
     this.skulikedata = [];
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      products: this.subCatId,
+      products: this.productId,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
       lang: "en",
@@ -542,6 +547,7 @@ export class ProductsComponent implements OnInit {
             this.product[i].sku[j].percentage = Math.round(this.percentage);
             this.product[i].sku[j].image = this.url + this.product[i].pic[0].pic;
             this.product[i].sku[j].category = this.product[i].category;
+            this.product[i].sku[j].description = this.product[i].description;
           }
           this.skus.push(this.product[i].sku[j]);
         }
@@ -563,6 +569,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.specificProd[i].sku[j].selling_price / this.specificProd[i].sku[j].mrp) * 100
             this.specificProd[i].sku[j].percentage = Math.round(this.percentage);
             this.specificProd[i].sku[j].productName = this.specificProd[i].name;
+            this.specificProd[i].sku[j].categoryId = this.specificProd[i].id_category;
           }
           this.specificProd[i].sku[j].wishlist = this.specificProd[i].wishlist;
           this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
@@ -575,6 +582,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.likeProd[i].sku[j].selling_price / this.likeProd[i].sku[j].mrp) * 100
             this.likeProd[i].sku[j].percentage = Math.round(this.percentage);
             this.likeProd[i].sku[j].productName = this.likeProd[i].name;
+            this.likeProd[i].sku[j].categoryId = this.likeProd[i].id_category;
           }
           this.likeProd[i].sku[j].wishlist = this.likeProd[i].wishlist;
           this.likeProd[i].sku[j].image = this.url + this.likeProd[i].pic[0].pic;

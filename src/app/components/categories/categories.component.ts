@@ -327,7 +327,7 @@ export class CategoriesComponent implements OnInit {
         swal(response.json().message, "", "error");
       } else {
         this.wishList = response.json();
-        swal(response.json().message, "", "success");
+        swal("Wishlisted", "", "success");
       }
       this.getAllProducts();
       this.getTopProducts();

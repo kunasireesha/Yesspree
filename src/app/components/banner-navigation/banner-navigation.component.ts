@@ -246,7 +246,7 @@ export class BannerNavigationComponent implements OnInit {
     }
     this.loginService.wish(inData).subscribe(response => {
       this.wishList = response.json();
-      swal(response.json().message, "", "success");
+      swal("Wishlisted", "", "success");
       this.getAllData();
       if (response.json().status === "failure") {
         swal(response.json().message, "", "error");

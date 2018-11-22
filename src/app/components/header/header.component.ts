@@ -490,10 +490,6 @@ export class HeaderComponent implements OnInit {
 
 
     updatePw() {
-        if (this.prefix === undefined || this.prefix === '') {
-            swal('Please select prefix', '', 'warning');
-            return;
-        }
         if (this.formData.newPw === '' || this.formData.newPw === undefined || this.formData.newPw === null) {
             swal('Please Enter New Password', '', 'warning');
             return;
