@@ -226,6 +226,8 @@ export class CategoriesComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       swal("Item added to cart", "", "success")
       // swal("Item added to cart", "", "success", {
       //   buttons: ["", "Okay"],
@@ -262,6 +264,7 @@ export class CategoriesComponent implements OnInit {
             this.percentage = 100 - (this.topProductsdata[i].sku[j].selling_price / this.topProductsdata[i].sku[j].mrp) * 100
             this.topProductsdata[i].sku[j].percentage = Math.round(this.percentage);
             this.topProductsdata[i].sku[j].productName = this.topProductsdata[i].name;
+            this.topProductsdata[i].sku[j].id_category = this.topProductsdata[i].id_category;
           }
           this.topProductsdata[i].sku[j].wishlist = this.topProductsdata[i].wishlist;
           this.topProductsdata[i].sku[j].image = this.url + this.topProductsdata[i].pic[0].pic;
@@ -294,6 +297,7 @@ export class CategoriesComponent implements OnInit {
             this.percentage = 100 - (this.allProductsdata[i].sku[j].selling_price / this.allProductsdata[i].sku[j].mrp) * 100
             this.allProductsdata[i].sku[j].percentage = Math.round(this.percentage);
             this.allProductsdata[i].sku[j].productName = this.allProductsdata[i].name;
+            this.allProductsdata[i].sku[j].id_category = this.allProductsdata[i].id_category;
           }
           this.allProductsdata[i].sku[j].wishlist = this.allProductsdata[i].wishlist;
           this.allProductsdata[i].sku[j].image = this.url + this.allProductsdata[i].pic[0].pic;
@@ -337,7 +341,7 @@ export class CategoriesComponent implements OnInit {
           swal(response.json().message, "", "error");
         } else {
           this.wishList = response.json();
-          swal(response.json().message, "", "success");
+          swal("Wishlisted", "", "success");
         }
         this.getAllProducts();
         this.getTopProducts();
@@ -348,9 +352,11 @@ export class CategoriesComponent implements OnInit {
 
   }
   showProductDetails(prod) {
+    console.log(prod);
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: prod.id_product
+        proId: prod.id_product,
+        catId: this.catId
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -367,10 +373,12 @@ export class CategoriesComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
@@ -389,10 +397,8 @@ export class CategoriesComponent implements OnInit {
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
     }, err => {

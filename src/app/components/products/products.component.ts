@@ -25,6 +25,7 @@ export class ProductsComponent implements OnInit {
     }
 
     if (this.pageNav === 'items') {
+
       this.showDetails = false;
       this.route.queryParams.subscribe(params => {
         this.subCatId = params.id;
@@ -39,7 +40,8 @@ export class ProductsComponent implements OnInit {
       this.showDetails = true;
 
       this.route.queryParams.subscribe(params => {
-        this.subCatId = params.proId;
+        this.productId = params.proId;
+        this.subCatId = params.catId
         this.subName = params.name;
         this.productDetails();
         this.getsubCetData();
@@ -51,7 +53,9 @@ export class ProductsComponent implements OnInit {
 
   }
   prefix;
+  productId;
   ngOnInit() {
+
     this.url = AppSettings.imageUrl;
 
     if (this.subCatId === '') {
@@ -268,7 +272,8 @@ export class ProductsComponent implements OnInit {
 
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId.id_product
+        proId: proId.id_product,
+        catId: this.subCatId
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -354,7 +359,9 @@ export class ProductsComponent implements OnInit {
       id_warehouse: localStorage.id_warehouse
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success")
+      swal("Item added to cart", "", "success");
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       // swal("Item added to cart", "", "success", {
       //   buttons: ['', "Okay"],
       // }).then((value) => {
@@ -389,24 +396,27 @@ export class ProductsComponent implements OnInit {
     this.loginService.filterData(inData).subscribe(response => {
       this.sortData = response.json().sort;
       //brands
-      this.brandsFilter = _.filter(response.json().refine, function (obj) {
-        return obj.name === 'Brand';
-      });
-      this.brands = this.brandsFilter[0].Brand;
-      console.log(this.brands);
-
+      if (this.brandsFilter !== undefined) {
+        this.brandsFilter = _.filter(response.json().refine, function (obj) {
+          return obj.name === 'Brand';
+        });
+        this.brands = this.brandsFilter[0].Brand;
+        console.log(this.brands);
+      }
       //offers
-      this.offersFilter = _.filter(response.json().refine, function (obj) {
-        return obj.name === 'Offer';
-      });
-      this.offers = this.offersFilter[0].Offer;
-
+      if (this.offersFilter !== undefined) {
+        this.offersFilter = _.filter(response.json().refine, function (obj) {
+          return obj.name === 'Offer';
+        });
+        this.offers = this.offersFilter[0].Offer;
+      }
       //prices
-      this.pricesFilter = _.filter(response.json().refine, function (obj) {
-        return obj.name === 'Price';
-      });
-      this.prices = this.pricesFilter[0].Price;
-
+      if (this.offersFilter !== undefined) {
+        this.pricesFilter = _.filter(response.json().refine, function (obj) {
+          return obj.name === 'Price';
+        });
+        this.prices = this.pricesFilter[0].Price;
+      }
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -460,6 +470,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.products[i].sku[j].selling_price / this.products[i].sku[j].mrp) * 100
             this.products[i].sku[j].percentage = Math.round(this.percentage);
             this.products[i].sku[j].productName = this.products[i].name;
+            this.products[i].sku[j].categoryId = this.products[i].id_category;
           }
           this.products[i].sku[j].wishlist = this.products[i].wishlist;
           this.products[i].sku[j].image = this.url + this.products[i].pic[0].pic;
@@ -492,7 +503,7 @@ export class ProductsComponent implements OnInit {
         swal(response.json().message, "", "error")
       } else {
         this.wishList = response.json();
-        swal(response.json().message, "", "success");
+        swal("Wishlisted", "", "success");
         this.productDetails();
         // this.filter()
       }
@@ -506,17 +517,18 @@ export class ProductsComponent implements OnInit {
   skuspecificdata = [];
 
   detailsproduct;
-  skus = [];
+  skus;
   pics = [];
 
   skulikedata = [];
   productDetails() {
+    this.skus = [];
     this.skuspecificdata = [];
     this.skulikedata = [];
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      products: this.subCatId,
+      products: this.productId,
       parent_warehouseid: localStorage.parent_warehouseid,
       id_warehouse: localStorage.id_warehouse,
       lang: "en",
@@ -542,6 +554,7 @@ export class ProductsComponent implements OnInit {
             this.product[i].sku[j].percentage = Math.round(this.percentage);
             this.product[i].sku[j].image = this.url + this.product[i].pic[0].pic;
             this.product[i].sku[j].category = this.product[i].category;
+            this.product[i].sku[j].description = this.product[i].description;
           }
           this.skus.push(this.product[i].sku[j]);
         }
@@ -563,6 +576,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.specificProd[i].sku[j].selling_price / this.specificProd[i].sku[j].mrp) * 100
             this.specificProd[i].sku[j].percentage = Math.round(this.percentage);
             this.specificProd[i].sku[j].productName = this.specificProd[i].name;
+            this.specificProd[i].sku[j].categoryId = this.specificProd[i].id_category;
           }
           this.specificProd[i].sku[j].wishlist = this.specificProd[i].wishlist;
           this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
@@ -575,6 +589,7 @@ export class ProductsComponent implements OnInit {
             this.percentage = 100 - (this.likeProd[i].sku[j].selling_price / this.likeProd[i].sku[j].mrp) * 100
             this.likeProd[i].sku[j].percentage = Math.round(this.percentage);
             this.likeProd[i].sku[j].productName = this.likeProd[i].name;
+            this.likeProd[i].sku[j].categoryId = this.likeProd[i].id_category;
           }
           this.likeProd[i].sku[j].wishlist = this.likeProd[i].wishlist;
           this.likeProd[i].sku[j].image = this.url + this.likeProd[i].pic[0].pic;
@@ -641,8 +656,8 @@ export class ProductsComponent implements OnInit {
   // emailFormArray: Array<any> = [{ type: '', selected: false }];
   // typeArray: Array<any> = [];
   categories = [
-    { name: "Every Day", selected: false },
     { name: "Alternate Days", selected: false },
+    { name: "Every Day", selected: false },
     { name: "Once a weak", selected: false },
   ];
 
@@ -669,10 +684,12 @@ export class ProductsComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
@@ -691,10 +708,8 @@ export class ProductsComponent implements OnInit {
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
     }, err => {

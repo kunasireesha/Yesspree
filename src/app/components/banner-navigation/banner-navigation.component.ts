@@ -219,6 +219,8 @@ export class BannerNavigationComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       swal("Item added to cart", "", "success")
       // swal("Item added to cart", "", "success", {
       //   buttons: ["", "Okay"],
@@ -248,12 +250,14 @@ export class BannerNavigationComponent implements OnInit {
 
       }
       this.loginService.wish(inData).subscribe(response => {
-        this.wishList = response.json();
-        swal(response.json().message, "", "success");
-        this.getAllData();
-        if (response.json().status === "failure") {
-          swal(response.json().message, "", "error");
-        }
+        if (response.json().status === 200) {
+          this.wishList = response.json();
+          swal("Wishlisted", "", "success");
+          this.getAllData();
+        } else
+          if (response.json().status === "failure") {
+            swal(response.json().message, "", "error");
+          }
 
       }, err => {
         console.log(err)
@@ -278,10 +282,12 @@ export class BannerNavigationComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
@@ -297,10 +303,8 @@ export class BannerNavigationComponent implements OnInit {
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
     }, err => {

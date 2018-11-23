@@ -72,8 +72,6 @@ export class RecProductsComponent implements OnInit {
       this.subCatId = '';
       this.showbrands = true;
     }
-
-
     this.getDashboard();
     this.header.geoLocation();
     this.header.postVillageName(localStorage.wh_pincode);
@@ -142,7 +140,9 @@ export class RecProductsComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success")
+      swal("Item added to cart", "", "success");
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       // swal("Item added to cart", "", "success", {
       //   buttons: ["", "Okay"],
       // }).then((value) => {
@@ -189,7 +189,8 @@ export class RecProductsComponent implements OnInit {
   showProductDetails(proId) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
-        proId: proId
+        proId: proId,
+        catId: this.catId
       }
     }
     this.router.navigate(["/product_details"], navigationExtras);
@@ -215,7 +216,7 @@ export class RecProductsComponent implements OnInit {
           swal("Wishlist already added. Please try again.", "", "error")
         } else {
           this.wishList = response.json();
-          swal("Added to wish list", "", "success")
+          swal("Wishlisted", "", "success");
         }
         this.getRecProd();
       }, err => {
@@ -235,10 +236,12 @@ export class RecProductsComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
@@ -255,10 +258,8 @@ export class RecProductsComponent implements OnInit {
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
     }, err => {

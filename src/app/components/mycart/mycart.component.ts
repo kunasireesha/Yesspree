@@ -115,6 +115,8 @@ export class MycartComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       swal("Item added to cart", "", "success")
       //   swal("Item added to cart", "", "success", {
       //     buttons: ["", "Okay"],
@@ -178,10 +180,12 @@ export class MycartComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
@@ -198,10 +202,8 @@ export class MycartComponent implements OnInit {
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
     }, err => {

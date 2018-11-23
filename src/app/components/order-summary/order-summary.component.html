@@ -1,5 +1,5 @@
 <div class="cat-div">
-  <div class="container-fluid  main-menu">
+  <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
         <img src="assets/images/logo.png" alt="logo">
@@ -157,7 +157,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">

@@ -85,7 +85,9 @@
             <a (click)="wish(sku.id_product)">
               <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212':''}" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+            <div class="pro-image">
+              <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+            </div>
             <!-- <img class="img-fluid valuepack" src="/assets/images/valuePac
               k.jpg" alt="Card image cap"> -->
             <div class="card-block">
@@ -237,7 +239,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">

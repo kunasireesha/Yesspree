@@ -1,7 +1,7 @@
 <!-- thumb nail carousels -->
 <!--Carousel Wrapper-->
 <div class="cat-div">
-  <div class="container-fluid  main-menu">
+  <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
         <img src="assets/images/logo.png" alt="logo">
@@ -35,7 +35,7 @@
           </button>
 
 
-          <button *ngIf="cartCount!=='0'" class="`btn  my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
+          <button *ngIf="cartCount!=='0'" class="btn my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
             (click)="header.getCart()">
 
             <i class="fas fa-shopping-cart"></i>
@@ -108,7 +108,7 @@
   </ol>
   <!--/.Indicators-->
   <!--Slides-->
-  <div class="carousel-inner main" role="listbox" data-interval="7000">
+  <div class="carousel-inner main" role="listbox" data-interval="700">
     <div class="carousel-item" *ngFor="let item of mainBanner;let i =index" [ngClass]="{'active':i==0}">
       <div class="view" (click)="bannerNav(item.type,item.target)">
         <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
@@ -212,7 +212,9 @@
             <a (click)="wish(sku.id_product)">
               <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212':''}" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+            <div class="pro-image">
+              <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+            </div>
             <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
             <div class="card-block">
               <h5>{{sku.productName | limitTo : 20}} </h5>
@@ -339,7 +341,9 @@
               <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
               ':''}" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+            <div class="pro-image">
+              <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+            </div>
             <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
             <div class="card-block">
               <h5>{{sku.productName | limitTo : 20}} </h5>
@@ -519,7 +523,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">

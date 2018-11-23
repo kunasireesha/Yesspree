@@ -1,6 +1,6 @@
 <!-- main menu -->
 <div class="cat-div">
-  <div class="container-fluid  main-menu">
+  <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
         <img src="assets/images/logo.png" alt="logo">
@@ -266,7 +266,9 @@
                 ':''}" aria-hidden="true"></i>
 
               </a>
-              <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+              <div class="pro-image">
+                <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+              </div>
               <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
               <div class="card-block">
                 <h5>{{sku.productName | limitTo : 20}} </h5>
@@ -382,7 +384,7 @@
             <p>
               <button type="button" class="btn btn-black wish-btn" (click)="wish(detailsproduct.id_product)">ADD TO
                 WISHLIST</button>
-              <button type="button" class="btn btn-black" (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='0'"
+              <button type="button" class="btn btn-black" (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='1'"
                 [ngStyle]="{'border': !showSubscriptionData?'': '3px solid yellow'}">SUBSCRIBE</button>
 
               <!-- <button type="button" class="btn btn-black" *ngIf="detailsproduct.isSubscribe=='1'" (click)="showSubscribeDetails()"
@@ -420,8 +422,8 @@
                 </div>
 
                 <div class="col-lg-12" style="margin-left:2%;margin-top:2%">
-                  <p style="margin-left:0%">Start Date</p>
-                  <input type="date" name="startDate" [(ngModel)]="startDate">
+                  <p style="margin-left:0%">Starting Date</p>
+                  <input type="date" name="startDate" [(ngModel)]="startDate" placeholder="Choose a date">
                   <br />
                 </div>
               </div>
@@ -438,21 +440,9 @@
       <p>
         <b>Product Details</b>
       </p>
-      <p> Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum
-        text dummy
-        text Lorem
-        ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text
-        dummy text Lorem
-        ipsum
-        text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text Lorem ipsum text dummy text
-      </p>
       <p>
-        <b>Key Features</b>
+        {{detailsproduct.description}}
       </p>
-      <p> Made with superior quality wheat</p>
-      <p> Made with superior quality wheat</p>
-      <p> Made with superior quality wheat</p>
-      <p> Made with superior quality wheat</p>
       <h3>Similar Products</h3>
       <div class="products similar-products">
         <div class="row items">
@@ -464,7 +454,9 @@
                   ':''}"
                     aria-hidden="true"></i>
                 </a>
-                <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+                <div class="pro-image">
+                  <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+                </div>
                 <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
                 <div class="card-block">
                   <h5>{{sku.productName | limitTo : 20 }} </h5>
@@ -530,7 +522,9 @@
                   ':''}"
                     aria-hidden="true"></i>
                 </a>
-                <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+                <div class="pro-image">
+                  <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku)">
+                </div>
                 <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
                 <div class="card-block">
                   <h5>{{sku.productName | limitTo : 20}} </h5>
@@ -786,7 +780,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">

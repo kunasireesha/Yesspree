@@ -34,6 +34,8 @@ export class DataService {
             'Content-Type': "application/JSON",
 
         });
+        window.scrollTo(0, 0);
+
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }
     postAuthorizationInputParams(params, url) {
@@ -180,7 +182,7 @@ export class DataService {
         return this.postInputParams(params, 'customer/villagename');
     }
     checkOut(params): Observable<any> {
-        return this.postInputParams(params, 'cart/checkout')
+        return this.postAuthorizationInputParams(params, 'cart/checkout')
     }
     checkoutSummary(params): Observable<any> {
         return this.postAuthorizationInputParams(params, 'cart/summary');

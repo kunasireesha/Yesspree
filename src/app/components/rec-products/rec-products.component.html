@@ -1,5 +1,5 @@
 <div class="cat-div">
-  <div class="container-fluid  main-menu">
+  <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
         <img src="assets/images/logo.png" alt="logo">
@@ -157,7 +157,7 @@
 
               <div class="row sizes" *ngFor="let sku of cartItems.sku">
                 <div class="col-md-4">
-                  <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button>
+                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
                 </div>
                 <div class="col-md-8">
                   <div class="quantity buttons_added product-added nav-cart">
@@ -182,7 +182,8 @@
 
 
 <div class="container deals_section" *ngIf="!showbrands">
-  <h3>RECOMMENDED PRODUCTS
+  <h3>
+    {{title}}
     <!-- <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span> -->
   </h3>
   <br />
@@ -196,7 +197,9 @@
               <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
               ':''}" aria-hidden="true"></i>
             </a>
-            <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku.id_product)">
+            <div class="pro-image">
+              <img class="img-fluid product-img" [src]="sku.image" alt="Card image cap" (click)="showProductDetails(sku.id_product)">
+            </div>
             <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image cap"> -->
             <div class="card-block">
               <h5>{{sku.productName | limitTo : 20}} </h5>

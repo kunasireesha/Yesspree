@@ -126,10 +126,8 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
 
       this.images = [{ name: 'assets/images/thumb1.png' },
@@ -336,6 +334,8 @@ export class HomeComponent implements OnInit {
     }
     this.loginService.getCart(inData).subscribe(response => {
       this.subSubCatData = response.json();
+      this.cartCount = this.subSubCatData.summary.cart_count;
+      this.grandTotal = this.subSubCatData.summary.grand_total;
       swal("Item added to cart", "", "success")
       // swal("Item added to cart", "", "success", {
       //   buttons: ["", "Okay"],
@@ -365,12 +365,19 @@ export class HomeComponent implements OnInit {
         "lang": "en"
 
       }
+      // this.loginService.wish(inData).subscribe(response => {
+      //   if (response.json().status === "failure") {
+      //     swal(response.json().message, "", "error");
+      //   } else {
+      //     this.wishList = response.json();
+      //     swal("Wishlisted", "", "success");
+      //   }
       this.loginService.wish(inData).subscribe(response => {
         if (response.json().status === "failure") {
           swal(response.json().message, "", "error");
         } else {
           this.wishList = response.json();
-          swal(response.json().message, "", "success");
+          swal("Wishlisted", "", "success");
         }
         this.getData();
       }, err => {
@@ -469,10 +476,12 @@ export class HomeComponent implements OnInit {
 
   itemHeaderIncrease(cart, name, id, skuid, index, mycart) {
     this.header.itemIncrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index, mycart) {
     this.header.itemDecrease(cart, name, id, skuid, index);
+    this.getDashboard();
   }
 
   headerSubscribe(id, name) {

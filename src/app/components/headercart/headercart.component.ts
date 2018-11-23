@@ -68,10 +68,8 @@ export class HeadercartComponent implements OnInit {
     }
     this.loginService.getDashboardData(inData).subscribe(response => {
       this.dashboardData = response.json().result;
-      localStorage.setItem('cartCount', response.json().summary.cart_count);
-      localStorage.setItem('grandtotal', response.json().summary.grand_total)
-      this.cartCount = localStorage.cartCount;
-      this.grandTotal = localStorage.grandtotal;
+      this.cartCount = response.json().summary.cart_count;
+      this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
     }, err => {
       console.log(err)
@@ -242,7 +240,9 @@ export class HeadercartComponent implements OnInit {
       if (response.json().status === "failure") {
         swal(response.json().message, '', 'error');
       } else {
-        swal("Item added to cart", "", "success")
+        swal("Item added to cart", "", "success");
+        this.cartCount = response.json().summary.cart_count;
+        this.grandTotal = response.json().summary.grand_total;
         // swal("Item added to cart", "", "success", {
         //   buttons: ["", "Okay"],
         // }).then((value) => {

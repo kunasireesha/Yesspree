@@ -270,3 +270,16 @@ input {
 .plus {
   color: black !important;
 }
+
+.ng2-carouselamos-wrapper {
+  width: 1100px !important;
+}
+
+.card {
+  height: 450px !important;
+}
+
+.pro-image {
+  height: 225px;
+
+}
