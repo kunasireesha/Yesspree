@@ -93,26 +93,32 @@
           </a> &nbsp;&nbsp;<span (click)="showCateProd(cat._id,cat.name)">{{cat.name}}</span>
         </p>
         <!-- categories -->
-        <div *ngFor="let subcat of subSubCatData;let ii = index">
-          <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories &&  ii == selectedLastCat}">
-            <a>
-              <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
 
-              <i class="fa fa-plus" aria-hidden="true" *ngIf="showSubCategories && ii!==selectedLastCat" (click)="showLastCat(ii,subcat._id)"></i>
+        <div>
+          <div *ngFor="let subcat of subSubCatData;let ii = index">
+            <p *ngIf="selectedCat==i && showCategories" [ngClass]="{'active':showSubCategories &&  ii == selectedLastCat}">
+              <a>
+                <i class="fa fa-plus" aria-hidden="true" *ngIf="!showSubCategories" (click)="showLastCat(ii,subcat._id)"></i>
+
+                <i class="fa fa-plus" aria-hidden="true" *ngIf="showSubCategories && ii!==selectedLastCat" (click)="showLastCat(ii,subcat._id)"></i>
 
 
-              <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories && ii == selectedLastCat" (click)="closeLastCat()"></i>
-            </a> &nbsp;&nbsp;
-            <span (click)="getSubcatProd(subcat._id,subcat.name)">{{subcat.name}}</span>
-          </p>
-          <!-- //sub categories -->
+                <i class="fa fa-minus" aria-hidden="true" *ngIf="showSubCategories && ii == selectedLastCat" (click)="closeLastCat()"></i>
+              </a> &nbsp;&nbsp;
+              <span (click)="getSubcatProd(subcat._id,subcat.name)">{{subcat.name}}</span>
+            </p>
+            <!-- //sub categories -->
+
+            <!-- end sub cat -->
+          </div>
           <div *ngFor="let lastcat of lastCatData">
-            <p *ngIf="selectedLastCat==i && showSubCategories" (click)="getLastProd(lastcat._id,lastcat.name)">
+            <p *ngIf="selectedLastCat !== i && showSubCategories" (click)="getLastProd(lastcat._id,lastcat.name)">
               <span class="subCat">{{lastcat.name}}</span>
             </p>
           </div>
-          <!-- end sub cat -->
+
         </div>
+
       </div>
 
     </div>

@@ -85,8 +85,8 @@ export class ProductsComponent implements OnInit {
       "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
-    this.loginService.getSubcatData(inData).subscribe(response => {
-      this.subcatdata = response.json().result.sub_category;
+    this.loginService.getSubcat(inData).subscribe(response => {
+      this.subcatdata = response.json().result.category;
     }, err => {
       console.log(err)
     })
@@ -159,8 +159,8 @@ export class ProductsComponent implements OnInit {
       "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
-    this.loginService.getSubSubCatData(inData).subscribe(response => {
-      this.subSubCatData = response.json().result.sub_category;
+    this.loginService.getLastCatData(inData).subscribe(response => {
+      this.subSubCatData = response.json().result.category;
 
     }, err => {
       console.log(err)
@@ -186,8 +186,8 @@ export class ProductsComponent implements OnInit {
       "id_warehouse": localStorage.id_warehouse,
       "lang": "en"
     }
-    this.loginService.getLastCatData(inData).subscribe(response => {
-      this.lastCatData = response.json().result.category;
+    this.loginService.getSubSubCatData(inData).subscribe(response => {
+      this.lastCatData = response.json().result.sub_category;
     }, err => {
       console.log(err)
     })

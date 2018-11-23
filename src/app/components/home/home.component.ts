@@ -352,27 +352,31 @@ export class HomeComponent implements OnInit {
   wish(id) {
     this.skuProducts = [];
     this.skuProducts1 = [];
-    var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en"
+    if (localStorage.userId === '' || localStorage.userId === undefined || localStorage.userId === null) {
+      swal("Please Login", '', 'warning');
+    } else {
+      var inData = {
+        _session: localStorage.session,
+        _id: this.id,
+        id_product: id,
+        op: "create",
+        "parent_warehouseid": localStorage.parent_warehouseid,
+        "id_warehouse": localStorage.id_warehouse,
+        "lang": "en"
 
-    }
-    this.loginService.wish(inData).subscribe(response => {
-      if (response.json().status === "failure") {
-        swal(response.json().message, "", "error");
-      } else {
-        this.wishList = response.json();
-        swal(response.json().message, "", "success");
       }
-      this.getData();
-    }, err => {
-      console.log(err)
-    })
+      this.loginService.wish(inData).subscribe(response => {
+        if (response.json().status === "failure") {
+          swal(response.json().message, "", "error");
+        } else {
+          this.wishList = response.json();
+          swal(response.json().message, "", "success");
+        }
+        this.getData();
+      }, err => {
+        console.log(err)
+      })
+    }
   }
 
 

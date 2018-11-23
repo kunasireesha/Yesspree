@@ -234,27 +234,31 @@ export class BannerNavigationComponent implements OnInit {
 
   wish(id) {
     this.skudata = [];
-    var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
-      "id_warehouse": JSON.parse(localStorage.id_warehouse),
-      "lang": "en"
+    if (localStorage.userId === '' || localStorage.userId === undefined || localStorage.userId === null) {
+      swal("Please Login", '', 'warning');
+    } else {
+      var inData = {
+        _session: localStorage.session,
+        _id: this.id,
+        id_product: id,
+        op: "create",
+        "parent_warehouseid": JSON.parse(localStorage.parent_warehouseid),
+        "id_warehouse": JSON.parse(localStorage.id_warehouse),
+        "lang": "en"
 
-    }
-    this.loginService.wish(inData).subscribe(response => {
-      this.wishList = response.json();
-      swal(response.json().message, "", "success");
-      this.getAllData();
-      if (response.json().status === "failure") {
-        swal(response.json().message, "", "error");
       }
+      this.loginService.wish(inData).subscribe(response => {
+        this.wishList = response.json();
+        swal(response.json().message, "", "success");
+        this.getAllData();
+        if (response.json().status === "failure") {
+          swal(response.json().message, "", "error");
+        }
 
-    }, err => {
-      console.log(err)
-    })
+      }, err => {
+        console.log(err)
+      })
+    }
   }
   showProductDetails(prod) {
     let navigationExtras: NavigationExtras = {

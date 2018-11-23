@@ -32,14 +32,20 @@ export class CategoriesComponent implements OnInit {
     this.url = AppSettings.imageUrl;
     var inData = {
       id_category: this.catId,
+      _session: localStorage.session,
+      _id: this.id,
       pincode: (localStorage.pincode === undefined) ? localStorage.pincode : localStorage.wh_pincode,
       "lang": "en",
       "parent_warehouseid": localStorage.parent_warehouseid,
       "id_warehouse": localStorage.id_warehouse,
 
     }
-    this.loginService.getSubcat(inData).subscribe(response => {
-      this.childCat = response.json().result.category;
+    this.loginService.getSubcatData(inData).subscribe(response => {
+      this.childCat = response.json().result.sub_category;
+      this.popProducts = response.json().result.banner[1].bannerdata;
+      if (response.json().result.banner[2].bannerdata.length !== '' || response.json().result.banner[2].bannerdata.length !== undefined || response.json().result.banner[2].bannerdata.length !== 0) {
+        this.squrBanner = response.json().result.banner[2].bannerdata;
+      }
     }, err => {
       console.log(err.message, "", "error");
     })
@@ -116,11 +122,11 @@ export class CategoriesComponent implements OnInit {
       }
 
 
-      this.popProducts = response.json().result.banner[3].bannerdata;
 
-      if (response.json().result.banner[6].bannerdata.length !== '' || response.json().result.banner[6].bannerdata.length !== undefined || response.json().result.banner[6].bannerdata.length !== 0) {
-        this.squrBanner = response.json().result.banner[6].bannerdata;
-      }
+
+      // if (response.json().result.banner[6].bannerdata.length !== '' || response.json().result.banner[6].bannerdata.length !== undefined || response.json().result.banner[6].bannerdata.length !== 0) {
+      //   this.squrBanner = response.json().result.banner[6].bannerdata;
+      // }
 
       if (response.json().result.banner[7].bannerdata.length !== '' || response.json().result.banner[7].bannerdata.length !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
         this.offerBanner1 = response.json().result.banner[7].bannerdata[0] || '';
@@ -312,28 +318,34 @@ export class CategoriesComponent implements OnInit {
   wish(id) {
     this.allskudata = [];
     this.skudata = [];
-    var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en"
 
-    }
-    this.loginService.wish(inData).subscribe(response => {
-      if (response.json().status === "failure") {
-        swal(response.json().message, "", "error");
-      } else {
-        this.wishList = response.json();
-        swal(response.json().message, "", "success");
+    if (localStorage.userId === '' || localStorage.userId === undefined || localStorage.userId === null) {
+      swal("Please Login", '', 'warning');
+    } else {
+      var inData = {
+        _session: localStorage.session,
+        _id: this.id,
+        id_product: id,
+        op: "create",
+        "parent_warehouseid": localStorage.parent_warehouseid,
+        "id_warehouse": localStorage.id_warehouse,
+        "lang": "en"
+
       }
-      this.getAllProducts();
-      this.getTopProducts();
-    }, err => {
-      console.log(err)
-    })
+      this.loginService.wish(inData).subscribe(response => {
+        if (response.json().status === "failure") {
+          swal(response.json().message, "", "error");
+        } else {
+          this.wishList = response.json();
+          swal(response.json().message, "", "success");
+        }
+        this.getAllProducts();
+        this.getTopProducts();
+      }, err => {
+        console.log(err)
+      })
+    }
+
   }
   showProductDetails(prod) {
     let navigationExtras: NavigationExtras = {
@@ -388,4 +400,32 @@ export class CategoriesComponent implements OnInit {
     });
   }
 
+
+  //banner navigation
+  bannerNav(type, target) {
+    let navigationExtras: NavigationExtras = {
+      queryParams: {
+        type: type,
+        target: target
+      }
+
+    }
+    if (type == "explore") {
+      var inData = {
+        _id: this.id
+      }
+      this.loginService.explore(inData).subscribe(response => {
+        console.log(response);
+        swal("Explored successfully", "", "success");
+      }, error => {
+        if (error.json().status === 400) {
+          swal(error.json().message, "", "error");
+        }
+        console.log(error);
+      })
+    } else {
+      this.router.navigate(["/banner_navigation"], navigationExtras);
+    }
+
+  }
 }

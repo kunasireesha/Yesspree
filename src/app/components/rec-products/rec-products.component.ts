@@ -197,27 +197,31 @@ export class RecProductsComponent implements OnInit {
 
   wish(id) {
     this.skudata = [];
-    var inData = {
-      _session: localStorage.session,
-      _id: this.id,
-      id_product: id,
-      op: "create",
-      "parent_warehouseid": localStorage.parent_warehouseid,
-      "id_warehouse": localStorage.id_warehouse,
-      "lang": "en"
+    if (localStorage.userId === '' || localStorage.userId === undefined || localStorage.userId === null) {
+      swal("Please Login", '', 'warning');
+    } else {
+      var inData = {
+        _session: localStorage.session,
+        _id: this.id,
+        id_product: id,
+        op: "create",
+        "parent_warehouseid": localStorage.parent_warehouseid,
+        "id_warehouse": localStorage.id_warehouse,
+        "lang": "en"
 
-    }
-    this.loginService.wish(inData).subscribe(response => {
-      if (response.json().status === "failure") {
-        swal("Wishlist already added. Please try again.", "", "error")
-      } else {
-        this.wishList = response.json();
-        swal("Added to wish list", "", "success")
       }
-      this.getRecProd();
-    }, err => {
-      console.log(err)
-    })
+      this.loginService.wish(inData).subscribe(response => {
+        if (response.json().status === "failure") {
+          swal("Wishlist already added. Please try again.", "", "error")
+        } else {
+          this.wishList = response.json();
+          swal("Added to wish list", "", "success")
+        }
+        this.getRecProd();
+      }, err => {
+        console.log(err)
+      })
+    }
   }
 
 

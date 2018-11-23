@@ -118,7 +118,7 @@
   <h3>OFFERS AND DEALS</h3>
   <div class="row ">
     <div class="col-md-4 mt-3" *ngFor="let item of popProducts">
-      <div class="deals view zoom">
+      <div class="deals view zoom" (click)="bannerNav(item.type,item.target)">
         <img [src]="url + item.pic" class="img-fluid headShake ">
         <h5>{{item.name}}</h5>
       </div>
