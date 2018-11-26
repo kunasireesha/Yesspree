@@ -103,7 +103,7 @@
 <div id="carousel-example-2" class="carousel slide carousel-fade mt-3 home-banner" data-ride="carousel" *ngIf="!showchildCat">
   <!--Indicators-->
   <ol class="carousel-indicators banner-indicators">
-    <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" class="active"></li>
+    <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" [ngclass]="{'active' : i}"></li>
 
   </ol>
   <!--/.Indicators-->
