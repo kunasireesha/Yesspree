@@ -6,15 +6,23 @@ import * as _ from 'underscore';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { HeadercartComponent } from '../../components/headercart/headercart.component'
-
+import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.less', '../../components/header/header.component.less', '../../components/home/home.component.less'],
-  providers: [HeadercartComponent]
+  providers: [HeadercartComponent, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class ProductsComponent implements OnInit {
+  model1: Date;
+  model2: Date;
+
+  get today() {
+    return new Date();
+  }
+
+
 
   constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http, public header: HeadercartComponent) {
     this.pageNav = this.route.snapshot.data[0]['page'];
@@ -55,6 +63,7 @@ export class ProductsComponent implements OnInit {
   prefix;
   productId;
   ngOnInit() {
+    this.model2 = new Date();
 
     this.url = AppSettings.imageUrl;
 

@@ -112,6 +112,7 @@
     <div class="carousel-item" *ngFor="let item of mainBanner;let i =index" [ngClass]="{'active':i==0}">
       <div class="view" (click)="bannerNav(item.type,item.target)">
         <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
+        <figcaption>Your text</figcaption>
         <div class="mask"></div>
       </div>
     </div>

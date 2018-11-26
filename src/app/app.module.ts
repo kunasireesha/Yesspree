@@ -21,6 +21,8 @@ import { SocialLoginModule, AuthServiceConfig, GoogleLoginProvider, FacebookLogi
 import { TruncatePipe } from './limitto';
 // import { SlickModule } from 'ngx-slick';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 
 
@@ -105,7 +107,6 @@ var firebaseConfig = {
     TruncatePipe,
     HeadercartComponent
 
-
   ],
   imports: [
     BrowserModule,
@@ -125,6 +126,7 @@ var firebaseConfig = {
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     FacebookModule.forRoot(),
+    NgbModule,
     // SlickModule.forRoot(),
     Ng2CarouselamosModule,
     RouterModule.forRoot([

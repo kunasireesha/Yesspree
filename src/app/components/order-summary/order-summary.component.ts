@@ -25,13 +25,12 @@ export class OrderSummaryComponent implements OnInit {
     checkout: string;
     userName: string;
     id: string;
-    timeSlot: string;
-    dateSlot: string;
+    timeSlot = [];
+    dateSlot = [];
     summarySum;
     url;
     promoCode;
     coupon;
-
     addData = {
         name: '',
         phone: '',
@@ -80,6 +79,7 @@ export class OrderSummaryComponent implements OnInit {
     }
 
     ngOnInit() {
+
         this.url = AppSettings.imageUrl;
         this.checkoutSummary();
         this.header.geoLocation();
@@ -101,7 +101,7 @@ export class OrderSummaryComponent implements OnInit {
     }
     paymentMethod() {
         this.paymentM = true;
-        this.orderSu = this.deliveryOp = this.deliveryA = false
+        this.orderSu = this.deliveryOp = this.deliveryA = false;
     }
     postPromo(event) {
         var inData = {
@@ -140,7 +140,6 @@ export class OrderSummaryComponent implements OnInit {
             this.cart = response.json().cart;
             this.orderId = response.json().orders[0].order_id;
             this.dateSlot = response.json().orders[0].deliveryslot;
-            this.timeSlot = response.json().orders[0].deliveryslot[0].times;
             this.payOptions = response.json().pay_options;
             for (var i = 0; i < this.cart.length; i++) {
                 this.cart[i].percentage = Math.round(100 - (this.cart[i].sku[0].selling_price / this.cart[i].sku[0].mrp * 100));
@@ -156,6 +155,23 @@ export class OrderSummaryComponent implements OnInit {
         this.payType = opt;
         this.payMethod = type;
     }
+    delDate;
+    dateChange(Value) {
+        this.delDate = Value;
+        this.timeSlot = [];
+        for (var i = 0; i < this.dateSlot.length; i++) {
+            if (Value === this.dateSlot[i].date) {
+                this.timeSlot.push(this.dateSlot[i].times);
+                console.log(this.timeSlot);
+                return;
+            }
+
+        }
+    }
+    deltime;
+    timeChange(time) {
+        this.deltime = time;
+    }
     cartCheckout(grand) {
         if (this.payType && this.payMethod === undefined) {
             swal("Plese select payment option", "", "warning");
@@ -165,10 +181,10 @@ export class OrderSummaryComponent implements OnInit {
             "total_paid": JSON.stringify(grand),
             "pay_type": this.payType,
             "pay_option": this.payMethod,
+            "delivery_slot": this.delDate + "," + this.deltime,
             "express": 1
         }
         this.orders.push(this.data);
-        console.log(this.orders);
         var inData = {
             _id: this.id,
             parent_warehouseid: localStorage.parent_warehouseid,
@@ -177,24 +193,14 @@ export class OrderSummaryComponent implements OnInit {
             orders: this.orders
         }
         this.loginService.checkOut(inData).subscribe(response => {
-            if (response.json().message === 'success') {
-                this.checkout = response.json();
-                this.cartCount = response.json().summary.cart_count;
-                this.grandTotal = response.json().summary.grand_total;
-                swal("Item added to cart", "", "success")
-                // swal("order placed successfully", "", "success", {
-                //   buttons: ["", "Okay"],
-                // }).then((value) => {
-                //   if (value === true) {
-                //     window.location.reload();
-                //   }
-                // });
+            if (response.json().status === 'success') {
+                this.router.navigate(["/"]);
+                swal(response.json().message, "", "success");
             }
-            else {
-                swal(response.json().message, '', 'error');
-            }
+            // else {
+            //     swal(response.json().message, '', 'error');
+            // }
 
-            this.router.navigate(["/"]);
         }, err => {
             console.log(err)
         })
