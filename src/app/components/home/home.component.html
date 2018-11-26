@@ -1,74 +1,66 @@
 <!-- thumb nail carousels -->
 <!--Carousel Wrapper-->
 <div class="cat-div">
-  <div class="main-menu">
-    <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
-      <a class="navbar-brand" routerLink="/">
-        <img src="assets/images/logo.png" alt="logo">
-      </a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse  menu-list" id="navbarSupportedContent">
-        <div class="container navbar-nav pt-3">
-          <div class="input-group  search-menu mb-3">
-            <div class="input-group-prepend dropdown-append">
-              <img class="map-pointer" src="assets/images/ic_location_copy.png">
-              <select class="form-control location" id="exampleFormControlSelect1" (change)="header.changeVillageName($event.target.value,village)">
-                <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
-              </select>
+    <div class="main-menu">
+        <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
+            <a class="navbar-brand" routerLink="/">
+                <img src="assets/images/logo.png" alt="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse  menu-list" id="navbarSupportedContent">
+                <div class="container navbar-nav pt-3">
+                    <div class="input-group  search-menu mb-3">
+                        <div class="input-group-prepend dropdown-append">
+                            <img class="map-pointer" src="assets/images/ic_location_copy.png">
+                            <select class="form-control location" id="exampleFormControlSelect1" (change)="header.changeVillageName($event.target.value,village)">
+                                <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
+                            </select>
+                        </div>
+                        <form class="example" action="/action_page.php">
+                            <input class="form-control" type="text" placeholder="" name="search" [(ngModel)]="search">
+                            <button type="submit" (click)="searchProducts(search)">Search</button>
+                        </form>
+
+                    </div>
+                </div>
+                <form class="form-inline my-2 my-lg-0 cart-btn">
+
+                    <button *ngIf="cartCount=='0'" class="btn my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="getHeadCart()">
+
+                        <i class="fas fa-shopping-cart"></i> My Cart ({{cartCount}})
+                    </button>
+
+
+                    <button *ngIf="cartCount!=='0'" class="btn my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart" (click)="header.getCart()">
+
+                        <i class="fas fa-shopping-cart"></i>
+                        <span class="home-cart"> {{cartCount}} </span> <i class="fa fa-inr" aria-hidden="true"></i>
+                        {{grandTotal}}
+                    </button>
+                </form>
             </div>
-            <form class="example" action="/action_page.php">
-              <input class="form-control" type="text" placeholder="" name="search" [(ngModel)]="search">
-              <button type="submit" (click)="searchProducts(search)">Search</button>
-            </form>
-
-          </div>
-        </div>
-        <form class="form-inline my-2 my-lg-0 cart-btn">
-
-          <button *ngIf="cartCount=='0'" class="btn my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
-            (click)="getHeadCart()">
-
-            <i class="fas fa-shopping-cart"></i> My Cart ({{cartCount}})
-          </button>
-
-
-          <button *ngIf="cartCount!=='0'" class="btn my-2 my-sm-0" type="submit" data-toggle="modal" data-target="#cust_mycart"
-            (click)="header.getCart()">
-
-            <i class="fas fa-shopping-cart"></i>
-            <span class="home-cart"> {{cartCount}} </span> <i class="fa fa-inr" aria-hidden="true"></i>
-            {{grandTotal}}
-          </button>
-        </form>
-      </div>
-    </nav>
-  </div>
-
-
-
-  <div ng2-carouselamos class="slides-wrapper" [items]="categoryData" [width]="1400" [$prev]="prev" [$next]="next"
-    [$item]="item">
-  </div>
-
-
-  <ng-template #prev>
-    <img src="assets/images/ic_category_left_arrow.png" id="left" class="arr-lft" />
-  </ng-template>
-  <ng-template #next>
-    <img src="assets/images/ic_category_right_arrow.png" id="right" class="arr-rht" />
-  </ng-template>
-  <ng-template #item let-item let-i="index">
-
-    <div class="proitems">
-      <img src="{{ url + item.pic }}" (click)="header.showSubcategorie(item._id,item.name,i)">
-      <p>{{item.name | limitTo : 20}}</p>
+        </nav>
     </div>
-  </ng-template>
+    <div ng2-carouselamos class="slides-wrapper" [items]="categoryData" [width]="1400" [$prev]="prev" [$next]="next" [$item]="item">
+    </div>
+    <ng-template #prev>
+        <img src="assets/images/ic_category_left_arrow.png" id="left" class="arr-lft" />
+    </ng-template>
+    <ng-template #next>
+        <img src="assets/images/ic_category_right_arrow.png" id="right" class="arr-rht" />
+    </ng-template>
+    <ng-template #item let-item let-i="index">
 
-  <!-- <div class="container-fluid categories-slide">
+        <div class="proitems">
+            <img src="{{ url + item.pic }}" (click)="header.showSubcategorie(item._id,item.name,i)">
+            <p>{{item.name | limitTo : 20}}</p>
+        </div>
+    </ng-template>
+
+    <!-- <div class="container-fluid categories-slide">
     <div id="carouselExample" class="carousel slide" data-ride="carousel" data-interval="false">
       <div class="carousel-inner row w-100 mx-auto" role="listbox">
         <div class="carousel-item col-md-2 col-lg-2 col-sm-3 col-xs-12" *ngFor="let item of categoryData;let i=index"
@@ -93,59 +85,68 @@
       </a>
     </div>
   </div> -->
-  <br />
-  <hr class="horizantal">
+    <br />
+    <hr class="horizantal">
 
 </div>
 
 
 
 <div id="carousel-example-2" class="carousel slide carousel-fade mt-3 home-banner" data-ride="carousel" *ngIf="!showchildCat">
-  <!--Indicators-->
-  <ol class="carousel-indicators banner-indicators">
-    <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" class="active"></li>
+    <!--Indicators-->
+    <ol class="carousel-indicators banner-indicators">
+        <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" class="active"></li>
 
-  </ol>
-  <!--/.Indicators-->
-  <!--Slides-->
-  <div class="carousel-inner main" role="listbox" data-interval="700">
-    <div class="carousel-item" *ngFor="let item of mainBanner;let i =index" [ngClass]="{'active':i==0}">
-      <div class="view" (click)="bannerNav(item.type,item.target)">
-        <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
-        <figcaption>Your text</figcaption>
-        <div class="mask"></div>
-      </div>
+    </ol>
+    <!--/.Indicators-->
+    <!--Slides-->
+    <div class="carousel-inner main" role="listbox" data-interval="700">
+        <div class="carousel-item" *ngFor="let item of mainBanner;let i =index" [ngClass]="{'active':i==0}">
+            <div class="view" (click)="bannerNav(item.type,item.target)">
+                <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
+                <div class="mask"></div>
+                <div class="carousel-caption">
+                    <h3 class="h3-responsive">{{item.title}}</h3>
+                    <!-- <p>Third text</p> -->
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
-  <!--/.Slides-->
-  <!--Controls-->
-  <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-  <!--/.Controls-->
+    <!--/.Slides-->
+    <!--Controls-->
+    <a class="carousel-control-prev" href="#carousel-example-2" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carousel-example-2" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+    <!--/.Controls-->
 </div>
 <!--/.Carousel Wrapper-->
+
 <!-- offer banner -->
 <div class="container mt-3">
-  <div class="row categories">
-    <div class="col-md-6 view overlay" (click)="bannerNav(sqareBaneer1.type,sqareBaneer1.target)">
-      <img [src]="url + sqareBaneer1.pic" class="img-fluid">
-      <div class="mask flex-center rgba-green-slight">
+    <div class="row categories">
+        <div class="col-md-6 view overlay" (click)="bannerNav(sqareBaneer1.type,sqareBaneer1.target)">
+            <img [src]="url + sqareBaneer1.pic" class="img-fluid">
+            <div class="mask flex-center rgba-green-slight">
 
-      </div>
-    </div>
-    <div class="col-md-6 view overlay" (click)="bannerNav(sqareBaneer2.type,sqareBaneer2.target)">
-      <img [src]="url + sqareBaneer2.pic" class="img-fluid">
-      <div class="mask flex-center rgba-green-slight">
+            </div>
+            <div class="carousel-caption">
+                <h3 class="h3-responsive">Text</h3>
+                <!-- <p>Third text</p> -->
+            </div>
 
-      </div>
+        </div>
+        <div class="col-md-6 view overlay" (click)="bannerNav(sqareBaneer2.type,sqareBaneer2.target)">
+            <img [src]="url + sqareBaneer2.pic" class="img-fluid">
+            <div class="mask flex-center rgba-green-slight">
+
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <!-- offer banner -->
 
@@ -156,98 +157,98 @@
 
 <!-- thired slider -->
 <div class="container mb-3">
-  <!--Carousel Wrapper-->
-  <div id="carousel-example-3" class="carousel slide carousel-fade mt-3" data-ride="carousel">
+    <!--Carousel Wrapper-->
+    <div id="carousel-example-3" class="carousel slide carousel-fade mt-3" data-ride="carousel">
 
-    <!--Slides-->
-    <div class="carousel-inner" role="listbox">
-      <div class="carousel-item" *ngFor="let item of BigSqur;let i = index" [ngClass]="{'active':i==0}">
-        <div class="view" (click)="bannerNav(item.type,item.target)">
-          <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
-          <div class="mask "></div>
+        <!--Slides-->
+        <div class="carousel-inner" role="listbox">
+            <div class="carousel-item" *ngFor="let item of BigSqur;let i = index" [ngClass]="{'active':i==0}">
+                <div class="view" (click)="bannerNav(item.type,item.target)">
+                    <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
+                    <div class="mask "></div>
+                </div>
+            </div>
         </div>
-      </div>
+        <!--/.Slides-->
+        <!--Controls-->
+        <a class="carousel-control-prev" href="#carousel-example-3" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carousel-example-3" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+        <!--/.Controls-->
     </div>
-    <!--/.Slides-->
-    <!--Controls-->
-    <a class="carousel-control-prev" href="#carousel-example-3" role="button" data-slide="prev">
-      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-      <span class="sr-only">Previous</span>
-    </a>
-    <a class="carousel-control-next" href="#carousel-example-3" role="button" data-slide="next">
-      <span class="carousel-control-next-icon" aria-hidden="true"></span>
-      <span class="sr-only">Next</span>
-    </a>
-    <!--/.Controls-->
-  </div>
-  <!--/.Carousel Wrapper-->
+    <!--/.Carousel Wrapper-->
 
 </div>
 <!-- third slider -->
 <br />
 <div class="container deals_section offer">
-  <h3>OFFERS AND DEALS</h3>
-  <div class="row ">
-    <div class="col-md-4 mt-3" *ngFor="let item of popProducts">
-      <div class="deals view zoom" (click)="bannerNav(item.type,item.target)">
-        <img [src]="url + item.pic" class="img-fluid headShake">
-        <h5>{{item.name}}</h5>
-      </div>
+    <h3>OFFERS AND DEALS</h3>
+    <div class="row ">
+        <div class="col-md-4 mt-3" *ngFor="let item of popProducts">
+            <div class="deals view zoom" (click)="bannerNav(item.type,item.target)">
+                <img [src]="url + item.pic" class="img-fluid headShake">
+                <h5>{{item.name}}</h5>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <br />
 
 
 <div class="container deals_section">
-  <h3>RECOMMENDED PRODUCTS
-    <span class="viewAll" (click)="viewProducts('recProducts')">View All</span>
-  </h3>
-  <br />
-  <!--  -->
-  <div class="products">
-    <div class="row items">
-      <div class="col-md-3 item" *ngFor="let sku of skuProducts;let i =index">
-        <div>
-          <div class="card">
-            <a (click)="wish(sku.id_product)">
-              <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212':''}" aria-hidden="true"></i>
-            </a>
-            <div class="pro-image">
-              <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
-            </div>
-            <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
-            <div class="card-block">
-              <h5>{{sku.productName | limitTo : 20}} </h5>
-              <p>{{sku.size}}</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.selling_price}}</span>
-                  <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.mrp}}
-                  </strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
-                  <span class="saveMney">You Save {{sku.percentage}} %</span>
-                </div>
-              </div>
+    <h3>RECOMMENDED PRODUCTS
+        <span class="viewAll" (click)="viewProducts('recProducts')">View All</span>
+    </h3>
+    <br />
+    <!--  -->
+    <div class="products">
+        <div class="row items">
+            <div class="col-md-3 item" *ngFor="let sku of skuProducts;let i =index">
+                <div>
+                    <div class="card">
+                        <a (click)="wish(sku.id_product)">
+                            <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212':''}" aria-hidden="true"></i>
+                        </a>
+                        <div class="pro-image">
+                            <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+                        </div>
+                        <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
+                        <div class="card-block">
+                            <h5>{{sku.productName | limitTo : 20}} </h5>
+                            <p>{{sku.size}}</p>
+                            <div class="row  item-price">
+                                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                                    <span class="price">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        {{sku.selling_price}}</span>
+                                    <strike *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        {{sku.mrp}}
+                                    </strike>
+                                </div>
+                                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined || sku.mrp==sku.selling_price">
+                                    <span class="saveMney">You Save {{sku.percentage}} %</span>
+                                </div>
+                            </div>
 
-            </div>
-            <br />
-            <div class="row prdct-length">
-              <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput && selected!==i}">
-                <input *ngIf="showInput && i == selected" type="button" value="-" class="minus" (click)="itemDecrease(sku.id_product,sku._id,i)">
-                <span class="add-home text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
+                        </div>
+                        <br />
+                        <div class="row prdct-length">
+                            <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput && selected!==i}">
+                                <input *ngIf="showInput && i == selected" type="button" value="-" class="minus" (click)="itemDecrease(sku.id_product,sku._id,i)">
+                                <span class="add-home text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
 
-                <input *ngIf="showInput && i == selected" type="number" step="1" min="1" max="" name="quantity" value="{{items.quantity}}"
-                  title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
-                  disabled>
-                <input type="button" value="+" class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
-              </div>
-              <!-- <div class="col-md-4">
+                                <input *ngIf="showInput && i == selected" type="number" step="1" min="1" max="" name="quantity" value="{{items.quantity}}"
+                                    title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
+                                    disabled>
+                                <input type="button" value="+" class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
+                            </div>
+                            <!-- <div class="col-md-4">
                 <span *ngIf="showInput && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
                   <i class="fa fa-minus" aria-hidden="true"></i>
                 </span>
@@ -261,124 +262,123 @@
                   <i class="fa fa-plus" aria-hidden="true"></i>
                 </span>
               </div> -->
+                        </div>
+                    </div>
+                </div>
+                <!-- </div> -->
             </div>
-          </div>
-        </div>
-        <!-- </div> -->
-      </div>
-      <div class="col-lg-12">
-        <!-- <h3 class="text-center nodata" *ngIf="products.length==0">No Data Found</h3> -->
-      </div>
+            <div class="col-lg-12">
+                <!-- <h3 class="text-center nodata" *ngIf="products.length==0">No Data Found</h3> -->
+            </div>
 
+        </div>
     </div>
-  </div>
 
 </div>
 
 <div class="container deals_section recmmended">
-  <div class="row ">
-    <div class="col-md-6">
-      <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item" *ngFor="let item of slidingbanner;let i = index" [ngClass]="{'active':i==0}"
-            (click)="bannerNav(item.type,item.target)">
-            <img class="d-block w-100" [src]="url+item.pic" alt="First slide">
-          </div>
-        </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
-      </div>
+    <div class="row ">
+        <div class="col-md-6">
+            <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item" *ngFor="let item of slidingbanner;let i = index" [ngClass]="{'active':i==0}" (click)="bannerNav(item.type,item.target)">
+                        <img class="d-block w-100" [src]="url+item.pic" alt="First slide">
+                    </div>
+                </div>
+                <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
 
-    </div>
-    <div class="col-md-6 recom-after">
-      <div class="row">
-        <div class="col-md-6 view zoom" *ngFor="let item of squrBanner; let i = index" (click)="bannerNav(item.type,item.target)">
-          <img *ngIf="i<4" [src]="url + item.pic">
         </div>
-      </div>
+        <div class="col-md-6 recom-after">
+            <div class="row">
+                <div class="col-md-6 view zoom" *ngFor="let item of squrBanner; let i = index" (click)="bannerNav(item.type,item.target)">
+                    <img *ngIf="i<4" [src]="url + item.pic">
+                </div>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <br />
 <div class="container">
-  <div class="row">
+    <div class="row">
 
-    <div class="offers" *ngIf="offerBanner1.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner1.pic +')'">
-      <!-- <h3>10% OFFER</h3>
+        <div class="offers" *ngIf="offerBanner1.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner1.pic +')'">
+            <!-- <h3>10% OFFER</h3>
       <p>QUALITY FURNITURES</p>
       <button class="order-btn">Order Now</button> -->
 
 
-    </div>
+        </div>
 
-    <div class="offers1" *ngIf="offerBanner2.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner2.pic +')'">
-      <!-- <h3>FLAT 30% OFF</h3>
+        <div class="offers1" *ngIf="offerBanner2.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner2.pic +')'">
+            <!-- <h3>FLAT 30% OFF</h3>
       <p>HOUSE HOLD PRODUCTS</p>
       <button>Order Now</button> -->
+        </div>
     </div>
-  </div>
 </div>
 <br />
 
 <div class="container deals_section">
-  <h3>RECOMMENDED PRODUCTS
-    <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span>
-  </h3>
-  <br />
-  <!-- -->
-  <div class="products">
-    <div class="row items">
+    <h3>RECOMMENDED PRODUCTS
+        <span class="viewAll" (click)="viewProducts('recProducts1')">View All</span>
+    </h3>
+    <br />
+    <!-- -->
+    <div class="products">
+        <div class="row items">
 
-      <div class="col-md-3 item" *ngFor="let sku of skuProducts1;let i = index">
-        <div>
-          <div class="card" (click)="showProduxtDetails()">
-            <a (click)="wish(item._id)">
-              <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
+            <div class="col-md-3 item" *ngFor="let sku of skuProducts1;let i = index">
+                <div>
+                    <div class="card" (click)="showProduxtDetails()">
+                        <a (click)="wish(item._id)">
+                            <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
               ':''}" aria-hidden="true"></i>
-            </a>
-            <div class="pro-image">
-              <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
-            </div>
-            <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
-            <div class="card-block">
-              <h5>{{sku.productName | limitTo : 20}} </h5>
-              <p>{{sku.size}}</p>
-              <div class="row  item-price">
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
-                  <span class="price">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.selling_price}}</span>
-                  <strike *ngIf="sku.mrp!==undefined">
-                    <i class="fa fa-rupee" aria-hidden="true"></i>
-                    {{sku.mrp}}
-                  </strike>
-                </div>
-                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
-                  <span class="saveMney">You Save {{sku.percentage1}} %</span>
-                </div>
-              </div>
-              <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
-                <span class="saveMney">You Save {{sku.percentage1}} %</span>
-              </div>
-            </div>
-            <br />
-            <div class="row prdct-length">
-              <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput && selected!==i}">
-                <input *ngIf="showInput && i == selected" type="button" value="-" class="minus" (click)="itemDecrease(sku.id_product,sku._id,i)">
-                <span class="add-home text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
+                        </a>
+                        <div class="pro-image">
+                            <img class="img-fluid product-img" [src]="sku.image" alt="Card image" (click)="showProductDetails(sku.id_product)">
+                        </div>
+                        <!-- <img class="img-fluid valuepack" src="assets/images/valuePack.jpg" alt="Card image"> -->
+                        <div class="card-block">
+                            <h5>{{sku.productName | limitTo : 20}} </h5>
+                            <p>{{sku.size}}</p>
+                            <div class="row  item-price">
+                                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12">
+                                    <span class="price">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        {{sku.selling_price}}</span>
+                                    <strike *ngIf="sku.mrp!==undefined">
+                                        <i class="fa fa-rupee" aria-hidden="true"></i>
+                                        {{sku.mrp}}
+                                    </strike>
+                                </div>
+                                <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
+                                    <span class="saveMney">You Save {{sku.percentage1}} %</span>
+                                </div>
+                            </div>
+                            <div class="col-md-12 col-lg-6 col-sm-12 col-xs-12" *ngIf="sku.mrp!==undefined">
+                                <span class="saveMney">You Save {{sku.percentage1}} %</span>
+                            </div>
+                        </div>
+                        <br />
+                        <div class="row prdct-length">
+                            <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput && selected!==i}">
+                                <input *ngIf="showInput && i == selected" type="button" value="-" class="minus" (click)="itemDecrease(sku.id_product,sku._id,i)">
+                                <span class="add-home text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
 
-                <input *ngIf="showInput && i == selected" type="number" step="1" min="1" max="" name="quantity" value="{{items.quantity}}"
-                  title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
-                  disabled>
-                <input type="button" value="+" class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
-              </div>
-              <!-- <div class="col-md-4">
+                                <input *ngIf="showInput && i == selected" type="number" step="1" min="1" max="" name="quantity" value="{{items.quantity}}"
+                                    title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
+                                    disabled>
+                                <input type="button" value="+" class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
+                            </div>
+                            <!-- <div class="col-md-4">
                   <span *ngIf="showInput && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
                     <i class="fa fa-minus" aria-hidden="true"></i>
                   </span>
@@ -392,25 +392,25 @@
                     <i class="fa fa-plus" aria-hidden="true"></i>
                   </span>
                 </div> -->
+                        </div>
+
+
+
+                    </div>
+                </div>
             </div>
 
+            <div class="col-12">
+                <!-- <h3 class="text-center nodata" *ngIf="products1.length==0">No Data Found</h3> -->
+            </div>
 
-
-          </div>
         </div>
-      </div>
-
-      <div class="col-12">
-        <!-- <h3 class="text-center nodata" *ngIf="products1.length==0">No Data Found</h3> -->
-      </div>
-
     </div>
-  </div>
 </div>
 
 <div class="container">
-  <div class="quality-dreams" *ngIf="offerBanner3.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner3.pic +')'">
-    <!-- <div class="row">
+    <div class="quality-dreams" *ngIf="offerBanner3.pic!==undefined" [style.backgroundImage]="'url('+ url + offerBanner3.pic +')'">
+        <!-- <div class="row">
       <div class="col-md-6 high">
         <h3>HIGH QUALITY DREAMS</h3>
       </div>
@@ -418,131 +418,131 @@
         <button>Order Now</button>
       </div>
     </div> -->
-  </div>
+    </div>
 </div>
 <br />
 
 
 <div class="container deals_section brands">
-  <h3>SHOP BY BRANDS
-    <span class="viewAll" (click)="viewProducts('brands')">View All</span>
-  </h3>
-  <div class="row">
-    <div class=" col-md-3 mt-3" *ngFor="let item of brandsData;let i =index">
-      <div class="deals view zoom" *ngIf="i<8">
-        <img [src]="url + item.pic" class="img-fluid headShake " alt="{{item.brand}}">
-        <h5>{{item.brand_en}}</h5>
-      </div>
+    <h3>SHOP BY BRANDS
+        <span class="viewAll" (click)="viewProducts('brands')">View All</span>
+    </h3>
+    <div class="row">
+        <div class=" col-md-3 mt-3" *ngFor="let item of brandsData;let i =index">
+            <div class="deals view zoom" *ngIf="i<8">
+                <img [src]="url + item.pic" class="img-fluid headShake " alt="{{item.brand}}">
+                <h5>{{item.brand_en}}</h5>
+            </div>
+        </div>
     </div>
-  </div>
 </div>
 <br />
 
-<div class="modal fade right" id="cust_mycart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-  aria-hidden="true">
-  <div class="modal-dialog modal-side modal-top-right" role="document">
-    <div class="modal-content cust-mheader">
-      <div class="modal-header mcart">
-        <h5 class="modal-title" id="exampleModalLabel">My cart ( {{header.mycart.length}} items)</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-8">
-            <div class="t-mrp">
-              <h6>Total MRP</h6>
-              <p>Your Total Savings </p>
+<div class="modal fade right" id="cust_mycart" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-side modal-top-right" role="document">
+        <div class="modal-content cust-mheader">
+            <div class="modal-header mcart">
+                <h5 class="modal-title" id="exampleModalLabel">My cart ( {{header.mycart.length}} items)</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-          </div>
-          <div class="col-4">
-            <div class="rup">
-              <p>
-                <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i>{{header.mrp}}</strong>
-              </p>
-              <p class="green-text">
-                <i class="fa fa-inr" aria-hidden="true"></i> {{header.savedMoney}} ( {{header.grandPer}} % )</p>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="t-mrp">
+                            <h6>Total MRP</h6>
+                            <p>Your Total Savings </p>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="rup">
+                            <p>
+                                <strong>
+                                    <i class="fa fa-inr" aria-hidden="true"></i>{{header.mrp}}</strong>
+                            </p>
+                            <p class="green-text">
+                                <i class="fa fa-inr" aria-hidden="true"></i> {{header.savedMoney}} ( {{header.grandPer}}
+                                % )</p>
+                        </div>
+                    </div>
+                </div>
+                <hr class="dtd-line">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="totalpay">
+                            <p>
+                                <strong>Total to Pay</strong>
+                            </p>
+                            <h6>(Inclusive all taxes)</h6>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="rup">
+                            <p>
+                                <strong>
+                                    <i class="fa fa-inr" aria-hidden="true"></i>{{header.grandTotal}}</strong>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row  bac-shadw" *ngFor="let cartItems of header.mycart;let i = index">
+                    <div class="col-lg-3">
+                        <div class="ashirvadimg">
+                            <img [src]="url + cartItems.image" alt="ashirvad" />
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="atta">
+
+                            <p>
+                                <strong>{{cartItems.name | limitTo : 20}}</strong>
+                            </p>
+                            <div class="row" *ngFor="let sku of cartItems.sku">
+                                <div class="col-md-3">
+                                    <span class="sk-size">{{sku.size}}</span>
+                                </div>
+                                <div class="col-md-2">
+                                    <p class="green-text">
+                                        <i class="fa fa-inr" aria-hidden="true">{{cartItems.selling_price}}</i>
+                                    </p>
+
+                                </div>
+                                <div class="col-md-2" *ngIf="sku.mrp!==undefined">
+                                    <p class="red-text">
+                                        <i class=" fa fa-inr" aria-hidden="true">
+                                            <strike>{{cartItems.mrp}}</strike>
+                                        </i>
+                                    </p>
+
+                                </div>
+                                <div class="col-md-5" *ngIf="sku.mrp!==undefined">
+                                    <p class="save">You Save {{sku.percentage}}%</p>
+                                </div>
+                            </div>
+
+                            <div class="row sizes" *ngFor="let sku of cartItems.sku">
+                                <div class="col-md-4">
+                                    <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="quantity buttons_added product-added nav-cart">
+                                        <input type="button" value="-" class="minus" (click)="itemHeaderDecrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
+
+                                        <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text product-input-quantity"
+                                            size="4" pattern="" inputmode="" disabled>
+                                        <input type="button" value="+" class="plus" (click)="itemHeaderIncrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+            <div class="modal-footer cust-modalfooter">
+                <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
+            </div>
         </div>
-        <hr class="dtd-line">
-        <div class="row">
-          <div class="col-8">
-            <div class="totalpay">
-              <p>
-                <strong>Total to Pay</strong>
-              </p>
-              <h6>(Inclusive all taxes)</h6>
-            </div>
-          </div>
-          <div class="col-4">
-            <div class="rup">
-              <p>
-                <strong>
-                  <i class="fa fa-inr" aria-hidden="true"></i>{{header.grandTotal}}</strong>
-              </p>
-            </div>
-          </div>
-        </div>
-
-        <div class="row  bac-shadw" *ngFor="let cartItems of header.mycart;let i = index">
-          <div class="col-lg-3">
-            <div class="ashirvadimg">
-              <img [src]="url + cartItems.image" alt="ashirvad" />
-            </div>
-          </div>
-          <div class="col-lg-9">
-            <div class="atta">
-
-              <p>
-                <strong>{{cartItems.name | limitTo : 20}}</strong>
-              </p>
-              <div class="row" *ngFor="let sku of cartItems.sku">
-                <div class="col-md-3">
-                  <span class="sk-size">{{sku.size}}</span>
-                </div>
-                <div class="col-md-2">
-                  <p class="green-text">
-                    <i class="fa fa-inr" aria-hidden="true">{{cartItems.selling_price}}</i>
-                  </p>
-
-                </div>
-                <div class="col-md-2" *ngIf="sku.mrp!==undefined">
-                  <p class="red-text">
-                    <i class=" fa fa-inr" aria-hidden="true">
-                      <strike>{{cartItems.mrp}}</strike>
-                    </i>
-                  </p>
-
-                </div>
-                <div class="col-md-5" *ngIf="sku.mrp!==undefined">
-                  <p class="save">You Save {{sku.percentage}}%</p>
-                </div>
-              </div>
-
-              <div class="row sizes" *ngFor="let sku of cartItems.sku">
-                <div class="col-md-4">
-                  <!-- <button class="btn btn-success subscribe" data-dismiss="modal" (click)="headerSubscribe(cartItems.id_product,cartItems.name)">Subscribe</button> -->
-                </div>
-                <div class="col-md-8">
-                  <div class="quantity buttons_added product-added nav-cart">
-                    <input type="button" value="-" class="minus" (click)="itemHeaderDecrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
-
-                    <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty"
-                      class="input-text qty text product-input-quantity" size="4" pattern="" inputmode="" disabled>
-                    <input type="button" value="+" class="plus" (click)="itemHeaderIncrease(header.mycart,cartItems.name,cartItems.id_product,sku._id,i,sku.mycart)">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer cust-modalfooter">
-        <input class="btn btn-primary" type="reset" value="CHECKOUT" routerLink="/mycart" data-dismiss="modal">
-      </div>
     </div>
-  </div>
 </div>
