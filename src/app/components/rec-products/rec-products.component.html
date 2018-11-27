@@ -17,9 +17,21 @@
                 <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
               </select>
             </div>
-            <form class="example" action="/action_page.php">
+            <!-- <form class="example" action="/action_page.php">
               <input type="text" placeholder="" name="search" [(ngModel)]="search">
               <button type="submit" (click)="searchProducts(search)">Search</button>
+            </form> -->
+            <form class="example">
+              <mat-form-field>
+                <input type="text" aria-label="Number" matInput [formControl]="header.myControl" [matAutocomplete]="auto"
+                  (keyup)="header.updated()" [(ngModel)]="data">
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option *ngFor="let option of header.options" [value]="option.name">
+                    {{option.name}}
+                  </mat-option>
+                </mat-autocomplete>
+                <button type="submit" (click)="header.searchProducts(search)">Search</button>
+              </mat-form-field>
             </form>
 
           </div>

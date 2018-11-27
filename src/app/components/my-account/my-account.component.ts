@@ -4,7 +4,8 @@ import { DataService } from '../../services/login/login';
 import { AppSettings } from '../../config';
 import { empty } from 'rxjs';
 import { FacebookService, UIParams, UIResponse } from 'ngx-facebook';
-import { HeadercartComponent } from '../../components/headercart/headercart.component'
+import { HeadercartComponent } from '../../components/headercart/headercart.component';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -45,6 +46,9 @@ export class MyAccountComponent implements OnInit {
     background;
     offersData = [];
     lastpic;
+    mr;
+    mrs;
+    prefix;
     ngOnInit() {
         this.url = AppSettings.imageUrl;
 
@@ -65,8 +69,10 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.getDashboardData(inData).subscribe(response => {
             this.sharedData = response.json().reffer;
-            this.offersData = response.json().result.banner[7].bannerdata;
-            this.lastpic = this.offersData[2].pic
+            if (response.json().result.banner[7].bannerdata !== '' || response.json().result.banner[7].bannerdata !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
+                this.offersData = response.json().result.banner[7].bannerdata;
+                this.lastpic = this.offersData[2].pic
+            }
 
         }, err => {
             console.log(err)
@@ -253,6 +259,7 @@ export class MyAccountComponent implements OnInit {
         this.mynotifiactions = false;
         this.sharescreen = false;
         this.wishlist = false;
+        this.ordersDetails();
         this.router.navigate(['/ordersfirst']);
     }
 
@@ -347,7 +354,8 @@ export class MyAccountComponent implements OnInit {
         this.ordersData2 = [];
         this.orderId = ordId;
         this.place_on = new Date(placedOn);
-        this.placeOn = this.place_on.getDate() + '-' + this.place_on.getMonth() + '-' + this.place_on.getYear();
+        console.log(this.placeOn);
+        this.placeOn = this.place_on.getDate() + '-' + this.place_on.getMonth() + '-' + this.place_on.getFullYear();
         this.order_num = orderNumber;
         this.total_paid = total_count;
         this.totalMrp = mrp;
@@ -375,7 +383,11 @@ export class MyAccountComponent implements OnInit {
                         this.ordersData2.push(this.orders[i].cart[j]);
 
                         this.address = this.orders[i].address;
+                        this.myOrders2 = true;
+                        this.myOrders1 = false;
+                        return;
                     }
+
                 }
 
             }
@@ -383,8 +395,7 @@ export class MyAccountComponent implements OnInit {
             console.log(err)
         })
 
-        this.myOrders2 = true;
-        this.myOrders1 = false;
+
         // this.showOrderItems();
     }
     // this.ordersData2 =[];
@@ -561,10 +572,8 @@ export class MyAccountComponent implements OnInit {
             }
         });
     }
-
     //edit address
     editAdd(item) {
-
         this.editData = item;
         for (var i = 0; i < this.getAddress.length; i++) {
             if (item._id === this.getAddress[i]._id) {
@@ -578,6 +587,7 @@ export class MyAccountComponent implements OnInit {
                     pincode: this.getAddress[i].pincode,
                     city: this.getAddress[i].city,
                     locality: this.getAddress[i].landmark
+
                 }
                 return;
             }
@@ -585,9 +595,7 @@ export class MyAccountComponent implements OnInit {
     }
 
     //radio buttons
-    mr;
-    mrs;
-    prefix;
+
 
     checkPrefix(prefixVAlue) {
         this.prefix = prefixVAlue;
@@ -618,7 +626,7 @@ export class MyAccountComponent implements OnInit {
         this.loginService.updateAdd(inData).subscribe(response => {
             this.getAdd();
             swal("Updated successfully", "", "success");
-            this.clearData();
+            // this.clearData();
         }, err => {
             swal(err.message, "", "error");
         })
@@ -764,29 +772,37 @@ export class MyAccountComponent implements OnInit {
         let thisObj = this;
 
         for (var i = 0; i < data.length; i++) {
-            if (data[i].name === name) {
-                this.sku.mycart = parseInt(data[i].sku[0].mycart);
+            if (data[i]._id === skuId) {
+                data[i].mycart = parseInt(data[i].mycart) + 1;
+                thisObj.addCart(data[i].mycart, id, skuId, action);
+                localStorage.setItem('cartName', name);
+                return;
             }
         }
-        this.sku.mycart = Math.floor(this.sku.mycart + 1);
-        thisObj.addCart(this.sku.mycart, id, skuId, action);
-        localStorage.setItem('cartName', name);
+        // this.sku.mycart = this.sku.mycart + 1;
+
 
     }
 
 
     itemWishlistDecrease(data, name, id, skuId, index, action) {
         this.selected = index;
+
         for (var i = 0; i < data.length; i++) {
-            if (data[i].name === name) {
-                this.sku.mycart = parseInt(data[i].sku[0].mycart);
+            if (data[i]._id === skuId) {
+                if (data[i].mycart === 1 || data[i].mycart === "1") {
+                    return;
+                } else {
+                    data[i].mycart = parseInt(data[i].mycart) - 1;
+                    this.addCart(data[i].mycart, id, skuId, action);
+                    return;
+                }
             }
+
         }
-        if (this.sku.mycart === 1) {
-            return;
-        }
-        this.sku.mycart = Math.floor(this.sku.mycart - 1);
-        this.addCart(this.sku.mycart, id, skuId, action);
+
+        // this.sku.mycart = Math.floor(this.sku.mycart - 1);
+
     }
 
     addCart(quantity, id, skuId, action) {
@@ -891,8 +907,8 @@ export class MyAccountComponent implements OnInit {
             parent_warehouseid: localStorage.parent_warehouseid,
             id_warehouse: localStorage.id_warehouse,
             "lang": "en"
-
         }
+        console.log(inData);
         this.loginService.myorders(inData).subscribe(response => {
             this.orders = response.json().orders;
             for (var i = 0; i < this.orders.length; i++) {
@@ -909,8 +925,6 @@ export class MyAccountComponent implements OnInit {
     }
 
     goBackOrders() {
-
-        this.router.navigate(['/ordersfirst']);
         this.deliveryAddress = false;
         this.myaccountData = false;
         this.myOrders1 = true;
@@ -922,6 +936,10 @@ export class MyAccountComponent implements OnInit {
         this.mynotifiactions = false;
         this.sharescreen = false;
         this.wishlist = false;
+        // this.router.navigate(['/ordersfirst']);
+        this.ordersDetails();
+
+
     }
 
     ratings(rate) {
@@ -991,11 +1009,13 @@ export class MyAccountComponent implements OnInit {
     itemHeaderIncrease(cart, name, id, skuid, index) {
         this.header.itemIncrease(cart, name, id, skuid, index);
         this.getDashboard();
+        this.getWishlist();
     }
 
     itemHeaderDecrease(cart, name, id, skuid, index) {
         this.header.itemDecrease(cart, name, id, skuid, index);
         this.getDashboard();
+        this.getWishlist();
     }
     headerSubscribe(id, name) {
         this.header.subscribe(id, name);

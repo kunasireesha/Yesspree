@@ -2,7 +2,8 @@ import { AppSettings } from './../../config';
 import { DataService } from './../../services/login/login';
 import { Component, OnInit } from '@angular/core';
 import { NavigationExtras, Router, ActivatedRoute } from '@angular/router';
-import { HeadercartComponent } from '../../components/headercart/headercart.component'
+import { HeadercartComponent } from '../../components/headercart/headercart.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-mycart',

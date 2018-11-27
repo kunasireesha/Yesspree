@@ -276,10 +276,77 @@ input {
 }
 
 .card {
-  height: 450px !important;
+  /* height: 450px !important; */
 }
 
-.pro-image {
-  height: 225px;
+.pro-image img {
+  /* height: 225px; */
+  height: 200px;
+  width: 200px;
+  display: block;
+  margin: auto;
+}
+
+mat-form-field {
+  width: 100%;
+  margin-left: 4%;
+}
+
+.mat-autocomplete-panel {
+  position: relative;
+  left: -1%;
+}
+
+.search-menu {
+  /* height: 50px; */
+}
+
+.mat-option {
+  border-bottom: 1px solid gray;
+}
+
+/* .mat-input-element {
+  caret-color: #373435 !important;
+} */
+
+.mat-form-field-infix {
+  border: none !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-underline {
+  height: 0px !important;
+}
+
+.mat-input-element {
+  caret-color: inherit !important;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding: 0 !important;
+}
+
+.search-name {
+  width: 80%;
+
+  background: white;
+  position: absolute;
+  left: 19%;
+  top: 40px;
+}
+
+.search-name p {
+  border-bottom: 1px solid;
+  /* padding-bottom: 17px; */
+  padding: 15px;
+  color: #373435;
+  cursor: pointer;
+}
+
+.search-name p i {
+  color: #373435;
+}
+
+.search-name p:last-child {
+  border-bottom: 0px !important;
 
 }

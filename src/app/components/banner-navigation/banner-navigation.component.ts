@@ -3,7 +3,7 @@ import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
 import { HeadercartComponent } from '../../components/headercart/headercart.component'
-
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-banner-navigation',

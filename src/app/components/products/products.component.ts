@@ -7,6 +7,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { HeaderComponent } from '../../components/header/header.component';
 import { HeadercartComponent } from '../../components/headercart/headercart.component'
 import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
+import { FormControl } from '@angular/forms';
 
 @Component({
     selector: 'app-products',
@@ -406,7 +407,7 @@ export class ProductsComponent implements OnInit {
             this.sortData = response.json().sort;
             //brands
             if (this.brandsFilter !== undefined) {
-                this.brandsFilter = _.filter(response.json().refine, function(obj) {
+                this.brandsFilter = _.filter(response.json().refine, function (obj) {
                     return obj.name === 'Brand';
                 });
                 this.brands = this.brandsFilter[0].Brand;
@@ -414,14 +415,14 @@ export class ProductsComponent implements OnInit {
             }
             //offers
             if (this.offersFilter !== undefined) {
-                this.offersFilter = _.filter(response.json().refine, function(obj) {
+                this.offersFilter = _.filter(response.json().refine, function (obj) {
                     return obj.name === 'Offer';
                 });
                 this.offers = this.offersFilter[0].Offer;
             }
             //prices
             if (this.offersFilter !== undefined) {
-                this.pricesFilter = _.filter(response.json().refine, function(obj) {
+                this.pricesFilter = _.filter(response.json().refine, function (obj) {
                     return obj.name === 'Price';
                 });
                 this.prices = this.pricesFilter[0].Price;
@@ -528,7 +529,7 @@ export class ProductsComponent implements OnInit {
     detailsproduct;
     skus;
     pics = [];
-
+    productIdSub;
     skulikedata = [];
     productDetails() {
         this.skus = [];
@@ -627,13 +628,13 @@ export class ProductsComponent implements OnInit {
 
     }
     startDate;
-    subscribeData(productId, sku) {
+    subscribeData(skuId, ProId) {
         var today = new Date(this.model2);
         var dd = today.getDate();
         var mm = today.getMonth();
 
         var yyyy = today.getFullYear();
-        this.startDate = dd + '/' + mm + '/' + yyyy;
+        this.startDate = dd + '-' + mm + '-' + yyyy;
 
         if (this.prefix == 'Alternate Days') {
             this.alternateid = 1;
@@ -646,8 +647,8 @@ export class ProductsComponent implements OnInit {
         }
         var inData = {
             "day": this.weak,
-            "id_product": productId,
-            "id_sku": sku,
+            "id_product": ProId,
+            "id_sku": skuId,
             "is_alternate": this.alternateid.toString(),
             "is_doorbellring": "1",
             "pay_type": "COD",

@@ -6,6 +6,8 @@ import { CatListServices } from '../../services/catListService';
 import { catList } from '../../services/catList';
 import { HeadercartComponent } from '../../components/headercart/headercart.component';
 
+import { FormControl } from '@angular/forms';
+
 
 @Component({
     selector: 'app-home',
@@ -434,15 +436,26 @@ export class HomeComponent implements OnInit {
 
     //header
     productId;
-    searchProducts(event) {
+    myControl = new FormControl();
+    options: string[] = [];
+    data: any;
+    showDrop = false;
+
+    selectValue(value) {
+        this.data = value;
+        console.log(this.data);
+        this.showDrop = false;
+    }
+
+    searchProducts() {
         var inData = {
             _id: this.id,
             _session: localStorage.session,
-            count: event.length,
+            count: this.header.data.length,
             id_warehouse: localStorage.id_warehouse,
             lang: "en",
             parent_warehouseid: localStorage.parent_warehouseid,
-            search: event,
+            search: this.header.data,
             start: 0
         }
         this.loginService.searchProducts(inData).subscribe(response => {
@@ -454,7 +467,12 @@ export class HomeComponent implements OnInit {
                 }
                 this.router.navigate(["/product_details"], navigationExtras);
             } else {
-                this.productId = response.json().product[0]._id;
+                for (var i = 0; i < response.json().product.length; i++) {
+                    if (response.json().product[i].name === this.header.data) {
+                        this.productId = response.json().product[i]._id;
+                    }
+                }
+                // this.productId = response.json().product[0]._id;
                 let navigationExtras: NavigationExtras = {
                     queryParams: {
                         proId: this.productId
@@ -466,6 +484,39 @@ export class HomeComponent implements OnInit {
             console.log(err)
         })
     }
+
+
+    public updated() {
+        this.showDrop = true;
+        this.options = [];
+        var inData = {
+            _id: this.id,
+            _session: localStorage.session,
+            count: this.header.data.length,
+            id_warehouse: localStorage.id_warehouse,
+            lang: "en",
+            parent_warehouseid: localStorage.parent_warehouseid,
+            search: this.header.data,
+            start: 0
+        }
+        if (this.myControl.value.length > 0) {
+            this.loginService.searchProducts(inData).subscribe(response => {
+                let all = response.json().product;
+                let searchedWord = this.myControl.value
+                for (let key in all) {
+                    let r = all[key].name.search(new RegExp(searchedWord, "i"));
+                    if (r != -1) {
+                        this.options.push(all[key])
+                        console.log(this.options);
+                    }
+                }
+            })
+
+        } else {
+            this.options = []
+        }
+    }
+
 
     //header
     cartCount;

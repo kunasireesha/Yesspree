@@ -22,6 +22,7 @@ import { TruncatePipe } from './limitto';
 // import { SlickModule } from 'ngx-slick';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
 
 
 
@@ -121,6 +122,11 @@ var firebaseConfig = {
     ReactiveFormsModule,
     MatSelectModule,
     SocialLoginModule,
+    MatButtonModule,
+     MatCheckboxModule, 
+     MatFormFieldModule,
+      MatAutocompleteModule,
+       MatInputModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireDatabaseModule,

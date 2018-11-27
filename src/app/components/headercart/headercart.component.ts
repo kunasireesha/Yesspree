@@ -5,6 +5,7 @@ import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 import { AppSettings } from '../../config';
 import { AuthServices } from '../../services/auth.service';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-headercart',
   templateUrl: './headercart.component.html',
@@ -257,6 +258,9 @@ export class HeadercartComponent implements OnInit {
     })
   }
 
+  myControl = new FormControl();
+  options: string[] = [];
+  data: any;
   searchProducts(event) {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
       this.id = JSON.parse(localStorage.userId);
@@ -266,11 +270,11 @@ export class HeadercartComponent implements OnInit {
     var inData = {
       _id: this.id,
       _session: localStorage.session,
-      count: event.length,
+      count: this.data.length,
       id_warehouse: localStorage.id_warehouse,
       lang: "en",
       parent_warehouseid: localStorage.parent_warehouseid,
-      search: event,
+      search: this.data,
       start: 0
     }
     this.loginService.searchProducts(inData).subscribe(response => {
@@ -282,7 +286,11 @@ export class HeadercartComponent implements OnInit {
         }
         this.router.navigate(["/product_details"], navigationExtras);
       } else {
-        this.productId = response.json().product[0]._id;
+        for (var i = 0; i < response.json().product.length; i++) {
+          if (response.json().product[i].name === this.data) {
+            this.productId = response.json().product[i]._id;
+          }
+        }
         let navigationExtras: NavigationExtras = {
           queryParams: {
             proId: this.productId
@@ -294,6 +302,49 @@ export class HeadercartComponent implements OnInit {
       console.log(err)
     })
   }
+  showDrop = false;
+  public updated() {
+    this.showDrop = true;
+    this.options = [];
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId);
+    } else {
+      this.id = '0';
+    }
+    var inData = {
+      _id: this.id,
+      _session: localStorage.session,
+      count: this.myControl.value.length,
+      id_warehouse: localStorage.id_warehouse,
+      lang: "en",
+      parent_warehouseid: localStorage.parent_warehouseid,
+      search: this.myControl.value,
+      start: 0
+    }
+    if (this.myControl.value.length > 0) {
+      this.loginService.searchProducts(inData).subscribe(response => {
+        let all = response.json().product;
+        let searchedWord = this.myControl.value
+        for (let key in all) {
+          let r = all[key].name.search(new RegExp(searchedWord, "i"));
+          if (r != -1) {
+            this.options.push(all[key])
+            console.log(this.options);
+          }
+        }
+      })
+
+    } else {
+      this.options = []
+    }
+  }
+
+  selectValue(value) {
+    this.data = value;
+    console.log(this.data);
+    this.showDrop = false;
+  }
+
   selectedCat;
   showSubcat = false;
   //show subcategorie

@@ -18,10 +18,23 @@
                 <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
               </select>
             </div>
-            <form class="example" action="/action_page.php">
+            <!-- <form class="example" action="/action_page.php">
               <input type="text" placeholder="" name="search" [(ngModel)]="search">
               <button type="submit" (click)="searchProducts(search)">Search</button>
+            </form> -->
+            <form class="example" action="/action_page.php">
+              <input type="text" aria-label="Number" [formControl]="header.myControl" [matAutocomplete]="auto" (keyup)="header.updated()"
+                [(ngModel)]="header.data">
+
+              <button type="submit" (click)="header.searchProducts(search)">Search</button>
+
             </form>
+            <div class="search-name" *ngIf="header.showDrop">
+              <p *ngFor="let option of header.options" [value]="option.name" (click)="header.selectValue(option.name)">
+                <i class="fa fa-search" aria-hidden="true"></i> &nbsp;{{option.name}} in <span class="red-text">{{option.cat_name}}
+                </span>
+              </p>
+            </div>
 
           </div>
         </div>
@@ -228,7 +241,7 @@
       <div>
         <h4>MY ORDERS</h4>
       </div>
-      <a (click)="goBackOrders()">Back</a>
+      <a class="back" (click)="goBackOrders()">Back</a>
       <div class="row order-date-time">
         <div class="col-lg-6 order-date">
           <p>Placed On: &nbsp;&nbsp;{{placeOn}}</p>
@@ -372,7 +385,7 @@
           <div class="ordr-status">
             <h4>Delivery Address</h4>
             <p>
-              <strong>{{address.type}}</strong>
+              <!-- <strong>{{address.type}}</strong> -->
             </p>
             <h5>
               <strong>{{address.name}}</strong>
@@ -933,9 +946,9 @@
             <div class="col-lg-6">
               <button type="button" class="btn cart-btn" routerLink="/">CONTINUE SHOPPING</button>
             </div>
-            <div class="col-lg-6">
+            <!-- <div class="col-lg-6">
               <button type="button" class="btn checkout-btn" routerLink="/orderSummary">CHECKOUT</button>
-            </div>
+            </div> -->
           </div>
         </div>
         <table class="table prod-table wish">
@@ -982,10 +995,10 @@
 
 
                 <div class="quantity buttons_added">
-                  <input type="button" value="-" class="minus" (click)="itemWishlistDecrease(WishList,sku.productName,sku.id_product,sku._id,i,'wishCart')">
+                  <input type="button" value="-" class="minus" (click)="itemWishlistDecrease(skudata,sku.productName,sku.id_product,sku._id,i,'wishCart')">
                   <input type="number" step="1" min="1" max="" name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text"
                     size="4" pattern="" inputmode="" disabled>
-                  <input type="button" value="+" class="plus" (click)="itemWishlistIncrease(WishList,sku.productName,sku.id_product,sku._id,i,'wishCart')">
+                  <input type="button" value="+" class="plus" (click)="itemWishlistIncrease(skudata,sku.productName,sku.id_product,sku._id,i,'wishCart')">
                 </div>
                 <!-- <p>
                   <i class="fa fa-minus" aria-hidden="true" (click)="itemDecrease(WishList,sku.productName,sku._id,sku._id,i,'wishList')"></i>

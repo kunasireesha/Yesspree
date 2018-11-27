@@ -8,7 +8,7 @@ import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
 import { AuthServices } from '../../services/auth.service';
-import { } from 'googlemaps';
+// import { } from 'googlemaps';
 
 @Component({
     selector: 'app-header',
