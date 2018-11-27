@@ -408,14 +408,15 @@
       <div class="col-lg-2"></div>
       <div class="col-lg-4">
         <span>Dates:
-          <select>
-            <option *ngFor="let time of dateSlot">{{time.date}}</option>
+          <select (change)="dateChange($event.target.value)">
+            <option>Select Date</option>
+            <option *ngFor="let time of dateSlot" [value]="time.date">{{time.date}}</option>
           </select></span>
       </div>
       <div class="col-lg-4">
         <span>Times:
-          <select>
-            <option *ngFor="let time of timeSlot">{{time.time}}</option>
+          <select (change)="timeChange($event.target.value)">
+            <option *ngFor="let time of timeSlot[0]" [value]="time.time">{{time.time}}</option>
           </select></span>
       </div>
       <!-- <div class="col-lg-2 edit-time">

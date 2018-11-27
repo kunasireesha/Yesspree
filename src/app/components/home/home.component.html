@@ -46,14 +46,9 @@
       </div>
     </nav>
   </div>
-
-
-
   <div ng2-carouselamos class="slides-wrapper" [items]="categoryData" [width]="1400" [$prev]="prev" [$next]="next"
     [$item]="item">
   </div>
-
-
   <ng-template #prev>
     <img src="assets/images/ic_category_left_arrow.png" id="left" class="arr-lft" />
   </ng-template>
@@ -101,9 +96,10 @@
 
 
 <div id="carousel-example-2" class="carousel slide carousel-fade mt-3 home-banner" data-ride="carousel" *ngIf="!showchildCat">
+
   <!--Indicators-->
   <ol class="carousel-indicators banner-indicators">
-    <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" [ngclass]="{'active' : i}"></li>
+    <li data-target="#carousel-example-2" *ngFor="let item of mainBanner;let i =index" data-slide-to="i" class="active"></li>
 
   </ol>
   <!--/.Indicators-->
@@ -113,6 +109,10 @@
       <div class="view" (click)="bannerNav(item.type,item.target)">
         <img class="d-block w-100" [src]="url + item.pic" alt="First slide">
         <div class="mask"></div>
+        <div class="carousel-caption">
+          <h3 class="h3-responsive">{{item.title}}</h3>
+          <!-- <p>Third text</p> -->
+        </div>
       </div>
     </div>
   </div>
@@ -129,6 +129,7 @@
   <!--/.Controls-->
 </div>
 <!--/.Carousel Wrapper-->
+
 <!-- offer banner -->
 <div class="container mt-3">
   <div class="row categories">
@@ -137,6 +138,11 @@
       <div class="mask flex-center rgba-green-slight">
 
       </div>
+      <div class="carousel-caption">
+        <h3 class="h3-responsive">Text</h3>
+        <!-- <p>Third text</p> -->
+      </div>
+
     </div>
     <div class="col-md-6 view overlay" (click)="bannerNav(sqareBaneer2.type,sqareBaneer2.target)">
       <img [src]="url + sqareBaneer2.pic" class="img-fluid">
@@ -462,7 +468,8 @@
                   <i class="fa fa-inr" aria-hidden="true"></i>{{header.mrp}}</strong>
               </p>
               <p class="green-text">
-                <i class="fa fa-inr" aria-hidden="true"></i> {{header.savedMoney}} ( {{header.grandPer}} % )</p>
+                <i class="fa fa-inr" aria-hidden="true"></i> {{header.savedMoney}} ( {{header.grandPer}}
+                % )</p>
             </div>
           </div>
         </div>
