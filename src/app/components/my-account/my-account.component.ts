@@ -916,7 +916,7 @@ export class MyAccountComponent implements OnInit {
                 this.orders[i].image = this.orders[i].cart[0].product_pic;
                 this.orders[i].size = this.orders[i].cart[0].size;
                 this.date = new Date(this.orders[i].order.added);
-                this.orders[i].date = this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getYear();
+                this.orders[i].date = this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
             }
             console.log(this.orders);
         }, err => {
