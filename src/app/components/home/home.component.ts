@@ -5,19 +5,19 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { CatListServices } from '../../services/catListService';
 import { catList } from '../../services/catList';
 import { HeadercartComponent } from '../../components/headercart/headercart.component';
-
 import { FormControl } from '@angular/forms';
+import { MycartComponent } from '../../components/mycart/mycart.component';
 
 
 @Component({
     selector: 'app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.less', '../product/product.component.less', '../../components/header/header.component.less'],
-    providers: [HeadercartComponent]
+    providers: [HeadercartComponent, MycartComponent]
 })
 export class HomeComponent implements OnInit {
 
-    constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public catSer: CatListServices, public header: HeadercartComponent) {
+    constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public catSer: CatListServices, public header: HeadercartComponent, public removecart: MycartComponent) {
         this.pageNav = this.route.snapshot.data[0]['page'];
         this.route.queryParams.subscribe(params => {
             this.catId = params.id;
@@ -311,6 +311,11 @@ export class HomeComponent implements OnInit {
         this.selected = index;
         let thisObj = this;
         if (thisObj.items.quantity === 1) {
+            // thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
+            this.selected = undefined;
+            this.getData();
+            thisObj.showInput = true;
+            this.removecart.removeCart(id, skuId);
             return;
         }
         thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
@@ -376,7 +381,7 @@ export class HomeComponent implements OnInit {
             //   }
             this.loginService.wish(inData).subscribe(response => {
                 if (response.json().status === "failure") {
-                    swal(response.json().message, "", "error");
+                    // swal(response.json().message, "", "error");
                 } else {
                     this.wishList = response.json();
                     swal("Wishlisted", "", "success");

@@ -451,10 +451,10 @@
   </div>
   <div class="payment-method">
     <h5>Choose Payment Method</h5>
-    <div class="row wallet" *ngFor="let item of payOptions">
+    <div class="row wallet" *ngFor="let item of payOptions" (click)="optType(item.pay_option,item.type)">
       <div class="col-lg-6">
         <img [src]="url + item.logo" class="image"> &nbsp; &nbsp;
-        <span (click)="optType(item.pay_option,item.type)">{{item.pay_option}}</span>
+        <span>{{item.pay_option}}</span>
       </div>
       <div class="col-lg-2 right-arrow">
         <i class="fa fa-angle-right" aria-hidden="true"></i>

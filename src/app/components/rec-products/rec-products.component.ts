@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/login/login';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
-import { HeadercartComponent } from '../../components/headercart/headercart.component'
+import { HeadercartComponent } from '../../components/headercart/headercart.component';
+import { MycartComponent } from '../../components/mycart/mycart.component';
+
 @Component({
   selector: 'app-rec-products',
   templateUrl: './rec-products.component.html',
   styleUrls: ['./rec-products.component.css', '../product/product.component.less', '../home/home.component.less', '../../components/header/header.component.less'],
-  providers: [HeadercartComponent]
+  providers: [HeadercartComponent, MycartComponent]
 
 })
 export class RecProductsComponent implements OnInit {
@@ -18,7 +20,7 @@ export class RecProductsComponent implements OnInit {
   showbrands = false;
   showproducts = false;
   noData = false;
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent, public removecart: MycartComponent) {
     this.route.queryParams.subscribe(params => {
       this.type = params.action;
       this.catId = params.catId
@@ -181,7 +183,10 @@ export class RecProductsComponent implements OnInit {
     this.selected = index;
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
-      return;
+      this.selected = undefined;
+      this.getDashboard();
+      thisObj.showInput = true;
+      this.removecart.removeCart(id, skuId);
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
@@ -213,7 +218,7 @@ export class RecProductsComponent implements OnInit {
       }
       this.loginService.wish(inData).subscribe(response => {
         if (response.json().status === "failure") {
-          swal("Wishlist already added. Please try again.", "", "error")
+          // swal("Wishlist already added. Please try again.", "", "error")
         } else {
           this.wishList = response.json();
           swal("Wishlisted", "", "success");

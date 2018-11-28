@@ -8,12 +8,13 @@ import { HeaderComponent } from '../../components/header/header.component';
 import { HeadercartComponent } from '../../components/headercart/headercart.component'
 import { NgbDateAdapter, NgbDateStruct, NgbDateNativeAdapter } from '@ng-bootstrap/ng-bootstrap';
 import { FormControl } from '@angular/forms';
+import { MycartComponent } from '../../components/mycart/mycart.component';
 
 @Component({
     selector: 'app-products',
     templateUrl: './products.component.html',
     styleUrls: ['./products.component.less', '../../components/header/header.component.less', '../../components/home/home.component.less'],
-    providers: [HeadercartComponent, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
+    providers: [HeadercartComponent, MycartComponent, { provide: NgbDateAdapter, useClass: NgbDateNativeAdapter }]
 })
 export class ProductsComponent implements OnInit {
     model1: Date;
@@ -25,7 +26,7 @@ export class ProductsComponent implements OnInit {
 
 
 
-    constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http, public header: HeadercartComponent) {
+    constructor(private router: Router, private route: ActivatedRoute, public loginService: DataService, public http: Http, public header: HeadercartComponent, public removecart: MycartComponent) {
         this.pageNav = this.route.snapshot.data[0]['page'];
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
             this.id = JSON.parse(localStorage.userId);
@@ -343,6 +344,10 @@ export class ProductsComponent implements OnInit {
         this.selected = index;
         let thisObj = this;
         if (thisObj.items.quantity === 1) {
+            this.selected = undefined;
+            this.getDashboard();
+            thisObj.showInput = true;
+            this.removecart.removeCart(id, skuId);
             return;
         }
         thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
@@ -510,7 +515,7 @@ export class ProductsComponent implements OnInit {
         }
         this.loginService.wish(inData).subscribe(response => {
             if (response.json().status === "failure") {
-                swal(response.json().message, "", "error")
+                // swal(response.json().message, "", "error")
             } else {
                 this.wishList = response.json();
                 swal("Wishlisted", "", "success");
