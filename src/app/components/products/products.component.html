@@ -395,19 +395,37 @@
             </p>
             <br />
             <p>
-              <button type="button" class="btn btn-black wish-btn" (click)="wish(detailsproduct.id_product)">ADD TO
+              <button type="button" *ngIf="product[0].wishlist!==1" class="btn btn-black wish-btn" (click)="wish(detailsproduct.id_product)">ADD
+                TO
                 WISHLIST</button>
+              <button type="button" *ngIf="product[0].wishlist==1" class="btn btn-black wish-btn">Wishlisted</button>
               <button type="button" class="btn btn-black" (click)="showSubscribeDetails()" *ngIf="detailsproduct.isSubscribe=='1'"
                 [ngStyle]="{'border': !showSubscriptionData?'': '3px solid yellow'}">SUBSCRIBE</button>
-
               <!-- <button type="button" class="btn btn-black" *ngIf="detailsproduct.isSubscribe=='1'" (click)="showSubscribeDetails()"
                 disabled>SUBSCRIBE</button> -->
 
 
-              <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct._id,detailsproduct.id_product)">-</button>
+
+
+
+
+
+
+              <!-- <button type="button" class="btn btn-yellow dec" (click)="itemDecrease(detailsproduct.id_product,detailsproduct._id)">-</button>
               <button type="button" class="btn btn-yellow qty-main">{{items.quantity}}</button>
-              <button type="button" class="btn btn-yellow add" (click)="detailsitemIncrease(detailsproduct,detailsproduct.productName,detailsproduct.id_product,detailsproduct._id)">+</button>
+              <button type="button" class="btn btn-yellow add" (click)="detailsitemIncrease(detailsproduct,selectedskusize,detailsproduct.productName,detailsproduct.id_product,detailsproduct._id)">+</button> -->
             </p>
+            <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput}">
+              <input *ngIf="showInput" type="button" value="-" class="minus" (click)="detailsitemDecrease(detailsproduct.id_product,detailsproduct._id)">
+              <span class="add-home text-center" *ngIf="!showInput" (click)="getCart(items.quantity,detailsproduct.id_product,detailsproduct._id)">Add</span>
+
+              <input *ngIf="showInput" type="number" step="1" min="1" max="" name="quantity" value="{{detailquantity}}"
+                title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
+                disabled>
+              <input type="button" *ngIf="showInput || !showInput" value="+" class="plus" (click)="detailsitemIncrease(detailsproduct,selectedskusize,detailsproduct.productName,detailsproduct.id_product,detailsproduct._id)">
+            </div>
+
+
             <br />
             <div class="cust-subscribe" *ngIf="showSubscriptionData">
               <div class="row">
@@ -476,7 +494,7 @@
             <div class="card">
               <div>
                 <a (click)="wish(sku.id_product)">
-                  <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist===1?'#fff212
+                  <i class="fa fa-heart" [ngStyle]="{'color':sku.wishlist==1?'#fff212
                   ':''}"
                     aria-hidden="true"></i>
                 </a>

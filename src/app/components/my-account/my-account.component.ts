@@ -648,6 +648,7 @@ export class MyAccountComponent implements OnInit {
     percentage;
     skudata = [];
     getWishlist() {
+        this.skudata = [];
         var inData = {
             "_id": this.id,
             "op": "get",
@@ -695,8 +696,9 @@ export class MyAccountComponent implements OnInit {
         }
         this.loginService.deleteWish(inData).subscribe(response => {
             if (response.json().status === "success") {
-                swal(response.json().message, '', 'success');
                 this.getWishlist();
+                swal(response.json().message, '', 'success');
+
             } else {
                 swal(response.json().message, '', 'error');
             }

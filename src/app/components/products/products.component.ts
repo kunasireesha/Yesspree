@@ -52,7 +52,7 @@ export class ProductsComponent implements OnInit {
                 this.productId = params.proId;
                 this.subCatId = params.catId
                 this.subName = params.name;
-                this.productDetails();
+                this.productDetails(this.productId);
                 this.getsubCetData();
 
             });
@@ -307,17 +307,51 @@ export class ProductsComponent implements OnInit {
 
 
     //add to cart
-    detailsitemIncrease(data, size, name, id, skuId) {
+    // detailsitemIncrease(data, name, id, skuId) {
+    //     let thisObj = this;
+    //     thisObj.showInputs = true;
+    //     thisObj.showInput = true;
+    //     thisObj.items.quantity = thisObj.items.quantity + 1;
+    //     thisObj.getCart(thisObj.items.quantity, id, skuId);
+    //     // localStorage.setItem('size', size);
+    //     // localStorage.setItem('name', name);
+    // }
+    quantity;
+    detailquantity;
+    detailsitemIncrease(data, size, name, id, skuId, index) {
+        if (size === undefined) {
+            swal('Please select size', '', 'warning');
+            return;
+        }
         let thisObj = this;
         thisObj.showInputs = true;
         thisObj.showInput = true;
-        thisObj.items.quantity = thisObj.items.quantity + 1;
-        thisObj.getCart(thisObj.items.quantity, id, skuId);
-        localStorage.setItem('size', size);
-        localStorage.setItem('name', name);
+        this.selected = index;
+        if (localStorage.size !== size || localStorage.name !== name) {
+            thisObj.detailquantity = 0;
+        }
+        if (name === data.productName) {
+            thisObj.showInputs = true;
+            thisObj.showInput = true;
+            thisObj.detailquantity = thisObj.detailquantity + 1;
+            thisObj.getCart(thisObj.detailquantity, id, skuId);
+            localStorage.setItem('size', size);
+            localStorage.setItem('name', name);
+
+            // this.header.ngOnInit();
+        }
+        this.getDashboard();
     }
 
-
+    detailsitemDecrease(id, skuId, index) {
+        // this.selected = index;
+        let thisObj = this;
+        if (thisObj.detailquantity === 1) {
+            return;
+        }
+        thisObj.detailquantity = Math.floor(thisObj.detailquantity - 1);
+        this.getCart(thisObj.detailquantity, id, skuId);
+    }
 
     itemIncrease(data, size, name, id, skuId, index) {
         this.selected = index;
@@ -349,8 +383,10 @@ export class ProductsComponent implements OnInit {
         this.getCart(thisObj.items.quantity, id, skuId);
     }
 
-    quantity;
+
     getCart(quantity, id, skuId) {
+
+
 
         if (quantity === 0) {
             this.quantity = 1;
@@ -514,9 +550,10 @@ export class ProductsComponent implements OnInit {
             } else {
                 this.wishList = response.json();
                 swal("Wishlisted", "", "success");
-                this.productDetails();
-                // this.filter()
+                //
             }
+            this.productDetails(id);
+            this.getProducts(this.subCatId);
 
         }, err => {
             console.log(err)
@@ -531,14 +568,14 @@ export class ProductsComponent implements OnInit {
     pics = [];
     productIdSub;
     skulikedata = [];
-    productDetails() {
+    productDetails(id) {
         this.skus = [];
         this.skuspecificdata = [];
         this.skulikedata = [];
         var inData = {
             _id: this.id,
             _session: localStorage.session,
-            products: this.productId,
+            products: id,
             parent_warehouseid: localStorage.parent_warehouseid,
             id_warehouse: localStorage.id_warehouse,
             lang: "en",
@@ -552,9 +589,15 @@ export class ProductsComponent implements OnInit {
             this.product[0].sku[0].image = this.url + this.product[0].pic[0].pic;
             this.product[0].sku[0].category = this.product[0].category;
             this.product[0].sku[0].isSubscribe = this.product[0].is_subscribe;
+            this.product[0].sku[0].id_product = this.product[0]._id;
             this.detailsproduct = this.product[0].sku[0];
-            console.log(this.detailsproduct);
+            this.detailquantity = this.detailsproduct.mycart;
 
+            if (this.detailsproduct.mycart !== 0) {
+                this.showInput = true;
+            } else {
+                this.showInput = false;
+            }
 
             for (var i = 0; i < this.product.length; i++) {
                 for (var j = 0; j < this.product[i].sku.length; j++) {
@@ -591,8 +634,12 @@ export class ProductsComponent implements OnInit {
                     this.specificProd[i].sku[j].wishlist = this.specificProd[i].wishlist;
                     this.specificProd[i].sku[j].image = this.url + this.specificProd[i].pic[0].pic;
                     this.skuspecificdata.push(this.specificProd[i].sku[j]);
+
+
                 }
             }
+
+
             for (var i = 0; i < this.likeProd.length; i++) {
                 for (var j = 0; j < this.likeProd[i].sku.length; j++) {
                     if (this.likeProd[i].sku[j].mrp !== undefined) {
