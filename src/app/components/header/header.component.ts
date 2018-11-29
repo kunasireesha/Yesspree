@@ -13,10 +13,11 @@ import { AuthServices } from '../../services/auth.service';
 @Component({
     selector: 'app-header',
     templateUrl: './header.component.html',
-    styleUrls: ['./header.component.less']
+    styleUrls: ['./header.component.less'],
+
 })
 export class HeaderComponent implements OnInit {
-
+    HeadercartComponent
     @ViewChild(MyAccountComponent) myaccountcmp: MyAccountComponent;
 
     village = [];
@@ -29,11 +30,13 @@ export class HeaderComponent implements OnInit {
     pincode;
     cartCount;
     constructor(
+
         public loginService: DataService,
         private socialAuthService: AuthService,
         public router: Router,
         public catSer: CatListServices,
         public authService: AuthServices
+
     ) {
         this.cartCount = localStorage.cartCount;
 

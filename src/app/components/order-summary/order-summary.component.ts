@@ -195,7 +195,7 @@ export class OrderSummaryComponent implements OnInit {
         this.loginService.checkOut(inData).subscribe(response => {
             if (response.json().status === 'success') {
                 this.router.navigate(["/"]);
-                swal(response.json().message, "", "success");
+                swal("Order placed successfully", "", "success");
             }
             // else {
             //     swal(response.json().message, '', 'error');

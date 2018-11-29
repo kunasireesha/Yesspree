@@ -129,7 +129,7 @@ export class MyAccountComponent implements OnInit {
         last_name: '',
         email: '',
         mobile: '',
-        dob: ''
+        birthday: ''
     };
     type;
     orderId;
@@ -145,7 +145,7 @@ export class MyAccountComponent implements OnInit {
         locality: ''
     }
 
-    dobValidation = "/^(0[1-9]|[1-2][0-9]|3[0-1])\/(0[1-9]|1[0-2])\/[0-9]{4}$/"
+    dobValidation = "/[0-9-()]*[1-9][0-9-()]*/"
 
     constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, private fb: FacebookService, public header: HeadercartComponent) {
         if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -458,7 +458,7 @@ export class MyAccountComponent implements OnInit {
             last_name: this.mydata.last_name,
             email: this.mydata.email,
             mobile: this.mydata.mobile,
-            birthday: this.mydata.dob
+            birthday: this.mydata.birthday
         }
         this.loginService.update(inData).subscribe(response => {
             swal("Updated successfully", '', "success");
@@ -918,7 +918,7 @@ export class MyAccountComponent implements OnInit {
                 this.orders[i].image = this.orders[i].cart[0].product_pic;
                 this.orders[i].size = this.orders[i].cart[0].size;
                 this.date = new Date(this.orders[i].order.added);
-                this.orders[i].date = this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getYear();
+                this.orders[i].date = this.date.getDate() + '-' + this.date.getMonth() + '-' + this.date.getFullYear();
             }
             console.log(this.orders);
         }, err => {

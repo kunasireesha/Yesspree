@@ -4,12 +4,13 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { AppSettings } from '../../config';
 import { HeadercartComponent } from '../../components/headercart/headercart.component'
 import { FormControl } from '@angular/forms';
+import { MycartComponent } from '../../components/mycart/mycart.component';
 
 @Component({
   selector: 'app-banner-navigation',
   templateUrl: './banner-navigation.component.html',
   styleUrls: ['./banner-navigation.component.css', '../product/product.component.less', '../../components/header/header.component.less'],
-  providers: [HeadercartComponent]
+  providers: [HeadercartComponent, MycartComponent]
 })
 export class BannerNavigationComponent implements OnInit {
   type;
@@ -26,7 +27,7 @@ export class BannerNavigationComponent implements OnInit {
   }
   quantity;
   subSubCatData;
-  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent) {
+  constructor(public loginService: DataService, private route: ActivatedRoute, public router: Router, public header: HeadercartComponent, public removecart: MycartComponent) {
     this.route.queryParams.subscribe(params => {
       this.type = params.type
       this.target = params.target
@@ -195,7 +196,10 @@ export class BannerNavigationComponent implements OnInit {
     this.selected = index;
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
-      return;
+      this.selected = undefined;
+      this.getDashboard();
+      thisObj.showInput = true;
+      this.removecart.removeCart(id, skuId);
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
     this.getCart(thisObj.items.quantity, id, skuId);
@@ -256,7 +260,7 @@ export class BannerNavigationComponent implements OnInit {
           this.getAllData();
         } else
           if (response.json().status === "failure") {
-            swal(response.json().message, "", "error");
+            // swal(response.json().message, "", "error");
           }
 
       }, err => {

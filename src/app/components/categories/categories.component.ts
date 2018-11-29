@@ -2,17 +2,18 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router, Params } from '@angular/router';
 import { AppSettings } from '../../config';
 import { DataService } from '../../services/login/login';
-import { HeadercartComponent } from '../../components/headercart/headercart.component'
+import { HeadercartComponent } from '../../components/headercart/headercart.component';
+import { MycartComponent } from '../../components/mycart/mycart.component';
 
 @Component({
   selector: 'app-categories',
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.less', '../../components/header/header.component.less'],
-  providers: [HeadercartComponent]
+  providers: [HeadercartComponent, MycartComponent]
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, public header: HeadercartComponent) {
+  constructor(private route: ActivatedRoute, public router: Router, public loginService: DataService, public header: HeadercartComponent, public removecart: MycartComponent) {
     this.route.queryParams.subscribe(params => {
       this.catId = params.id;
       this.catName = params.name;
@@ -201,6 +202,10 @@ export class CategoriesComponent implements OnInit {
     this.selected = index;
     let thisObj = this;
     if (thisObj.items.quantity === 1) {
+      this.selected = undefined;
+      this.getDashboard();
+      thisObj.showInput = true;
+      this.removecart.removeCart(id, skuId);
       return;
     }
     thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
@@ -338,7 +343,7 @@ export class CategoriesComponent implements OnInit {
       }
       this.loginService.wish(inData).subscribe(response => {
         if (response.json().status === "failure") {
-          swal(response.json().message, "", "error");
+          // swal(response.json().message, "", "error");
         } else {
           this.wishList = response.json();
           swal("Wishlisted", "", "success");

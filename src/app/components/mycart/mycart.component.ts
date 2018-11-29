@@ -144,6 +144,11 @@ export class MycartComponent implements OnInit {
     })
   }
   removeCart(product, sku) {
+    if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
+      this.id = JSON.parse(localStorage.userId)
+    } else {
+      this.id = '0'
+    }
     var inData = {
       _id: this.id,
       _session: localStorage.session,
