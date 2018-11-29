@@ -81,6 +81,7 @@ export class RecProductsComponent implements OnInit {
 
   }
   getRecProd() {
+    this.skudata = [];
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -152,45 +153,56 @@ export class RecProductsComponent implements OnInit {
       //     window.location.reload();
       //   }
       // });
+      this.getDashboard();
+      this.getRecProd();
       this.items.quantity = this.quantity;
     }, err => {
       swal(err.json().message, '', 'error');
     })
   }
 
-
+  mycart;
   itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
     if (localStorage.size !== size || localStorage.name !== name) {
-      thisObj.items.quantity = 0;
+      thisObj.mycart = 0;
     }
-    if (name === data.productName) {
+    if (skuId === data._id) {
       thisObj.showInput = true;
-      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-      thisObj.getCart(thisObj.items.quantity, id, skuId);
+
+      thisObj.mycart = parseInt(data.mycart) + 1;
+
+      thisObj.getCart(thisObj.mycart, id, skuId);
+
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
+      // this.router.navigate(['/']);
     }
-    this.getDashboard();
 
 
   }
 
-
-
-  itemDecrease(id, skuId, index) {
+  itemDecrease(data, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (thisObj.items.quantity === 1) {
-      this.selected = undefined;
-      this.getDashboard();
-      thisObj.showInput = true;
-      this.removecart.removeCart(id, skuId);
+    if (data._id === skuId) {
+      if (data.mycart === '1') {
+        thisObj.mycart = parseInt(data.mycart) - 1;
+        this.selected = undefined;
+        thisObj.showInput = true;
+        this.removecart.removeCart(id, skuId);
+        this.getCart(thisObj.mycart, id, skuId);
+        return;
+      } else {
+        thisObj.mycart = parseInt(data.mycart) - 1;
+        this.getCart(thisObj.mycart, id, skuId);
+      }
     }
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
   }
+
+
+
   showProductDetails(proId) {
     let navigationExtras: NavigationExtras = {
       queryParams: {
@@ -242,11 +254,17 @@ export class RecProductsComponent implements OnInit {
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
     this.getDashboard();
+    this.getRecProd();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
     this.getDashboard();
+    this.getRecProd();
+    if (this.header.removecartvalue) {
+      this.showInput = true;
+      this.selected = undefined;
+    }
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);

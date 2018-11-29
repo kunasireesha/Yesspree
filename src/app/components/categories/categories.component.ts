@@ -176,45 +176,52 @@ export class CategoriesComponent implements OnInit {
 
 
   //add to cart
-
+  mycart;
 
   itemIncrease(data, size, name, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
     if (localStorage.size !== size || localStorage.name !== name) {
-      thisObj.items.quantity = 0;
+      thisObj.mycart = 0;
     }
-    if (name === data.productName) {
+    if (skuId === data._id) {
       thisObj.showInput = true;
-      thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-      thisObj.getCart(thisObj.items.quantity, id, skuId);
+
+      thisObj.mycart = parseInt(data.mycart) + 1;
+
+      thisObj.getCart(thisObj.mycart, id, skuId);
+
       localStorage.setItem('size', size);
       localStorage.setItem('name', name);
-      // this.header.ngOnInit();
-
+      // this.router.navigate(['/']);
     }
-    this.getDashboard();
 
 
   }
 
-  itemDecrease(id, skuId, index) {
+  itemDecrease(data, id, skuId, index) {
     this.selected = index;
     let thisObj = this;
-    if (thisObj.items.quantity === 1) {
-      this.selected = undefined;
-      this.getDashboard();
-      thisObj.showInput = true;
-      this.removecart.removeCart(id, skuId);
-      return;
+    if (data._id === skuId) {
+      if (data.mycart === '1') {
+        thisObj.mycart = parseInt(data.mycart) - 1;
+        this.selected = undefined;
+        thisObj.showInput = true;
+        this.removecart.removeCart(id, skuId);
+        this.getCart(thisObj.mycart, id, skuId);
+        return;
+      } else {
+        thisObj.mycart = parseInt(data.mycart) - 1;
+        this.getCart(thisObj.mycart, id, skuId);
+      }
     }
-    thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-    this.getCart(thisObj.items.quantity, id, skuId);
   }
+
+
   quantity;
   getCart(quantity, id, skuId) {
 
-    if (quantity === 0) {
+    if (quantity === '0') {
       this.quantity = 1;
     } else {
       this.quantity = quantity
@@ -241,7 +248,9 @@ export class CategoriesComponent implements OnInit {
       //     window.location.reload();
       //   }
       // });
-
+      this.getTopProducts();
+      this.getAllProducts();
+      this.getDashboard();
     }, err => {
       swal(err.json().message, '', 'error');
     })
@@ -250,6 +259,7 @@ export class CategoriesComponent implements OnInit {
   skudata = [];
   //get dashbrd top products
   getTopProducts() {
+    this.skudata = [];
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -283,6 +293,7 @@ export class CategoriesComponent implements OnInit {
 
   allskudata = [];
   getAllProducts() {
+    this.allskudata = [];
     var inData = {
       "_id": this.id,
       "_session": localStorage.session,
@@ -379,19 +390,25 @@ export class CategoriesComponent implements OnInit {
   itemHeaderIncrease(cart, name, id, skuid, index) {
     this.header.itemIncrease(cart, name, id, skuid, index);
     this.getDashboard();
+    this.getTopProducts();
+    this.getAllProducts();
   }
 
   itemHeaderDecrease(cart, name, id, skuid, index) {
     this.header.itemDecrease(cart, name, id, skuid, index);
     this.getDashboard();
+    this.getTopProducts();
+    this.getAllProducts();
+    if (this.header.removecartvalue) {
+      this.showInput = true;
+      this.selected = undefined;
+    }
   }
   headerSubscribe(id, name) {
     this.header.subscribe(id, name);
   }
 
   getDashboard() {
-    console.log(localStorage.wh_pincode);
-    console.log(this.id);
     var inData = {
       _id: this.id,
       device_type: "web",
@@ -405,7 +422,6 @@ export class CategoriesComponent implements OnInit {
       this.cartCount = response.json().summary.cart_count;
       this.grandTotal = response.json().summary.grand_total;
       this.categoryData = response.json().result.category;
-
     }, err => {
       console.log(err)
     });

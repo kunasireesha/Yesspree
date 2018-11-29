@@ -234,28 +234,17 @@
             <br />
             <div class="row prdct-length">
               <div class="quantity buttons_added product-added" [ngClass]="{'quantity-beforeadd ':showInput && selected!==i}">
-                <input *ngIf="showInput && i == selected" type="button" value="-" class="minus" (click)="itemDecrease(sku.id_product,sku._id,i)">
-                <span class="add-home text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
+                <input *ngIf="(showInput && i == selected) || sku.mycart!=='0'" type="button" value="-" class="minus"
+                  (click)="itemDecrease(sku,sku.id_product,sku._id,i,sku.productName)">
+                <span class="add-home text-center" *ngIf="((showInput && selected!==i) && sku.mycart=='0')" (click)="getCart(sku.mycart,sku.id_product,sku._id)">Add</span>
 
-                <input *ngIf="showInput && i == selected" type="number" step="1" min="1" max="" name="quantity" value="{{items.quantity}}"
-                  title="Qty" class="input-text qty text product-input-quantity" size="4" pattern="" inputmode=""
-                  disabled>
+                <input *ngIf="(showInput && i == selected) ||  sku.mycart!=='0'" type="number" step="1" min="1" max=""
+                  name="quantity" value="{{sku.mycart}}" title="Qty" class="input-text qty text product-input-quantity"
+                  size="4" pattern="" inputmode="" disabled>
+
                 <input type="button" value="+" class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
               </div>
-              <!-- <div class="col-md-4">
-                <span *ngIf="showInput && i == selected" (click)="itemDecrease(sku.id_product,sku._id,i)">
-                  <i class="fa fa-minus" aria-hidden="true"></i>
-                </span>
-              </div>
-              <div class="col-md-4 quantity">
-                <span class="add text-center" *ngIf="showInput && selected!==i" (click)="getCart(items.quantity,sku.id_product,sku._id)">Add</span>
-                <span *ngIf="showInput && i == selected">{{items.quantity}}</span>
-              </div>
-              <div class="col-md-4">
-                <span class="plus" (click)="itemIncrease(sku,sku.size,sku.productName,sku.id_product,sku._id,i)">
-                  <i class="fa fa-plus" aria-hidden="true"></i>
-                </span>
-              </div> -->
+
             </div>
           </div>
         </div>

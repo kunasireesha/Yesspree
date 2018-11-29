@@ -34,7 +34,7 @@ export class DataService {
             'Content-Type': "application/JSON",
 
         });
-        window.scrollTo(0, 0);
+        // window.scrollTo(0, 0);
 
         return this.http.post(AppSettings.baseUrl + url, params, { headers: headers });
     }

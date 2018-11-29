@@ -79,6 +79,7 @@ export class HeadercartComponent implements OnInit {
 
   grandPer;
   savedMoney;
+  removecartvalue = false;
   quantity;
   getCart() {
     if (localStorage.userName !== undefined || localStorage.userData !== undefined) {
@@ -208,6 +209,7 @@ export class HeadercartComponent implements OnInit {
     if (this.sku.mycart === 1) {
       this.sku.mycart = Math.floor(this.sku.mycart - 1);
       this.removeCart(data[0]._id, skuId);
+      this.removecartvalue = true;
     } else {
       this.sku.mycart = Math.floor(this.sku.mycart - 1);
       this.addCart(this.sku.mycart, id, skuId);

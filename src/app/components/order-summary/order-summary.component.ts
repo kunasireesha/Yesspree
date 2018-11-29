@@ -110,19 +110,21 @@ export class OrderSummaryComponent implements OnInit {
             id_order: JSON.stringify(this.orderId)
         }
         this.loginService.postPromo(inData).subscribe(response => {
-            this.Promo = response.json();
-            if (response.json().status === "success") {
+            if (response.json().data === undefined) {
+                swal('Invalid Promocode', "", "error");
+            } else if (response.json().status === "success") {
                 swal('promo applied successfully', '', 'success');
-            } else if (response.json().status === "failure") {
-                swal(response.json().message, "", "error");
+            } else {
+                swal('Invalid Promocode', "", "error");
             }
             // else {
             //   swal("please enter promo code", "", "warning");
             // }
 
-            console.log(this.Promo);
 
-        });
+        }, err => {
+            swal('Invalid Promocode', "", "error");
+        })
     }
     payOptions;
     payMethod;

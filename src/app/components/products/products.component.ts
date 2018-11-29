@@ -356,39 +356,46 @@ export class ProductsComponent implements OnInit {
         this.getCart(thisObj.detailquantity, id, skuId);
     }
 
+    mycart;
     itemIncrease(data, size, name, id, skuId, index) {
         this.selected = index;
         let thisObj = this;
         if (localStorage.size !== size || localStorage.name !== name) {
-            thisObj.items.quantity = 0;
+            thisObj.mycart = 0;
         }
-        if (name === data.productName) {
-            thisObj.showInputs = true;
+        if (skuId === data._id) {
             thisObj.showInput = true;
-            thisObj.items.quantity = thisObj.items.quantity + 1;
-            thisObj.getCart(thisObj.items.quantity, id, skuId);
+
+            thisObj.mycart = parseInt(data.mycart) + 1;
+
+            thisObj.getCart(thisObj.mycart, id, skuId);
+
             localStorage.setItem('size', size);
             localStorage.setItem('name', name);
-
-            // this.header.ngOnInit();
+            // this.router.navigate(['/']);
         }
-        this.getDashboard();
+
+
     }
 
-
-    itemDecrease(id, skuId, index) {
+    itemDecrease(data, id, skuId, index) {
         this.selected = index;
         let thisObj = this;
-        if (thisObj.items.quantity === 1) {
-            this.selected = undefined;
-            thisObj.showInput = true;
-            this.removecart.removeCart(id, skuId);
-            this.getDashboard();
-            return;
+        if (data._id === skuId) {
+            if (data.mycart === '1') {
+                thisObj.mycart = parseInt(data.mycart) - 1;
+                this.selected = undefined;
+                thisObj.showInput = true;
+                this.removecart.removeCart(id, skuId);
+                this.getCart(thisObj.mycart, id, skuId);
+                return;
+            } else {
+                thisObj.mycart = parseInt(data.mycart) - 1;
+                this.getCart(thisObj.mycart, id, skuId);
+            }
         }
-        thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-        this.getCart(thisObj.items.quantity, id, skuId);
     }
+
 
 
     getCart(quantity, id, skuId) {
@@ -422,6 +429,9 @@ export class ProductsComponent implements OnInit {
             //     window.location.reload();
             //   }
             // });
+            this.getDashboard();
+            this.getProducts(this.subCatId);
+            this.productDetails(this.productId);
         }, err => {
             swal(err.json().message, '', 'error');
         })
@@ -760,11 +770,19 @@ export class ProductsComponent implements OnInit {
     itemHeaderIncrease(cart, name, id, skuid, index) {
         this.header.itemIncrease(cart, name, id, skuid, index);
         this.getDashboard();
+        this.productDetails(this.productId);
+        this.getProducts(this.subCatId);
     }
 
     itemHeaderDecrease(cart, name, id, skuid, index) {
         this.header.itemDecrease(cart, name, id, skuid, index);
         this.getDashboard();
+        this.getProducts(this.subCatId);
+        this.productDetails(this.productId);
+        if (this.header.removecartvalue) {
+            this.showInput = true;
+            this.selected = undefined;
+        }
     }
     headerSubscribe(id, name) {
         this.header.subscribe(id, name);

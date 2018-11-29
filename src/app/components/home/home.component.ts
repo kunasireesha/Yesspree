@@ -7,6 +7,7 @@ import { catList } from '../../services/catList';
 import { HeadercartComponent } from '../../components/headercart/headercart.component';
 import { FormControl } from '@angular/forms';
 import { MycartComponent } from '../../components/mycart/mycart.component';
+import { isInteger } from '@ng-bootstrap/ng-bootstrap/util/util';
 
 
 @Component({
@@ -64,6 +65,9 @@ export class HomeComponent implements OnInit {
     items = {
         quantity: 1
     }
+    // sku = {
+    //     mycart: 0
+    // }
     selected;
     quantity;
     squarebanner = false;
@@ -117,6 +121,7 @@ export class HomeComponent implements OnInit {
         // this.viewSpecificProducts1();
     }
     getData() {
+        this.skuProducts = [];
         var inData = {
             _id: this.id,
             device_type: "desktop",
@@ -131,19 +136,6 @@ export class HomeComponent implements OnInit {
             this.cartCount = response.json().summary.cart_count;
             this.grandTotal = response.json().summary.grand_total;
             this.categoryData = response.json().result.category;
-
-            this.images = [{ name: 'assets/images/thumb1.png' },
-            { name: 'assets/images/thumb2.png' },
-            { name: 'assets/images/thumb3.png' },
-            { name: 'assets/images/thumb4.png' },
-            { name: 'assets/images/thumb5.png' },
-            { name: 'assets/images/thumb6.png' },
-            { name: 'assets/images/thumb1.png' },
-            { name: 'assets/images/thumb2.png' },
-            { name: 'assets/images/thumb3.png' },
-            { name: 'assets/images/thumb4.png' },
-            { name: 'assets/images/thumb5.png' },
-            { name: 'assets/images/thumb6.png' },]
 
             for (var i = 0; i < this.categoryData.length; i++) {
                 this.images.push(this.url + this.categoryData[i].pic);
@@ -212,6 +204,7 @@ export class HomeComponent implements OnInit {
                     this.showProducts = false;
                 }
             }
+            console.log(this.skuProducts);
 
             if (response.json().result.banner[5].bannerdata.length !== '' || response.json().result.banner[5].bannerdata.length !== undefined || response.json().result.banner[5].bannerdata.length !== 0) {
 
@@ -288,42 +281,53 @@ export class HomeComponent implements OnInit {
         this.router.navigate(["/products"], navigationExtras);
     }
 
-
+    mycart;
+    // sku = {
+    //     mycart: ''
+    // }
     //add to cart
     itemIncrease(data, size, name, id, skuId, index) {
         this.selected = index;
         let thisObj = this;
         if (localStorage.size !== size || localStorage.name !== name) {
-            thisObj.items.quantity = 0;
+            thisObj.mycart = 0;
         }
-        if (name === data.productName) {
+        if (skuId === data._id) {
             thisObj.showInput = true;
-            thisObj.items.quantity = Math.floor(thisObj.items.quantity + 1);
-            thisObj.getCart(thisObj.items.quantity, id, skuId);
+
+            thisObj.mycart = parseInt(data.mycart) + 1;
+
+            thisObj.getCart(thisObj.mycart, id, skuId);
+
             localStorage.setItem('size', size);
             localStorage.setItem('name', name);
-            this.router.navigate(['/']);
+            // this.router.navigate(['/']);
         }
-        this.getDashboard();
+
+
     }
 
-    itemDecrease(id, skuId, index) {
+    itemDecrease(data, id, skuId, index, name) {
         this.selected = index;
         let thisObj = this;
-        if (thisObj.items.quantity === 1) {
-            // thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-            this.selected = undefined;
-            this.getData();
-            thisObj.showInput = true;
-            this.removecart.removeCart(id, skuId);
-            return;
+        if (data._id === skuId) {
+            if (data.mycart === '1') {
+                thisObj.mycart = parseInt(data.mycart) - 1;
+                this.selected = undefined;
+                thisObj.showInput = true;
+                this.removecart.removeCart(id, skuId);
+                this.getCart(thisObj.mycart, id, skuId);
+                return;
+            } else {
+                thisObj.mycart = parseInt(data.mycart) - 1;
+                this.getCart(thisObj.mycart, id, skuId);
+            }
         }
-        thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
-        this.getCart(thisObj.items.quantity, id, skuId);
+
     }
 
     getCart(quantity, id, skuId) {
-        if (quantity === 0) {
+        if (quantity === '0') {
             this.quantity = 1;
         } else {
             this.quantity = quantity
@@ -351,6 +355,7 @@ export class HomeComponent implements OnInit {
             //     window.location.reload();
             //   }
             // });
+            this.getData();
         }, err => {
             swal(err.json().message, '', 'error');
         })
@@ -424,7 +429,6 @@ export class HomeComponent implements OnInit {
                 _id: this.id
             }
             this.loginService.explore(inData).subscribe(response => {
-                console.log(response);
                 swal("Explored successfully", "", "success");
             }, error => {
                 if (error.json().status === 400) {
@@ -448,7 +452,6 @@ export class HomeComponent implements OnInit {
 
     selectValue(value) {
         this.data = value;
-        console.log(this.data);
         this.showDrop = false;
     }
 
@@ -512,7 +515,6 @@ export class HomeComponent implements OnInit {
                     let r = all[key].name.search(new RegExp(searchedWord, "i"));
                     if (r != -1) {
                         this.options.push(all[key])
-                        console.log(this.options);
                     }
                 }
             })
@@ -533,11 +535,17 @@ export class HomeComponent implements OnInit {
     itemHeaderIncrease(cart, name, id, skuid, index, mycart) {
         this.header.itemIncrease(cart, name, id, skuid, index);
         this.getDashboard();
+        this.getData();
     }
 
     itemHeaderDecrease(cart, name, id, skuid, index, mycart) {
         this.header.itemDecrease(cart, name, id, skuid, index);
         this.getDashboard();
+        if (this.header.removecartvalue) {
+            this.showInput = true;
+            this.selected = undefined;
+        }
+        this.getData();
     }
 
     headerSubscribe(id, name) {
