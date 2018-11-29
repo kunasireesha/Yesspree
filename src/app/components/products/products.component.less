@@ -17,12 +17,14 @@ li:active {
 .form-check-label {
     display: inline-flex;
 }
+
 span.input-group-addon {
     position: absolute !important;
     top: 3px !important;
     left: 18px !important;
     z-index: 1000 !important;
 }
+
 .modal-body {
     overflow: auto;
     height: 400px;
@@ -802,6 +804,41 @@ li.prefixData:active {
         font-size: 13px;
     }
 }
-.quantity.buttons_added .minus, .quantity.buttons_added .plus {
+
+.quantity.buttons_added .minus,
+.quantity.buttons_added .plus {
     padding: 7px 6px 8px;
+}
+
+.detailsQuan {
+    display: inline-flex;
+    .add-home,
+    .input-text {
+        width: 80%;
+        height: 51px;
+        padding: 0 11px;
+        text-align: center;
+        background-color: transparent;
+        background-color: #fff212;
+        border-right: 1px solid #373435;
+        padding-top: 1px;
+        width: 100%;
+        margin-top: 6px;
+    }
+    .add-home-before {
+        margin-left: 21%;
+        margin-top: 6px;
+        padding-top: 16px;
+    }
+    .quantity.buttons_added .plus,
+    .minus {
+        padding: 7px 10px 8px;
+        height: 51.5px;
+        background-color: #ffffff;
+        border: 1px solid #efefef;
+        cursor: pointer;
+        margin-top: 5.5px;
+        width: 43px;
+        background-color: #fff212;
+    }
 }

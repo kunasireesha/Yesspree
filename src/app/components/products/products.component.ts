@@ -120,6 +120,7 @@ export class ProductsComponent implements OnInit {
     showSubscriptionData = false;
     showInputs = true;
     subCatId;
+    showdetailInput;
     id;
     subName;
     subcatdata = [];
@@ -325,16 +326,14 @@ export class ProductsComponent implements OnInit {
             return;
         }
         let thisObj = this;
-        thisObj.showInputs = true;
-        thisObj.showInput = true;
+        thisObj.showdetailInput = true;
         this.selected = index;
         if (localStorage.size !== size || localStorage.name !== name) {
             thisObj.detailquantity = 0;
         }
         if (name === data.productName) {
-            thisObj.showInputs = true;
-            thisObj.showInput = true;
-            thisObj.detailquantity = thisObj.detailquantity + 1;
+            thisObj.showdetailInput = true;
+            thisObj.detailquantity = parseInt(thisObj.detailquantity) + 1;
             thisObj.getCart(thisObj.detailquantity, id, skuId);
             localStorage.setItem('size', size);
             localStorage.setItem('name', name);
@@ -347,7 +346,10 @@ export class ProductsComponent implements OnInit {
     detailsitemDecrease(id, skuId, index) {
         // this.selected = index;
         let thisObj = this;
-        if (thisObj.detailquantity === 1) {
+        if (thisObj.detailquantity === 1 || thisObj.detailquantity === '1') {
+            thisObj.showdetailInput = false;
+            this.removecart.removeCart(id, skuId);
+            this.getDashboard();
             return;
         }
         thisObj.detailquantity = Math.floor(thisObj.detailquantity - 1);
@@ -379,9 +381,9 @@ export class ProductsComponent implements OnInit {
         let thisObj = this;
         if (thisObj.items.quantity === 1) {
             this.selected = undefined;
-            this.getDashboard();
             thisObj.showInput = true;
             this.removecart.removeCart(id, skuId);
+            this.getDashboard();
             return;
         }
         thisObj.items.quantity = Math.floor(thisObj.items.quantity - 1);
@@ -598,10 +600,10 @@ export class ProductsComponent implements OnInit {
             this.detailsproduct = this.product[0].sku[0];
             this.detailquantity = this.detailsproduct.mycart;
 
-            if (this.detailsproduct.mycart !== 0) {
-                this.showInput = true;
+            if (this.detailsproduct.mycart !== '0') {
+                this.showdetailInput = true;
             } else {
-                this.showInput = false;
+                this.showdetailInput = false;
             }
 
             for (var i = 0; i < this.product.length; i++) {
@@ -672,11 +674,17 @@ export class ProductsComponent implements OnInit {
 
     }
 
-    skusize(size) {
+    skusize(sku) {
 
-        size.isSubscribe = this.detailsproduct.isSubscribe;
-        this.detailsproduct = size;
-        this.selectedskusize = size.size;
+        sku.isSubscribe = this.detailsproduct.isSubscribe;
+        this.detailsproduct = sku;
+        this.selectedskusize = sku.size;
+        if (sku.mycart === '0') {
+            this.showdetailInput = false;
+        } else {
+            this.showdetailInput = true;
+            this.detailquantity = sku.mycart;
+        }
 
     }
     startDate;
