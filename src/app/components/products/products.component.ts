@@ -156,7 +156,7 @@ export class ProductsComponent implements OnInit {
     product;
     firstPic;
     specificProd;
-    weak;
+    weak: string;
     catName;
     alternateid;
     selectedskusize;
@@ -680,8 +680,8 @@ export class ProductsComponent implements OnInit {
     }
 
     subscribe(weak) {
-        this.weak = weak;
 
+        this.weak = weak;
     }
 
     skusize(sku) {
@@ -735,7 +735,13 @@ export class ProductsComponent implements OnInit {
         })
     }
     checkPrefix(prefixVAlue) {
+        this.weak = '';
         this.prefix = prefixVAlue;
+        if (this.prefix === 'Every Day') {
+            this.weak = "Mon,Tue,Wed,Thu,Fri,Sat,Sun";
+        } else if (this.prefix === 'Alternate Days') {
+            this.weak = "Mon,Wed,Fri,Sun";
+        }
     }
 
     // emailFormArray: Array<any> = [{ type: '', selected: false }];
