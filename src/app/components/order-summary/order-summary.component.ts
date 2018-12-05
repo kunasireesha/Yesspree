@@ -130,6 +130,7 @@ export class OrderSummaryComponent implements OnInit {
     payOptions;
     payMethod;
     payType;
+    slots = [];
     checkoutSummary() {
         var inData = {
             _session: localStorage.session,
@@ -146,8 +147,11 @@ export class OrderSummaryComponent implements OnInit {
             for (var i = 0; i < this.dateSlot.length; i++) {
                 for (var j = 0; j < this.dateSlot[i].times.length; j++) {
                     this.dateSlot[i].times[j].date = this.dateSlot[i].date;
+                    this.slots.push(this.dateSlot[i].times[j]);
                 }
+
             }
+            console.log(this.slots);
 
             this.payOptions = response.json().pay_options;
             for (var i = 0; i < this.cart.length; i++) {
@@ -166,21 +170,27 @@ export class OrderSummaryComponent implements OnInit {
         this.payMethod = type;
     }
     delDate;
-    dateChange(Value) {
-        this.delDate = Value;
-        this.timeSlot = [];
-        for (var i = 0; i < this.dateSlot.length; i++) {
-            if (Value === this.dateSlot[i].date) {
-                this.timeSlot.push({ time: this.dateSlot[i].times, date: Value });
-                console.log(this.timeSlot);
-                return;
-            }
-
-        }
-    }
+    selectSlot;
     deltime;
-    timeChange(time) {
-        this.deltime = time;
+    // dateChange(Value) {
+    //     this.delDate = Value;
+    //     this.timeSlot = [];
+    //     for (var i = 0; i < this.dateSlot.length; i++) {
+    //         if (Value === this.dateSlot[i].date) {
+    //             this.timeSlot.push({ time: this.dateSlot[i].times, date: Value });
+    //             console.log(this.timeSlot);
+    //             return;
+    //         }
+
+    //     }
+    // }
+
+    // timeChange(time) {
+    //     this.deltime = time;
+    // }
+    slectslot(data, index) {
+        this.selectSlot = index;
+        this.delDate = data.date + ',' + data.time
     }
     cartCheckout(grand) {
         if (this.payType && this.payMethod === undefined) {
@@ -191,7 +201,7 @@ export class OrderSummaryComponent implements OnInit {
             "total_paid": JSON.stringify(grand),
             "pay_type": this.payType,
             "pay_option": this.payMethod,
-            "delivery_slot": this.delDate + "," + this.deltime,
+            "delivery_slot": this.delDate,
             "express": 1
         }
         this.orders.push(this.data);
