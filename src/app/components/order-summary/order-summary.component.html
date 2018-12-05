@@ -374,7 +374,7 @@
 
 
   <div class="row address-bar">
-    <div class="col-lg-3 home-address" *ngFor="let item of getAddress">
+    <div class="col-lg-3 home-address" *ngFor="let item of getAddress;let i =index">
       <div class="office">
         <p>
           <strong>{{item.type}} </strong>
@@ -388,9 +388,9 @@
           <p>{{item.state}}&nbsp; {{item.pincode}}</p>
         </div>
       </div>
-      <div class="row deliver-btn">
+      <div class="row dbtn" [ngClass]="{'deliver-btn':confirmDel==i}">
         <p>
-          <strong (click)=checkoutDelivery(item._id)>DELIVER HERE </strong>
+          <strong (click)=checkoutDelivery(item._id,i)>DELIVER HERE </strong>
         </p>
       </div>
     </div>

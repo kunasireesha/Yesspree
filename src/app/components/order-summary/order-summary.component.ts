@@ -30,6 +30,7 @@ export class OrderSummaryComponent implements OnInit {
     summarySum;
     url;
     promoCode;
+    confirmDel;
     coupon;
     addData = {
         name: '',
@@ -295,14 +296,20 @@ export class OrderSummaryComponent implements OnInit {
         this.prefix = prefixVAlue;
     }
 
-    checkoutDelivery(id) {
+    checkoutDelivery(id, index) {
         var inData = {
             "op": "update",
             "id_address": id,
             "selected": "1"
         }
         this.loginService.checkoutaddress(inData).subscribe(reponse => {
-            swal("address selected", "", "success");
+            if (reponse.json().status === 'success') {
+                this.confirmDel = index;
+                swal("address selected", "", "success");
+            } else {
+                swal(reponse.json().message, "", "error");
+            }
+
         })
     }
 
