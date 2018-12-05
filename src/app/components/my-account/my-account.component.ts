@@ -49,6 +49,8 @@ export class MyAccountComponent implements OnInit {
     mr;
     mrs;
     prefix;
+    lastpic1;
+    lastpic2;
     ngOnInit() {
         this.url = AppSettings.imageUrl;
 
@@ -70,14 +72,33 @@ export class MyAccountComponent implements OnInit {
         this.loginService.getDashboardData(inData).subscribe(response => {
             this.sharedData = response.json().reffer;
             if (response.json().result.banner[7].bannerdata !== '' || response.json().result.banner[7].bannerdata !== undefined || response.json().result.banner[7].bannerdata.length !== 0) {
-                this.offersData = response.json().result.banner[7].bannerdata;
-                this.lastpic = this.offersData[2].pic
+                // this.offersData = response.json().result.banner[7].bannerdata;
+                // this.lastpic = this.offersData[2].pic
             }
 
         }, err => {
             console.log(err)
 
         });
+        // offers
+        var inData1 =
+        {
+            "lang": "en"
+        }
+
+        this.loginService.getOffers(inData1).subscribe(response => {
+            console.log(response.json());
+            this.lastpic = response.json().offer[0].pic;
+            if ((response.json().offer[1].pic)! === undefined) {
+                this.lastpic1 = response.json().offer[1].pic;
+            }
+            // else if ((response.json().offer[2].pic)! === undefined) {
+            //     this.lastpic2 = response.json().offer[2].pic || '';
+            // }
+
+        }, error => {
+
+        })
         this.getDashboard();
         this.header.geoLocation();
         this.header.postVillageName(localStorage.wh_pincode);

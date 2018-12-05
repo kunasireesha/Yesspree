@@ -121,6 +121,9 @@ export class DataService {
     getDashboardData(params): Observable<any> {
         return this.postInputParams(params, 'customer/dashboard')
     }
+    getOffers(params) {
+        return this.postInputParams(params, 'offers/offerall')
+    }
     getSubcat(params): Observable<any> {
         return this.postInputParams(params, 'category/childcategories')
     }

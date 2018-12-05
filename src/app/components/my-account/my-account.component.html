@@ -635,10 +635,21 @@
       <h5>OFFERS</h5>
       <div class="row">
 
-        <div class="col-lg-6 col-md-6" *ngFor="let ofer of offersData;let i =index">
-          <div class="cust-offers" *ngIf="i<2">
+        <div class="col-lg-6 col-md-6">
+          <div class="cust-offers">
 
-            <img [src]="url + '/' + ofer.pic" class="offer-image" style="height:250px;">
+            <img [src]="url + '/' + lastpic" class="offer-image" style="height:250px;">
+            <!-- <p>
+              <strong>Pay With Paytm </strong>
+            </p>
+            <p>Get Rs.250 cashback Shop for Rs.499 & above</p>
+            <p>Promocode:MK250</p> -->
+          </div>
+        </div>
+        <div class="col-lg-6 col-md-6">
+          <div class="cust-offers">
+
+            <img [src]="url + '/' + lastpic1" *ngIf="lastpic1" class="offer-image" style="height:250px;">
             <!-- <p>
               <strong>Pay With Paytm </strong>
             </p>
@@ -650,7 +661,7 @@
 
         <div class="col-lg-12">
           <figure class="kotakimg">
-            <img [src]="url + '/' + lastpic" style="height:500px;" />
+            <img [src]="url + '/' + lastpic2" *ngIf="lastpic2" style="height:500px;" />
           </figure>
         </div>
       </div>
