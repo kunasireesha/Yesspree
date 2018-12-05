@@ -736,6 +736,7 @@ export class ProductsComponent implements OnInit {
     }
     checkPrefix(prefixVAlue) {
         this.weak = '';
+
         this.prefix = prefixVAlue;
         if (this.prefix === 'Every Day') {
             this.weak = "Mon,Tue,Wed,Thu,Fri,Sat,Sun";
