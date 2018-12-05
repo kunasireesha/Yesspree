@@ -419,22 +419,24 @@
     <br />
     <div class="row">
       <div class="col-lg-2"></div>
-      <div class="col-lg-4">
+      <!-- <div class="col-lg-4">
         <span>Dates:
           <select (change)="dateChange($event.target.value)">
             <option>Select Date</option>
             <option *ngFor="let time of dateSlot" [value]="time.date">{{time.date}}</option>
           </select></span>
-      </div>
-      <div class="col-lg-4">
+      </div> -->
+      <!-- <div class="col-lg-4">
         <span>Times:
           <select (change)="timeChange($event.target.value)">
             <option *ngFor="let time of timeSlot[0]" [value]="time.time">{{time.time}}</option>
           </select></span>
-      </div>
-      <!-- <div class="col-lg-2 edit-time">
-        <i class="fa fa-pencil" aria-hidden="true"></i>
       </div> -->
+      <div class="col-lg-12 edit-time">
+        <p *ngFor="let data of dateSlot">{{data.date}}<span *ngFor="let time of data.times">{{time.time}}</span><i
+            class="fa fa-pencil" aria-hidden="true"></i></p><br />
+
+      </div>
     </div>
   </div>
   <div class="row">

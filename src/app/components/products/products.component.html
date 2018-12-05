@@ -426,13 +426,13 @@
                 <div class="col-lg-12">
                   <p>Choose Days</p>
                   <ul class="chs-days">
-                    <li (click)="subscribe('Mon')" [ngClass]="{'activedeails':weak=='Mon'}">Mon</li>
-                    <li (click)="subscribe('Tue')" [ngClass]="{'activedeails':weak=='Tue'}">Tue</li>
-                    <li (click)="subscribe('Wed')" [ngClass]="{'activedeails':weak=='Wed'}">Wed</li>
-                    <li (click)="subscribe('Thu')" [ngClass]="{'activedeails':weak=='Thu'}">Thu</li>
-                    <li (click)="subscribe('Fri')" [ngClass]="{'activedeails':weak=='Fri'}">Fri</li>
-                    <li (click)="subscribe('Sat')" [ngClass]="{'activedeails':weak=='Sat'}">Sat</li>
-                    <li (click)="subscribe('Sun')" [ngClass]="{'activedeails':weak=='Sun'}">Sun</li>
+                    <li (click)="subscribe('Mon')" [ngClass]="{'activedeails':weak=='Mon' ||  prefix == 'Every Day' || prefix == 'Alternate Days' }">Mon</li>
+                    <li (click)="subscribe('Tue')" [ngClass]="{'activedeails':weak=='Tue' ||  prefix == 'Every Day'}">Tue</li>
+                    <li (click)="subscribe('Wed')" [ngClass]="{'activedeails':weak=='Wed' ||  prefix == 'Every Day'  || prefix == 'Alternate Days'}">Wed</li>
+                    <li (click)="subscribe('Thu')" [ngClass]="{'activedeails':weak=='Thu' ||  prefix == 'Every Day'}">Thu</li>
+                    <li (click)="subscribe('Fri')" [ngClass]="{'activedeails':weak=='Fri' ||  prefix == 'Every Day'  || prefix == 'Alternate Days'}">Fri</li>
+                    <li (click)="subscribe('Sat')" [ngClass]="{'activedeails':weak=='Sat' ||  prefix == 'Every Day'}">Sat</li>
+                    <li (click)="subscribe('Sun')" [ngClass]="{'activedeails':weak=='Sun' ||  prefix == 'Every Day'  || prefix == 'Alternate Days'}">Sun</li>
                   </ul>
                 </div>
               </div>

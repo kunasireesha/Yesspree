@@ -143,16 +143,23 @@ export class OrderSummaryComponent implements OnInit {
             this.cart = response.json().cart;
             this.orderId = response.json().orders[0].order_id;
             this.dateSlot = response.json().orders[0].deliveryslot;
+            for (var i = 0; i < this.dateSlot.length; i++) {
+                for (var j = 0; j < this.dateSlot[i].times.length; j++) {
+                    this.dateSlot[i].times[j].date = this.dateSlot[i].date;
+                }
+            }
+
             this.payOptions = response.json().pay_options;
             for (var i = 0; i < this.cart.length; i++) {
                 this.cart[i].percentage = Math.round(100 - (this.cart[i].sku[0].selling_price / this.cart[i].sku[0].mrp * 100));
                 this.cart[i].size = this.cart[i].sku[0].size;
             }
             this.summarySum = response.json().summary;
-            console.log(this.orderId);
+
         }, err => {
             swal(err.message, "", "error")
         })
+
     }
     optType(opt, type) {
         this.payType = opt;
@@ -164,7 +171,7 @@ export class OrderSummaryComponent implements OnInit {
         this.timeSlot = [];
         for (var i = 0; i < this.dateSlot.length; i++) {
             if (Value === this.dateSlot[i].date) {
-                this.timeSlot.push(this.dateSlot[i].times);
+                this.timeSlot.push({ time: this.dateSlot[i].times, date: Value });
                 console.log(this.timeSlot);
                 return;
             }
