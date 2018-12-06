@@ -350,6 +350,7 @@ export class ProductsComponent implements OnInit {
             thisObj.showdetailInput = false;
             this.removecart.removeCart(id, skuId);
             this.getDashboard();
+            thisObj.getCart(thisObj.detailquantity, id, skuId);
             return;
         }
         thisObj.detailquantity = Math.floor(thisObj.detailquantity - 1);
@@ -699,6 +700,7 @@ export class ProductsComponent implements OnInit {
     }
     startDate;
     subscribeData(skuId, ProId) {
+
         var today = new Date(this.model2);
         var dd = today.getDate();
         var mm = today.getMonth();
@@ -715,6 +717,10 @@ export class ProductsComponent implements OnInit {
             swal('Please select size', '', 'error');
             return;
         }
+        if (this.detailquantity == 0) {
+            swal('Not in cart', '', 'error');
+            return;
+        }
         var inData = {
             "day": this.weak,
             "id_product": ProId,
@@ -722,12 +728,12 @@ export class ProductsComponent implements OnInit {
             "is_alternate": this.alternateid.toString(),
             "is_doorbellring": "1",
             "pay_type": "COD",
-            "quantity": this.selectedskusize,
+            "quantity": this.detailquantity,
             "start_date": this.startDate,
             "subscription_type": this.prefix
         }
         this.loginService.productSubscription(inData).subscribe(response => {
-            if (response.json().status === 200) {
+            if (response.json().status === "success") {
                 swal(response.json().message, '', 'success');
             } else {
                 swal(response.json().message, '', 'error');
