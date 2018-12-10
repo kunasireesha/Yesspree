@@ -3,7 +3,7 @@
   <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
-        <img src="assets/images/logo.png" alt="logo">
+        <img src="assets/images/logo.png" alt="logo" class="img-fluid">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -13,7 +13,7 @@
         <div class="container navbar-nav pt-3">
           <div class="input-group  search-menu mb-3">
             <div class="input-group-prepend dropdown-append">
-              <img class="map-pointer" src="assets/images/ic_location_copy.png">
+              <img class="map-pointer img-fluid" src="assets/images/ic_location_copy.png">
               <select class="form-control location" id="exampleFormControlSelect1" (change)="header.changeVillageName($event.target.value,village)">
                 <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
               </select>
@@ -90,7 +90,7 @@
           <h5>
             <strong>MY ACCOUNT</strong>
           </h5>
-          <img src="..assets/images/user.jpg" class="profile-image">
+          <img src="..assets/images/user.jpg" class="profile-image img-fluid">
           <p>
             <strong>{{mydata.first_name}} {{mydata.last_name}}</strong>
           </p>
@@ -207,7 +207,7 @@
         </div>
         <div class="row">
           <div class="col-lg-2">
-            <img [src]="url + '/' + data.image" class="ashirvaad-image">
+            <img [src]="url + '/' + data.image" class="ashirvaad-image img-fluid">
           </div>
           <div class="prod-name col-lg-10">
             <p>
@@ -264,7 +264,7 @@
           <tbody>
             <tr *ngFor="let ordData of ordersData2">
               <td class="table-data">
-                <img [src]="url + '/'+ ordData.product_pic" class="prod-image">
+                <img [src]="url + '/'+ ordData.product_pic" class="prod-image img-fluid">
                 <p>
                   <strong>{{ordData.product_name}} </strong><br />
                   <!-- <br />100% Pure</p> -->
@@ -442,7 +442,7 @@
           <tbody>
             <tr *ngFor="let cartDetails of mycartList">
               <td class="table-data" *ngFor="let skuSize of cartDetails.sku">
-                <img [src]="url + cartDetails.image" class="prod-image">
+                <img [src]="url + cartDetails.image" class="prod-image img-fluid">
                 <p>
                   <strong>{{cartDetails.name}} </strong><br />
                   <span>{{skuSize.size}}</span>
@@ -563,7 +563,7 @@
       <div class="">
         <div class="row" *ngFor="let item of subscribedOrders">
           <div class="col-lg-3">
-            <img [src]="url + item.order.product_pic" class="onion-image">
+            <img [src]="url + item.order.product_pic" class="onion-image img-fluid">
           </div>
           <div class="col-lg-9">
             <h5>
@@ -608,7 +608,7 @@
       <div class="" *ngIf="unsubscribe">
         <div class="row" *ngFor="let item of ordersData">
           <div class="col-lg-3">
-            <img [src]="url + item.order.product_pic" class="onion-image">
+            <img [src]="url + item.order.product_pic" class="onion-image img-fluid">
           </div>
           <div class="col-lg-9">
             <h5>
@@ -649,7 +649,7 @@
         <div class="col-lg-6 col-md-6">
           <div class="cust-offers">
 
-            <img [src]="url + '/' + lastpic1" *ngIf="lastpic1" class="offer-image" style="height:250px;">
+            <img [src]="url + '/' + lastpic1" *ngIf="lastpic1" class="offer-image img-fluid" style="height:250px;">
             <!-- <p>
               <strong>Pay With Paytm </strong>
             </p>
@@ -661,7 +661,7 @@
 
         <div class="col-lg-12">
           <figure class="kotakimg">
-            <img [src]="url + '/' + lastpic2" *ngIf="lastpic2" style="height:500px;" />
+            <img [src]="url + '/' + lastpic2" *ngIf="lastpic2" class="img-fluid" style="height:500px;" />
           </figure>
         </div>
       </div>
@@ -689,16 +689,18 @@
       <hr>
       <div class="row smiley-icons">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-          <a><img src="assets/images/happy.png" class="smiley-image happy" (click)="ratings('Happy')" [ngClass]="{'activerate' : rating === 'Happy'}"></a>
+          <a><img src="assets/images/happy.png" class="smiley-image happy img-fluid" (click)="ratings('Happy')"
+              [ngClass]="{'activerate' : rating === 'Happy'}"></a>
           <br />
           <p class="happy-p">Happy</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-          <img src="assets/images/good.png" class="smiley-image" (click)="ratings('Good')" [ngClass]="{'activerate' : rating === 'Good'}">
+          <img src="assets/images/good.png" class="smiley-image img-fluid" (click)="ratings('Good')" [ngClass]="{'activerate' : rating === 'Good'}">
           <p>Good</p>
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-          <img src="assets/images/not_good.png" class="smiley-image not-good" (click)="ratings('Not Good')" [ngClass]="{'activerate' : rating === 'Not Good'}"><br />
+          <img src="assets/images/not_good.png" class="smiley-image not-good img-fluid" (click)="ratings('Not Good')"
+            [ngClass]="{'activerate' : rating === 'Not Good'}"><br />
           <p class="not-good-p">Not Good</p>
         </div>
       </div>
@@ -730,7 +732,7 @@
           <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
           <!-- </div> -->
           <div class="chakki-img">
-            <img [src]="url + data.image" alt="">
+            <img [src]="url + data.image" alt="" class="img-fluid">
           </div>
         </div>
         <div class="col-lg-9 notification-details">
@@ -788,38 +790,32 @@
               </ul><br />
               <div class="form-group address-form">
                 <label for="exampleInputEmail1">Name</label>
-                <input type="text" class="form-control" alphabetsOnly id="exampleInputEmail1" aria-describedby="emailHelp"
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
                   [(ngModel)]="addData.name" name="name" pattern="[a-zA-Z]+" ng-pattern-restrict>
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Flat/House/Office No</label>
-                <input type="text" alphanumericOnly class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.phone"
-                  name="phone">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.phone" name="phone">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Street Name</label>
-                <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.address1"
-                  name="phone">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.address1" name="phone">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Taluka</label>
-                <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.taluk"
-                  name="taluk">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.taluk" name="taluk">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">District</label>
-                <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.district"
-                  name="district">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.district" name="district">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">City</label>
-                <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.city"
-                  name="city">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.city" name="city">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">State</label>
-                <input type="text" class="form-control" alphanumericOnly id="exampleInputPassword1" [(ngModel)]="addData.state"
-                  name="state">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.state" name="state">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Pincode</label>
@@ -984,7 +980,7 @@
                 </div>
               </td>
               <td class="table-data">
-                <img src="{{sku.image}}" class="prod-image">
+                <img src="{{sku.image}}" class="prod-image img-fluid">
                 <p>&nbsp;&nbsp;
                   <strong>{{sku.productName}} </strong>
                   <br />
@@ -1104,13 +1100,13 @@
               <strong>SHARE</strong>
             </h5>
             <figure class="shareimg text-center">
-              <img [src]="url+ sharedData?.image" alt="SHARE" />
+              <img [src]="url+ sharedData?.image" alt="SHARE" class="img-fluid" />
               <figcaption>
-                <img src="assets/images/ic_invitation.png" class="share-img">
+                <img src="assets/images/ic_invitation.png" class="share-img img-fluid">
                 <p class="share-text">Invite a Friend</p>
-                <img src="assets/images/ic_friend_signup.png" class="share-img">
+                <img src="assets/images/ic_friend_signup.png" class="share-img img-fluid">
                 <p class="share-text">Friend Signup</p>
-                <img src="assets/images/ic_cashback.png" class="share-img">
+                <img src="assets/images/ic_cashback.png" class="share-img img-fluid">
                 <p class="share-text">Get Cashback</p>
               </figcaption><br />
               <h5>
@@ -1128,20 +1124,20 @@
             <br />
             <ul class="share-via">
               <li>
-                <img src="assets/images/watsapp.png" width="50px" height="50px">
+                <img src="assets/images/watsapp.png" class="img-fluid" width="50px" height="50px">
 
                 <p class="social">Whatsapp</p>
               </li>
               <li>
 
-                <img src="assets/images/facebook.png" width="50px" height="50px" (click)="sharedata()">
+                <img src="assets/images/facebook.png" class="img-fluid" width="50px" height="50px" (click)="sharedata()">
 
                 <!-- <i class="fa fa-facebook-square" aria-hidden="true"></i> -->
                 <p class="social">Facebook</p>
               </li>
               <li>
 
-                <img src="assets/images/ic_message.png" width="50px" height="50px">
+                <img src="assets/images/ic_message.png" class="img-fluid" width="50px" height="50px">
                 <p class="social">Message</p>
               </li>
             </ul>
@@ -1159,7 +1155,7 @@
             <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
           </div> -->
           <div class="coupon-image">
-            <img [src]="url+ offer.pic" alt="Chakki-img" width="130" height="100">
+            <img [src]="url+ offer.pic" class="img-fluid" alt="Chakki-img" width="130" height="100">
             <p>PromoCode:<strong> {{offer.promo_code}}</strong></p>
           </div>
         </div>
@@ -1231,7 +1227,7 @@
         <div class="row  bac-shadw" *ngFor="let cartItems of header.mycart;let i = index">
           <div class="col-lg-3">
             <div class="ashirvadimg">
-              <img [src]="url + cartItems.image" alt="ashirvad" />
+              <img [src]="url + cartItems.image" alt="ashirvad" class="img-fluid" />
             </div>
           </div>
           <div class="col-lg-9">

@@ -5,22 +5,22 @@
 
         <ul>
           <li *ngIf="showProfile">
-            <img src="assets/images/phone.png" alt="phone"> {{userMobile}}
+            <img src="assets/images/phone.png" alt="phone" class="img-fluid"> {{userMobile}}
           </li>
           <li *ngIf="showLogin">
             <a (click)="openSingin()">
-              <img src="assets/images/ic_sign_in.png" alt="sign in">Sign In
+              <img src="assets/images/ic_sign_in.png" alt="sign in" class="img-fluid">Sign In
             </a>
           </li>
           <li *ngIf="showLogin">
             <a (click)="openRegistration()">
-              <img src="assets/images/ic_sign_up.png" alt="sign out">Sign Up
+              <img src="assets/images/ic_sign_up.png" alt="sign out" class="img-fluid">Sign Up
             </a>
           </li>
           <li>
             <div class="dropdown show" *ngIf="showProfile">
 
-              <img src="assets/images/user-login.png" class="user-image" alt="sign in">
+              <img src="assets/images/user-login.png" class="user-image img-fluid" alt="sign in">
               <a class=" dropdown-toggle" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true"
                 aria-expanded="false">
                 {{userName}}
@@ -29,26 +29,26 @@
               <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                 <a class="dropdown-item" routerLink="/myaccount">
                   <!-- <i class="fa fa-user-o"></i>&nbsp;</a> -->
-                  <img src="assets/images/ic_my_account.png" alt="logo"> My Account</a>
+                  <img src="assets/images/ic_my_account.png" alt="logo" class="img-fluid"> My Account</a>
                 <a class="dropdown-item" routerLink="deliveryaddress">
-                  <img src="assets/images/ic_my_addresses.png" alt="logo"> My Addresses</a>
+                  <img src="assets/images/ic_my_addresses.png" alt="logo" class="img-fluid"> My Addresses</a>
                 <a class="dropdown-item" routerLink="ordersfirst">
-                  <img src="assets/images/ic_my_orders.png" alt="logo"> My Orders</a>
+                  <img src="assets/images/ic_my_orders.png" alt="logo" class="img-fluid"> My Orders</a>
                 <a class="dropdown-item" routerLink="/myAccountcart">
-                  <img src="assets/images/ic_my_cart.png" alt="logo">
+                  <img src="assets/images/ic_my_cart.png" alt="logo" class="img-fluid">
                   My Cart
                 </a>
                 <a class="dropdown-item" routerLink="/mysubscription">
-                  <img src="assets/images/ic_my_subscriptions.png" alt="logo">&nbsp; My Subscriptions</a>
+                  <img src="assets/images/ic_my_subscriptions.png" alt="logo" class="img-fluid">&nbsp; My Subscriptions</a>
                 <a class="dropdown-item" routerLink="/myoffers">
-                  <img src="assets/images/ic_offers.png" alt="logo">&nbsp; Offers
+                  <img src="assets/images/ic_offers.png" alt="logo" class="img-fluid">&nbsp; Offers
                 </a>
                 <a class="dropdown-item" routerLink="/myrateus">
-                  <img src="assets/images/ic_rate_us.png" alt="logo">&nbsp; Rate Us</a>
+                  <img src="assets/images/ic_rate_us.png" alt="logo" class="img-fluid">&nbsp; Rate Us</a>
                 <a class="dropdown-item" routerLink="/share">
-                  <img src="assets/images/ic_share.png" alt="logo">&nbsp; Share</a>
+                  <img src="assets/images/ic_share.png" alt="logo" class="img-fluid">&nbsp; Share</a>
                 <a class="dropdown-item" routerLink="/mynotifiactions">
-                  <img src="assets/images/ic_notifications.png" alt="logo">
+                  <img src="assets/images/ic_notifications.png" alt="logo" class="img-fluid">
                   &nbsp; Notifications</a>
                 <a class="dropdown-item" routerLink="/wishlist">
                   <i class="fa fa-heart" aria-hidden="true"></i>
@@ -57,7 +57,7 @@
                   <i class="fa fa-trophy" aria-hidden="true"></i>
                   &nbsp; Coupons</a> -->
                 <a class="dropdown-item" (click)="logout()">
-                  <img src="assets/images/ic_logout.png" alt="logo">
+                  <img src="assets/images/ic_logout.png" alt="logo" class="img-fluid">
                   &nbsp; Logout</a>
               </div>
             </div>
@@ -137,7 +137,7 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo" class="img-fluid">
                 </div>
               </div>
               <p class="download-stmt">Download our App. Enjoy Your Shoppings</p>
@@ -237,7 +237,7 @@
             <div class="col-md-6 background-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo" class="img-fluid">
                 </div>
               </div>
               <p class="download-stmt">Download our App. Enjoy Your Shoppings</p>
@@ -292,7 +292,7 @@
             <div class="col-md-6 otp-image">
               <div class="row  align-items-center">
                 <div class="col-md-12 text-center popup-logo">
-                  <img src="assets/images/logo.png" alt="logo">
+                  <img src="assets/images/logo.png" alt="logo" class="img-fluid">
                 </div>
               </div>
               <p class="download-stmt1">Download our App. Enjoy Your Shoppings</p>

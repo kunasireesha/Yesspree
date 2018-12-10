@@ -2,7 +2,7 @@
   <div class="main-menu">
     <nav class="navbar sticky-top navbar-expand-lg navbar-light ">
       <a class="navbar-brand" routerLink="/">
-        <img src="assets/images/logo.png" alt="logo">
+        <img src="assets/images/logo.png" alt="logo" class="img-fluid">
       </a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
         aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +12,7 @@
         <div class="container navbar-nav pt-3">
           <div class="input-group  search-menu mb-3">
             <div class="input-group-prepend dropdown-append">
-              <img class="map-pointer" src="assets/images/ic_location_copy.png">
+              <img class="map-pointer img-fluid" src="assets/images/ic_location_copy.png">
               <select class="form-control location" id="exampleFormControlSelect1" (change)="header.changeVillageName($event.target.value,village)">
                 <option selected *ngFor="let villageName of header.village" value="{{villageName.pincode}}">{{villageName.pincode}}</option>
               </select>
@@ -65,10 +65,10 @@
 
 
   <ng-template #prev>
-    <img src="assets/images/ic_category_left_arrow.png" id="left" class="arr-lft" />
+    <img src="assets/images/ic_category_left_arrow.png" id="left" class="arr-lft img-fluid" />
   </ng-template>
   <ng-template #next>
-    <img src="assets/images/ic_category_right_arrow.png" id="right" class="arr-rht" />
+    <img src="assets/images/ic_category_right_arrow.png" id="right" class="arr-rht img-fluid" />
   </ng-template>
   <ng-template #item let-item let-i="index">
 
@@ -135,7 +135,7 @@
         <div class="row  bac-shadw" *ngFor="let cartItems of header.mycart;let i = index">
           <div class="col-lg-3">
             <div class="ashirvadimg">
-              <img [src]="url + cartItems.image" alt="ashirvad" />
+              <img [src]="url + cartItems.image" alt="ashirvad" class="img-fluid" />
             </div>
           </div>
           <div class="col-lg-9">

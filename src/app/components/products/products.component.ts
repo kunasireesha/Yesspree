@@ -156,7 +156,7 @@ export class ProductsComponent implements OnInit {
     product;
     firstPic;
     specificProd;
-    weak: string;
+    weak = [];
     catName;
     alternateid;
     selectedskusize;
@@ -609,6 +609,7 @@ export class ProductsComponent implements OnInit {
             this.product[0].sku[0].isSubscribe = this.product[0].is_subscribe;
             this.product[0].sku[0].id_product = this.product[0]._id;
             this.detailsproduct = this.product[0].sku[0];
+            this.selectedskusize = this.product[0].sku[0].size;
             this.detailquantity = this.detailsproduct.mycart;
 
             if (this.detailsproduct.mycart !== '0') {
@@ -679,27 +680,122 @@ export class ProductsComponent implements OnInit {
     showSubscribeDetails() {
         this.showSubscriptionData = !this.showSubscriptionData;
     }
-
+    mon = false;
+    tue = false;
+    wed = false;
+    thus = false;
+    fri = false;
+    sat = false;
+    sun = false;
+    weaks = [];
+    weekValues = [{
+        day: 'Mon',
+        value: false
+    },
+    {
+        day: 'Tue',
+        value: false
+    },
+    {
+        day: 'Wed',
+        value: false
+    },
+    {
+        day: 'Thu',
+        thus: false
+    },
+    {
+        day: 'Fri',
+        value: false
+    },
+    {
+        day: 'Sat',
+        value: false
+    },
+    {
+        day: 'Sun',
+        value: false
+    }
+    ];
+    data;
     subscribe(weak) {
 
-        this.weak = weak;
+        if (weak === 'Mon') {
+            this.mon = !this.mon;
+            this.weekValues[0].value = this.mon;
+        } else if (weak === 'Tue') {
+            this.tue = !this.tue;
+            this.weekValues[1].value = this.tue;
+        } else if (weak === 'Wed') {
+            this.wed = !this.wed;
+            this.weekValues[2].value = this.wed;
+        } else if (weak === 'Thu') {
+            this.thus = !this.thus;
+            this.weekValues[3].value = this.thus;
+        } else if (weak === 'Fri') {
+            this.fri = !this.fri;
+            this.weekValues[4].value = this.fri;
+        } else if (weak === 'Sat') {
+            this.sat = !this.sat;
+            this.weekValues[5].value = this.sat;
+        } else if (weak === 'Sun') {
+            this.sun = !this.sun;
+            this.weekValues[6].value = this.sun;
+        }
+
+
+        this.data = _.filter(this.weekValues, function (obj) {
+            return obj.value === true;
+        })
+
+
     }
+    skuselect = false;
 
     skusize(sku) {
-
+        this.skuselect = true;
         sku.isSubscribe = this.detailsproduct.isSubscribe;
         this.detailsproduct = sku;
         this.selectedskusize = sku.size;
+        this.detailquantity = sku.mycart;
         if (sku.mycart === '0') {
             this.showdetailInput = false;
         } else {
             this.showdetailInput = true;
-            this.detailquantity = sku.mycart;
+
         }
 
     }
     startDate;
+    checkPrefix(prefixVAlue) {
+        this.weak = [];
+
+        this.prefix = prefixVAlue;
+        if (this.prefix === 'Every Day') {
+            this.mon = this.tue = this.wed = this.thus = this.fri = this.sat = this.sun = true;
+            this.data = undefined;
+            // this.weak = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        } else if (this.prefix === 'Alternate Days') {
+            this.mon = this.wed = this.fri = this.sun = false;
+            this.tue = this.thus = this.sat = true;
+            this.data = undefined;
+            // this.weak = ['Mon', 'Wed', 'Fri', 'Sun'];
+        } else {
+            this.mon = this.tue = this.wed = this.thus = this.fri = this.sat = this.sun = false;
+        }
+
+    }
     subscribeData(skuId, ProId) {
+        this.weak = [];
+        if (this.data !== undefined) {
+            for (var i = 0; i < this.data.length; i++) {
+                this.weak.push(this.data[i].day);
+            }
+        } else if (this.prefix === 'Every Day') {
+            this.weak = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+        } else if (this.prefix === 'Alternate Days') {
+            this.weak = ['Tue', 'Thu', 'Sat'];
+        }
 
         var today = new Date(this.model2);
         var dd = today.getDate();
@@ -714,15 +810,14 @@ export class ProductsComponent implements OnInit {
             this.alternateid = 0;
         }
         if (this.selectedskusize === '' || this.selectedskusize === undefined) {
-            swal('Please select size', '', 'error');
-            return;
+            skuId = this.detailsproduct._id;
         }
         if (this.detailquantity == 0) {
             swal('Not in cart', '', 'error');
             return;
         }
         var inData = {
-            "day": this.weak,
+            "day": this.weak.join(','),
             "id_product": ProId,
             "id_sku": skuId,
             "is_alternate": this.alternateid.toString(),
@@ -740,16 +835,7 @@ export class ProductsComponent implements OnInit {
             }
         })
     }
-    checkPrefix(prefixVAlue) {
-        this.weak = '';
 
-        this.prefix = prefixVAlue;
-        if (this.prefix === 'Every Day') {
-            this.weak = "Mon,Tue,Wed,Thu,Fri,Sat,Sun";
-        } else if (this.prefix === 'Alternate Days') {
-            this.weak = "Mon,Wed,Fri,Sun";
-        }
-    }
 
     // emailFormArray: Array<any> = [{ type: '', selected: false }];
     // typeArray: Array<any> = [];

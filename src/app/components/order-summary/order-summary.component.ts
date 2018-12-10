@@ -131,6 +131,10 @@ export class OrderSummaryComponent implements OnInit {
     payMethod;
     payType;
     slots = [];
+    slotdate;
+    slottime;
+    changeSlotes = false;
+    showOpacity = false;
     checkoutSummary() {
         var inData = {
             _session: localStorage.session,
@@ -151,7 +155,8 @@ export class OrderSummaryComponent implements OnInit {
                 }
 
             }
-            console.log(this.slots);
+            this.slotdate = this.slots[0].date;
+            this.slottime = this.slots[0].time;
 
             this.payOptions = response.json().pay_options;
             for (var i = 0; i < this.cart.length; i++) {
@@ -165,6 +170,12 @@ export class OrderSummaryComponent implements OnInit {
         })
 
     }
+
+    changeSlot() {
+        this.changeSlotes = true;
+        this.showOpacity = true;
+    }
+
     optType(opt, type) {
         this.payType = opt;
         this.payMethod = type;
@@ -188,9 +199,17 @@ export class OrderSummaryComponent implements OnInit {
     // timeChange(time) {
     //     this.deltime = time;
     // }
-    slectslot(data, index) {
-        this.selectSlot = index;
-        this.delDate = data.date + ',' + data.time
+    slectslot(date, time) {
+        this.delDate = date + ',' + time;
+        this.slotdate = date;
+        this.slottime = time;
+        this.changeSlotes = false;
+        this.showOpacity = false;
+    }
+
+    closeslot() {
+        this.changeSlotes = false;
+        this.showOpacity = false;
     }
     cartCheckout(grand) {
         if (this.payType && this.payMethod === undefined) {
@@ -216,10 +235,9 @@ export class OrderSummaryComponent implements OnInit {
             if (response.json().status === 'success') {
                 this.router.navigate(["/"]);
                 swal("Order placed successfully", "", "success");
+            } else {
+                swal(response.json().message, '', 'error');
             }
-            // else {
-            //     swal(response.json().message, '', 'error');
-            // }
 
         }, err => {
             console.log(err)

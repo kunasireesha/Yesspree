@@ -106,6 +106,7 @@ export class HomeComponent implements OnInit {
 
 
     ngOnInit() {
+        window.scrollTo(0, 0);
         this.url = AppSettings.imageUrl;
         this.header.geoLocation();
         this.header.postVillageName(localStorage.wh_pincode);
