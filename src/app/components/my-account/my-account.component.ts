@@ -156,8 +156,8 @@ export class MyAccountComponent implements OnInit {
     orderId;
     addData = {
         name: '',
-        phone: '',
         address1: '',
+        address2: '',
         taluk: '',
         district: '',
         state: '',
@@ -501,8 +501,8 @@ export class MyAccountComponent implements OnInit {
     createAdd() {
 
         if (this.addData.name === '' || this.addData.name === undefined || this.addData.name === null ||
-            this.addData.phone === '' || this.addData.phone === undefined || this.addData.phone === null ||
             this.addData.address1 === '' || this.addData.address1 === undefined || this.addData.address1 === null ||
+            this.addData.address2 === '' || this.addData.address2 === undefined || this.addData.address2 === null ||
             this.addData.taluk === '' || this.addData.taluk === undefined || this.addData.taluk === null ||
             this.addData.district === '' || this.addData.district === undefined || this.addData.district === null ||
             this.addData.city === '' || this.addData.city === undefined || this.addData.city === null ||
@@ -521,6 +521,7 @@ export class MyAccountComponent implements OnInit {
             name: this.addData.name,
             phone: JSON.parse(localStorage.userData).mobile,
             address1: this.addData.address1,
+            address2: this.addData.address2,
             city: this.addData.city,
             state: this.addData.state,
             person_prefix: JSON.parse(localStorage.userData).person_prefix,
@@ -534,6 +535,8 @@ export class MyAccountComponent implements OnInit {
             country: "India"
 
         }
+
+
         this.loginService.createAdd(inData).subscribe(response => {
             swal("Created successfully", "", "success");
             this.getAdd();
@@ -546,8 +549,8 @@ export class MyAccountComponent implements OnInit {
     clearData() {
         this.addData = {
             name: '',
-            phone: '',
             address1: '',
+            address2: '',
             taluk: '',
             district: '',
             state: '',
@@ -600,8 +603,8 @@ export class MyAccountComponent implements OnInit {
             if (item._id === this.getAddress[i]._id) {
                 this.addData = {
                     name: this.getAddress[i].name,
-                    phone: this.getAddress[i].phone,
                     address1: this.getAddress[i].address1,
+                    address2: this.getAddress[i].address2,
                     taluk: this.getAddress[i].taluk,
                     district: this.getAddress[i].district,
                     state: this.getAddress[i].state,
@@ -629,16 +632,16 @@ export class MyAccountComponent implements OnInit {
             id_address: this.editData._id,
             id_customer: this.editData.id_customer,
             name: this.addData.name,
-            phone: this.addData.phone,
             address1: this.addData.address1,
-            city: this.editData.city,
+            address2: this.addData.address2,
+            city: this.addData.city,
             state: this.addData.state,
             person_prefix: this.prefix,
             taluk: this.addData.taluk,
             district: this.addData.district,
             lat: this.editData.lat,
             lon: this.editData.lon,
-            landmark: this.editData.landmark,
+            landmark: this.addData.locality,
             selected: this.editData.selected,
             type: this.type,
             pincode: this.addData.pincode
@@ -776,6 +779,7 @@ export class MyAccountComponent implements OnInit {
     itemDecrease(data, name, id, skuId, index, action) {
         this.selected = index;
         let thisObj = this;
+
         for (var i = 0; i < data.length; i++) {
             if (data[i].name === name) {
                 this.sku.mycart = parseInt(data[i].sku[0].mycart);
@@ -814,6 +818,11 @@ export class MyAccountComponent implements OnInit {
         for (var i = 0; i < data.length; i++) {
             if (data[i]._id === skuId) {
                 if (data[i].mycart === 1 || data[i].mycart === "1") {
+                    data[i].mycart = parseInt(data[i].mycart) - 1;
+                    this.removeCart(id, skuId);
+                    this.getWishlist();
+
+                } else if (data[i].mycart === "0") {
                     return;
                 } else {
                     data[i].mycart = parseInt(data[i].mycart) - 1;
@@ -858,7 +867,7 @@ export class MyAccountComponent implements OnInit {
                 this.cartCount = response.json().summary.cart_count;
                 this.grandTotal = response.json().summary.grand_total;
                 this.getCart();
-                swal("Item added to cart", "", "success")
+                // swal("Item added to cart", "", "success")
                 // swal("Item added to cart", "", "success", {
                 //     buttons: ["", "Okay"],
                 // }).then((value) => {
@@ -870,12 +879,12 @@ export class MyAccountComponent implements OnInit {
                 this.wishlist = true;
                 this.mycart = false;
                 this.getCart();
-                swal("Item added to cart", "", "success")
+                // swal("Item added to cart", "", "success")
             } else if (action === 'wishCart') {
                 this.wishlist = true;
                 this.mycart = false;
                 this.getCart();
-                swal("Item added to cart", "", "success")
+                // swal("Item added to cart", "", "success")
 
             }
         }, err => {
@@ -999,6 +1008,8 @@ export class MyAccountComponent implements OnInit {
     skuAdd = [];
     onChange(sku, isChecked: boolean) {
         this.skuAdd = [];
+        this.skudata.forEach((x) => { if (x._id !== sku._id) x.selected = false; });
+
         if (isChecked) {
             sku.selected = isChecked;
             this.skuAdd.push(sku);
@@ -1016,7 +1027,7 @@ export class MyAccountComponent implements OnInit {
     }
 
     addTocart() {
-        this.addCart(this.skuAdd[0].min_quantity === undefined ? parseInt(this.skuAdd[0].min_quantity) : '', this.skuAdd[0].id_product, this.skuAdd[0]._id, 'mywishListcart');
+        this.addCart(parseInt(this.skuAdd[0].min_quantity), this.skuAdd[0].id_product, this.skuAdd[0]._id, 'mywishListcart');
     }
 
 
@@ -1025,7 +1036,6 @@ export class MyAccountComponent implements OnInit {
     // grandTotal;
     categoryData = [];
     getHeadCart() {
-
         this.header.getCart();
     }
 
@@ -1074,7 +1084,7 @@ export class MyAccountComponent implements OnInit {
             id_sku: sku
         }
         this.loginService.removeCart(inData).subscribe(response => {
-            swal("item removed successfully", "", "success")
+            // swal("item removed successfully", "", "success")
             // swal("item removed successfully", '', 'success', {
             //   buttons: ["", "Okay"],
             // }).then((value) => {

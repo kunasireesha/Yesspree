@@ -239,7 +239,7 @@ export class BannerNavigationComponent implements OnInit {
       this.subSubCatData = response.json();
       this.cartCount = response.json().summary.cart_count;
       this.grandTotal = response.json().summary.grand_total;
-      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success")
       // swal("Item added to cart", "", "success", {
       //   buttons: ["", "Okay"],
       // }).then((value) => {

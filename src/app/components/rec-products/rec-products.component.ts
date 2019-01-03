@@ -143,7 +143,7 @@ export class RecProductsComponent implements OnInit {
       id_warehouse: JSON.parse(localStorage.id_warehouse)
     }
     this.loginService.getCart(inData).subscribe(response => {
-      swal("Item added to cart", "", "success");
+      // swal("Item added to cart", "", "success");
       this.cartCount = response.json().summary.cart_count;
       this.grandTotal = response.json().summary.grand_total;
       // swal("Item added to cart", "", "success", {

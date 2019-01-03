@@ -114,11 +114,11 @@
               <input type="Name" class="form-control input-field" id="exampleInputFname" aria-describedby="Fname"
                 placeholder="" [(ngModel)]="mydata.first_name" name="firstName">
             </div> -->
-            <div class="form-group accont-label">
+            <!-- <div class="form-group accont-label">
               <label for="exampleInputLname">Last Name</label>
               <input type="Name" class="form-control input-field  accton-input" id="exampleInputLname" aria-describedby="Lname"
                 [(ngModel)]="mydata.last_name" name="lastName" placeholder="">
-            </div>
+            </div> -->
             <div class="form-group accont-label">
               <label for="exampleInputEmail1">Email ID</label>
               <input type="email" class="form-control input-field  accton-input" id="exampleInputid" aria-describedby="emailHelp"
@@ -795,11 +795,11 @@
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Flat/House/Office No</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.phone" name="phone">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.address1" name="address1">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Street Name</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.address1" name="phone">
+                <input type="text" class="form-control" id="exampleInputPassword1" [(ngModel)]="addData.address2" name="address2">
               </div>
               <div class="form-group address-form">
                 <label for="exampleInputPassword1">Taluka</label>
@@ -889,12 +889,12 @@
               <div class="form-group">
                 <label for="exampleInputPassword1">Flat/House/Office No</label>
                 <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Flat/House/Office No"
-                  [(ngModel)]="addData.phone" name="phone">
+                  [(ngModel)]="addData.address1" name="address1">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Steet Name</label>
-                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address1"
-                  name="phone">
+                <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Steet Name" [(ngModel)]="addData.address2"
+                  name="address2">
               </div>
               <div class="form-group">
                 <label for="exampleInputPassword1">Taluka</label>
@@ -974,8 +974,8 @@
             <tr *ngFor="let sku of skudata">
               <td class="checkbox">
                 <div class="custom-control custom-checkbox">
-                  <input type="checkbox" class="custom-control-input" id="{{sku._id}}" (change)="onChange(sku, $event.target.checked)"
-                    name="{{sku._id}}">
+                  <input type="checkbox" class="custom-control-input" id="{{sku._id}}" [(ngModel)]="sku.selected"
+                    (change)="onChange(sku, $event.target.checked)" name="{{sku._id}}">
                   <label class="custom-control-label" for="{{sku._id}}"></label>
                 </div>
               </td>

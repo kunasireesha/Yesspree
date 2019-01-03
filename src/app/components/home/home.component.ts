@@ -348,7 +348,7 @@ export class HomeComponent implements OnInit {
             this.subSubCatData = response.json();
             this.cartCount = this.subSubCatData.summary.cart_count;
             this.grandTotal = this.subSubCatData.summary.grand_total;
-            swal("Item added to cart", "", "success")
+            // swal("Item added to cart", "", "success")
             // swal("Item added to cart", "", "success", {
             //   buttons: ["", "Okay"],
             // }).then((value) => {

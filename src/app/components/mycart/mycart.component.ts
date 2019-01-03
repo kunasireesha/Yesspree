@@ -118,7 +118,7 @@ export class MycartComponent implements OnInit {
     this.loginService.getCart(inData).subscribe(response => {
       this.cartCount = response.json().summary.cart_count;
       this.grandTotal = response.json().summary.grand_total;
-      swal("Item added to cart", "", "success")
+      // swal("Item added to cart", "", "success")
       //   swal("Item added to cart", "", "success", {
       //     buttons: ["", "Okay"],
       // }).then((value) => {
@@ -156,7 +156,7 @@ export class MycartComponent implements OnInit {
       id_sku: sku
     }
     this.loginService.removeCart(inData).subscribe(response => {
-      swal("item removed successfully", "", "success")
+      // swal("item removed successfully", "", "success")
       // swal("item removed successfully", '', 'success', {
       //   buttons: ["", "Okay"],
       // }).then((value) => {

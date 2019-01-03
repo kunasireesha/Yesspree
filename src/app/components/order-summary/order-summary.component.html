@@ -406,7 +406,7 @@
 </div>
 <!-- Delivery Options -->
 
-<div class="container" *ngIf="deliveryOp">
+<div class="container" *ngIf="deliveryOp && showOptions">
   <div class="row">
     <h4>DELIVERY OPTIONS</h4>
   </div>
@@ -436,8 +436,6 @@
         <p> <img src="assets/images/del.png" class="img-fluid">&nbsp;&nbsp;&nbsp;<strong>{{slotdate}},</strong>
           &nbsp;&nbsp;&nbsp;&nbsp;<span>{{slottime}}</span><i class="fa fa-pencil" aria-hidden="true" (click)="changeSlot()"></i></p>
 
-
-
       </div>
 
     </div>
@@ -463,15 +461,20 @@
 </div>
 
 
-<div class="container" *ngIf="paymentM">
+<div class="container" *ngIf="paymentM && showOptions">
   <div>
     <h4>PAYMENT METHOD</h4>
   </div>
   <div class="payment-method">
     <h5>Choose Payment Method</h5>
-    <div class="row wallet" *ngFor="let item of payOptions" (click)="optType(item.pay_option,item.type)">
+    <div class="row wallet" *ngFor="let item of payOptions;let i =index" (click)="optType(item.pay_option,item.type,i)"
+      [ngClass]="{'selOption':selectedOpt==i}">
       <div class="col-lg-6">
-        <img [src]="url + item.logo" class="image img-fluid"> &nbsp; &nbsp;
+        <img src="assets/images/wallet.png" class="pay-options" *ngIf="item.pay_option == 'wallet'">
+        <img src="assets/images/debit.png" class="pay-options" *ngIf="item.pay_option == 'Debit/Credit Card'">
+        <img src="assets/images/netbanking.png" class="pay-options" *ngIf="item.pay_option == 'Net Banking'">
+        <img src="assets/images/cod.png" class="pay-options" *ngIf="item.pay_option == 'Cash On Delivery'">
+        <!-- <img [src]="url + item.logo" class="image img-fluid"> &nbsp; &nbsp; -->
         <span>{{item.pay_option}}</span>
       </div>
       <div class="col-lg-2 right-arrow">

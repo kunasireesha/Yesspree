@@ -16,6 +16,7 @@ export class OrderSummaryComponent implements OnInit {
     deliveryA: boolean = false;
     deliveryOp: boolean = false;
     paymentM: boolean = false;
+    showOptions = false;
     Promo: string;
     cartSummary: string;
     orderId: string;
@@ -97,13 +98,28 @@ export class OrderSummaryComponent implements OnInit {
         this.orderSu = this.deliveryOp = this.paymentM = false
     }
     delOpt() {
-        this.deliveryOp = true;
-        this.orderSu = this.deliveryA = this.paymentM = false
+        if (this.showOptions === false) {
+            this.deliveryA = true;
+            this.deliveryOp = this.orderSu = this.paymentM = false;
+            swal('Choose or Add New Address to proceed', ' ', 'warning');
+        } else {
+            this.deliveryOp = true;
+            this.orderSu = this.deliveryA = this.paymentM = false;
+        }
     }
     paymentMethod() {
-        this.paymentM = true;
-        this.orderSu = this.deliveryOp = this.deliveryA = false;
+
+        if (this.showOptions === false) {
+            this.deliveryA = true;
+            this.deliveryOp = this.orderSu = this.paymentM = false;
+            swal('Choose or Add New Address to proceed', ' ', 'warning');
+        } else {
+            this.paymentM = true;
+            this.orderSu = this.deliveryOp = this.deliveryA = false;
+        }
     }
+
+
     postPromo(event) {
         var inData = {
             _session: localStorage.session,
@@ -175,8 +191,10 @@ export class OrderSummaryComponent implements OnInit {
         this.changeSlotes = true;
         this.showOpacity = true;
     }
+    selectedOpt;
 
-    optType(opt, type) {
+    optType(opt, type, index) {
+        this.selectedOpt = index;
         this.payType = opt;
         this.payMethod = type;
     }
@@ -340,6 +358,9 @@ export class OrderSummaryComponent implements OnInit {
         this.loginService.checkoutaddress(inData).subscribe(reponse => {
             if (reponse.json().status === 'success') {
                 this.confirmDel = index;
+                this.deliveryA = false;
+                this.showOptions = true;
+                this.deliveryOp = true;
                 swal("address selected", "", "success");
             } else {
                 swal(reponse.json().message, "", "error");

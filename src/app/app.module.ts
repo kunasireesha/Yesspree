@@ -22,7 +22,8 @@ import { TruncatePipe } from './limitto';
 // import { SlickModule } from 'ngx-slick';
 import { Ng2CarouselamosModule } from 'ng2-carouselamos';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import {MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatAutocompleteModule, MatInputModule} from '@angular/material';
+import { MatButtonModule, MatCheckboxModule, MatFormFieldModule, MatAutocompleteModule, MatInputModule } from '@angular/material';
+import { ToastrModule } from 'ng6-toastr-notifications';
 
 
 
@@ -123,10 +124,10 @@ var firebaseConfig = {
     MatSelectModule,
     SocialLoginModule,
     MatButtonModule,
-     MatCheckboxModule, 
-     MatFormFieldModule,
-      MatAutocompleteModule,
-       MatInputModule,
+    MatCheckboxModule,
+    MatFormFieldModule,
+    MatAutocompleteModule,
+    MatInputModule,
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     AngularFireDatabaseModule,
@@ -135,6 +136,7 @@ var firebaseConfig = {
     NgbModule,
     // SlickModule.forRoot(),
     Ng2CarouselamosModule,
+    ToastrModule.forRoot(),
     RouterModule.forRoot([
       {
         path: '',

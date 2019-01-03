@@ -8,7 +8,8 @@ import { catList } from '../../services/catList';
 import { CatListServices } from '../../services/catListService';
 import { AuthService, FacebookLoginProvider, GoogleLoginProvider } from 'angular-6-social-login';
 import { AuthServices } from '../../services/auth.service';
-// import { } from 'googlemaps';
+import { ToastrManager } from 'ng6-toastr-notifications';
+import { } from 'googlemaps';
 
 @Component({
     selector: 'app-header',
@@ -29,13 +30,16 @@ export class HeaderComponent implements OnInit {
     productId;
     pincode;
     cartCount;
+    google:any;
     constructor(
 
         public loginService: DataService,
         private socialAuthService: AuthService,
         public router: Router,
         public catSer: CatListServices,
-        public authService: AuthServices
+        public authService: AuthServices,
+        public toastr: ToastrManager
+
 
     ) {
         this.cartCount = localStorage.cartCount;
@@ -389,7 +393,8 @@ export class HeaderComponent implements OnInit {
                 if (response.json().status === "failure") {
                     swal(response.json().message, " ", "error");
                 } else {
-                    swal("Login Successfully", " ", "success");
+                    // swal("Login Successfully", " ", "success");
+                    this.toastr.successToastr('Login Successfully', 'Success!');
                     localStorage.setItem('userId', JSON.stringify(response.json().result[0]._id));
                     localStorage.setItem('userName', JSON.stringify(response.json().result[0].first_name + ' ' + response.json().result[0].last_name));
                     localStorage.setItem('authkey', response.json().key);
@@ -598,30 +603,30 @@ export class HeaderComponent implements OnInit {
         localStorage.setItem('id_warehouse', "2");
         localStorage.setItem('parent_warehouseid', "1");
         localStorage.setItem('wh_pincode', '560078');
-        // if (navigator.geolocation) {
-        //   navigator.geolocation.getCurrentPosition(position => {
-        //     this.latlocation = position.coords.latitude;
-        //     this.lanLocation = position.coords.longitude;
-        //     var latlng = { lat: this.latlocation, lng: this.lanLocation };
-        //     let geocoder = new google.maps.Geocoder();
-        //     geocoder.geocode({ 'location': latlng }, (results, status) => {
-        //       if (status == google.maps.GeocoderStatus.OK) {
-        //         let result = results[0];
-        //         this.getPin = JSON.parse(results[0].address_components[5].long_name);
-        //         localStorage.setItem('wh_pincode', this.getPin);
-        //         this.postVillageName(this.getPin);
-        //         let rsltAdrComponent = result.address_components;
-        //         let resultLength = rsltAdrComponent.length;
-        //         if (result != null) {
-        //           //  console.log(rsltAdrComponent[resultLength-5].short_name)
-        //         } else {
-        //           window.alert('Geocoder failed due to: ' + status);
-        //         }
-        //       }
-        //     });
-        //   });
+        if (navigator.geolocation) {
+          navigator.geolocation.getCurrentPosition(position => {
+            this.latlocation = position.coords.latitude;
+            this.lanLocation = position.coords.longitude;
+            var latlng = { lat: this.latlocation, lng: this.lanLocation };
+            let geocoder = new google.maps.Geocoder();
+            geocoder.geocode({ 'location': latlng }, (results, status) => {
+              if (status == google.maps.GeocoderStatus.OK) {
+                let result = results[0];
+                this.getPin = JSON.parse(results[0].address_components[5].long_name);
+                localStorage.setItem('wh_pincode', this.getPin);
+                this.postVillageName(this.getPin);
+                let rsltAdrComponent = result.address_components;
+                let resultLength = rsltAdrComponent.length;
+                if (result != null) {
+                  //  console.log(rsltAdrComponent[resultLength-5].short_name)
+                } else {
+                  window.alert('Geocoder failed due to: ' + status);
+                }
+              }
+            });
+          });
 
-        // }
+        }
     }
 
     searchProducts(event) {
@@ -757,7 +762,7 @@ export class HeaderComponent implements OnInit {
             if (response.json().status === "failure") {
                 swal(response.json().message, '', 'error');
             } else {
-                swal("Item added to cart", "", "success")
+                // swal("Item added to cart", "", "success")
                 // swal("Item added to cart", "", "success", {
                 //   buttons: ["", "Okay"],
                 // }).then((value) => {
@@ -775,7 +780,7 @@ export class HeaderComponent implements OnInit {
     signInWithFacebook() {
         this.authService.signInWithFacebook()
             .then((res) => {
-                swal("Login Successfully", " ", "success");
+                // swal("Login Successfully", " ", "success");
                 this.onCloseCancel();
                 this.showSignin = false;
                 this.showProfile = true;
@@ -787,7 +792,7 @@ export class HeaderComponent implements OnInit {
 
     signInWithGoogle() {
         this.authService.signInWithGoogle().then((res) => {
-            swal("Login Successfully", " ", "success");
+            // swal("Login Successfully", " ", "success");
             this.onCloseCancel();
             this.showSignin = false;
             this.showProfile = true;

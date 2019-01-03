@@ -243,7 +243,7 @@ export class HeadercartComponent implements OnInit {
       if (response.json().status === "failure") {
         swal(response.json().message, '', 'error');
       } else {
-        swal("Item added to cart", "", "success");
+        // swal("Item added to cart", "", "success");
         this.cartCount = response.json().summary.cart_count;
         this.grandTotal = response.json().summary.grand_total;
         // swal("Item added to cart", "", "success", {
@@ -375,7 +375,7 @@ export class HeadercartComponent implements OnInit {
       id_sku: sku
     }
     this.loginService.removeCart(inData).subscribe(response => {
-      swal("item removed successfully", "", "success")
+      // swal("item removed successfully", "", "success")
       // swal("item removed successfully", '', 'success', {
       //   buttons: ["", "Okay"],
       // }).then((value) => {
